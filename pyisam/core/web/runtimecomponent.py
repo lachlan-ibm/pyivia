@@ -26,7 +26,7 @@ class RuntimeComponent(object):
             ldap_password=None, admin_cert_lifetime=None, ssl_compliance=None,
             ldap_host=None, ldap_port=None, isam_domain=None, ldap_dn=None,
             ldap_suffix=None, ldap_ssl_db=None, ldap_ssl_label=None,
-            isam_host=None, isam_port=None):
+            isam_host=None, isam_port=None, clean_ldap=None):
         data = DataObject()
         data.add_value_string("ps_mode", ps_mode)
         data.add_value_string("user_registry", user_registry)
@@ -38,6 +38,7 @@ class RuntimeComponent(object):
         data.add_value_string("domain", isam_domain)
         data.add_value_string("ldap_dn", ldap_dn)
         data.add_value_string("ldap_suffix", ldap_suffix)
+        data.add_value_string("clean_ldap", clean_ldap)
         if ldap_ssl_db is not None:
             data.add_value_string("ldap_ssl_db", ldap_ssl_db if ldap_ssl_db.endswith(".kdb") else ldap_ssl_db+".kdb")
             data.add_value_string("usessl", "on")
