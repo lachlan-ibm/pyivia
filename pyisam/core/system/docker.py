@@ -20,11 +20,20 @@ class Docker(object):
         self.client = RESTClient(base_url, username, password)
 
 
-    def publish(self, db_type=None, port=None, host=None, secure=True, user=None,passwd=None, db_name=None):
+    def publish(self):
 
         endpoint = DOCKER + "/publish"
 
         response = self.client.put_json(endpoint)
         response.success = response.status_code == 201
+
+        return response
+
+
+    def stop(self):
+        endpoint = DOCKER + '/stop'
+
+        response = self.client.put_json(endpoint)
+        response.success = response.status_code == 204
 
         return response

@@ -16,9 +16,11 @@ from .system.licensing import Licensing
 from .system.restartshutdown import RestartShutdown
 from .system.sslcertificates import SSLCertificates
 from .system.clicommands import CLICommands
-from .system.runtimedb import RuntimeDb 
+from .system.runtimedb import RuntimeDb
+from .system.configdb import ConfigDb
 from .system.docker import Docker
 from .system.fixpacks import Fixpacks
+from .system.sysaccount import SysAccount
 
 
 class SystemSettings9020(object):
@@ -59,6 +61,9 @@ class SystemSettings9020(object):
         self.restartshutdown = RestartShutdown(base_url, username, password)
         self.ssl_certificates = SSLCertificates(base_url, username, password)
         self.cli_commands = CLICommands(base_url, username, password)
+        self.sysaccount = SysAccount(base_url, username, password)
+        self.runtime_db = RuntimeDb(base_url, username, password)
+        self.config_db = ConfigDb(base_url, username, password)
 
 
 class SystemSettings9021(SystemSettings9020):
@@ -78,8 +83,7 @@ class SystemSettings9040(SystemSettings9030):
     def __init__(self, base_url, username, password):
         super(SystemSettings9040, self).__init__(base_url, username, password)
         
-        self.runtime_db = RuntimeDb(base_url, username, password)
-        self.docker= Docker(base_url, username, password)
+        self.docker = Docker(base_url, username, password)
 
 
 class SystemSettings9050(SystemSettings9040):
