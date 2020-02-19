@@ -84,6 +84,16 @@ class SSLCertificates(object):
 
         return response
 
+
+    def list_databases(self):
+        endpoint = SSL_CERTIFICATES
+
+        response = self.client.get_json(endpoint)
+        response.success = response.status_code == 200
+
+        return response
+
+
     def get_personal(self, kdb_id, label=None):
         endpoint = ("%s/%s/personal_cert" % (SSL_CERTIFICATES, kdb_id))
 

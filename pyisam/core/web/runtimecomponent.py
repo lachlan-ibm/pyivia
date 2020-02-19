@@ -45,7 +45,6 @@ class RuntimeComponent(object):
         data.add_value_string("isam_host", isam_host)
         data.add_value("ldap_port", ldap_port)
         data.add_value("isam_port", isam_port)
-
         response = self.client.post_json(RUNTIME_COMPONENT, data.data)
 
         response.success = response.status_code == 200
@@ -100,6 +99,7 @@ class RuntimeComponent10000(RuntimeComponent):
         data.add_value("ldap_port", ldap_port)
         data.add_value("isam_port", isam_port)
 
+        logger.info(data.data)
         response = self.client.post_json(RUNTIME_COMPONENT, data.data)
 
         response.success = response.status_code == 200

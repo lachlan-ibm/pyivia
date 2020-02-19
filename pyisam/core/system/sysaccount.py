@@ -41,7 +41,7 @@ class SysAccount(object):
         data.add_value_string('password', password)
 
         endpoint = SYSACCOUNT_USERS + '/' + user + '/v1'
-        rsponse = self.client.put_json(endpoint)
+        response = self.client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -54,7 +54,7 @@ class SysAccount(object):
         if groups:
             groups_data = DataObject()
             for group in groups:
-                groups_data.add_value('id': group)
+                groups_data.add_value('id', group)
             data.add_value_not_empty('groups', groups_data.data)
         endpoint = SYSACCOUNT_USERS + '/v1'
         response = self.client.post_json(endpoint, data.data)
@@ -80,7 +80,7 @@ class SysAccount(object):
         return response
 
 
-    def get group(self, group=None):
+    def get_group(self, group=None):
         endpoint = SYSACCOUNT_GROUPS + '/groups/{}/v1'.format(group)
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200

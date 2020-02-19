@@ -23,6 +23,8 @@ class RestartShutdown(object):
     def __init__(self, base_url, username, password):
         super(RestartShutdown, self).__init__()
         self.client = RESTClient(base_url, username, password)
+        response = self.client.get_json("/core/sys/versions")
+
 
     def get_lmi_status(self):
         response = self.client.get_json(LMI)
