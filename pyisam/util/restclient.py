@@ -122,7 +122,7 @@ class RESTClient(object):
         r = requests.post(
             url=url, headers=headers, data=data, files=files, verify=False)
 
-        self._log_response(r.status_code, r.headersr.content)
+        self._log_response(r.status_code, r.headers, r.content)
 
         response = self._build_response(r)
         r.close()

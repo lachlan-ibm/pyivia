@@ -37,7 +37,6 @@ class RuntimeDb(object):
         data.add_value_string("hvdb_password", passwd)
         data.add_value_string("hvdb_db_name", db_name)
         data.add_value_string("hvdb_db_type", db_type)
-
         endpoint = RUNTIME_DB
 
         response = self.client.post_json(endpoint, data.data)
