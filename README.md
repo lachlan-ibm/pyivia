@@ -35,8 +35,13 @@ For Linux/macOS: if you clone the library to `~/repos/pyisam`, add this to `~/.p
 export PYTHONPATH="${PYTHONPATH}:${HOME}/repos/pyisam"
 ```
 
-*More to come...*
+## From IBM Security Verify Accesss 10.0.0.0 onwards:
+Module has been build into a package that can be installed using pip
 
+Currently hosted on IBM Artifactory, users will need W3Id credentials to download and install
+```sh
+pip install pyisam --extra-index https://{username}:{password}@eu.artifactory.swg-devops.com/artifactory/api/pypi/sec-iam-isam-devops-team-pypi-local/simple
+```
 
 ## Usage
 
