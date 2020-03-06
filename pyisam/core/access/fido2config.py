@@ -25,44 +25,51 @@ class FIDO2Config(object):
         self.client = RESTClient(base_url, username, password)
 
 
-    def get_relying_parties(self):
+    def list_relying_parties(self):
         response = self.client.get_json(FIDO2_RELYING_PARTIES)
         response.success = response.status_code == 200
 
         return response
 
 
+    def get_relying_parties(self, _id):
+        endpoint = "{}/{}".format(FIDO2_RELYING_PARTIES, _id)
+        response = self.client.get_json(endpoint)
+        response.success = response.status_code == 200
+
+        return response
+
+
     def create_relying_party(
-            self, name=None, rpId=None, origins=None, metadataSet=None, metadataSoftFail=True,
-            mediatorMappingRuleId=None, attestationStatementTypes=None, attestationStatementFormats=None,
-            attestationPublicKeyAlgorithms=None, attestationAndroidSafetyNetMaxAge=None,
-            attestationAndroidSafetyNetClockSkew=None, relyingPartyImpersonationGroup=None ):
+            self, name=None, rp_id=None, origins=None, metadata_set=None, metadata_soft_fail=True,
+            mediator_mapping_rule_id=None, attestation_statement_types=None, attestation_statement_formats=None,
+            attestation_public_key_algorithms=None, attestation_android_safetynet_max_age=None,
+            attestation_android_safetynet_clock_skew=None, relying_party_impersonation_group="adminGroup"):
         data = DataObject()
         data.add_value("name", name)
-        data.add_value("rpId", rpId)
+        data.add_value("rpId", rp_id)
 
         fidoServerOptions = DataObject()
         fidoServerOptions.add_value_not_empty("origins", origins)
-        fidoServerOptions.add_value("metadataSet", metadataSet)
-        fidoServerOptions.add_value("metadataSoftFail", metadataSoftFail)
-        fidoServerOptions.add_value("mediatorMappingRuleId", mediatorMappingRuleId)
+        fidoServerOptions.add_value("metadataSet", metadata_set)
+        fidoServerOptions.add_value("metadataSoftFail", metadata_soft_fail)
+        fidoServerOptions.add_value("mediatorMappingRuleId", mediator_mapping_rule_id)
 
         attestation = DataObject()        
-        attestation.add_value("statementTypes", attestationStatementTypes)
-        attestation.add_value("statementFormats", attestationStatementFormats)
-        attestation.add_value("publicKeyAlgorithms", attestationPublicKeyAlgorithms)
-        attestation.add_value("publicKeyAlgorithms", attestationPublicKeyAlgorithms)
+        attestation.add_value("statementTypes", attestation_statement_types)
+        attestation.add_value("statementFormats", attestation_statement_formats)
+        attestation.add_value("publicKeyAlgorithms", attestation_public_key_algorithms)
         fidoServerOptions.add_value("attestation", attestation.data)
 
         attestationAndroidSafetyNetOptions = DataObject()
-        attestationAndroidSafetyNetOptions.add_value("attestationMaxAge", attestationAndroidSafetyNetMaxAge)
-        attestationAndroidSafetyNetOptions.add_value("clockSkew", attestationAndroidSafetyNetClockSkew)
+        attestationAndroidSafetyNetOptions.add_value("attestationMaxAge", attestation_android_safetynet_max_age)
+        attestationAndroidSafetyNetOptions.add_value("clockSkew", attestation_android_safetynet_clock_skew)
         fidoServerOptions.add_value("android-safetynet", attestationAndroidSafetyNetOptions.data)
 
         data.add_value("fidoServerOptions", fidoServerOptions.data)
 
         relyingPartyOptions = DataObject()
-        relyingPartyOptions.add_value("impersonationGroup", relyingPartyImpersonationGroup)
+        relyingPartyOptions.add_value("impersonationGroup", relying_party_impersonation_group)
         data.add_value("relyingPartyOptions", relyingPartyOptions.data)
 
         response = self.client.post_json(FIDO2_RELYING_PARTIES, data.data)
@@ -72,37 +79,37 @@ class FIDO2Config(object):
 
 
     def update_relying_party(
-            self, id, name=None, rpId=None, origins=None, metadataSet=None, metadataSoftFail=True,
-            mediatorMappingRuleId=None, attestationStatementTypes=None, attestationStatementFormats=None,
-            attestationPublicKeyAlgorithms=None, attestationAndroidSafetyNetMaxAge=None,
-            attestationAndroidSafetyNetClockSkew=None, relyingPartyImpersonationGroup=None ):
+            self, id, name=None, rp_id=None, origins=None, metadata_set=None, metadata_soft_fail=True,
+            mediator_mapping_rule_id=None, attestation_statement_types=None, attestation_statement_formats=None,
+            attestation_public_key_algorithms=None, attestation_android_safety_net_max_age=None,
+            attestation_android_safetynet_clock_skew=None, relying_party_impersonation_group="adminGroup"):
         data = DataObject()
         data.add_value("id", id)
         data.add_value("name", name)
-        data.add_value("rpId", rpId)
+        data.add_value("rpId", rp_id)
 
         fidoServerOptions = DataObject()
         fidoServerOptions.add_value_not_empty("origins", origins)
-        fidoServerOptions.add_value("metadataSet", metadataSet)
-        fidoServerOptions.add_value("metadataSoftFail", metadataSoftFail)
-        fidoServerOptions.add_value("mediatorMappingRuleId", mediatorMappingRuleId)
+        fidoServerOptions.add_value("metadataSet", metadata_set)
+        fidoServerOptions.add_value("metadataSoftFail", metadata_soft_fail)
+        fidoServerOptions.add_value("mediatorMappingRuleId", mediator_mapping_rule_id)
 
-        attestation = DataObject()        
-        attestation.add_value("statementTypes", attestationStatementTypes)
-        attestation.add_value("statementFormats", attestationStatementFormats)
-        attestation.add_value("publicKeyAlgorithms", attestationPublicKeyAlgorithms)
-        attestation.add_value("publicKeyAlgorithms", attestationPublicKeyAlgorithms)
+        attestation = DataObject()
+        attestation.add_value("statementTypes", attestation_statement_types)
+        attestation.add_value("statementFormats", attestation_statement_formats)
+        attestation.add_value("publicKeyAlgorithms", attestation_public_key_algorithms)
+        attestation.add_value("publicKeyAlgorithms", attestation_public_key_algorithms)
         fidoServerOptions.add_value("attestation", attestation.data)
 
         attestationAndroidSafetyNetOptions = DataObject()
-        attestationAndroidSafetyNetOptions.add_value("attestationMaxAge", attestationAndroidSafetyNetMaxAge)
-        attestationAndroidSafetyNetOptions.add_value("clockSkew", attestationAndroidSafetyNetClockSkew)
+        attestationAndroidSafetyNetOptions.add_value("attestationMaxAge", attestation_android_safetynet_max_age)
+        attestationAndroidSafetyNetOptions.add_value("clockSkew", attestation_android_safetynet_clock_skew)
         fidoServerOptions.add_value("android-safetynet", attestationAndroidSafetyNetOptions.data)
 
         data.add_value("fidoServerOptions", fidoServerOptions.data)
 
         relyingPartyOptions = DataObject()
-        relyingPartyOptions.add_value("impersonationGroup", relyingPartyImpersonationGroup)
+        relyingPartyOptions.add_value("impersonationGroup", relying_party_impersonation_group)
         data.add_value("relyingPartyOptions", relyingPartyOptions.data)
 
         endpoint = "%s/%s" % (FIDO2_RELYING_PARTIES, id)
@@ -113,7 +120,7 @@ class FIDO2Config(object):
         return response
 
 
-    def get_fido2_metadata(self):
+    def list_metadata(self):
         endpoint = FIDO2_METADATA
 
         response = self.client.get_json(endpoint)
@@ -122,7 +129,16 @@ class FIDO2Config(object):
         return response
 
 
-    def create_fido2_metadata(self, filename=None):
+    def get_metadata(self, _id):
+        endpoint = "{}/{}".format(FIDO2_METADATA, _id)
+
+        response = self.client.get_json(endpoint)
+        response.success = response.status_code == 200
+
+        return response
+
+
+    def create_metadata(self, filename=None):
         response = Response()
         try:
             with open(filename, 'rb') as content:
@@ -141,7 +157,7 @@ class FIDO2Config(object):
 
         return response
 
-    def update_fido2_metadata(self, id, filename=None):
+    def update_metadata(self, id, filename=None):
         response = Response()
         try:
             with open(filename, 'rb') as content:
@@ -157,4 +173,3 @@ class FIDO2Config(object):
             response.success = False
 
         return response
-

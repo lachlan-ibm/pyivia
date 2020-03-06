@@ -19,6 +19,7 @@ from .access.templatefiles import TemplateFiles
 from .access.userregistry import UserRegistry
 from .access.mappingrules import MappingRules
 from .access.fido2config import FIDO2Config
+from .access.fido2registrations import FIDO2Registrations
 
 
 class AccessControl9020(object):
@@ -103,13 +104,13 @@ class AccessControl9070(AccessControl9060):
     def __init__(self, base_url, username, password):
               super(AccessControl9070, self).__init__(base_url, username, password)
               self.fido2_config = FIDO2Config(base_url, username, password)
+              self.fido2_registrations = FIDO2Registrations(base_url, username, password)
 
 
 class AccessControl9071(AccessControl9070):
 
     def __init__(self, base_url, username, password):
               super(AccessControl9071, self).__init__(base_url, username, password)
-              self.fido2_config = FIDO2Config(base_url, username, password)
 
 
 class AccessControl9072(AccessControl9071):
