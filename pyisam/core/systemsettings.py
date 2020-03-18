@@ -21,6 +21,7 @@ from .system.configdb import ConfigDb
 from .system.docker import Docker
 from .system.fixpacks import Fixpacks
 from .system.sysaccount import SysAccount
+from .system.managementauthroization import ManagementAuthorization
 
 
 class SystemSettings9020(object):
@@ -134,7 +135,7 @@ class SystemSettings10000(SystemSettings9080):
             super(SystemSettings10000, self).__init__(base_url, username, password)
             self.static_routes = StaticRoutes10000(base_url, username, password)
             self.interfaces = Interfaces10000(base_url, username, password)
-
+            self.managementauthrization = ManagementAuthorisaton(url, username, password)
 
 class SystemSettings10010(SystemSettings10000):
 

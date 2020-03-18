@@ -122,3 +122,13 @@ class SysAccount(object):
         response.success = response.status_code == 204
 
         return response
+
+    def update_admin_password(self, old_password=None, password=None):
+        endpoint = SYSACCOUNT_GROUPS + '/self/v1'
+        data = DataObject()
+        data.add_value_string('old_password', old_password)
+        data.add_value_string('password', password)
+        response.self.client.put_json(endpoint, data.data)
+        response.success = response.status_code == 204
+
+        return response
