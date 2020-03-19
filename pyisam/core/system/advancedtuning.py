@@ -51,3 +51,10 @@ class AdvancedTuning(object):
             response.json = response.json.get("tuningParameters", [])
 
         return response
+
+    def delete_parameter(self, uuid=None):
+        endpoint = ADVANCED_PARAMETERS + "/{}".format(uuid)
+        response = self.client.delete_json(endpoint)
+        response.success = response.status_code == 204
+
+        return response
