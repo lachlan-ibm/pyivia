@@ -6,7 +6,13 @@ from .web.dscadmin import DSCAdmin
 from .web.policyadmin import PolicyAdmin
 from .web.reverseproxy import ReverseProxy, ReverseProxy9040, ReverseProxy10020
 from .web.runtimecomponent import RuntimeComponent, RuntimeComponent10000
-
+from .web.httptransform import HTTP_Transform
+from .web.fsso import FSSO
+from .web.clientcertmapping import ClientCertMapping
+from .web.junctionmapping import JunctionMapping
+from .web.urlmapping import URLMapping
+from .web.usermapping import UserMapping
+from .web.kerberos import Kerberos
 
 class WebSettings9020(object):
     '''
@@ -92,6 +98,13 @@ class WebSettings10000(WebSettings9080):
     def __init__(self, base_url, username, password):
             super(WebSettings10000, self).__init__(base_url, username, password)
             self.runtime_component = RuntimeComponent10000(base_url, username, password)
+            self.http_transform = HTTP_Transform(base_url, username, password)
+            self.fsso = FSSO(base_url, username, password)
+            self.client_cert_mapping = ClientCertMapping(base_url, username, password)
+            self.jct_mapping = JunctionMapping (base_url, username, password)
+            self.url_mapping = URLMapping(base_url, username, password)
+            self.user_mapping = UserMapping(base_url, username, password)
+            self.kerberos = Kerberos(base_url, username, password)
 
 
 class WebSettings10010(WebSettings10000):
