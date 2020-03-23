@@ -5,7 +5,7 @@
 import logging
 import urllib
 
-from pyisam.util.model import DataObject
+from pyisam.util.model import DataObject, Response
 from pyisam.util.restclient import RESTClient
 
 logger = logging.getLogger(__name__)
@@ -72,6 +72,7 @@ class Kerberos(object):
 
 
     def import_keytab(self, keytab_file=None):
+        response = Response()
         
         try:
             with open(file_path, 'rb') as contents:

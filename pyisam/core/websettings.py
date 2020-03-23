@@ -13,6 +13,9 @@ from .web.junctionmapping import JunctionMapping
 from .web.urlmapping import URLMapping
 from .web.usermapping import UserMapping
 from .web.kerberos import Kerberos
+from .web.password_strength import PasswordStrength
+from .web.rsa import RSA
+from .web.api_access_control import APIAccessControl
 
 class WebSettings9020(object):
     '''
@@ -105,6 +108,9 @@ class WebSettings10000(WebSettings9080):
             self.url_mapping = URLMapping(base_url, username, password)
             self.user_mapping = UserMapping(base_url, username, password)
             self.kerberos = Kerberos(base_url, username, password)
+            self.password_strength = PasswordStrength(base_url, username, password)
+            self.rsa = RSA(base_url, username, password)
+            self.api_access_control = APIAccessControl(base_url, username, password)
 
 
 class WebSettings10010(WebSettings10000):
