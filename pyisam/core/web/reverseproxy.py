@@ -212,8 +212,8 @@ class ReverseProxy(object):
 
     def create_junction(
             self, webseal_id, server_hostname=None, junction_point=None,
-            junction_type=None, basic_auth_mode=None, tfim_sso=None,
-            stateful_junction=None, preserve_cookie=None,
+            junction_type=None, description=None, basic_auth_mode=None, 
+            tfim_sso=None, stateful_junction=None, preserve_cookie=None,
             cookie_include_path=None, transparent_path_junction=None,
             mutual_auth=None, insert_ltpa_cookies=None,
             insert_session_cookies=None, request_encoding=None,
@@ -233,6 +233,7 @@ class ReverseProxy(object):
         data.add_value_string("server_hostname", server_hostname)
         data.add_value_string("junction_point", junction_point)
         data.add_value_string("junction_type", junction_type)
+        data.add_value_string("description", description)
         data.add_value_string("basic_auth_mode", basic_auth_mode)
         data.add_value_string("tfim_sso", tfim_sso)
         data.add_value_string("stateful_junction", stateful_junction)
