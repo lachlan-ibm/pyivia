@@ -19,18 +19,22 @@ class Resources(object):
 
 
     def create_server(self, instance, server_hostname=None, junction_point=None, junction_type=None,
-            policyi_type=None, policy_name=None, authenticationi_type=None, authentication_oauth_introspection=None,
-            static_response_headers=None, jwt_header_name=None, jwt_certificate=None, jwt_claims=None, description=None,
-            junction_hard_limit=None, junction_soft_limit=None, basic_auth_mode=None, tfim_sso=None, 
-            remote_http_header=None, stateful_junction=None, http2_junction=None, sni_name=None, 
-            preserve_cookie=None, cookie_include_path=None, transparent_path_junction=None, mutual_auth=None,
-            insert_ltpa_cookies=None, insert_session_cookies=None, request_encoding=None, enable_basic_auth=None,
-            key_label=None, gso_respource_group=None, junction_cookie_javascript_block=None, client_ip_http=None,
-            version_two_cookies=None, ltpa_keyfile=None, authz_rules, fsso_config_file=None, username=None,
-            password=None, server_uuid=None, server_port=None, virtual_hostname=None, server_dn=None,
-            local_ip=None, query_contents=None, case_sensitive_url=None, windows_style_rul=None,
-            ltpa_keyfile_password=None, https_port=None, http_port=None, proxy_hostname=None, proxy_port=None,
-            sms_environment=None, vhost_label=None, force=None, delegation_support=None, scripting_support=None):
+            policyi_type=None, policy_name=None, authentication_type=None, oauth_introspection_transport=None,
+            oauth_introspection_proxy=None, oauth_introspection_auth_method=None, ouath_introspection_endpoint=None, 
+            oauth_introspection_client_id=None, oauth_introspection_client_secret=None, 
+            oauth_introspection_client_id_hdr=None, oauth_introspection_token_type_hint=None, 
+            oauth_introspection_mapped_id=None, oauth_introspection_external_user=None, 
+            oauth_introspection_response_attributes=None, static_response_headers=None, jwt_header_name=None, 
+            jwt_certificate=None, jwt_claims=None, description=None, junction_hard_limit=None, 
+            junction_soft_limit=None, basic_auth_mode=None, tfim_sso=None, remote_http_header=None, 
+            stateful_junction=None, http2_junction=None, sni_name=None, preserve_cookie=None, cookie_include_path=None, 
+            transparent_path_junction=None, mutual_auth=None, insert_ltpa_cookies=None, insert_session_cookies=None, 
+            request_encoding=None, enable_basic_auth=None, key_label=None, gso_respource_group=None, 
+            junction_cookie_javascript_block=None, client_ip_http=None, version_two_cookies=None, ltpa_keyfile=None, 
+            authz_rules, fsso_config_file=None, username=None, password=None, server_uuid=None, server_port=None, 
+            virtual_hostname=None, server_dn=None, local_ip=None, query_contents=None, case_sensitive_url=None, 
+            windows_style_rul=None, ltpa_keyfile_password=None, https_port=None, http_port=None, proxy_hostname=None, 
+            proxy_port=None, sms_environment=None, vhost_label=None, force=None, delegation_support=None, scripting_support=None):
         data = DataObject()
         data.add_value_string("server_hostname", server_hostname)
         data.add_value_string("junction_point", junction_point)
@@ -41,8 +45,20 @@ class Resources(object):
         data.add_value_not_empty("policy", policy.data)
         authentication = DataObject()
         authentication.add_value_string("type", authentication_type)
-        authentication.add_value_string("oauth_introspection", authentication_oauth_introspection)
-        data.add_value_not_empty("authentication", authentication)
+        oauth_introspection = DataObject()
+        oauth_introspection.add_value_string("transport", oauth_introspection_transport)
+        oauth_introspection.add_value_string("endpoint", oauth_introspection_endpoint)
+        oauth_introspection.add_value_string("proxy", oauth_introspection_proxy)
+        oauth_introspection.add_value_string("auth_method", oauth_introspection_auth_method)
+        oauth_introspection.add_value_string("client_id", oauth_introspection_client_id)
+        oauth_introspection.add_value_string("client_secret", oauth_introspection_client_secret)
+        oauth_introspection.add_value_string("client_id_hdr", oauth_introspection_client_id_hdr)
+        oauth_introspection.add_value_string("token_type_hint", oauth_introspection_token_type_hint)
+        oauth_introspection.add_value_string("mapped_id", oauth_introspection_mapped_id)
+        oauth_introspection.add_value_string("external_user", oauth_introspection_external_user)
+        oauth_introspection.add_value_not_empty("response_attributes", oauth_introspection_response_attributes)
+        authentication.add_value_string("oauth_introspection", oauth_introspection.data)
+        data.add_value_not_empty("authentication", authentication.data)
         data.add_value_not_empty("static_response_headers", static_response_headers)
         jwt = DataObject()
         jwt.add_value_string("header_name", jwt_header_name)
