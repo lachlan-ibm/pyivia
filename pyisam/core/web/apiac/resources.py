@@ -19,7 +19,7 @@ class Resources(object):
 
 
     def create_server(self, instance, server_hostname=None, junction_point=None, junction_type=None,
-            policyi_type=None, policy_name=None, authentication_type=None, oauth_introspection_transport=None,
+            policy_type=None, policy_name=None, authentication_type=None, oauth_introspection_transport=None,
             oauth_introspection_proxy=None, oauth_introspection_auth_method=None, ouath_introspection_endpoint=None, 
             oauth_introspection_client_id=None, oauth_introspection_client_secret=None, 
             oauth_introspection_client_id_hdr=None, oauth_introspection_token_type_hint=None, 
@@ -99,7 +99,7 @@ class Resources(object):
         data.add_value_string("local_ip", local_ip)
         data.add_value_string("query_contents", query_contents)
         data.add_value_string("case_sensitive_url", case_sensitive_url)
-        data.add_value_string("windows_style_rul", windows_style_url)
+        data.add_value_string("windows_style_url", windows_style_url)
         data.add_value_string("ltpa_keyfile_password", ltpa_keyfile_password)
         data.add_value("https_port", https_port)
         data.add_value("http_port", http_port)
@@ -229,7 +229,7 @@ class Resources(object):
         return response
 
 
-    def create(self, instance, resource_server, server_type="standard", method=None, path=None, 
+    def create(self, instance, resource_server, server_type=None, method=None, path=None, 
             name=None, policy_type=None, policy_name=None, static_response_headers=None, 
             rate_limiting_policy=None, url_aliases=None, documentation_content_type=None, 
             documentation_file=None):
@@ -240,7 +240,7 @@ class Resources(object):
         policy = DataObject()
         policy.add_value_string("type", policy_type)
         policy.add_value_string("name", policy_name)
-        data.add_value_not_empty("policy", policy.daita)
+        data.add_value_not_empty("policy", policy.data)
         data.add_value_not_empty("static_response_headers", static_response_headers)
         data.add_value_string("rate_limiting_policy", rate_limiting_policy)
         data.add_value_not_empty("url_aliases", url_aliases)
@@ -248,7 +248,8 @@ class Resources(object):
         documentation.add_value_string("content_type", documentation_content_type)
         documentation.add_value_string("file", documentation_file)
         data.add_alue_not_empty("documentation", documentation.data)
-
+        if not server_type:
+            server_type = "standard"
         endpoint = APIAC + "/resource/instance/{}/server/{}/resource?server_type={}".format(
                 instance, resource_server, server_type)
         response = self.client.post_json(endpoint, data.data)

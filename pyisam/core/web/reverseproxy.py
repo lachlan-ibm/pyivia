@@ -164,6 +164,20 @@ class ReverseProxy(object):
 
         return response
 
+    def add_configuration_stanza(self, webseal_id, stanza_id):
+        endpoint = ("%s/%s/configuration/stanza/%s"
+                    % (REVERSEPROXY, webseal_id, stanza_id))
+
+        response = self.client.post_json(endpoint, data=data)
+        response.success = response.status_code == 200
+
+    def delete_configuration_stanza(self, webseal_id, stanza_id):
+        endpoint = ("%s/%s/configuration/stanza/%s"
+                    % (REVERSEPROXY, webseal_id, stanza_id))
+
+        response = self.client.delete_json(endpoint, data=data)
+        response.success = response.status_code == 200
+
     def add_configuration_stanza_entry(
             self, webseal_id, stanza_id, entry_name, value):
         data = {"entries": [[str(entry_name), str(value)]]}
