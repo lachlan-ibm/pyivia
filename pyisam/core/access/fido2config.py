@@ -14,6 +14,7 @@ Allows basic management of FIDO2 relying party configurations and metadata
 """
 FIDO2_RELYING_PARTIES="/iam/access/v8/fido2/relying-parties"
 FIDO2_METADATA="/iam/access/v8/fido2/metadata"
+FIDO2_MEDIATOR="/iam/access/v8/mapping-rules"
 
 logger = logging.getLogger(__name__)
 
@@ -55,7 +56,7 @@ class FIDO2Config(object):
         fidoServerOptions.add_value("metadataSoftFail", metadata_soft_fail)
         fidoServerOptions.add_value("mediatorMappingRuleId", mediator_mapping_rule_id)
 
-        attestation = DataObject()        
+        attestation = DataObject()
         attestation.add_value("statementTypes", attestation_statement_types)
         attestation.add_value("statementFormats", attestation_statement_formats)
         attestation.add_value("publicKeyAlgorithms", attestation_public_key_algorithms)
@@ -171,5 +172,69 @@ class FIDO2Config(object):
         except IOError as e:
             logger.error(e)
             response.success = False
+
+        return response
+
+    def delete_metadata(self, id):
+        endpoint = ("%s/%s/file" % (FIDO2_METADATA, id))
+
+        response = self.client.delete_json(endpoint)
+        response.success = response.status_code == 204
+
+    def create_mediator(self, name=None, filename=None):
+        response = Response()
+        try:
+            with open(filename, 'rb') as content:
+                data = DataObject()
+                data.add_value_string("filename", ntpath.basename(filename))
+                data.add_value_string("content", content.read().decode('utf-8'))
+                data.add_value_string("type", "FIDO2")
+                data.add_value_string("name", name)
+
+                response = self.client.post_json(FIDO2_MEDIATOR, data.data)
+                response.success = response.status_code == 201
+
+        except IOError as e:
+            logger.error(e)
+            response.success = False
+
+        return response
+
+    def _update_mediator(self, id, filename=None):
+        response = Response()
+        try:
+            with open(filename, 'rb') as content:
+                data = DataObject()
+                data.add_value_string("content", content.read().decode('utf-8'))
+
+                endpoint = ("%s/%s" % (FIDO2_MEDIATOR, id))
+
+                response = self.client.put_json(endpoint, data.data)
+                response.success = response.status_code == 204
+
+        except IOError as e:
+            logger.error(e)
+            response.success = False
+
+        return response
+
+    def get_mediator(self, id):
+        endpoint = ("%s/%s" % (FIDO2_MEDIATOR, id))
+        response = self.get_json(endpoint)
+        response.success = response.status_code == 200
+
+        return response
+
+    def list_mediator(self):
+        response = self.client.get_json(FIDO2_MEDIATOR)
+        rsponse.success = response.status_code == 200
+
+        return response
+
+
+    def delete_mediator(self, id):
+        endpoint = ("%s/%s" % (FIDO2_MEDIATOR, id))
+        response = self.delete_json(endpoint)
+        response.success = response.status_code == 204
 
         return response
