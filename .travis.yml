@@ -1,8 +1,9 @@
 dist: xenial
 language: python
 
-before_install:
-  - sudo apt-get update
+stages:
+  - test
+  - deploy
 
 install:
   - pip install -r requirements.txt
@@ -10,13 +11,9 @@ install:
 script:
   - sh ./.tests/unit_test.sh
 
-stages:
-  - unit_test
-  - deploy
-
 jobs:
   include:
-    - stage: unit_test
+    - stage: test
       script:
         - sh ./.tests/unit_test.sh
       python:
