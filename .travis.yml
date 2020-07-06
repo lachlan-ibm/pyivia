@@ -1,0 +1,32 @@
+dist: xenial
+language: python
+python:
+  - "3.5"
+  - "3.6"
+  - "3.7"
+  - "3.8-dev"
+
+before_install:
+  - sudo apt-get update
+
+install:
+  - pip install -r requirements.txt
+
+script: 
+  - ./build.sh
+
+stages:
+  - unit_test
+  - deploy
+
+jobs:
+  include:
+    - stage: unit_test
+      script:
+        - ./.tests/unit_test.sh
+    - stage: .deploy.sh
+      script: 
+        - ./deploy
+      python:
+        - "3.7"
+      if: branch = master
