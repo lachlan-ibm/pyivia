@@ -13,7 +13,7 @@ from .web.junctionmapping import JunctionMapping
 from .web.urlmapping import URLMapping
 from .web.usermapping import UserMapping
 from .web.kerberos import Kerberos
-from .web.password_strength import PasswordStrength
+from .web.passwordstrength import PasswordStrength
 from .web.rsa import RSA
 from .web.api_access_control import APIAccessControl
 

@@ -7,7 +7,7 @@ import logging
 from pyisam.util.model import DataObject
 from pyisam.util.restclient import RESTClient
 
-logger = logging.get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 POLICY = "/wga/apiac/policy"
 

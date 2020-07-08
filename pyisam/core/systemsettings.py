@@ -21,7 +21,7 @@ from .system.configdb import ConfigDb
 from .system.docker import Docker
 from .system.fixpacks import Fixpacks
 from .system.sysaccount import SysAccount
-from .system.managementauthroization import ManagementAuthorization
+from .system.managementauthorization import ManagementAuthorization
 
 
 class SystemSettings9020(object):

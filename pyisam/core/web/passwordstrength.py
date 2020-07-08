@@ -30,7 +30,7 @@ class PasswordStrength(object):
         return response
 
 
-    def update(self, name=None, new_name=None content=None):
+    def update(self, name=None, new_name=None, content=None):
         data = DataObject()
         data.add_value("content", content)
         data.add_value("new_name", new_name)

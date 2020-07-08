@@ -80,14 +80,14 @@ class ManagementAuthorization(object):
         return response
 
     def delete_role(self, role=None):
-        endpoint = MANAGEMENT_AUTHORIZATION_ROLES "/{}/v1".format(role)
+        endpoint = MANAGEMENT_AUTHORIZATION_ROLES + "/{}/v1".format(role)
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
 
     def get_role(self, role=None):
-        endpoint = MANAGEMENT_AUTHORIZATION_ROLES "/{}/v1".format(role)
+        endpoint = MANAGEMENT_AUTHORIZATION_ROLES + "/{}/v1".format(role)
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
 

@@ -7,7 +7,7 @@ import logging
 from pyisam.util.model import DataObject
 from pyisam.util.restclient import RESTClient
 
-logger = logging.get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 APIAC = "/wga/apiac"
 
@@ -31,7 +31,7 @@ class Resources(object):
             transparent_path_junction=None, mutual_auth=None, insert_ltpa_cookies=None, insert_session_cookies=None, 
             request_encoding=None, enable_basic_auth=None, key_label=None, gso_respource_group=None, 
             junction_cookie_javascript_block=None, client_ip_http=None, version_two_cookies=None, ltpa_keyfile=None, 
-            authz_rules, fsso_config_file=None, username=None, password=None, server_uuid=None, server_port=None, 
+            authz_rules=None, fsso_config_file=None, username=None, password=None, server_uuid=None, server_port=None, 
             virtual_hostname=None, server_dn=None, local_ip=None, query_contents=None, case_sensitive_url=None, 
             windows_style_rul=None, ltpa_keyfile_password=None, https_port=None, http_port=None, proxy_hostname=None, 
             proxy_port=None, sms_environment=None, vhost_label=None, force=None, delegation_support=None, scripting_support=None):
@@ -127,7 +127,7 @@ class Resources(object):
             preserve_cookie=None, cookie_include_path=None, transparent_path_junction=None, mutual_auth=None,
             insert_ltpa_cookies=None, insert_session_cookies=None, request_encoding=None, enable_basic_auth=None,
             key_label=None, gso_respource_group=None, junction_cookie_javascript_block=None, client_ip_http=None,
-            version_two_cookies=None, ltpa_keyfile=None, authz_rules, fsso_config_file=None, username=None,
+            version_two_cookies=None, ltpa_keyfile=None, authz_rules=None, fsso_config_file=None, username=None,
             password=None, server_uuid=None, server_port=None, virtual_hostname=None, server_dn=None,
             local_ip=None, query_contents=None, case_sensitive_url=None, windows_style_rul=None,
             ltpa_keyfile_password=None, https_port=None, http_port=None, proxy_hostname=None, proxy_port=None,
@@ -204,7 +204,7 @@ class Resources(object):
         return response
 
 
-    def delete_server(self, instance=None)
+    def delete_server(self, instance=None):
         endpoint = APIAC + "/resource/instance/{}/server".format(instance)
         response = self.client.delete_json(endpoint, data.data)
         response.success = response.status_code == 200
@@ -212,7 +212,7 @@ class Resources(object):
         return response
 
 
-    def get_server(sef, instance=None, resource_server=None sever_type="standard"):
+    def get_server(sef, instance=None, resource_server=None, sever_type="standard"):
         endpoint = APIAC + "/resource/instance/{}/server/{}/resource?server_type={}".format(
                 instance, resource_server, server_type)
         response = self.client.get_json(endpoint)
