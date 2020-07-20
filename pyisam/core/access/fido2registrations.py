@@ -1,7 +1,7 @@
 """
 @copyright: IBM
 """
-
+import logging
 from pyisam.util.model import DataObject
 from pyisam.util.restclient import RESTClient
 
