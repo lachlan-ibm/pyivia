@@ -146,6 +146,44 @@ class APIProtection(object):
             pin_policy_enabled=None, grant_types=None, oidc_enabled=False,
             iss=None, poc=None, lifetime=None, alg=None, db=None, cert=None,
             enc_enabled=False, enc_alg=None, enc_enc=None, access_policy_id=None):
+        '''
+        Update an OIDC API Protection definition. Definitions can be used to configure one or more clients.
+
+        Args:
+            name (:obj:`str`): Name of the OIDC definition.
+            description (:obj:`str`, optional): Description of the OIDC definition.
+            tcm_behavior (:obj:`str`, optional): Specify the Trust Client Manager's behavior.
+            token_char_set (:obj:`str`, optional): Specify the allowed characters for generated tokens. Default is alphanumeric set
+            access_token_lifetime (int, optional): Length of time that access token is valid for.
+            authorization_code_lifetime (int, optional): Length of time that authorization code is valid for.
+            authorization_code_length (int, optional): Number of characters used to generate authorization code.
+            refresh_token_length (int, optional): Number of characters used to generate refresh tokens.
+            max_authorization_grant_lifetime (int, optional): The maximum duration of a grant, in seconds, where the resource owner authorized the client to access the protected resource.
+            pin_length (int, optional): Length of PIN used to protect refresh token.
+            enforce_single_use_authorization_grant (bool, optional): True if all tokens of the authorization grant should be revoked after an access token is validated.
+            issue_refresh_token (bool, optional): True if a refresh token should be issued to the client.
+            enforce_single_access_token_per_grant (bool, optional): True if previously granted access tokens should be revoked after a new access token is generated via a refresh token.
+            enable_multiple_refresh_tokens_for_fault_tolerance (bool, optional): True if multiple refresh tokens are stored so that the old refresh token is valid until the new refresh token is successfully delivered.
+            pin_policy_enabled (bool, optional): True if the refresh token will be further protected with a PIN provided by the API protection client.
+            grant_types (:obj:`list` of :obj:`str`): A list of supported authorization grant types.
+            oidc_enabled (bool, optional): If OpenID Connect is enabled for this definition.
+            iss (:obj:`str`): The issuer identifier of this definition.
+            poc (:obj:`str`): The Point of Contact URL for this definition.
+            lifetime (int): The lifetime of the id_tokens issued
+            alg (:obj:`str`): The signing algorithm for the JWT.
+            db (:obj:`str`): The SSL database containing the signing key for RS/ES signing methods.
+            cert (:obj:`str`): The certificate label of the signing key for RS/ES signing methods.
+            enc_enabled (bool): Is encryption enabled for this definition.
+            enc_alg (:obj:`str`): The key agreement algorithm for encryption.
+            enc_enc (:obj:`str`): The encryption algorithm.
+            access_policy_id (int): The id of access policy assigned to this definition.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value_string("description", description)
@@ -196,6 +234,18 @@ class APIProtection(object):
         return response
 
     def delete_definition(self, id):
+        '''
+        Remove an OIDC API protection definition.
+
+        Args:
+            id (:obj:`str`): the id of the definition to be removed.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
         endpoint = "%s/%s" % (DEFINITIONS, id)
 
         response = self.client.delete_json(endpoint)
@@ -203,8 +253,25 @@ class APIProtection(object):
 
         return response
 
-    def list_definitions(
-            self, sort_by=None, count=None, start=None, filter=None):
+    def list_definitions(self, sort_by=None, count=None, start=None, filter=None):
+        '''
+        Get a list of the configured API protection definitions.
+
+        Args:
+            sort_by (:obj:`str`, optional): Attribute to sort results by.
+            count (:obj:`str`, optional): Maximum number of results to fetch.
+            start (:obj:`str`, optional): Pagenation offset of returned results.
+            filter (:obj:`str`): Attribute to filter results by.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the obligations are returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         parameters = DataObject()
         parameters.add_value_string("sortBy", sort_by)
         parameters.add_value_string("count", count)
@@ -216,8 +283,10 @@ class APIProtection(object):
 
         return response
 
-    def create_mapping_rule(
-            self, name=None, category=None, file_name=None, content=None):
+    def create_mapping_rule(self, name=None, category=None, file_name=None, content=None):
+        '''
+        Should this even exist?
+        '''
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value_string("category", category)
@@ -229,8 +298,10 @@ class APIProtection(object):
 
         return response
 
-    def list_mapping_rules(
-            self, sort_by=None, count=None, start=None, filter=None):
+    def list_mapping_rules(self, sort_by=None, count=None, start=None, filter=None):
+        '''
+        Should this even exist?
+        '''
         parameters = DataObject()
         parameters.add_value_string("sortBy", sort_by)
         parameters.add_value_string("count", count)
@@ -243,6 +314,9 @@ class APIProtection(object):
         return response
 
     def import_mapping_rule(self, id, file_path):
+        '''
+        Should this even exist?
+        '''
         response = Response()
 
         try:
@@ -262,6 +336,9 @@ class APIProtection(object):
         return response
 
     def update_mapping_rule(self, id, content=None):
+        '''
+        Should this even exist?
+        '''
         data = DataObject()
         data.add_value_string("content", content)
 
@@ -294,6 +371,47 @@ class APIProtection9040(APIProtection):
             pin_policy_enabled=None, grant_types=None, oidc_enabled=False,
             iss=None, poc=None, lifetime=None, alg=None, db=None, cert=None,
             enc_enabled=False, enc_alg=None, enc_enc=None, access_policy_id=None):
+        '''
+        Create an OIDC API Protection definition. Definitions can be used to configure one or more clients.
+
+        Args:
+            name (:obj:`str`): Name of the OIDC definition.
+            description (:obj:`str`, optional): Description of the OIDC definition.
+            tcm_behavior (:obj:`str`, optional): Specify the Trust Client Manager's behavior.
+            token_char_set (:obj:`str`, optional): Specify the allowed characters for generated tokens. Default is alphanumeric set
+            access_token_lifetime (int, optional): Length of time that access token is valid for.
+            authorization_code_lifetime (int, optional): Length of time that authorization code is valid for.
+            authorization_code_length (int, optional): Number of characters used to generate authorization code.
+            refresh_token_length (int, optional): Number of characters used to generate refresh tokens.
+            max_authorization_grant_lifetime (int, optional): The maximum duration of a grant, in seconds, where the resource owner authorized the client to access the protected resource.
+            pin_length (int, optional): Length of PIN used to protect refresh token.
+            enforce_single_use_authorization_grant (bool, optional): True if all tokens of the authorization grant should be revoked after an access token is validated.
+            issue_refresh_token (bool, optional): True if a refresh token should be issued to the client.
+            enforce_single_access_token_per_grant (bool, optional): True if previously granted access tokens should be revoked after a new access token is generated via a refresh token.
+            enable_multiple_refresh_tokens_for_fault_tolerance (bool, optional): True if multiple refresh tokens are stored so that the old refresh token is valid until the new refresh token is successfully delivered.
+            pin_policy_enabled (bool, optional): True if the refresh token will be further protected with a PIN provided by the API protection client.
+            grant_types (:obj:`list` of :obj:`str`): A list of supported authorization grant types.
+            oidc_enabled (bool, optional): If OpenID Connect is enabled for this definition.
+            iss (:obj:`str`): The issuer identifier of this definition.
+            poc (:obj:`str`): The Point of Contact URL for this definition.
+            lifetime (int): The lifetime of the id_tokens issued
+            alg (:obj:`str`): The signing algorithm for the JWT.
+            db (:obj:`str`): The SSL database containing the signing key for RS/ES signing methods.
+            cert (:obj:`str`): The certificate label of the signing key for RS/ES signing methods.
+            enc_enabled (bool): Is encryption enabled for this definition.
+            enc_alg (:obj:`str`): The key agreement algorithm for encryption.
+            enc_enc (:obj:`str`): The encryption algorithm.
+            access_policy_id (int): The id of access policy assigned to this definition.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the created obligation can be acess from the 
+            response.id_from_location attribute
+
+        '''
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value_string("description", description)
@@ -349,6 +467,36 @@ class APIProtection9040(APIProtection):
             email=None, phone=None, other_info=None, definition=None,
             client_id=None, client_secret=None, require_pkce_verification=None,
             jwks_uri=None, encryption_db=None, encryption_cert=None):
+        '''
+        Create an OIDC api protection client
+
+        Args:
+            name (:obj:`str`): Name of the client.
+            redirect_uri (:obj:`str`, optional): URL which client should redirect to.
+            company_name (:obj:`str`, optional): Company to associate client with.
+            company_url (:obj:`str`, optional): URL to associate client with.
+            contact_person (:obj:`str`, optional): Person who is responsible for API client.
+            contact_type (:obj:`str`, optional): Position of contact person.
+            email (:obj:`str`, optional): Contact email address for client.
+            phone (:obj:`str`, optional): Contact phone number for client.
+            other_info (:obj:`str`, optional): Other contact details assocaited with client.
+            definition (:obj:`str`): The id of the API protection definition to use
+            client_id (:obj:`str`): The id of the client.
+            client_secret (:obj:`str`, optional): The client secret to use. If not specified then a public client is created.
+            require_pkce_verification (bool, optional): Whether or not this client must perform proof of key exchange when performing an authorization code flow.
+            jwks_uri (:obj:`str`): URI which is the location that a clients published JWK set.
+            encryption_db (:obj:`str): The SSL database containing the JWT encryption key.
+            encryption_cert (:obj:`str`): The certificate label of the JWT encryption key.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the created obligation can be acess from the 
+            response.id_from_location attribute
+
+        '''
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value("redirectUri", redirect_uri)
@@ -371,5 +519,4 @@ class APIProtection9040(APIProtection):
         response.success = response.status_code == 201
 
         return response
-
 

@@ -25,6 +25,32 @@ class Attributes(object):
             name=None, datatype=None, uri=None, storage_session=None,
             storage_behavior=None, storage_device=None, type_risk=None,
             type_policy=None):
+        '''
+        Create an CBA attribute.
+
+        Args:
+            category (:obj:`str`): The part of the XACML request that the attribute value comes from.
+            matcher (:obj:`str`): ID of the attribute matcher.
+            issuer (:obj:`str`): The name of the policy information point from which the value of the attribute is retrieved.
+            description (:obj:`str`, optional): Description of the attribute.
+            name (:obj:`str`): Name of the attribute
+            datatype (:obj:`str`): The type of values that the attribute can accept.
+            uri (:obj:`str`): The identifier of the attribute that is used in the generated XACML policy.
+            storage_session (bool): True if the attribute is collected in the user session.
+            storage_behavior (bool): True if historic data for this attribute is stored in the database and used for behavior-based attribute matching.
+            storage_device (bool): True if the attribute is stored when a device is registered as part of the device fingerprint.
+            type_risk (bool): True if the attribute is used in risk profiles.
+            type_policy (bool): True if the attribute is used in policies.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the created obligation can be acess from the 
+            response.id_from_location attribute
+
+        '''
         storage_data = DataObject()
         storage_data.add_value("session", storage_session)
         storage_data.add_value("behavior", storage_behavior)
@@ -51,8 +77,25 @@ class Attributes(object):
 
         return response
 
-    def list_attributes(
-            self, sort_by=None, count=None, start=None, filter=None):
+    def list_attributes(self, sort_by=None, count=None, start=None, filter=None):
+        '''
+        Get a list of the configured attributes.
+
+        Args:
+            sort_by (:obj:`str`, optional): Attribute to sort results by.
+            count (:obj:`str`, optional): Maximum number of results to fetch.
+            start (:obj:`str`, optional): Pagenation offset of returned results.
+            filter (:obj:`str`): Attribute to filter results by.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the obligations are returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         parameters = DataObject()
         parameters.add_value_string("sortBy", sort_by)
         parameters.add_value_string("count", count)
@@ -65,6 +108,22 @@ class Attributes(object):
         return response
 
     def list_attribute_matchers(self, sort_by=None, filter=None):
+        '''
+        Get a list of the configured attribute matchers.
+
+        Args:
+            sort_by (:obj:`str`, optional): Attribute to sort results by.
+            filter (:obj:`str`): Attribute to filter results by.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the obligations are returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         parameters = DataObject()
         parameters.add_value_string("sortBy", sort_by)
         parameters.add_value_string("filter", filter)

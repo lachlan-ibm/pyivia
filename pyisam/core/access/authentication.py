@@ -21,9 +21,30 @@ class Authentication(object):
         super(Authentication, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def create_mechanism(
-            self, description=None, name=None, uri=None, type_id=None,
+    def create_mechanism(self, description=None, name=None, uri=None, type_id=None,
             properties=[], attributes=[]):
+        '''
+        Create an authentication mechanism.
+
+        Args:
+            description: (:obj:`str`): Description of the mechanism.
+            name (:obj:`str`): Name of the mechanism.
+            uri (:obj:`str`): URI of the mechainsm.
+            type_id (:obj:`str`): Mechanism type to inherit from
+            properties (:obj:`list` of :obj:`dict`): List of properties for the mechaism. Properties are determined by the mechanism type.
+                                                    properties in the form `[{"key":"property.key.name", "value":"property.value"}]`
+            attributes: (:obj:`list` of :obj:`dict`): List of attributes to retireve from the request context before executing the mechanism.
+                                                    attributes in the form `[{"selector":"Context.REQUEST", "namespace": "urn:ibm:security:asf:request:parameter", "name": "parameter"}]`
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the created mechanism can be acess from the 
+            response.id_from_location attribute
+
+        '''
         data = DataObject()
         data.add_value_string("description", description)
         data.add_value_string("name", name)
@@ -37,8 +58,25 @@ class Authentication(object):
 
         return response
 
-    def list_mechanism_types(
-            self, sort_by=None, count=None, start=None, filter=None):
+    def list_mechanism_types(self, sort_by=None, count=None, start=None, filter=None):
+        '''
+        Get the list of avaliable mechanism types
+
+        Args:
+            sort_by (:obj:`str`, optional): Attribute to sort results by.
+            count (:obj:`str`, optional): Maximum number of results to fetch.
+            start (:obj:`str`, optional): Pagenation offset of returned results.
+            filter (:obj:`str`): Attribute to filter results by.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the obligations are returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         parameters = DataObject()
         parameters.add_value_string("sortBy", sort_by)
         parameters.add_value_string("count", count)
@@ -51,8 +89,25 @@ class Authentication(object):
 
         return response
 
-    def list_mechanisms(
-            self, sort_by=None, count=None, start=None, filter=None):
+    def list_mechanisms(self, sort_by=None, count=None, start=None, filter=None):
+        '''
+        Get the list of avaliable mechanisms
+
+        Args:
+            sort_by (:obj:`str`, optional): Attribute to sort results by.
+            count (:obj:`str`, optional): Maximum number of results to fetch.
+            start (:obj:`str`, optional): Pagenation offset of returned results.
+            filter (:obj:`str`): Attribute to filter results by.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the obligations are returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         parameters = DataObject()
         parameters.add_value_string("sortBy", sort_by)
         parameters.add_value_string("count", count)
@@ -65,9 +120,30 @@ class Authentication(object):
 
         return response
 
-    def update_mechanism(
-            self, id, description=None, name=None, uri=None, type_id=None,
+    def update_mechanism(self, id, description=None, name=None, uri=None, type_id=None,
             predefined=None, properties=None, attributes=None):
+        '''
+        Update an authentication mechanism.
+
+        Args:
+            description: (:obj:`str`): Description of the mechanism.
+            name (:obj:`str`): Name of the mechanism.
+            uri (:obj:`str`): URI of the mechainsm.
+            type_id (:obj:`str`): Mechanism type to inherit from
+            properties (:obj:`list` of :obj:`dict`): List of properties for the mechaism. Properties are determined by the mechanism type.
+                                                    properties in the form `[{"key":"property.key.name", "value":"property.value"}]`
+            attributes: (:obj:`list` of :obj:`dict`): List of attributes to retireve from the request context before executing the mechanism.
+                                                    attributes in the form `[{"selector":"Context.REQUEST", "namespace": "urn:ibm:security:asf:request:parameter", "name": "parameter"}]`
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the created mechanism can be acess from the 
+            response.id_from_location attribute
+
+        '''
         data = DataObject()
         data.add_value_string("id", id)
         data.add_value_string("description", description)
