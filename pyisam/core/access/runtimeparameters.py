@@ -22,6 +22,18 @@ class RuntimeParameters(object):
         self.client = RESTClient(base_url, username, password)
 
     def update(self, parameter, value=None):
+        '''
+        Update a single runtime tuning parameter.
+
+        Args:
+            value (:obj:`str`): The parameter to be updated.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
         data = DataObject()
         data.add_value("value", value)
 
@@ -34,6 +46,18 @@ class RuntimeParameters(object):
 
 
     def get_runtime_tuning(self):
+        '''
+        Get a list of all of the configured runtime tuning parameters.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the runtime tuning parameters are returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         endpoint = "%s/v1" % RUNTIME_TUNING
 
         response = self.client.get_json(endpoint)
@@ -41,7 +65,26 @@ class RuntimeParameters(object):
 
         return response
 
+
     def add_listening_interface(self, interface, port, secure=None):
+        '''
+        Add a new endpoint for the runtime server.
+
+        Args:
+            interface (:obj:`str`): The concatenation of the interface and IP address UUIDs, separated by a '.' character.
+                                    eg: ``"38a69185-a61a-44a1-b574-a3b502f01414.f980aabe-80b7-4738-9cda-bccede8d34f2"``
+            port (int): The port that the endpoint will listen on.
+            secure (bool): Flag to indicate if endpoint uses SSL
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the new runtime endpoint id is returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         data = DataObject()
         data.add_value("interface", interface)
         data.add_value("port", port)
@@ -54,7 +97,23 @@ class RuntimeParameters(object):
 
         return response
 
+
     def delete_listening_interface(self, interface, port):
+        '''
+        Remove an existing runtime endpoint.
+
+        Args:
+            interface (:obj:`str`): The concatenation of the interface and IP address UUIDs, separated by a '.' character.
+                                    eg: ``"38a69185-a61a-44a1-b574-a3b502f01414.f980aabe-80b7-4738-9cda-bccede8d34f2"``
+            port (int): The port that the endpoint will listen on.
+            secure (bool): Flag to indicate if endpoint uses SSL
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
         endpoint = "%s/%s/%s:%d/v1" % (RUNTIME_TUNING, ENDPOINTS, interface, port)
 
         response = self.client.delete_json(endpoint)

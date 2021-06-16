@@ -19,10 +19,29 @@ class PushNotification(object):
         super(PushNotification, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def create(
-            self, app_id=None, platform=None, provider_address=None,
+    def create(self, app_id=None, platform=None, provider_address=None,
             apple_key_store=None, apple_key_label=None,
             firebase_server_key=None):
+        '''
+        Create a push notification provider.
+
+        Args:
+            app_id (:obj:`str`): The application identifier associated with the registration.
+            platform (:obj:`str`): The platform the registration is for.
+            provider_address (:obj:`str`): The "host:port" address of the push notification service.
+            apple_key_store (:obj:`str`, optinal): The key store database containing the APNS certificate.
+            apple_key_label (:obj:`str`, optional) The key label of the imported APNS certificate.
+            firebase_server_key (:obj:`str`): The server key for access to the Firebase push notification service.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the push notification provider uuid is returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         apple = DataObject()
         apple.add_value_string("key_store", apple_key_store)
         apple.add_value_string("key_label", apple_key_label)
@@ -55,16 +74,52 @@ class PushNotification9021(PushNotification):
         super(PushNotification9021, self).__init__(base_url, username, password)
 
     def list_registrations(self):
+        '''
+        List the configured push notification service proviers.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the push notification providers are returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         response = self.client.get_json(PUSH_NOTIFICATION)
         response.success = response.status_code == 200
 
         return response
-        
-    def create(
-            self, app_id=None, platform=None, provider_address=None,
+
+
+    def create(self, app_id=None, platform=None, provider_address=None,
             apple_key_store=None, apple_key_label=None,
             firebase_server_key=None, imc_client_id=None,
             imc_client_secret=None, imc_refresh_token=None, imc_app_key=None):
+        '''
+        Create a push notification provider.
+
+        Args:
+            app_id (:obj:`str`): The application identifier associated with the registration.
+            platform (:obj:`str`): The platform the registration is for.
+            provider_address (:obj:`str`): The "host:port" address of the push notification service.
+            apple_key_store (:obj:`str`, optinal): The key store database containing the APNS certificate.
+            apple_key_label (:obj:`str`, optional) The key label of the imported APNS certificate.
+            firebase_server_key (:obj:`str`): The server key for access to the Firebase push notification service.
+            imc_client_id (:obj:`str`, optional): The IBM Marketing Cloud issued Oauth client ID.
+            imc_client_secret (:obj:`str`, optional): The IBM Marketing Cloud issued Oauth client secret.
+            imc_refresh_token (:obj:`str`, optional): The IBM Marketing Cloud issued Oauth refresh token.
+            imc_app_key (:obj:`str`, optional): The app key issued by IBM Marketing Cloud for the associated application.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the push notification provider uuid is returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         apple = DataObject()
         apple.add_value_string("key_store", apple_key_store)
         apple.add_value_string("key_label", apple_key_label)

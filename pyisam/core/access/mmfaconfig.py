@@ -19,9 +19,24 @@ class MMFAConfig(object):
         super(MMFAConfig, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def update(
-            self, client_id=None, hostname=None, junction=None, options=None,
+    def update(self, client_id=None, hostname=None, junction=None, options=None,
             port=None):
+        '''
+        Update the mobile multifactor authentication configuration.
+
+        Args:
+            client_id (:obj:`str`): The id of the OIDC client to use.
+            hostname (:obj:`str`): The hostname of the webseal instance configured for MMFA.
+            junction (:obj:`astr`): The junction prefix configured for MMFA.
+            options (:obj:`str`): A list of configurable key-value pairs to be presented in the QR code.
+            port (:obj:`str): The port the MMFA endpoint is listening on.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
         data = DataObject()
         data.add_value_string("client_id", client_id)
         data.add_value_string("hostname", hostname)
@@ -40,13 +55,35 @@ class MMFAConfig9021(MMFAConfig):
     def __init__(self, base_url, username, password):
         super(MMFAConfig9021, self).__init__(base_url, username, password)
 
-    def update(
-            self, client_id=None, hostname=None, junction=None, port=None,
+    def update(self, client_id=None, hostname=None, junction=None, port=None,
             details_url=None, enrollment_endpoint=None,
             hotp_shared_secret_endpoint=None, totp_shared_secret_endpoint=None,
             token_endpoint=None, authntrxn_endpoint=None,
             mobile_endpoint_prefix=None, qrlogin_endpoint=None,
             discovery_mechanisms=None, options=None):
+        '''
+        Update the mobile multifactor authentication configuration.
+
+        Args:
+            client_id (:obj:`str`): The id of the OIDC client to use.
+            hostname (:obj:`str`, optional): The hosname of the WebSEAL instance configured for MMFA.
+            junction (:obj:`str`, optional): The junction prefix configured for MMFA.
+            port (int, optional): The port the MMFA endpoint is listening on.
+            hotp_shared_secret_endpoint (:obj:`str`): The HOTP shared secret endpoint returned from the discovery endpoint.
+            totp_shared_secret_endpoint (:obj:`str`): The TOTP shared secret endpoint returned from the discovery endpoint.
+            token_endpoint (:obj:`str`): The OAuth token endpoint returned from the discovery endpoint.
+            authntrxn_endpoint (:obj:`str`): The SCIM Transaction endpoint returned from the discovery endpoint.
+            mobile_endpoint_prefix (:obj:`str`): The prefix of the runtime endpoint that is constructed and saved as the requestUrl of a transaction. 
+            qrlogin_endpoint (:obj:`str`): The QR Code login endpoint returned from the discovery endpoint.
+            discovery_mechanisms (:obj:`str`): A list of authentication mechanism URIs to be included in the discovery endpoint response.
+            options (:obj:`str`): A list of configurable key-value pairs to be presented in the QR code.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
         endpoints = DataObject()
         endpoints.add_value_string("details_url", details_url)
         endpoints.add_value_string("enrollment_endpoint", enrollment_endpoint)
@@ -75,6 +112,15 @@ class MMFAConfig9021(MMFAConfig):
         return response
 
     def delete(self):
+        '''
+        Delete the mobile multifactor authentication configuration.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
         response = self.client.delete_json(MMFA_CONFIG)
         response.success = response.status_code == 204
 

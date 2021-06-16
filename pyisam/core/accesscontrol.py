@@ -16,7 +16,7 @@ from .access.runtimeparameters import RuntimeParameters
 from .access.scimconfig import SCIMConfig, SCIMConfig9050
 from .access.serverconnections import ServerConnections, ServerConnections9050
 from .access.templatefiles import TemplateFiles
-from .access.userregistry import UserRegistry
+from .access.userregistry import UserRegistry, UserRegistry10020
 from .access.mappingrules import MappingRules
 from .access.fido2config import FIDO2Config
 from .access.fido2registrations import FIDO2Registrations
@@ -96,21 +96,21 @@ class AccessControl9050(AccessControl9040):
 class AccessControl9060(AccessControl9050):
 
     def __init__(self, base_url, username, password):
-              super(AccessControl9060, self).__init__(base_url, username, password)
+        super(AccessControl9060, self).__init__(base_url, username, password)
 
 
 class AccessControl9070(AccessControl9060):
 
     def __init__(self, base_url, username, password):
-              super(AccessControl9070, self).__init__(base_url, username, password)
-              self.fido2_config = FIDO2Config(base_url, username, password)
-              self.fido2_registrations = FIDO2Registrations(base_url, username, password)
+        super(AccessControl9070, self).__init__(base_url, username, password)
+        self.fido2_config = FIDO2Config(base_url, username, password)
+        self.fido2_registrations = FIDO2Registrations(base_url, username, password)
 
 
 class AccessControl9071(AccessControl9070):
 
     def __init__(self, base_url, username, password):
-              super(AccessControl9071, self).__init__(base_url, username, password)
+        super(AccessControl9071, self).__init__(base_url, username, password)
 
 
 class AccessControl9072(AccessControl9071):
@@ -130,25 +130,26 @@ class AccessControl9073(AccessControl9072):
 class AccessControl9080(AccessControl9073):
 
     def __init__(self, base_url, username, password):
-              super(AccessControl9080, self).__init__(base_url, username, password)
+        super(AccessControl9080, self).__init__(base_url, username, password)
 
 
 class AccessControl10000(AccessControl9080):
 
     def __init__(self, base_url, username, password):
-              super(AccessControl10000, self).__init__(base_url, username, password)
+        super(AccessControl10000, self).__init__(base_url, username, password)
 
 
 class AccessControl10010(AccessControl10000):
 
     def __init__(self, base_url, username, password):
-              super(AccessControl10010, self).__init__(base_url, username, password)
+        super(AccessControl10010, self).__init__(base_url, username, password)
 
 
 class AccessControl10020(AccessControl10010):
 
     def __init__(self, base_url, username, password):
               super(AccessControl10020, self).__init__(base_url, username, password)
+              self.user_registry = UserRegistry10020(base_url, username, password)
 
 
 class AccessControl10030(AccessControl10020):

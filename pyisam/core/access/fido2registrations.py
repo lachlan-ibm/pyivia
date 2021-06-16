@@ -23,6 +23,22 @@ class FIDO2Registrations(object):
         self.client = RESTClient(base_url, username, password)
 
     def list_registrations(self, username=None, credential_id=None):
+        '''
+        Get a list all of the known FIDO2 registrations.
+
+        Args:
+            username (:obj:`str`, optional): Specify a username to filter registrations by.
+            credential_id (:obj:`str`): Specify a credential id to filter registrations by.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the FIDO2 registrations are returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         endpoint = FIDO2_REGISTRATIONS
         if username:
             endpoint = "{}/{}".format(FIDO2_USER_REGISTRATIONS, username)
@@ -35,6 +51,21 @@ class FIDO2Registrations(object):
 
 
     def delete_registration_by_user(self, username=None):
+        '''
+        Remove all registrations associated with a username.
+
+        Args:
+            username (:obj:`str`): The username to remove registratiosn for.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the FIDO2 registrations are returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         endpoint = "{}/{}".format(FIDO2_USER_REGISTRATIONS, username)
         response = self.client.delete_json(endpoint)
         response.success = response.stauts_code == 200
@@ -43,6 +74,21 @@ class FIDO2Registrations(object):
 
 
     def delete_registration_by_credential_id(self, credential_id=None):
+        '''
+        Delete a registration associated with the specified credential id
+
+        Args:
+            credential_id (:obj:`str`): The credential id to be removed
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the FIDO2 registrations are returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         endpoint = "{}/{}".format(FIDO2_CRED_ID_REGISTRATIONS, credential_id)
         response = self.client.delete_json(endpoint)
         response.success = response.stauts_code == 200
