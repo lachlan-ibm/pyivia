@@ -10,6 +10,9 @@ from .apiac.utilities import Utilities
 from .apiac.document_root import DocumentRoot
 
 class APIAccessControl(object):
+    '''
+    Class is resposible for WebSEAL API Access Control endpoints
+    '''
 
     def __init__(self, base_url, username, password):
         super(APIAccessControl, self).__init__()

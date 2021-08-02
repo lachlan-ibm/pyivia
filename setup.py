@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 import os
 
 setup(
-    name='pyisam',
+    name='pyisva',
     version='0.1.%s' % os.environ.get('TRAVIS_BUILD_NUMBER', 0),
     description='Python API for IBM Security Verify Access',
     author='Lachlan Gleeson',

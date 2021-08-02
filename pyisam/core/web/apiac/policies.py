@@ -19,6 +19,23 @@ class Policies(object):
 
 
     def create(self, name=None, groups=[], attributes=[]):
+        '''
+        Create a new API Access Control policy.
+
+        Args:
+            name (:obj:`str`): name of new policy to be created.
+            groups (:obj:`list` of :obj:`str`): The groups referenced by this policy.
+            attributes (:obj:`list` of :obj:`str`): The attribute matches referenced by this policy.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the created obligation can be acess from the
+            response.id_from_location attribute
+
+        '''
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value_not_empty("group", grups)
@@ -31,6 +48,20 @@ class Policies(object):
 
 
     def update(self, name, groups=[], attributes=[]):
+        '''
+        Update a API Access Control policy.
+
+        Args:
+            name (:obj:`str`): Name of the API Access Control policy to be updated.
+            groups (:obj:`list` of :obj:`str`): The groups referenced by this policy.
+            attributes (:obj:`list` of :obj:`str`): The attribute matches referenced by this policy.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
         data = DataObject()
         data.add_value_not_empty("groups", groups)
         data.add_value_not_empty("attributes", attributes)
@@ -43,6 +74,21 @@ class Policies(object):
 
 
     def get(self, name=None):
+        '''
+        Get an API Access Control policy.
+
+        Args:
+            name (:obj:`str`): Name of policy to be returned.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the policy is returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         endpoint = POLICY + "/{}".format(name)
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
@@ -51,14 +97,35 @@ class Policies(object):
 
 
     def delete(self, name=None):
+        '''
+        Delete an API Access Control policy.
+
+        Args:
+            name (:obj:`str`): Name of policy to be removed.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
         endpoint = POLICY + "/{}".format(name)
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 200
-        
+
         return response
 
 
     def list(self):
+        '''
+        List all of the configured API Access Control policies.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
         response = self.client.get_json(POLICY)
         response.success = response.status_code == 200
 
