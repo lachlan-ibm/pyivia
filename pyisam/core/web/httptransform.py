@@ -21,6 +21,22 @@ class HTTP_Transform(object):
 
 
     def create(self, name=None, template=None, contents=None):
+        '''
+        Create a new HTTP transformation rule.
+
+        Args:
+            name (:obj:`str`): The name of the HTTP Transform rule to be created.
+            template (:obj:`str`): The HTTP Transformation tempalte to build the rule from.
+            contents (:obj:`str`): The serialized XLST rule.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the created obligation can be acess from the
+            response.id_from_location attribute
+        '''
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value_string("template", template)

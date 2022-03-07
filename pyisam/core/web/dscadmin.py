@@ -118,6 +118,15 @@ class DSCAdmin(object):
     def terminate_user_sessions(self, replica_set, user_name):
         """
         Terminate all sessions for the specified user.
+
+        Args:
+            replica_set (:obj:`str`): The replica set the session is stored in
+            user_name (:obj:`str`): The user who's session's should be invalidated.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
         """
         replica_set = urllib.parse.quote(replica_set, safe='')
         user_name = urllib.parse.quote(user_name, safe='')

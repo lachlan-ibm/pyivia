@@ -20,6 +20,21 @@ class FSSO(object):
 
 
     def create(self, name=None, fsso_config_data=None):
+        """
+        Create a Federated Single Sign On configuration.
+
+        Args:
+            name (:obj:`str`): The name of the FSSO config.
+            fsso_config_data (:obj:`str`): The serialized FSSO configuration data.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the created FSSO config can be acess from the
+            response.id_from_location attribute
+        """
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value_string("fsso_config_data", fsso_config_data)
@@ -31,6 +46,18 @@ class FSSO(object):
 
 
     def update(self, _id=None, fsso_config_data=None):
+        """
+        Update a Federated Single Sign On configuration.
+
+        Args:
+            _id (:obj:`str`): The name of the FSSO config.
+            fsso_config_data (:obj:`str`): The serialized FSSO configuration data.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
         data = DataObject()
         data.add_value("fsso_config_data", fsso_config_data)
         endpoint = FSSO_CONFIG + "/{}".format(_id)
@@ -41,6 +68,18 @@ class FSSO(object):
 
 
     def delete(self, _id=None):
+        """
+        Update a Federated Single Sign On configuration.
+
+        Args:
+            _id (:obj:`str`): The name of the FSSO config.
+            fsso_config_data (:obj:`str`): The serialized FSSO configuration data.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
         endpoint = FSSO_CONFIG + "/{}".format(_id)
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 204
@@ -49,6 +88,21 @@ class FSSO(object):
 
 
     def get(self, _id):
+        '''
+        Get a FSSO configuration.
+
+        Args:
+            _id (:obj:`str`): The id of the FSSO config to return.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the FSSO configuration is returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         endpoint = FSSO_CONFIG + "/{}".format(_id)
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
@@ -57,6 +111,18 @@ class FSSO(object):
 
 
     def list(self):
+        '''
+        Return list of all FSSO configurations.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the FSSO configurations are returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         response = self.client.get_json(FSSO_CONFIG)
         response.success = response.status_code == 200
 
