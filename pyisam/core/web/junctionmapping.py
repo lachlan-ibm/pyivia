@@ -20,6 +20,21 @@ class JunctionMapping(object):
 
 
     def create(self, name=None, jmt_config_data=None):
+        '''
+        Create a WebSEAL Junction mapping rule.
+
+        Args:
+            name (:obj:`str`): The name of the junction mapping rule to be created
+            jmt_config_data (:obj:`str`): contents of junction mapping table
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the created junction mapping can be acess from the
+            response.id_from_location attribute
+        '''
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value_string("jmt_config_data", jmt_config_data)
@@ -31,6 +46,18 @@ class JunctionMapping(object):
 
 
     def update(self, _id=None, jmt_config_data=None):
+        '''
+        Update a WebSEAL Junction mapping rule.
+
+        Args:
+            _id (:obj:`str`): The unique id of the junction mapping rule to be modified
+            jmt_config_data (:obj:`str`): contents of junction mapping table
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        '''
         data = DataObject()
         data.add_value("jmt_config_data", jmt_config_data)
         endpoint = JUNCTION_MAPPING + "/{}".format(_id)
@@ -41,6 +68,17 @@ class JunctionMapping(object):
 
 
     def delete(self, _id=None):
+        '''
+         Delete a WebSEAL Junction mapping rule.
+
+        Args:
+            _id (:obj:`str`): The unique id of the junction mapping rule to be deleted
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        '''
         endpoint = JUNCTION_MAPPING + "/{}".format(_id)
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 204
@@ -49,6 +87,20 @@ class JunctionMapping(object):
 
 
     def get(self, _id):
+        '''
+        Get  a WebSEAL Junction mapping rule.
+
+        Args:
+            _id (:obj:`str`): The unique id of the junction mapping rule to be returned
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the junction mapping rule is returned as JSON and can be accessed from
+            the response.json attribute
+        '''
         endpoint = JUNCTION_MAPPING + "/{}".format(_id)
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
@@ -57,6 +109,17 @@ class JunctionMapping(object):
 
 
     def get_template(self):
+        '''
+        Get the JMT configuration file template
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the junction mapping rule template is returned as JSON and can be accessed from
+            the response.json attribute
+        '''
         endpoint = "/isam/wga_templates/jmt_template"
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
@@ -65,6 +128,17 @@ class JunctionMapping(object):
 
 
     def list(self):
+        '''
+        Get  a list of the configured WebSEAL Junction mapping rules.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the junction mapping rules are returned as JSON and can be accessed from
+            the response.json attribute
+        '''
         response = self.client.get_json(JUNCTION_MAPPING)
         response.success = response.status_code == 200
 
