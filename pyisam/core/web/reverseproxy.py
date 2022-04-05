@@ -23,12 +23,44 @@ class ReverseProxy(object):
         super(ReverseProxy, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
+
     def create_instance(
             self, inst_name=None, host=None, admin_id=None, admin_pwd=None,
             ssl_yn=None, key_file=None, cert_label=None, ssl_port=None,
             http_yn=None, http_port=None, https_yn=None, https_port=None,
             nw_interface_yn=None, ip_address=None, listening_port=None,
             domain=None):
+        '''
+        Create a new WebSEAL Reverse Proxy instance.
+
+        Args:
+            iinst_name (:obj:`str`): Name of the WebSEAL instance.
+            host (:obj:`str`): The host name that is used by the Security Verify Access policy server to contact the appliance.
+            admin_id (:obj:`str`): The Security Verify Access administrator name.
+            admin_pwd (:obj:`str`): The Security Verify Access administrator password.
+            ssl_yn (:obj:`str`): Specifies whether to enable SSL communication between the instance and the LDAP server. "yes" || "no".
+            key_file (:obj:`str`, optional): The file that contains the LDAP SSL certificate.
+            cert_label (:obj:`str`, optional): The LDAP client certificate label.
+            ssl_port (:obj:`str`, optional): The port number through which to communicate with the LDAP server.
+            http_yn (:obj:`str`): Specifies whether to accept user requests across the HTTP protocol.
+            http_port (:obj:`str`, optional): The port to listen for HTTP requests.
+            https_yn (:obj:`str`): Specifies whether to accept user requests across the HTTPS protocol
+            https_port (:obj:`str`, optional): The port to listen for HTTPS requests.
+            nw_interface_yn (:obj:`str`): Specifies whether to use a logical network interface for the instance.
+            ip_address (:obj:`str`, optional): The IP address for the logical interface.
+            listening_port (:obj:`str`): This is the listening port through which the instance communicates with the 
+                                Security Verify Access policy server.
+            domain (:obj:`str`): The Security Verify Access domain.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the reverse proxy instance id is returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         data = DataObject()
         data.add_value_string("inst_name", inst_name)
         data.add_value_string("host", host)
@@ -54,32 +86,86 @@ class ReverseProxy(object):
 
         return response
 
-    def delete_instance(self, id, admin_id, admin_pwd):
+
+    def delete_instance(self, webseal_id, admin_id, admin_pwd):
+        '''
+        Delete the specified WebSEAL Reverse Proxy if it exists.
+
+        Args:
+            webseal_id (:obj:`str`): The id of the WebSEAL instance to be removed.
+            admin_id (:obj:`str`): The Security Verify Access administrator name.
+            admin_pwd (:obj:`str`): The Security Verify Access administrator password.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access.
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
         data = DataObject()
         data.add_value_string("admin_id", admin_id)
         data.add_value_string("admin_pwd", admin_pwd)
         data.add_value_string("operation", "unconfigure")
 
-        endpoint = "%s/%s" % (REVERSEPROXY, id)
+        endpoint = "%s/%s" % (REVERSEPROXY, webseal_id)
 
         response = self.client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
 
+
     def list_instances(self):
+        """
+        List the state of all configured WebSEAL Reverse Proxy instances.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the state of all instances is returned as JSON and can be accessed from
+            the response.json attribute
+
+        """
         response = self.client.get_json(REVERSEPROXY)
         response.success = response.status_code == 200
 
         return response
 
+
     def get_wga_defaults(self):
+        '''
+        Return the list of valid default WebSEAL instance configuration values.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the state of all instances is returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         response = self.client.get_json(WGA_DEFAULTS)
         response.success = response.status_code == 200
 
         return response
 
-    def restart_instance(self, id):
+
+    def restart_instance(self, webseal_id):
+        """
+        Restart a WebSEAL Reverse Proxy. This will cause a brief service outage.
+
+        Args:
+            webseal_id (:obj:`str`): The WebSEAL instance which will be restarted.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        """
         data = DataObject()
         data.add_value_string("operation", "restart")
 
@@ -95,7 +181,29 @@ class ReverseProxy(object):
             self, webseal_id, lmi_hostname=None, lmi_port=None,
             lmi_username=None, lmi_password=None, runtime_hostname=None,
             runtime_port=None, runtime_username=None, runtime_password=None,
-            reuse_certs=None,reuse_acls=None, reuse_pops=None):
+            reuse_certs=None,reuse_acls=None):
+        """
+        Configure a WebSEAL instance to use the Federated runtime server for Mobile Multi-Factor Authentication.
+
+        Args:
+            webseal_id (:obj:`str`): The name of the WebSEAL instance to act on.
+            lmi_hostname (:obj:`str`): The hostname of the LMI service.
+            lmi_port (:obj:`str`): The port of the LMI service.
+            lmi_username (:obj:`str`): The username used to authenticate with the LMI service.
+            lmi_password (:obj:`str`): The password used to authenticate with the LMI service.
+            runtime_hostname (:obj:`str`): The hostname of the runtime service.
+            runtime_port (:obj:`str`): The port of the runtime service.
+            runtime_username (:obj:`str`): The username used to authenticate with the runtime service.
+            runtime_password (:obj:`str`): The password used to authenticate with the runtime service.
+            reuse_certs (`bool`, optional): Should WebSEAL try to import the SSL certificate of the runtime service.
+            reuse_acls (`bool`, optional): Should WebSEAL reuse ACLS with the same name.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        """
         lmi_data = DataObject()
         lmi_data.add_value_string("hostname", lmi_hostname)
         lmi_data.add_value_string("username", lmi_username)
@@ -122,10 +230,31 @@ class ReverseProxy(object):
 
         return response
 
+
     def configure_fed(self,webseal_id,federation_id=None,reuse_certs=False,reuse_acls=False,
         runtime_hostname=None,runtime_port=None,runtime_username=None,runtime_password=None):
+        '''
+        Configure a WebSEAL instance to use the Federated runtime server to perform STS functions for federated identity
+        partners.
 
+        Args:
+            webseal_id (:obj:`str`): Name of the WebSEAL instance to act on, which is a unique name that identifies the instance
+            federation_id (:obj:`str`): The UUID which identifies the federation.
+            reuse_certs (`bool`, optional): If the SSL certificate has already been saved, this flag indicates that the 
+                                certificate should be reused instead of overwritten. Default is false.
+            reuse_acls (`bool`, optional): A flag to indicate that any existing ACLs with the same name should be reused. 
+                                If they are not reused, they will be replaced. Default is false .
+            runtime_hostname (:obj:`str`): The hostname of the runtime server.
+            runtime_port (:obj:`str`): The port of the runtime server. Must be the SSL port.
+            runtime_username (:obj:`str`): The username used to authenticate with the runtime server.
+            runtime_password (:obj:`str`): The password used to authenticate with the runtime server.
 
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
         data = DataObject()
         data.add_value_string("federation_id", federation_id)
         data.add_value("reuse_certs", reuse_certs)
@@ -146,9 +275,31 @@ class ReverseProxy(object):
 
         return response
 
+
     def configure_aac(self,webseal_id,junction=None,reuse_certs=False,reuse_acls=False,
         runtime_hostname=None,runtime_port=None,runtime_username=None,runtime_password=None):
+        '''
+        Configure a WebSEAL instance to use the Federated runtime server for Advanced Access Control and Context Based
+        Authorization decisions.
 
+        Args:
+            webseal_id (:obj:`str`): Name of the WebSEAL instance to act on, which is a unique name that identifies the instance
+            junction (:obj:`str`): Junction point to create.
+            reuse_certs (`bool`, optional): If the SSL certificate has already been saved, this flag indicates that the 
+                                certificate should be reused instead of overwritten. Default is false.
+            reuse_acls(:obj:`str`): A flag to indicate that any existing ACLs with the same name should be reused. If 
+                                they are not reused, they will be replaced. Default is false .
+            runtime_hostname (:obj:`str`): The hostname of the runtime server.
+            runtime_port (:obj:`str`): The port of the runtime server. Must be the SSL port.
+            runtime_username (:obj:`str`): The username used to authenticate with the runtime server.
+            runtime_password (:obj:`str`): The password used to authenticate with the runtime server.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
         data = DataObject()
         data.add_value("reuse_certs", reuse_certs)
         data.add_value("reuse_acls", reuse_acls)
@@ -164,22 +315,71 @@ class ReverseProxy(object):
 
         return response
 
+
     def add_configuration_stanza(self, webseal_id, stanza_id):
+        '''
+         Add a configuration stanza with the RESTful web service
+
+         Args:
+            webseal_id (:obj:`str`): Name of the WebSEAL instance to act on, which is a unique name that identifies the instance
+            stanza_id (:obj: `str`): The name of the resource stanza entry.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the created stanza is returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         endpoint = ("%s/%s/configuration/stanza/%s"
                     % (REVERSEPROXY, webseal_id, stanza_id))
 
         response = self.client.post_json(endpoint, data=data)
         response.success = response.status_code == 200
 
+
     def delete_configuration_stanza(self, webseal_id, stanza_id):
+        '''
+        Remove a configuration stanza if it exists.
+
+        Args:
+            webseal_id (:obj:`str`): Name of the WebSEAL instance to act on, which is a unique name that identifies the instance
+            stanza_id (:obj: `str`): The name of the resource stanza entry.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
         endpoint = ("%s/%s/configuration/stanza/%s"
                     % (REVERSEPROXY, webseal_id, stanza_id))
 
         response = self.client.delete_json(endpoint, data=data)
-        response.success = response.status_code == 200
+        response.success = response.status_code == 204
 
-    def add_configuration_stanza_entry(
-            self, webseal_id, stanza_id, entry_name, value):
+
+    def add_configuration_stanza_entry(self, webseal_id, stanza_id, entry_name, value):
+        '''
+        Add a configuration entry to a stanza.
+
+        Args:
+            webseal_id (:obj:`str`): Name of the WebSEAL instance to act on, which is a unique name that identifies the instance
+            stanza_id (:obj: `str`): The name of the resource stanza entry.
+            entry_name (:obj:`str`): Name of the configuration entry to add.
+            value (:obj:`str`): Value of the configuration entry to add.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the configuration entry id is returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         data = {"entries": [[str(entry_name), str(value)]]}
 
         endpoint = ("%s/%s/configuration/stanza/%s/entry_name"
@@ -190,19 +390,53 @@ class ReverseProxy(object):
 
         return response
 
-    def delete_configuration_stanza_entry(
-            self, webseal_id, stanza_id, entry_name, value=None):
+
+    def delete_configuration_stanza_entry(self, webseal_id, stanza_id, entry_name, value=None):
+        '''
+        Remove a configuration entry from a stanza. If a value is specified only an entry which matches the value will
+        be removed.
+
+        Args:
+            webseal_id (:obj:`str`): Name of the WebSEAL instance to act on, which is a unique name that identifies the instance
+            stanza_id (:obj: `str`): The name of the resource stanza entry.
+            entry_name (:obj:`str`): Name of the configuration entry to add.
+            value (:obj:`str`): Value of the configuration entry to add.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
         endpoint = ("%s/%s/configuration/stanza/%s/entry_name/%s"
                     % (REVERSEPROXY, webseal_id, stanza_id, entry_name))
         if value:
             endpoint = "%s/value/%s" % (endpoint, value)
 
         response = self.client.delete_json(endpoint)
-        response.success = response.status_code == 200
+        response.success = response.status_code == 204
 
         return response
 
+
     def get_configuration_stanza_entry(self, webseal_id, stanza_id, entry_name):
+        '''
+        Return the value of a configuration entry as JSON.
+
+        Args:
+            webseal_id (:obj:`str`): Name of the WebSEAL instance to act on, which is a unique name that identifies the instance
+            stanza_id (:obj: `str`): The name of the resource stanza entry.
+            entry_name (:obj:`str`): Name of the configuration entry to fetch 
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the configuration entry value is returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         endpoint = ("%s/%s/configuration/stanza/%s/entry_name/%s"
                     % (REVERSEPROXY, webseal_id, stanza_id, entry_name))
 
@@ -211,8 +445,23 @@ class ReverseProxy(object):
 
         return response
 
-    def update_configuration_stanza_entry(
-            self, webseal_id, stanza_id, entry_name, value):
+
+    def update_configuration_stanza_entry(self, webseal_id, stanza_id, entry_name, value):
+        '''
+        Update a configuration stanza entry value. If it does not exist it will be created.
+
+        Args:
+            webseal_id (:obj:`str`): Name of the WebSEAL instance to act on, which is a unique name that identifies the instance
+            stanza_id (:obj: `str`): The name of the resource stanza entry.
+            entry_name (:obj:`str`): Name of the configuration entry to add.
+            value (:obj:`str`): Value of the configuration entry to add.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
         data = DataObject()
         data.add_value_string("value", value)
 
@@ -220,9 +469,10 @@ class ReverseProxy(object):
                     % (REVERSEPROXY, webseal_id, stanza_id, entry_name))
 
         response = self.client.put_json(endpoint, data.data)
-        response.success = response.status_code == 200
+        response.success = response.status_code == 204
 
         return response
+
 
     def create_junction(
             self, webseal_id, server_hostname=None, junction_point=None,
@@ -243,6 +493,84 @@ class ReverseProxy(object):
             junction_hard_limit=None, junction_soft_limit=None,
             server_port=None, https_port=None, http_port=None, proxy_port=None,
             remote_http_header=None):
+        '''
+        Create a standard or virtual WebSEAL junction.
+
+        Args:
+            webseal_id (:obj:`str`): The Reverse Proxy instance name.
+            server_hostname (:obj:`str`): The DNS host name or IP address of the target back-end server.
+            junction_point (:obj:`str`): Name of the location in the Reverse Proxy namespace where the root of the 
+                                    back-end application server namespace is mounted.
+            junction_type (:obj:`str`): Type of junction. The value is one of: tcp, ssl, tcpproxy, sslproxy, mutual.
+            description (:obj:`str`, optional): An optional description for this junction.
+            basic_auth_mode (:obj:`str`): Defines how the Reverse Proxy server passes client identity information in 
+                                    HTTP basic authentication (BA) headers to the back-end server.
+            tfim_sso (:obj:`str`): Enables IBM Security Federated Identity Manager single sign-on (SSO) for the junction. 
+                                    Valid value is "yes" or "no".
+            stateful_junction (:obj:`str`, optional): Specifies whether the junction supports stateful applications.
+            preserve_cookie (:obj:`str`): Specifies whether modifications of the names of non-domain cookies are to be made.
+            cookie_include_path (:obj:`str`, optional): Specifies whether script generated server-relative URLs are 
+                                    included in cookies for junction identification.
+            transparent_path_junction (:obj:`str`, optional): Specifies whether a transparent path junction is created. 
+                                    Valid value is "yes" or "no".
+            insert_session_cookies (:obj:`str`): Controls whether to send the session cookie to the junctioned Web server.
+            request_encoding (:obj:`str`, optional): Specifies the encoding to use when the system generates HTTP 
+                                    headers for junctions.
+            enable_basic_auth (:obj:`str`, optional): Specifies whether to use BA header information to authenticate 
+                                    to back-end server.
+            key_label (:obj:`str`, optional): The key label for the client-side certificate that is used when the system 
+                                    authenticates to the junctioned Web server.
+            gso_resource_group (:obj:`str`, optional): The name of the GSO resource or resource group.
+            junction_cookie_javascript_block (:obj:`str`, optional): Controls the junction cookie JavaScript block.
+            client_ip_http (:obj:`str`, optional): Specifies whether to insert the IP address of the incoming request 
+                                    into an HTTP header for transmission to the junctioned Web server.
+            version_two_cookies (:obj:`str`, optional): Specifies whether LTPA version 2 cookies (LtpaToken2) are used.
+            ltpa_keyfile (:obj:`str`, optional): Location of the key file that is used to encrypt the LTPA cookie data.
+            authz_rules (:obj:`str`, optional): Specifies whether to allow denied requests and failure reason information 
+                                    from authorization rules to be sent in the Boolean Rule header (AM_AZN_FAILURE) 
+                                    across the junction.
+            fsso_config_file (:obj:`str`, optional): The name of the configuration file that is used for forms based 
+                                    single sign-on.
+            username (:obj:`str`, optional): The Reverse Proxy user name to send BA header information to the back-end server.
+            password (:obj:`str, optional): The Reverse Proxy password to send BA header information to the back-end server.
+            server_uuid (:obj:`str`, optional): Specifies the UUID that will be used to identify the junctioned Web server.
+            virtual_hostname (:obj:`str`, optional): Virtual host name that is used for the junctioned Web server.
+            server_dn (:obj:`str`, optional): Specifies the distinguished name of the junctioned Web server.
+            local_ip (:obj:`str`, optional): Specifies the local IP address that the Reverse Proxy uses when the system 
+                                    communicates with the target back-end server.
+            query_contents (:obj:`str`, optional): Provides the Reverse Proxy with the correct name of the query_contents 
+                                    program file and where to find the file.
+            case_sensitive_url (:obj:`str`, optioanl): Specifies whether the Reverse Proxy server treats URLs as case sensitive.
+            windows_style_url (:obj:`str`, optional): Specifies whether Windows style URLs are supported.
+            ltpa_keyfile_password (:obj:`str`, optional): Password for the key file that is used to encrypt LTPA cookie data.
+            proxy_hostname (:obj:`str`, optionalThe DNS host name or IP address of the proxy server.
+            sms_environment (:obj:`str`, optional): Only applicable for virtual junctions. Specifies the replica set 
+                                    that sessions on the virtual junction are managed under.
+            vhost_label (:obj:`str`): Only applicable for virtual junctions. Causes a second virtual junction to share 
+                                    the protected object space with the initial virtual junction.
+            force (:obj:`str`): Specifies whether to overwrite an existing junction of the same name.
+            delegation_support (:obj:`str`): This option is valid only with junctions that were created with the type 
+                                    of ssl or sslproxy.
+            scripting_support (:obj:`str`): Supplies junction identification in a cookie to handle script-generated 
+                                    server-relative URLs.
+            junction_hard_limit (:obj:`str`): Defines the hard limit percentage for consumption of worker threads.
+            junction_soft_limit (:obj:`str`): Defines the soft limit percentage for consumption of worker threads.
+            server_port (:obj:`str`, optional): TCP port of the back-end third-party server.
+            https_port (:obj:`str`): HTTPS port of the back-end third-party server.
+            http_port (:obj:`str`): HTTP port of the back-end third-party server.
+            proxy_port (:obj:`str`): The TCP port of the proxy server.
+            remote_http_header (:obj:`str`): Controls the insertion of Security Verify Access specific client identity 
+                                    information in HTTP headers across the junction.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the state of all instances is returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         data = DataObject()
         data.add_value_string("server_hostname", server_hostname)
         data.add_value_string("junction_point", junction_point)
@@ -304,6 +632,11 @@ class ReverseProxy(object):
         return response
 
     def delete_junction(self, webseal_id, junction_point):
+        '''
+        Remove a junction from a WebSEAL Reverse Proxy instance.
+
+        Args:
+        '''
         query = urllib.parse.urlencode({ JUNCTIONS_QUERY : junction_point})
         endpoint = "%s/%s/junctions?%s" % (REVERSEPROXY, webseal_id, query)
 

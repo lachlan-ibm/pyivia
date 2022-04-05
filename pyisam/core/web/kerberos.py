@@ -21,6 +21,23 @@ class Kerberos(object):
 
 
     def create(self, _id=None, subsection=None, name=None, value=None):
+        '''
+        Create a kerberos configuration property or subsection
+
+        Args:
+            _id (:obj:`str`): The name of the section/subsection where the new subsection/property will be created
+            subsection (:obj:`str`, optional): Name of new subsection to create. Required if creating a new subsection
+            name (:obj:`str`, optional): Name of new property to add to section/subsection. Required if creating a new property
+            value (:obj:`str`, optional): Value of new property to add to section/subsection. Required if creating a new property
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the kerberos subsection/property is returned as JSON and can be accessed from
+            the response.json attribute
+        '''
         data = DataObject()
         data.add_value_not_empty("name", name)
         data.add_value_not_empty("subsection", subsection)
@@ -33,6 +50,18 @@ class Kerberos(object):
         return response
 
     def update(self, _id=None, value=None):
+        '''
+        Update a kerberos configuration property
+
+        Args:
+            _id (:obj:`str`): The name of the section/subsection where the property will be updated
+            value (:obj:`str`): Value of new property to add to section/subsection. Required if creating a new property
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        '''
         data = DataObject()
         data.add_value_string("value", value)
 
@@ -44,6 +73,20 @@ class Kerberos(object):
 
 
     def get(self, _id=None):
+        '''
+        Get a kerberos configuration property
+
+        Args:
+            _id (:obj:`str`): The name of the section/subsection where the new subsection/property will be created
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the kerberos property is returned as JSON and can be accessed from
+            the response.json attribute
+        '''
         endpoint = KERBEROS_CONFIG + "/{}".format(_id)
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
@@ -52,6 +95,17 @@ class Kerberos(object):
 
 
     def delete(self, _id=None):
+        '''
+        Delete a kerberos configuration property or section
+
+        Args:
+            _id (:obj:`str`): The name of the section/property to be removed
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        '''
         endpoint = KERBEROS_CONFIG = "/{}".format(_id)
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 200
@@ -60,6 +114,18 @@ class Kerberos(object):
 
 
     def test(self, username=None, password=None):
+        '''
+        Test the Kerberos authentication of a web service principal using rest API.
+
+        Args:
+            username (:obj:`str`): The user to test authentication with
+            password (:obj:`str`): The password to test authentication with
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        '''
         data = DataObject()
         data.add_value_string("username", username)
         data.add_value_string("password", password)
@@ -72,6 +138,20 @@ class Kerberos(object):
 
 
     def import_keytab(self, keytab_file=None):
+        '''
+        Import a Kerberos keyfile.
+
+        Args:
+            keytab_file (:obj:`str`): Fully qualified path to the Kerberos keyfile.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the mapping keytab file id is returned as JSON and can be accessed from
+            the response.json attribute
+        '''
         response = Response()
         
         try:
@@ -88,6 +168,17 @@ class Kerberos(object):
 
 
     def delete_keytab(self, _id=None):
+        '''
+        Delete a Kerberos keyfile.
+
+        Args:
+            _id (:obj:`str`): The ID of the keytab to be removed.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        '''
         endpoint = KERBEROS_KEYTAB + "/{}".format(_id)
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 200
@@ -96,6 +187,21 @@ class Kerberos(object):
 
 
     def combine_keytab(self, new_name=None, keytab_files=[]):
+        '''
+        Combine a list of keytab files into a single keytab
+
+        Args:
+            new_name (:obj:`str`): The new name of the combined keytab file.
+            keytab_files (:obj:`list` of :obj:`str`): List of existing keytab files to combine.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the new keytab file id returned as JSON and can be accessed from
+            the response.json attribute
+        '''
         data = DataObject()
         data.add_value_string("new_name", new_name)
         data.add_value_not_empty("keytab_files", keytab_files)
@@ -107,6 +213,17 @@ class Kerberos(object):
 
 
     def list_keytab(self):
+        '''
+        List all of the configured keytab files.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the keytab files are returned as JSON and can be accessed from
+            the response.json attribute
+        '''
         response = self.client.get_json(KERBEROS_KEYTAB)
         response.success = response.status_code == 200
 
