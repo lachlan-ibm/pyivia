@@ -567,7 +567,7 @@ class ReverseProxy(object):
 
             Success can be checked by examining the response.success boolean attribute
 
-            If the request is successful the state of all instances is returned as JSON and can be accessed from
+            If the request is successful the id of the created instance is returned as JSON and can be accessed from
             the response.json attribute
 
         '''
@@ -631,11 +631,21 @@ class ReverseProxy(object):
 
         return response
 
+
     def delete_junction(self, webseal_id, junction_point):
         '''
         Remove a junction from a WebSEAL Reverse Proxy instance.
 
         Args:
+            webseal_id (:obj:`str`): The Reverse Proxy instance name.
+            junction_point (:obj:`str`): Name of the location in the Reverse Proxy namespace where the root of the 
+                                    back-end application server namespace is mounted.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
         '''
         query = urllib.parse.urlencode({ JUNCTIONS_QUERY : junction_point})
         endpoint = "%s/%s/junctions?%s" % (REVERSEPROXY, webseal_id, query)
@@ -645,15 +655,50 @@ class ReverseProxy(object):
 
         return response
 
-    def list_junctions(self, webseal_id):
-        endpoint = "%s/%s/junctions" % (REVERSEPROXY, webseal_id)
+
+    def list_junctions(self, webseal_id, detailed='false'):
+        '''
+        List the configured Standard and Virtual junctions. if the `detailed=true` query parameter is set on Verify 
+        Access 10.0.4.0 and newer, detailed junction configuration in addition to the id and type attributes are returned.
+
+        Args:
+            webseal_id (:obj:`str`): The Reverse Proxy instance name.
+            detailed (:obj:`str`, optional): Return detailed junction configuration.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful a list id and type of configured junctions is returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
+        endpoint = "%s/%s/junctions?detailed=%s" % (REVERSEPROXY, webseal_id, detailed)
 
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
 
+
     def import_management_root_files(self, webseal_id, file_path):
+        '''
+        Import a zip file into the management root of a WebSEAL reverse proxy instance. File path should be an absolute URL
+
+        Args:
+            webseal_id (:obj:`str`): The Reverse Proxy instance name.
+            file_path (:obj:`str`): Zip file to be imported to the management root.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the created file is returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         response = Response()
 
         endpoint = ("%s/%s/management_root" % (REVERSEPROXY, webseal_id))
@@ -670,7 +715,25 @@ class ReverseProxy(object):
 
         return response
 
+
     def update_management_root_file(self, webseal_id, page_id, contents):
+        '''
+        Update the contents of a management root file of a WebSEAL instance.
+
+        Args:
+            webseal_id (:obj:`str`): The Reverse Proxy instance name.
+            page_id (:obj:`str`): Path to the file to be updated in the management root file system.
+            contents (:obj:`str`): Serialized contents of the updated management root file.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the updated file is returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         data = DataObject()
         data.add_value_string("type", "file")
         data.add_value_string("contents", contents)
@@ -683,8 +746,26 @@ class ReverseProxy(object):
 
         return response
 
+
     # Upload a single file (eg HTML or ico), rather than a zip.
     def import_management_root_file(self, webseal_id, page_id, file_path):
+        '''
+        Import a singe file into a WebSEAL management root file system.
+
+        Args:
+            webseal_id (:obj:`str`): The Reverse Proxy instance name.
+            page_id (:obj:`str`): Path to the file to be updated in the management root file system.
+            file_path (:obj:`str`): File to be uploaded to the management root file system.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the uploaded file is returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         response = Response()
 
         endpoint = ("%s/%s/management_root/%s" % (REVERSEPROXY, webseal_id, page_id))
@@ -701,8 +782,23 @@ class ReverseProxy(object):
 
         return response
 
-    def import_junction_mapping_file(self, file_path):
 
+    def import_junction_mapping_file(self, file_path):
+        '''
+        Import a junction mapping configuration file.
+
+        Args:
+            file_path (:obj:`str`): File to be imported as a new jumction mapping configuration file.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the JMT file is returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         response = Response()
 
         try:
@@ -718,7 +814,22 @@ class ReverseProxy(object):
         return response
 
     def update_junction_mapping_file(self, file_id, jmt_config_data):
+        '''
+        Update a junction mapping configuration file.
 
+        Args:
+            file_id (:obj:`str`): Name of the junction mapping rule to be replaced
+            jmt_config_data (:obj:`str`): Serialized contents of the new junction mapping configuration
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the JMT file is returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         data = DataObject()
         data.add_value_string("id", file_id)
         data.add_value_string("jmt_config_data", jmt_config_data)
