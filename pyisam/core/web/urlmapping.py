@@ -20,23 +20,47 @@ class URLMapping(object):
 
 
     def create(self, name=None, dynurl_config_data=None):
+        """
+        Create a new URL mapping policy
+
+        Args:
+            name (:obj:`str`): The name of the new URL mapping rule.
+            dynurl_config_data (:obj:`str`): The serialized contents of the new policy file.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        """
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value_string("dynurl_config_data", dynurl_config_data)
 
         response = self.client.post_json(URL_MAPPING, data.data)
         response.success = response.status_code == 200
-
         return response
 
 
     def update(self, _id=None, dynurl_config_data=None):
+        """
+        Update a URL mapping policy file with new contents
+
+        Args:
+            _id (:obj:`str`): The unique id of the new URL mapping rule.
+            dynurl_config_data (:obj:`str`): The serialized contents of the new policy file.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        """
         data = DataObject()
         data.add_value("dynurl_config_data", dynurl_config_data)
         endpoint = URL_MAPPING + "/{}".format(_id)
         response = self.client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
-
         return response
 
 
@@ -44,28 +68,63 @@ class URLMapping(object):
         endpoint = URL_MAPPING + "/{}".format(_id)
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 204
-
         return response
 
 
     def get(self, _id):
+        """
+        Get a URL mapping policy.
+
+        Args:
+            _id (:obj:`str`): The unique id of the policy to return.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the URL mapping policy is returned as JSON and can be accessed from
+            the response.json attribute
+
+        """
         endpoint = URL_MAPPING + "/{}".format(_id)
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
-
         return response
 
 
     def get_template(self):
+        """
+        Get the template URL mapping policy.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the tempalte URL mapping policy is returned as JSON and can be accessed from
+            the response.json attribute
+
+        """
         endpoint = "/isam/wga_templates/dynurl_template"
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
-
         return response
 
 
     def list(self):
+        """
+        Get a list of template URL mapping policy files.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the URL mapping policy files are returned as JSON and can be accessed from
+            the response.json attribute
+
+        """
         response = self.client.get_json(URL_MAPPING)
         response.success = response.status_code == 200
-
         return response

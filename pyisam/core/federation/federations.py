@@ -239,6 +239,28 @@ class Federations(object):
         return response
 
 
+    def get_federation(self, federation_id=None):
+        """
+        Get a federation configuration.
+
+        Args:
+            federation_id (:obj:`str`): The unique id of the federation
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the federation configuration is returned as JSON and can be accessed from
+            the response.json attribute
+
+        """
+        endpoint = "%s/%s" % (FEDERATIONS, federation_id)
+        response = self.client.get_json(endpoint)
+        response.success = response.status_code == 200
+        return response
+
+
     def list_federations(self):
         response = self.client.get_json(FEDERATIONS)
         response.success = response.status_code == 200
@@ -248,8 +270,31 @@ class Federations(object):
         endpoint = "%s/%s/partners" % (FEDERATIONS, federation_id)
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
-
         return response
+
+
+    def get_partner(self, federation_id, partner_id=None):
+        """
+        Get a partner configuration from a federation
+
+        Args:
+            federation_id (:obj:`str`): The id of the federation.
+            partner_id (:obj:`str`): The id of the partner to return.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the federation partner configuration is returned as JSON and can be accessed from
+            the response.json attribute
+
+        """
+        endpoint = "%s/%s/partners/%s" % (FEDERATIONS, federation_id, partner_id)
+        response = self.client.get_json(endpoint)
+        response.success = response.status_code == 200
+        return response
+
 
 class Federations9040(Federations):
 

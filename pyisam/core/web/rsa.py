@@ -20,6 +20,18 @@ class RSA(object):
 
 
     def create(self, server_config_file=None):
+        """
+        Configure WebSEAL to use a RSA token server for authentication.
+
+        Args:
+            server_config_file (:obj:`str`): Full path to RSA SecurID toke server configuration file.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        """
         response = Response()
         endpoint = RSA_CONFIG + "/server_config"
         try:
@@ -34,6 +46,18 @@ class RSA(object):
         return response
 
     def get(self):
+        """
+        Get the RSA configuration file.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the rate limiting policy is returned as JSON and can be accessed from
+            the response.json attribute
+
+        """
         response = self.client.get_json(RSA_CONFIG)
         response.success = response.status_code == 200
 
@@ -41,6 +65,19 @@ class RSA(object):
 
 
     def test(self, username=None, password=None):
+        """
+        Test the RSA SecurID configuration.
+
+        Args:
+            username (:obj:`str`): The username to authenticate as
+            password (:obj:`str`): THe passcode of the user to authenticate with
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        """
         endpoint = RSA_CONFIG + "/test"
 
         data = DataObject()
@@ -53,6 +90,15 @@ class RSA(object):
 
 
     def delete(self):
+        """
+        Delete the RSA SecurID configuration
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        """
         endpoint = RSA_CONFIG + "/server_config"
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 204
@@ -61,6 +107,15 @@ class RSA(object):
 
 
     def delete_node_secret(self):
+        """
+        Delete the local secret for the  RSA token server.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        """
         endpoint = RSA_CONFIG + "/nose_secret"
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 204

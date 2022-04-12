@@ -18,21 +18,46 @@ class AccessPolicy(object):
         super(AccessPolicy, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def get_policies(self, filter=None):
+    def get_policies(self, _filter=None):
+        """
+        Get the configured access policies.
 
-        endpoint = None
-        if filter != None:
-            endpoint = "%s?filter=%s" % (ACCESS_POLICY, filter)
-        else:
-            endpoint = ACCESS_POLICY
+        Args:
+            _filter (:obj:`str`, optional
 
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
 
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the access policies are returned as JSON and can be accessed from
+            the response.json attribute
+
+        """
+        endpoint = ACCESS_POLICY
+        if _filter != None:
+            endpoint += "?filter=%s" % (_filter)
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
 
     def get_policy(self, policy_id=None):
+        """
+        Get a specific access policy.
+
+        Args:
+            policy_id (:obj:`str`): The id of the policy to gfetch.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the access policy is returned as JSON and can be accessed from
+            the response.json attribute
+
+        """
 
         endpoint = "%s/%s" % (ACCESS_POLICY, policy_id)
 
@@ -41,41 +66,54 @@ class AccessPolicy(object):
 
         return response
 
-    def create_policy(self, policy_name=None, category=None, policy_type="JavaScript", file_name=None):
+    def create_policy(self, policy_name=None, category=None, policy_type="JavaScript", content=None):
+        """
+        Create an access policy for single sign-on federations
+
+        Args:
+            policy_name (:obj:`str`): A unique name for the access policy.
+            category (:obj:`str`): A grouping of related access policies. Valid values are: "InfoMap", "AuthSVC", "OAUTH","OTP", "OIDC" and "SAML2_0".
+            policy_type (:obj:`str`, optional): System default type for each access policy.
+            content (:obj:`str`): Contents of the access policy rule.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the create access policy can be acess from the
+            response.id_from_location attribute
+
+        """
         data = DataObject()
-
-
-        response = None
-        try:
-            with open(file_name, 'rb') as content:
-                data.add_value_string('category',category)
-                data.add_value_string('type',policy_type)
-                data.add_value_string('name',policy_name)
-                data.add_value_string("content", content.read().decode('utf-8'))
-        except IOError as e:
-            logger.error(e)
-            response = Response()
-            response.success = False
-
-        if response == None:
-            endpoint = ACCESS_POLICY
-            response = self.client.post_json(endpoint, data.data)
-            response.success = response.status_code == 201
+        data.add_value_string('category',category)
+        data.add_value_string('type',policy_type)
+        data.add_value_string('name',policy_name)
+        data.add_value_string("content", content)
+        endpoint = ACCESS_POLICY
+        response = self.client.post_json(endpoint, data.data)
+        response.success = response.status_code == 201
 
         return response
 
 
-    def update_policy(self, policy_id=None, file_name=None):
-        data = DataObject()
-        try:
-            with open(file_name, 'rb') as content:
-                data.add_value_string("content", content.read().decode('utf-8'))
-        except IOError as e:
-            logger.error(e)
-            response.success = False
+    def update_policy(self, policy_id=None, content=None):
+        """
+        Update asn existing access policy
 
+        Args:
+            policy_id (:obj:`str`): The name of the access policy to be updated.
+            content (:obj:`str`): The serialsed content of the new JavaScript access policy
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        """
+        data = DataObject()
+        data.add_value_string("content", content)
         endpoint = "%s/%s" % (ACCESS_POLICY, policy_id)
         response = self.client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
-
         return response
