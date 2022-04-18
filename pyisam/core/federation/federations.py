@@ -19,35 +19,96 @@ class Federations(object):
         super(Federations, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def create_oidc_federation(self, name=None, role=None, issuer_identifier=None, 
-            signature_algorithm=None, signing_keystore=None, signing_key_label=None, 
-            refresh_token_length=None, authorization_grant_lifetime=None, 
-            authorization_code_lifetime=None, authorization_code_length=None, 
-            access_token_lifetime=None, access_token_length=None, 
-            id_token_lifetime=None, grant_types_supported=None, 
-            active_delegate_id=None, rule_type=None,
-            identity_mapping_rule_reference=None, applies_to=None, auth_type=None, 
-            basic_auth_username=None, basic_auth_password=None, client_key_store=None, client_key_alias=None,
-            issuer_uri=None, message_format=None, ssl_key_store=None, uri=None):
+    def create_oidc_federation(self, name=None, role=None, redirect_uri_prefix=None, response_types_supported=None, 
+            attribute_mappings=None, identity_delegate_id=None, identity_rule_type="JAVASCRIPT", identity_mapping_rule=None, 
+            identity_applies_to=None, identity_auth_type=None, identity_ba_user=None, identity_ba_password=None,
+            identity_client_keystore=None, identity_client_key_alias=None, identity_issuer_uri=None, 
+            identity_message_format=None, identity_ssl_keystore=None, identity_uri=None, adv_delegate_id=None,
+            adv_rule_type="JAVASCRIPT", adv_mapping_rule=None):
+        """
+        Create an OIDC Federation.
 
-        data = DataObject()
-        data.add_value_string("name", name)
-        data.add_value_string("protocol", "OIDC")
-        data.add_value_string("role", role)
+        Args:
+            name (:obj:`str`): 	A meaningful name to identify this federation.
+            role (:obj:`str`): The role of a federation, valid values are "ip", "sp", "op" and "rp".
+            response_types_supported (:obj:`str`): 
+            attribute_mappings (:obj:`list` of :obj:`dict`): The attribute mapping data. format is:
+                            `[{"name":"email","source":"ldap_email"},{"mobile":"source":"ldap_phone"}]`
+            identity_delegate_id (:obj:`str`): The active mapping module instance.
+            identity_rule_type (:obj:`str`): The type of the mapping rule. The only supported type currently is JAVASCRIPT.
+            identity_mapping_rule (:obj:`str`): A reference to an ID of an identity mapping rule. 
+            identity_applies_to (:obj:`str`): Refers to STS chain that consumes callout response. Required if WSTRUST 
+                            messageFormat is specified, ignored otherwise.
+            identity_auth_type (:obj:`str`): Authentication method used when contacting external service. Supported 
+                            values are NONE, BASIC or CERTIFICATE.
+            identity_ba_user (:obj:`str`): Username for authentication to external service. Required if BASIC authType 
+                            is specified, ignored otherwise.
+            identity_ba_password (:obj:`str`): Password for authentication to external service. Required if BASIC 
+                            authType is specified, ignored otherwise.
+            identity_client_keystore (:obj:`str`): Contains key for HTTPS client authentication. Required if CERTIFICATE 
+                            authType is specified, ignored otherwise.
+            identity_client_key_alias (:obj:`str`): Alias of the key for HTTPS client authentication. Required if 
+                            CERTIFICATE authType is specified, ignored otherwise.
+            identity_issuer_uri (:obj:`str`): Refers to STS chain that provides input for callout request. Required if 
+                            WSTRUST messageFormat is specified, ignored otherwise.
+            identity_message_format (:obj:`str`): Message format of callout request. Supported values are XML or WSTRUST.
+            identity_ssl_keystore (:obj:`str`): SSL certificate trust store to use when validating SSL certificate of 
+                            external service.
+            identity_uri (:obj:`str`): Address of destination server to call out to. 
+            adv_delegate_id (:obj:`str`): The active module instance. Valid values are "skip-advance-map" and "default-map".
+            adv_rule_type (:obj:`str`): The type of the mapping rule. The only supported type currently is JAVASCRIPT.
+            adv_mapping_rule (:obj:`str`): A reference to an ID of an advance configuration mapping rule.
 
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the created obligation can be acess from the
+            response.id_from_location attribute
+
+        """
         attributeMapping = DataObject()
-        
+        attributeMapping.add_value_not_empty("map", attribute_mappings)
+
+        advConfig = DataObject()
+        advConfig.add_value_string("activeDelegateId", adv_delegate_id)
+        advConfigProps = DataObject()
+        advConfigProps.add_value_string("ruleType", adv_rule_type)
+        advConfigProps.add_vaule_string("advanceMappingRuleReference", adv_mapping_rule)
+        advConfig.add_value_not_empty("properties", advConfigProps.data)
+
         identityMapping = DataObject()
-        identityMapping.add_value_string("activeDelegateId", active_delegate_id)
+        identityMapping.add_value_string("activeDelegateId", identity_delegate_id)
         properties = DataObject()
-        properties.add_value_string("ruleType", rule_type)
-        properties.add_value_string("identityMappingRuleReference", identity_mapping_rule_reference)
+        if identity_delegate_id == "default-map":
+            properties.add_value_string("ruleType", identity_rule_type)
+            properties.add_value_string("identityMappingRuleReference", identity_mapping_rule_reference)
+
+        elif identity_delegate_id == "default-http-custom-map":
+            properties.add_value_string("appliesTo", identity_applies_to)
+            properties.add_value_string("authType", identity_auth_type)
+            properties.add_value_string("basicAuthUsername", identity_ba_user)
+            properties.add_value_string("basicAuthPassword", identity_ba_password)
+            properties.add_value_string("clientKeyStore", identity_client_keystore)
+            properties.add_value_string("clientKeyAlias", identity_client_key_alias)
+            properties.add_value_string("issuerUri", identity_issuer_uri)
+            properties.add_value_string("messageFormat", identity_message_format)
+            properties.add_value_string("sslKeyStore", identity_ssl_keystore)
+            properties.add_value_string("uri", identity_uri)
         identityMapping.add_value_not_empty("properties", properties.data)
 
         configuration = DataObject()
         configuration.add_value_not_empty("identityMapping", identityMapping.data)
         configuration.add_value_not_empty("attributeMapping", attributeMapping.data)
+        configuration.add_value_not_empty("advancedConfiguration", advConfig.data)
+        configuration.add_value_string("redirectUriPrefix", redirect_uri_prefix)
+        configuration.add_value_string("responseTypes", response_types_supported)
 
+        data = DataObject()
+        data.add_value_string("name", name)
+        data.add_value_string("protocol", "OIDC")
+        data.add_value_string("role", role)
         data.add_value_not_empty("configuration", configuration.data)
 
         response = self.client.post_json(FEDERATIONS, data.data)
@@ -55,10 +116,89 @@ class Federations(object):
 
         return response
 
-    def create_oidc_partner(self, federation_id, name=None, enabled=False, role=None, template_name=None, client_id=None, 
-        client_secret=None, applies_to=None, grant_type=None, authorization_endpoint_url=None, token_endpoint_url=None, 
-        signature_algorithm=None, signing_keystore=None, signing_key_label=None, issuer_identifier=None, redirect_uri_prefix=None, jwk_endopoint_url=None, scope=[]):
-        
+    def create_oidc_partner(self, federation_id, name=None, enabled=False, role="rp", template_name=None, client_id=None, 
+        client_secret="", active_delegate_id=None, metadata_endpoint_url=None, issuer_identifier=None, response_types=[],
+        authorization_endpoint=None, token_endpoint=None, user_info_endpoint=None, signature_alg=None, 
+        verification_keystore=None, verification_key_label=None, jwk_endopoint_url=None, key_mgmt_alg=None, 
+        content_encrypt_alg=None, decrypt_keystore=None, decrypt_key_label=None, scope=[], perform_user_info=None, 
+        token_endpoint_auth_method=None, attribute_mapping=None, identity_delegate_id=None, identity_mapping_rule=None,
+        identity_auth_type=None, identity_ba_user=None, identity_ba_password=None, identity_client_keystore=None, 
+        identity_client_key_alias=None, identity_issuer_uri=None, identity_msg_fmt=None, identity_ssl_keystore=None,
+        identity_uri=None, adv_config_delegate_id=None, adv_config_rule_type="JAVASCRIPT", adv_config_mapping_rule=None):
+        """
+        Add a partner configuration to an ODIC RP.
+
+        Args:
+            federation_id (:obj:`str`): The id of the ODIC federation to create a partner for.
+            name (:obj:`str`): THe name o the partner to be created.
+            enabled (:obj:`str`): Whether to enable the partner.
+            role (:obj:`str`, optional): The role this partner plays in its federation. Default is "rp"
+            template_name (:obj:`str`): An identifier for the template on which to base this partner.
+            client_id (:obj:`str`): The id that identifies this client to the provider.
+            client_secret(:obj:`str`, optional): The secret associated with the client ID. Set as "" if using a public 
+                            client.
+            active_delegate_id (:obj:`str`): The active module instance. Valid values are "noMetadata" and "metadataEndpointUrl".
+            metadata_endpoint (:obj:`str`, optional): The /metadata endpoint URL of the provider.
+            issuer_identifier (:obj:`str`, optional): The issuer ("iss") value of the provider.
+            response_types (:obj:`str`, optional): List of response type which determines which flow to be executed.
+            authorization_endpoint (:obj:`str`, optional): The /authorize endpoint URL of the provider.
+            token_endpoint (:obj:`str`, optional): The /token endpoint URL of the provider. Required if "code" response 
+                            type is selected.
+            user_info_endpoint (:obj:`str`, optional): The /userinfo endpoint URL of the provider.
+            signature_alg (:obj:`str`, optional): The signing algorithm to use. Supported values are "none", "HS256", 
+                            "HS384", "HS512", "RS256", "RS384", "RS512", "ES256", "ES384", "ES512", "PS256", "PS384", 
+                            "PS512". Default is none.
+            verification_keystore (:obj:`str`, optional): When signature algorithm requires a certificate, the keystore 
+                            which contains the selected certificate to perform the signing.
+            verification_key_label (:obj:`str`, optional): When signature algorithm requires a certificate, the alias 
+                            of the public key in the selected keystore to use in signature verification.
+            jwk_endopoint_url (:obj:`str`): When signature algorithm requires a certificate, the JWK endpoint of the provider.
+            key_mgmt_alg (:obj:`str`, optional): The key management algorithm to use. Supported values are "none", "dir", 
+                            "A128KW", "A192KW", "A256KW", "A128GCMKW", "A192GCMKW", "A256GCMKW", "ECDH-ES", "ECDH-ES+A128KW", 
+                            "ECDH-ES+A192KW", "ECDH-ES+A256KW", "RSA1_5", "RSA-OAEP", "RSA-OAEP-256".
+            content_encrypt_alg (:obj:`str`, optional): The content encryption algorithm to use. Supported values are 
+                            "none", "A128CBC-HS256", "A192CBC-HS384", "A256CBC-HS512", "A128GCM", "A192GCM", "A256GCM".
+            decrypt_keystore (:obj:`str`): When key management algorithm requires a certificate, the keystore which 
+                            contains the selected certificate to perform JWT decryption.
+            decrypt_key_label (:obj:`str`): When key management algorithm requires a certificate, the alias of the 
+                            private key in the selected keystore to perform JWT decryption.
+            scope (:obj:`list` of :obj:`str`, optional): An array of strings that identify the scopes to request from 
+                            the provider. Defaults to ["openid"].
+            perform_user_info (`bool`, optional): A setting that specifies whether to perform user info request 
+                            automatically whenever possible.
+            token_endpoint_auth_method (:obj:`str): The token endpoint authentication method. Valid values are 
+                            "client_secret_basic" and "client_secret_post".
+            attribute_mapping (:obj:`list` of :obj:`dict`, optional): List of configured attribute sources. Format of
+                            complex object is ```[{"name":"email", "source": "ldap"}, {"name":"preferred_name", 
+                            "source":"credential"}]```.
+            identity_delegate_id (:obj:`str`): The active mapping module instance. Valid values are "skip-identity-map", 
+                            "default-map" and "default-http-custom-map".
+            identity_auth_type (:obj:`str`, optional): Authentication method used when contacting external service. Supported 
+                            values are NONE, BASIC or CERTIFICATE.
+            identity_ba_user (:obj:`str`, optional): Username for authentication to external service.
+            identity_ba_password (:obj:`str`, optional): Password for authentication to external service.
+            identity_client_keystore (:obj:`str`, optional): Contains key for HTTPS client authentication.
+            identity_cliekt_key_alias (:obj:`str`, optional): Alias of the key for HTTPS client authentication.
+            identity_issuer_uri (:obj:`str`, optional): Refers to STS chain that provides input for callout request.
+            identity_msg_fmt (:obj:`str`, optional): Message format of callout request.
+            identity_ssl_keystore (:obj:`str`, optional): SSL certificate trust store to use when validating SSL 
+                            certificate of external service.
+            identity_uri (:obj:`str`): Address of destination server to call out to.
+            adv_config_delegate_id (:obj:`str`): The active module instance. Valid values are "skip-advance-map" and 
+                            "default-map".
+            adv_config_rule_type (:obj:`str`, optional): The type of the mapping rule. The only supported type currently 
+                            is JAVASCRIPT.
+            adv_config_mapping_rule (:obj:`str`, optional): A reference to an ID of an advance configuration.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the created obligation can be acess from the
+            response.id_from_location attribute
+
+        """
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value("enabled", enabled)
