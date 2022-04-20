@@ -199,6 +199,7 @@ class Federations(object):
             response.id_from_location attribute
 
         """
+        #TODO
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value("enabled", enabled)
@@ -236,10 +237,40 @@ class Federations(object):
         return response
 
 
-    def create_saml_federation(self, name=None, role=None, template_name=None, active_delegate_id=None, need_consent_to_federate=None,
+    def create_saml_federation(self, name=None, role=None, access_policy=None, artifact_lifetime=None, assertion_attr_types=[],
+            assertion_session_not_on_or_after=None, assertion_multi_attr_stmt=None, assertion_valid_before=None, 
+            assertion_valid_after=None, artifact_resolution_service=[], attribute_mapping=[],
+
+            template_name=None, active_delegate_id=None, need_consent_to_federate=None,
             signature_algorithm=None, signing_keystore=None, signing_key_label=None, sso_service_binding=None,message_issuer_format=None,
             decrypt_keystore=None, decrypt_key_label=None, point_of_contact_url=None, provider_id=None, company_name=None):
+        """
+        Create a SAML federation.
 
+        Args:
+            name (:obj:`str`): The name of the federation
+            role (:obj:`str`): The role of a federation: "ip" for a SAML 2.0 identity provider federation, and "sp" for 
+                            a SAML 2.0 service provider federation.
+            tempalte_name (:obj:`str`, optional): An identifier for the template on which to base this federation.
+            access_policy (:obj:`str`, optional): The access policy that should be applied during single sign-on.
+            artifact_lifetime(`int`, optional): The number of seconds that an artifact is valid. The default value is 120.
+            assertion_attr_types (:obj:`list` of :obj:`str`, optional): A setting that specifies the types of attributes 
+                            to include in the assertion.
+            assertion_session_not_on_or_after (`int`, optional): The number of seconds that the security context established for 
+                            the principal should be discarded by the service provider.The default value is 3600.
+            assertion_mult_attr_stmt (`bool`, optional): A setting that specifies whether to keep multiple attribute 
+                            statements in the groups in which they were received.
+            assertion_valid_before (`int, optional): The number of seconds before the issue date that an assertion is 
+                            considered valid.
+            assertion_valid_after (`int`, optional): The number of seconds the assertion is valid after being issued.
+            artifact_resolution_service (:obj:`list` of :obj:`dict`, optional): Endpoints where artifacts are exchanged 
+                            for actual SAML messages. Required if artifact binding is enabled. Format of artifact 
+                            resolution service data is ```[{"binding":"soap","default":false,"index":0,"url":"https://demo.com/endpoint"},
+                            {"binding":"soap","default":true,"index":1,"url":"https://domain.com/endpoint"}]```
+            attribute_mapping (:obj:`list` of :obj:`dict`, optional): The attribute mapping data. format is:
+                            ```[{"name":"email","source":"ldap_email"},{"mobile":"source":"ldap_phone"}]```
+
+        """
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value_string("protocol", "SAML2_0")
