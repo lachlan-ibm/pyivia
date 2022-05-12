@@ -239,13 +239,19 @@ class Federations(object):
 
     def create_saml_federation(self, name=None, role=None, access_policy=None, artifact_lifetime=None, assertion_attr_types=[],
             assertion_session_not_on_or_after=None, assertion_multi_attr_stmt=None, assertion_valid_before=None, 
-            assertion_valid_after=None, artifact_resolution_service=[], attribute_mapping=[],
+            assertion_valid_after=None, artifact_resolution_service=[], attribute_mapping=[], company_name=None,
+            encrypt_block_alg=None, encrypt_key_transport_alg=None, encrypt_key_alias=None, encrypt_key_store=None, 
+            encrypt_name_id=None, encrypt_assertions=None, encrypt_assertion_attrs=None, decrypt_key_alias=None, 
+            decrypt_key_store=None, identity_delegate_id=None, identity_rule_type='JAVASCRIPT', identity_rule_id=None,
+            identity_applies_to=None, identity_auth_type=None, identity_ba_user=None, identity_ba_password=None,
+            identity_client_keystore=None, identity_client_key_alias=None, identity_issuer_uri=None, identity_msg_fmt=None,
+            identity_ssl_keystore=None, identity_uri=None,
 
             template_name=None, active_delegate_id=None, need_consent_to_federate=None,
             signature_algorithm=None, signing_keystore=None, signing_key_label=None, sso_service_binding=None,message_issuer_format=None,
             decrypt_keystore=None, decrypt_key_label=None, point_of_contact_url=None, provider_id=None, company_name=None):
         """
-        Create a SAML federation.
+        Create a SAML 2.0 federation.
 
         Args:
             name (:obj:`str`): The name of the federation
@@ -269,6 +275,19 @@ class Federations(object):
                             {"binding":"soap","default":true,"index":1,"url":"https://domain.com/endpoint"}]```
             attribute_mapping (:obj:`list` of :obj:`dict`, optional): The attribute mapping data. format is:
                             ```[{"name":"email","source":"ldap_email"},{"mobile":"source":"ldap_phone"}]```
+            company_name (:obj:`str`, optional): The name of the company that creates the identity provider or service 
+                            provider.
+            encrypt_block_alg (:obj:`str`, optional): Block encryption algorithm used to encrypt and decrypt SAML message.
+            encrypt_key_transport_alg (:obj:`str`): Key transport algorithm used to encrypt and decrypt keys.
+            encrypt_key_alias (:obj:`str`, optional): The certificate for encryption of outgoing SAML messages.
+            encrypt_key_store (:obj:`str`, optioanl): The certificate database name.
+            encrypt_name_id (`bool`, optional): A setting that specifies whether the name identifiers should be encrypted.
+            encrypt_assertions (`bool`, optional): A setting that specifies whether to encrypt assertions.
+            encrypt_assertion_attrs (`bool`, optional): A setting that specifies whether to encrypt assertion attributes
+            decrypt_key_alias (:obj:`str`, optional): A public/private key pair that the federation partners can use to
+                            encrypt certain message content.
+            decrypt_key_store (:obj:`str`, optional): The certificate database name.
+        
 
         """
         data = DataObject()
