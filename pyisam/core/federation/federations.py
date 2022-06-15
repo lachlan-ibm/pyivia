@@ -455,12 +455,175 @@ class Federations(object):
         return response
 
 
-    def create_saml_partner(self, federation_id, name=None, enabled=False, role=None, template_name=None, acs_binding=None, block_encryption_algorithm=None,
-        encryption_key_transport_algorithm = None, encryption_keystore=None, encryption_key_label=None,signature_digest_algorithm=None, acs=None, single_logout_service=None,
-        acs_default=True, acs_index=0, acs_url=None, attribute_mapping=[], active_delegate_id=None, client_auth_method=None, signature_algorithm=None,
-        validate_logout_request=None,validate_logout_response=None,
-        provider_id=None, signature_validation=None, validate_authn_request=None, validation_keystore=None, validation_key_label=None, mapping_rule=None):
-        
+    def create_saml_partner(self, federation_id, name=None, enabled=False, role=None, template_name=None, access_policy=None,
+            arti_resolution_svc=[], assert_consume_svc=[], assert_valid_before=None, assert_valid_after=None, assert_attr_types=[]
+            assert_session_not_after=None, assert_multi_attr_stmt=None, attr_mapping=[], decrypt_key_store=None, 
+            decrypt_key_alias=None, encrypt_block_alg=None, encrypt_transport_alg=None, encrypt_key_store=None, 
+            encrypt_key_alias=None, encrypt_name_id=None, encrypt_assertion=None, encrypt_assertion_attrs=None,
+            identity_delegate_id=None, identity_rule_type='JAVASCRIPT', identity_mr=None, identity_applies_to=None,
+            identity_auth_type=None, identity_auth_type=None, identity_ba_user=None, identity_ba_password=None,
+            identity_client_key_store=None, identity_client_key_alias=None, identity_issuer_uri=None, identity_mgs_fmt=None,
+            identity_ssl_key_store=None, identity_uri=None, ext_delegate_id=None, ext_mr=None, include_fed_id_in_partner_id=None, 
+            logout_req_lifetime=None, manage_name_id_services=[], name_id_default=None, name_id_supported=[]
+            provider_id=None, session_timeout=None, sign_include_pub_key=None, sign_include_cert=None, sign_include_issuer=None, 
+            sign_include_ski=None, sign_include_subject=None, sign_key_store=None, sign_key_alias=None, sign_arti_request=None, 
+            sign_arti_rsp=None, sign_assertion=None, sign_authn_rsp=None, sign_logout_req=None, sign_logout_rsp=None, 
+            sign_name_id_req=None, sign_name_id_rsp=None, transform_include_namespace=None, validate_assertion=None, 
+            validate_authn_req=None, validate_arti_req=None, validate_arti_rsp=None, validate_logout_req=None, 
+            validate_logout_rsp=None, validate_name_id_req=None, validate_name_id_rsp=None, sign_alg=None, sign_digest_alg=None, 
+            validation_key_store=None, validation_key_alias=None, slo_svc=[], soap_key_store=None, soap_key_alias=None, 
+            soap_client_auth_method=None, soap_client_auth_ba_user=None, soap_client_auth_ba_pasword=None, 
+            soap_client_auth_key_store=None, soap_client_auth_key_alias=None, anon_user_name=None, force_authn_to_federate=None, 
+            authn_req_delegate_id=None, authn_req_mr=None, map_unknown_alias=None, sso_svc=[], default_target_url=None):
+        """
+        Create a SAML 2.0 IDP or SP Partner
+
+        Args:
+            federation_id (:obj:`str`): The system-assigned federation identifier.
+            name (:obj:`str`): A meaningful name to identify this partner.
+            enabled (:obj:`str`): Whether to enable the partner.
+            role (:obj:`str`): The role this partner plays in its federation: "ip" for a SAML 2.0 identity provider 
+                            partner, and "sp" for a SAML 2.0 service provider partner.
+            template_name (:obj:`str`): An identifier for the template on which to base this partner.
+            access_policy (:obj:`str`): The access policy that should be applied during single sign-on.
+            arti_resolution_svc (:obj:`list` of :obj:`dict`): Partner's endpoints where artifacts are exchanged for 
+                            actual SAML messages. Required if artifact binding is enabled. Format of dictionary is
+                            `{"binding":"post","default":True,"index":1,"url":"https://my.idp.com"}`
+            assert_consume_svc (:obj:`list` of :obj:`dict`): Endpoints at a Service Provider that receive SAML assertions.
+                            Format of dictionary is `{"binding":"post","default":True,"index":1,"url":"https://my.idp.com"}`
+            assert_valid_before (`int`, optional): The number of seconds before the issue date that an assertion 
+                            is considered valid.
+            assert_valid_after (`int`, optional): The number of seconds the assertion is valid after being issued.
+            assert_attr_types (:obj:`list` of :obj:`str`): A setting that specifies the types of attributes to include 
+                            in the assertion.
+            assert_session_not_after (`int`, optional): The number of seconds that the security context established for 
+                            the principal should be discarded by the service provider.
+            assert_multi_attr_stmt (`bool`, optional): A setting that specifies whether to keep multiple attribute 
+                            statements in the groups in which they were received.
+            attr_mapping (:obj:`list` of :obj:`dict`, optional): The attribute mapping data. Format of the dictionary is
+                            `{"name":"email_address","source":"LDAP"}`.
+            decrypt_key_store (:obj:`str`, optional): The certificate database name which contains the key to decrypt messages.
+            decrypt_key_alias (:obj:`str`, optional): A public/private key pair that the federation partners can use to 
+                            encrypt certain message content.
+            encrypt_block_alg (:obj:`str`): Block encryption algorithm used to encrypt and decrypt SAML message. 
+            encrypt_transport_alg (:obj:`str`): Key transport algorithm used to encrypt and decrypt keys.
+            encrypt_key_store (:obj:`str`, optional): The certificate database name which contains the key to encrypt
+                            SMAL messages..
+            encrypt_key_alias (:obj:`str`, optional): The certificate for encryption of outgoing SAML messages. 
+            encrypt_name_id (`bool`): A setting that specifies whether the name identifiers should be encrypted.
+            encrypt_assertion (`bool`): A setting that specifies whether to encrypt assertions.
+            encrypt_assertion_attrs (`bool`): A setting that specifies whether to encrypt assertion attributes.
+            identity_delegate_id (:obj:`str`): The active mapping module instance. Valid values are "skip-identity-map", 
+                            "default-map" and "default-http-custom-map".
+            identity_rule_type (:obj:`str`, optional): The type of the mapping rule. The only supported type currently is JAVASCRIPT. 
+            identity_mr (:obj:`str`, optional): A reference to an ID of an identity mapping rule. 
+            identity_applies_to (:obj:`str`, optional): Refers to STS chain that consumes callout response.
+            identity_auth_type (:obj:`str`, optional): Authentication method used when contacting external service. 
+                            Supported values are NONE, BASIC or CERTIFICATE.
+            identity_ba_user (:obj:`str`, optional): Username for authentication to external service. 
+            identity_ba_password (:obj:`str`, optional): Password for authentication to external service.
+            identity_ssl_key_store (:obj:`str`, optional): Contains key for HTTPS client authentication. 
+            identity_client_key_alias (:obj:`str`, optional): Alias of the key for HTTPS client authentication.
+            identity_issuer_uri (:obj:`str`, optional): Refers to STS chain that provides input for callout request.
+            identity_mgs_fmt (:obj:`str`, optional): Message format of callout request.
+            identity_ssl_key_store (:obj:`str`): SSL certificate trust store to use when validating SSL certificate of 
+                            external service.
+            identity_uri (:obj:`str`): Address of destination server to call out to. 
+            ext_delegate_id (:obj:`str`): The active mapping module instance. Valid values are "skip-extension-map" 
+                            and "default-map".
+            ext_mr (:obj:`str`): A reference to an ID of an extension mapping rule. 
+            include_fed_id_in_partner_id (`bool`, optional): A setting that specifies whether to append federation ID 
+            to partner ID when mapping user aliases.
+            logout_req_lifetime (`int`, optional): A setting that specifies Logout request lifetime in number of seconds. 
+            manage_name_id_services (:obj:`list` of :obj:`dict`): Partner's endpoints that accept SAML name ID management 
+                            requests or responses. Format of dictionary is `{"binding":"soap","url":"https://my.sp.com"}`
+            name_id_default (:obj:`str`, optional): The name identifier format to use when the format attribute is not 
+                            set, or is set to "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified".
+            name_id_supported (:obj:`list` of :obj:`str`), optional): The list of supported name identifier formats. 
+            provider_id (;obj:`str`): A unique identifier that identifies the partner.
+            session_timeout
+            sign_include_pub_key (`bool`, optional): A setting that specifies whether to include the public key in the 
+                            KeyInfo element in the digital signature when signing a SAML message or assertion.
+            sign_include_cert (`bool`, optional): A setting that specifies whether to include the base 64 encoded 
+                            certificate data to be included in the KeyInfo element in the digital signature when signing 
+                            a SAML message or assertion.
+            sign_include_issuer (`bool`, optional): A setting that specifies whether to include the issuer name and the 
+                            certificate serial number in the KeyInfo element in the digital signature when signing a 
+                            SAML message or assertion.
+            sign_include_ski (`bool`, optional): A setting that specifies whether to include the X.509 subject key 
+                            identifier in the KeyInfo element in the digital signature when signing a SAML message or 
+                            assertion.
+            sign_include_subject (`bool`, optional): A setting that specifies whether to include the subject name in the 
+                            KeyInfo element in the digital signature when signing a SAML message or assertion. 
+            sign_key_store (:obj:`str`): The certificate database name which contians the private key to sign SAML messages.
+            sign_key_alias (:obj:`str`): A public/private key pair for signing the SAML messages and the assertion.
+            sign_arti_request (`bool`, optional): A setting that specifies whether to sign the artifact request.
+            sign_arti_rsp (`bool`, optional): A setting that specifies whether to sign the artifact response.
+            sign_assertion (`bool`, optional): A setting that specifies whether to sign the assertion.
+            sign_authn_rsp (`bool`, optional): A setting that specifies whether to sign the authentication responses.
+            sign_logout_req (`bool`, optional): A setting that specifies whether to sign the logout request.
+            sign_logout_rsp (`bool`, optional): A setting that specifies whether to sign the logout response.
+            sign_name_id_req (`bool`, optional): A setting that specifies whether to sign the name ID management request.
+            sign_name_id_rsp (`bool`, optional): A setting that specifies whether to sign the name ID management response.
+            transform_include_namespace (`bool`, optional): A setting that specifies whether to include the 
+                            InclusiveNamespaces element in the digital signature. 
+            validate_assertion (`bool`, optional): A setting that specifies whether to validate the digital signature 
+                            of an assertion.
+            validate_authn_req (`bool`, optional): A setting that specifies whether to validate the digital signature 
+                            of an authentication request.
+            validate_arti_req (`bool`, optional): A setting that specifies whether to validate the digital signature of 
+                            an artifact request.
+            validate_arti_rsp (`bool`, optional): A setting that specifies whether to validate the digital signature of 
+                            an artifact response.
+            validate_logout_req (`bool`, optional): A setting that specifies whether to validate the digital signature 
+                            of a logout request.
+            validate_logout_rsp (`bool`, optional): A setting that specifies whether to validate the digital signature 
+                            of a logout response.
+            validate_name_id_req (`bool`, optional): A setting that specifies whether to validate the digital signature 
+                            of a name ID management request.
+            validate_name_id_rsp (`bool`, optional): A setting that specifies whether to validate the digital signature 
+                            of a name ID management response.
+            sign_alg (:obj:`str`): The signature algorithm to sign and validate SAML messages and assertions.
+            sign_digest_alg (:obj:`str`): The hash algorithm to apply to the transformed resources and validate its 
+                            integrity.
+            validation_key_store (:obj:`str`, optional): The certificate dabase which contains the validation public key.
+            validation_key_alias (:obj:`str`, optional): The certificate to use to validate the signatures on the 
+                            incoming SAML assertions and messages.
+            slo_svc (:obj:`list` of :obj:`dict`): Partner's endpoints that accept SAML logout requests or responses. Format
+                            of dictionary is `{"binding":"post","url":"https://my.idp.com"}`.
+            soap_key_store (:obj:`str`, optional): The certificate database name to verify TLS connections.
+            soap_key_alias (:obj:`str`, optional): The server certificate validation certificate.
+            soap_client_auth_method (:obj:`str`, optional): The authentication method.
+            soap_client_auth_ba_user (:obj:`str`, optional): The basic authentication username.
+            soap_client_auth_ba_pasword (:obj:`str`): The basic authentication password.
+            soap_client_auth_key_store (:obj:`str`, optional): The certificate database name which contains the client 
+                            private key.
+            soap_client_auth_key_alias (:obj:`str`, optional): The private key to use for the client.
+            anon_user_name (:obj:`str`, optional): This is a one-time name identifier that allows a user to access a 
+                            service through an anonymous identity.
+            force_authn_to_federate (`bool`, optional): A setting that specifies whether to force user to authenticate 
+                            before linking the account.
+            authn_req_delegate_id (:obj:`str`): The active mapping module instance. Valid values are "skip-authn-request-map",
+                            "federation-config" and "default-map".
+            authn_req_mr (:obj:`str`): A reference to an ID of an authentication request rule.
+            map_unknown_alias (`bool`, optional): A setting that specifies whether to map non-linked persistent name ID 
+                            to one-time username.
+            sso_svc (:obj:`list` of :obj:`dict`): Partner's endpoints that accept SAML authentication requests. Format of
+                            dictionary is `{"binding":"post","url":"https://my.idp.com"}`.
+            default_target_url (:obj:`str`, optional): Default URL where end-user will be redirected after the completion 
+                            of single sign-on.
+
+
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the created obligation can be acess from the
+            response.id_from_location attribute
+        """
+        #TODO
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value("enabled", enabled)
@@ -567,11 +730,37 @@ class Federations(object):
 
 
     def list_federations(self):
+        """
+        List the configured federations.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the federation configuration list is returned as JSON and can be accessed from
+            the response.json attribute
+        """
         response = self.client.get_json(FEDERATIONS)
         response.success = response.status_code == 200
         return response
 
+
     def list_partners(self, federation_id):
+        """
+        List the partners configured for a given federation.
+
+        Args:
+            federation_id (:obj:`str`): Unique ID of the federation to get partner configuration for.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the federation partner configuration is returned as JSON and can be accessed from
+            the response.json attribute
+        """
         endpoint = "%s/%s/partners" % (FEDERATIONS, federation_id)
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
