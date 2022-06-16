@@ -19,6 +19,20 @@ class ApplicationLog(object):
         self.client = RESTClient(base_url, username, password)
 
     def get_application_log(self, path):
+        """
+        Download a log file from an applaince
+
+        Args:
+            path (:obj:`str): The relative path of the file to be retrieved.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the file contents is returned as JSON and can be accessed from
+            the response.json attribute
+        """
         parameters = DataObject()
         parameters.add_value_string("type", "File")
 
@@ -31,6 +45,17 @@ class ApplicationLog(object):
 
 
     def delete_application_logs(self, paths=[]):
+        """
+        Delete one or more log files on an appliance
+
+        Args:
+            paths (:obj:`list` of :obj:`str`): The list of files to be removed.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
         files = DataObject()
         for path in paths:
             files.add_value_string("fullname", path)
@@ -47,6 +72,17 @@ class ApplicationLog(object):
 
 
     def clear_application_logs(self, paths=[]):
+        """
+        Clear one or more log files on an appliance
+
+        Args:
+            paths (:obj:`list` of :obj:`str`): The list of files to clear.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
         files = DataObject()
         for path in paths:
             files.add_value_string("fullname", path)
