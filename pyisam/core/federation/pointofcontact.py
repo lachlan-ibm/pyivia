@@ -19,7 +19,90 @@ class PointOfContact(object):
         super(PointOfContact, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
+
+    def create_profile(self, name, description=None, authenticate_callbacks=[], sign_in_callbacks=[], local_id_callbacks=[],
+            sign_out_callbacks=[], authn_policy_callbacks=[]):
+        """
+        Create a new Point of Contact profile.
+
+        Args:
+            name (:obj:`str`): A meaningful name to identify this point of contact profile.
+            description (:obj:`str`, optional): A description of the point of contact profile.
+            authenticate_callbacks (:obj:`list` of :obj:`dict`): An array of callbacks for authentication. The format 
+                        of the dictionary is `{"index":0,"moduleReferenceId":"websealPocAuthenticateCallback","
+                        parameters":[{"name":"authentication.level","value":"1"}]}`
+            sign_in_callbacks (:obj:`list` of :obj`str`): An array of callbacks for sign in. The format of the dictionary
+                        is `{"index":0,"moduleReferenceId":"websealPocSignInCallback",
+                        "parameters":[{"name":"fim.user.response.header.name","value":"am-fim-eai-user-id"}]}`
+            local_id_callbacks (:obj:`list` of :obj:`dict`): An array of callbacks for local identity. The format of 
+                        the dictionary is `{"index":0,"moduleReferenceId":"websealPocLocalIdentityCallback",
+                        "parameters":[{"name":"fim.cred.request.header.name","value":"iv-creds"}]}`
+            sign_out_callbacks (:obj:`list` of :obj:`dict`): An array of callbacks for sign out. The format of the 
+                        dictionary is `{"index":0,"moduleReferenceId":"websealPocSignOutCallback",
+                        "parameters":[{"name":"fim.user.session.id.request.header.name","value":"user_session_id"}]}`
+            authn_policy_callbacks (:obj:`list` of :obj:`dict`): An array of callbacks for authentication policy. The format
+                        of the dictionary is `{"index":0,"moduleReferenceId":"genericPocAuthnPolicyCallback",
+                        "parameters":[{"name":"authentication.level","value":"1"}]}`
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the created PoC profile can be acess from the 
+            response.id_from_location attribute
+        """
+        #TODO
+        return
+
+
+    def update_profile(self, poc_id, name=None, description=None, authenticate_callbacks=[], sign_in_callbacks=[], 
+            local_id_callbacks=[], sign_out_callbacks=[], authn_policy_callbacks=[]):
+        """
+        Update an existing Point of Contact profile.
+
+        Args:
+            poc_id (:obj:`str`): The unique generated identifier of the Point of Contact profile.
+            name (:obj:`str`): A meaningful name to identify this point of contact profile.
+            description (:obj:`str`, optional): A description of the point of contact profile.
+            authenticate_callbacks (:obj:`list` of :obj:`dict`): An array of callbacks for authentication. The format 
+                        of the dictionary is `{"index":0,"moduleReferenceId":"websealPocAuthenticateCallback","
+                        parameters":[{"name":"authentication.level","value":"1"}]}`
+            sign_in_callbacks (:obj:`list` of :obj`str`): An array of callbacks for sign in. The format of the dictionary
+                        is `{"index":0,"moduleReferenceId":"websealPocSignInCallback",
+                        "parameters":[{"name":"fim.user.response.header.name","value":"am-fim-eai-user-id"}]}`
+            local_id_callbacks (:obj:`list` of :obj:`dict`): An array of callbacks for local identity. The format of 
+                        the dictionary is `{"index":0,"moduleReferenceId":"websealPocLocalIdentityCallback",
+                        "parameters":[{"name":"fim.cred.request.header.name","value":"iv-creds"}]}`
+            sign_out_callbacks (:obj:`list` of :obj:`dict`): An array of callbacks for sign out. The format of the 
+                        dictionary is `{"index":0,"moduleReferenceId":"websealPocSignOutCallback",
+                        "parameters":[{"name":"fim.user.session.id.request.header.name","value":"user_session_id"}]}`
+            authn_policy_callbacks (:obj:`list` of :obj:`dict`): An array of callbacks for authentication policy. The format
+                        of the dictionary is `{"index":0,"moduleReferenceId":"genericPocAuthnPolicyCallback",
+                        "parameters":[{"name":"authentication.level","value":"1"}]}`
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        """
+        #TODO
+        return
+
+
     def get_profiles(self):
+        """
+        Get the list of configured Point of Contact profiles.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the POC profiles are returned as JSON and can be accessed from
+            the response.json attribute
+        """
 
         endpoint = POC_PROFILES
 
@@ -29,7 +112,17 @@ class PointOfContact(object):
         return response
 
     def get_current_profile(self):
+        """
+        Get the active Point of Contact profile.
 
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the POC profile is returned as JSON and can be accessed from
+            the response.json attribute
+        """
         endpoint = POC
 
         response = self.client.get_json(endpoint)
@@ -38,6 +131,17 @@ class PointOfContact(object):
         return response
 
     def set_current_profile(self, profile_id):
+        """
+        Update the Point of Contact profile
+
+        Args:
+            profile_id (:obj:`str`): The ID of an existing point of contact profile to set as the current profile.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
         data = DataObject()
 
         data.add_value('currentProfileId',profile_id)
