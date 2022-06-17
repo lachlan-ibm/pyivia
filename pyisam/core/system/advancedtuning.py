@@ -20,6 +20,22 @@ class AdvancedTuning(object):
         self.client = RESTClient(base_url, username, password)
 
     def create_parameter(self, key=None, value=None, comment=None):
+        """
+        Create a new Advanced Tuning Parameter
+
+        Args:
+            key (:obj:`str`): The name of the advanced tuning parameter.
+            value (:obj:`str`): The value of the advanced tuning parameter.
+            comment (:obj:`str`, optional): A description for the advanced tuning parameter.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the created mechanism can be acess from the 
+                        response.id_from_location attribute
+        """
         data = DataObject()
         data.add_value_string("key", key)
         data.add_value_string("value", value)
@@ -31,7 +47,21 @@ class AdvancedTuning(object):
 
         return response
 
-    def update_parameter(self, id=None, key=None, value=None, comment=None):
+    def update_parameter(self, atp_id=None, key=None, value=None, comment=None):
+        """
+        Update an existing advanced tuning parameter
+
+        Args:
+            atp_id (:obj:`str`): Unique id of the advanced tuning parameter.
+            key (:obj:`str`): The name of the advanced tuning parameter.
+            value (:obj:`str`): The value of the advanced tuning parameter.
+            comment (:obj:`str, optional): A description for the advanced tuning parameter.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
         data = DataObject()
         data.add_value_string("key", key)
         data.add_value_string("value", value)
@@ -44,6 +74,16 @@ class AdvancedTuning(object):
         return response
 
     def list_parameters(self):
+        """
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the obligations are returned as JSON and can be accessed from
+            the response.json attribute
+        """
         response = self.client.get_json(ADVANCED_PARAMETERS)
         response.success = response.status_code == 200
 
@@ -52,8 +92,19 @@ class AdvancedTuning(object):
 
         return response
 
-    def delete_parameter(self, uuid=None):
-        endpoint = ADVANCED_PARAMETERS + "/{}".format(uuid)
+    def delete_parameter(self, atp_id=None):
+        """
+        Delete an Advanced Tuning Parameter.
+
+        Args:
+            atp_ip (:obj:`str`): Unique id of the advanced tuning parameter.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
+        endpoint = ADVANCED_PARAMETERS + "/{}".format(atp_id)
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 204
 
