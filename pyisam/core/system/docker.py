@@ -21,7 +21,17 @@ class Docker(object):
 
 
     def publish(self):
+        """
+        Publish the current configuration snapshot.
 
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the snapshot id is returned as JSON and can be accessed from
+            the response.json attribute
+        """
         endpoint = DOCKER + "/publish"
 
         response = self.client.put_json(endpoint)
@@ -31,6 +41,14 @@ class Docker(object):
 
 
     def stop(self):
+        """
+        Stop the configuration container
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
         endpoint = DOCKER + '/stop'
 
         response = self.client.put_json(endpoint)

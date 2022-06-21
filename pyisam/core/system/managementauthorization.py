@@ -22,6 +22,17 @@ class ManagementAuthorization(object):
         self.client = RESTClient(base_url, username, password)
 
     def enable(self, enforce=False):
+        """
+        Enable role based authorization.
+
+        Args:
+            enforce `bool`): Is the authorization policy enabled and enforcing? 
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
         data = DataObject()
         data.add_value_boolean("enforcing", enforce)
         endpoint = MANAGEMENT_AUTHORIZATION + '/config/v1'
@@ -30,7 +41,22 @@ class ManagementAuthorization(object):
 
         return response
 
-    def update(self, enforce_config=False, roles=[]):
+    def update(self, enforce_config=False, roles=None):
+        """
+        Update the management authorization roles configuration
+
+        Args:
+            enforce_config (`bool`): The authorization parameters.
+            roles (:obj:`list` of :obj:`dict`): 
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the management authorization configuration is returned as JSON and can be accessed from
+            the response.json attribute
+        """
         auth_config = DataObject()
         auth_config.add_value_boolean("enforcing", enforce_config)
 
@@ -47,6 +73,17 @@ class ManagementAuthorization(object):
         return response
 
     def get(self):
+        """
+        Get the management authrozation configuration
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the management authorization configuration is returned as JSON and can be accessed from
+            the response.json attribute
+        """
         endpoint = MANAGEMENT_AUTHORIZATION + '/v1'
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
@@ -54,6 +91,23 @@ class ManagementAuthorization(object):
         return response
 
     def create_role(self, name=None, users=None, groups=None, features=None):
+        """
+        Create a new management authorization role
+
+        Args:
+            name (:obj:`str`): The name of the authorization role.
+            users (:obj:`list` of :obj:`dict`): The users who are included this role.
+            groups (:obj:`list` of :obj:`dict`): The groups whose members are included in this role.
+            features (:obj:`list` of :obj:`dict`): An array of features and the associated permission.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the created role is returned as JSON and can be accessed from
+            the response.json attribute
+        """
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value_not_empty("users", users)
@@ -67,6 +121,23 @@ class ManagementAuthorization(object):
         return response
 
     def update_role(self, name=None, users=None, groups=None, features=None):
+        """
+        Update a management authorization role
+
+        Args:
+            name (:obj:`str`): The name of the authorization role.
+            users (:obj:`list` of :obj:`dict`): The users who are included this role.
+            groups (:obj:`list` of :obj:`dict`): The groups whose members are included in this role.
+            features (:obj:list` of :obj:`dict`): An array of features and the associated permission. 
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the updated management authorization role is returned as JSON and can be accessed from
+            the response.json attribute
+        """
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value_not_empty("users", users)
@@ -80,6 +151,17 @@ class ManagementAuthorization(object):
         return response
 
     def delete_role(self, role=None):
+        """
+        Delete a management authorization role.
+
+        Args:
+            role (:obj:`str`): The name of the authorization role.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
         endpoint = MANAGEMENT_AUTHORIZATION_ROLES + "/{}/v1".format(role)
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 204
@@ -87,6 +169,20 @@ class ManagementAuthorization(object):
         return response
 
     def get_role(self, role=None):
+        """
+        Get a management authrozation role.
+
+        Args:
+            role (:obj:`str`): The name of the authorization role.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the management authorization role is returned as JSON and can be accessed from
+            the response.json attribute
+        """
         endpoint = MANAGEMENT_AUTHORIZATION_ROLES + "/{}/v1".format(role)
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
@@ -94,6 +190,17 @@ class ManagementAuthorization(object):
         return response
 
     def get_roles(self):
+        """
+        Get a list of the current management authorization roles.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the list of roles are returned as JSON and can be accessed from
+            the response.json attribute
+        """
         endpoint = MANAGEMENT_AUTHORIZATION_ROLES + '/v1'
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
@@ -101,6 +208,17 @@ class ManagementAuthorization(object):
         return response
 
     def get_features(self):
+        """
+        Get a list of the authorization features
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the list of management authorization roles are returned as JSON and can be accessed from
+            the response.json attribute
+        """
         endpoint = MANAGEMENT_AUTHORIZATION_FEATURES + '/v1'
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
@@ -108,6 +226,20 @@ class ManagementAuthorization(object):
         return response
 
     def get_features_for_user(self, user=None):
+        """
+        Get a list of the permitted features for a user.
+
+        Args:
+            user (:obj:`str`): The username to get the authorization features for.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful list of features is returned as JSON and can be accessed from
+            the response.json attribute
+        """
         endpoint = MANAGEMENT_AUTHORIZATION_FEATURES + '/users/{}/v1'.format(user)
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
@@ -115,6 +247,20 @@ class ManagementAuthorization(object):
         return response
 
     def get_groups_for_role(self, role=None):
+        """
+        Get a list of groups for a given role.
+
+        Args:
+            role (:obj:`str`): The name of the authorization role.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the list of groups is returned as JSON and can be accessed from
+            the response.json attribute
+        """
         endpoint = MANAGEMENT_AUTHORIZATION_ROLES + '/{}/groups/v1'.format(role)
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
@@ -122,6 +268,20 @@ class ManagementAuthorization(object):
         return response
 
     def get_users_for_role(self, role=None):
+        """
+        Get a list of users for a given role.
+
+        Args:
+            role (:obj:`str`): The name of the authorization role.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the list of users is returned as JSON and can be accessed from
+            the response.json attribute
+        """
         endpoint = MANAGEMENT_AUTHORIZATION_ROLES + '/{}/users/v1'
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200

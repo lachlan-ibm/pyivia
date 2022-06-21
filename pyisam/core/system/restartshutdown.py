@@ -26,6 +26,17 @@ class RestartShutdown(object):
 
 
     def get_lmi_status(self):
+        """
+        Get the current status of the management interface.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the status of the management interface is returned as JSON and can be accessed from
+            the response.json attribute
+        """
         response = self.client.get_json(LMI)
         response.success = response.status_code == 200
 
@@ -33,6 +44,17 @@ class RestartShutdown(object):
 
 
     def get_runtime_status(self):
+        """
+        Get the status of the federated runtime server.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the status of the runtime server is returned as JSON and can be accessed from
+            the response.json attribute
+        """
         response = self.client.get_json(RUNTIME)
         response.success = response.status_code == 200 and response.json.get('return_code') == 0
 
@@ -40,6 +62,14 @@ class RestartShutdown(object):
 
 
     def restart_lmi(self):
+        """
+        Restart the management interface.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
         last_start = -1
 
         response = self.get_lmi_status()
@@ -59,6 +89,7 @@ class RestartShutdown(object):
             response.success = False
 
         return response
+
 
     def _wait_on_lmi(self, last_start, sleep_interval=3):
         count = 0
@@ -134,6 +165,14 @@ class RestartShutdown(object):
 
 
     def restart_runtime(self):
+        """
+        Restart the federated runtime server
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
         last_start = -1
 
         response = self.get_runtime_status()

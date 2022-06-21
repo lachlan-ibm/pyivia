@@ -17,7 +17,7 @@ from .system.restartshutdown import RestartShutdown
 from .system.sslcertificates import SSLCertificates
 from .system.clicommands import CLICommands
 from .system.runtimedb import RuntimeDb
-from .system.configdb import ConfigDb
+from .system.cluster import Cluster
 from .system.docker import Docker
 from .system.fixpacks import Fixpacks
 from .system.sysaccount import SysAccount
@@ -64,7 +64,7 @@ class SystemSettings9020(object):
         self.cli_commands = CLICommands(base_url, username, password)
         self.sysaccount = SysAccount(base_url, username, password)
         self.runtime_db = RuntimeDb(base_url, username, password)
-        self.config_db = ConfigDb(base_url, username, password)
+        self.cluster = Cluster(base_url, username, password)
 
 
 class SystemSettings9021(SystemSettings9020):

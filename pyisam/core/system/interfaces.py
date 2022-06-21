@@ -20,10 +20,28 @@ class Interfaces(object):
         super(Interfaces, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def create_address(
-            self, interface_label, address=None, mask_or_prefix=None,
-            enabled=True, allow_management=False, override_subnet_checking=False):
+    def create_address(self, interface_label, address=None, mask_or_prefix=None, enabled=True, allow_management=False, 
+            override_subnet_checking=False):
+        """
+        Add a new address to an existing interface.
         
+        Args:
+            interface_label (:obj:`str`): Name of the existing interface to add a new address to
+            address (:obj:`str`): IPv4 address to add
+            mask_or_prefix (:obj:`str`): subnet mask or prefix. e.g. "255.255.255.0", "24".
+            enabled (`bool`): true to enabled this address, otherwise false. 
+            allow_management (`bool`): true if this is the primary management address.
+            override_subnet_checking (`bool`): true to indicate that the check for overlapping subnets should not be executed. 
+                            The default value of false is used if this data is not supplied.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the interface configuration is returned as JSON and can be accessed from
+            the response.json attribute
+        """
         response = self.list_interfaces()
 
         if response.success:
@@ -61,14 +79,123 @@ class Interfaces(object):
 
 class Interfaces10000(Interfaces):
 
+
+    def create_interface(self, name=None, comment=None, label=None, enabled=True, vlan_id=None, ipv4={}, ipv6={}):
+        """
+        Create a new network interface
+
+        Args:
+            name (:obj:`str`): Name of the interface
+            comment (:obj:`str`): Comment to identify the interface object.
+            label (:obj:`str`): System label of the interface. e.g. "1.1".
+            enabled (`bool`): true if the interface should be used, otherwise false.
+            vlan_id (:obj:`str`): vlan id of interface in range "0".."4094".
+            ipv4 (:obj:`dict`): ipv4 configuration of the interface
+            ipv6 (:obj:`dict`): ipv6 configuration of the interface
+
+        Example Request:
+            ``{
+                "name"    : "Demo",
+                "objType" : "interface",
+                "label"   : "1.1",
+                "enabled" : true,
+                "bondingMode": "none",
+                "ipv4"    : {
+                  "dhcp"      : {
+                    "enabled" : false,
+                    "allowManagement" : false,
+                    "providesDefaultRoute": false
+                  },
+                  "addresses" : [{
+                    "uuid"            : "1e107d3b-0748-4e02-96f7-581cb8655356",
+                    "objType"         : "ipv4Address",
+                    "address"         : "10.0.254.1",
+                    "maskOrPrefix"    : "24",
+                    "broadcastAddress": null,
+                    "allowManagement" : false,
+                    "isPrimary"       : false,
+                    "enabled"         : true
+                  }]
+                },
+                "ipv6"    : {
+                  "dhcp"      : {
+                    "enabled" : false,
+                    "allowManagement" : false
+                  },
+                  "addresses" : []
+                }
+            }``
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the interface is returned as JSON and can be accessed from
+            the response.json attribute
+
+        """
+        return
+
+
+    def delete_interface(self, uuid):
+        """
+        Delete a VLAN interface configuration
+
+        Args:
+            uuid (:obj:`str`): Unique id of the interface to delete.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
+        endpoint = "{}/{}".format(NET_INTERFACES, uuid)
+        response = self.client.delete_json(endpoint)
+        response.success = response.status_code == 204
+        return response
+
+
     def update_interface(self, uuid, name=None, comment=None, enabled=True, vlan_id=0, bonding_mode=None,
             bonded_to=None, ipv4_address=None, ipv4_mask_or_prefix=None, ipv4_boradcast_address=None,
             ipv4_allow_management=False, ipv4_enabled=True, ipv4_dhcp_enabled=True, 
             ipv4_dhcp_allow_management=False, ipv4_dhcp_default_route=False, ipv4_dhcp_route_metric=0,
             ipv4_override_subnet_checking=False, ipv6_address=None, ipv6_prefix_length=None, 
             ipv6_allow_management=None, ipv6_enabled=None, ipv6_dhcp_enabled=False, ipv6_dhcp_allow_management=False):
-        
+        """
+        Update the configuration of an existing interface
 
+        Args:
+            uuid (:obj:`str`): unique id of the object.
+            name (:obj:`str`): name of the object.
+            comment (:obj:`str`, optional): comment to identify the interface object.
+            enabled `bool`): true if the interface should be used, otherwise false.
+            vlan_id (`int`): optional vlan id of interface in range "0".."4094".
+            bonding_mode (:obj:`str`): none|slave|balance-rr|active-backup|balance-xor|broadcast|802.3ad|balance-tlb|balance-alb. 
+                            Defaults to none if not provided.
+            bonded_to (:obj:`str`): Only required when bondingMode == 'slave'. Set to UUID of interface bonded to.
+            ipv4_address (:obj:`str`): static address configuration details. 
+            ipv4_mask_or_prefix (:obj:`str`): subnet mask or prefix. e.g. "255.255.255.0", "24".
+            ipv4_boradcast_address (:obj:`str`): broadcast address on the subnet.
+            ipv4_allow_management (`bool`): true to allow management access on this address.
+            ipv4_dhcp_default_route (`bool`): true if the dhcp configuration should specify a default route.
+            ipv4_dhcp_route_metric (`int`): optional default route metric if providesDefaultRoute is true. 
+            ipv4_override_subnet_checking (`bool`): true to indicate that the check for overlapping subnets should not be executed. 
+                            The default value of false is used if this data is not supplied. 
+            ipv6_address (:obj:`str`): IPv6 address value.
+            ipv6_prefix_length (:obj:`str`): prefix length in range "1".."128".
+            ipv6_allow_management (`bool`): true to allow management access on this address.
+            ipv6_enabled (`bool`): true to enabled this address, otherwise false. 
+            ipv6_dhcp_allow_management (`bool`): true to allow management access on this address.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the updated interface is returned as JSON and can be accessed from
+            the response.json attribute
+        """
         data = DataObject()
         ipv4 = DataObject()
         if ipv4_address:

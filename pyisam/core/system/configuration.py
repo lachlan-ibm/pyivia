@@ -24,6 +24,19 @@ class Configuration(object):
         self._password = password
 
     def deploy_pending_changes(self):
+        """
+        Deploy the current set of pending changes. This may result in additional actions such as LMI restart or 
+        appliance restart.
+
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the obligations are returned as JSON and can be accessed from
+            the response.json attribute
+        """
         response = self.get_pending_changes()
 
         if response.success:
@@ -35,12 +48,31 @@ class Configuration(object):
         return response
 
     def revert_pending_changes(self):
+        """
+        Revert the current set of pending changes.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
         response = self.client.delete_json(PENDING_CHANGES)
         response.success = response.status_code == 200
 
         return response
 
     def get_pending_changes(self):
+        """
+        Get a list of the pending changes for the configured username.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the pending changes are returned as JSON and can be accessed from
+            the response.json attribute
+        """
         response = self.client.get_json(PENDING_CHANGES)
         response.success = response.status_code == 200
 
@@ -53,7 +85,24 @@ class Configuration(object):
 
         if response.success:
             status = response.json.get("status")
-
+            """
+            status (`int`): A status code for the result. The status code is a bitmask indicating if the deployment 
+                        operation succeeded and if any additional action is needed for the changes to take affect. 
+                        The options are: 
+                            0 - successful; 
+                            1: failure; 
+                            2: an appliance restart is required; 
+                            4: an LMI restart is required; 
+                            8: an LMI restart is required; 
+                            16: either web reverse proxy or authorization server instances now require a restart 
+                                (the message will indicate the instance names); 
+                            32: the runtime profile was restarted as a result of the operation; 
+                            64: the runtime profile failed to restart; 
+                            128: a runtime profile restart is required; 
+                            256: the runtime profile was reloaded as a result of the operation; 
+                            512: the runtime profile failed to reload; 
+                            1024: a runtime profile reload is require
+            """
             if status == 0:
                 logger.info("Successful operation. No further action needed.")
             else:

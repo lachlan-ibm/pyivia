@@ -21,24 +21,65 @@ class FirstSteps(object):
         self.client = RESTClient(base_url, username, password)
 
     def get_setup_status(self):
+        """
+        Get the status of the appliance setup.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the current status is returned as JSON and can be accessed from
+            the response.json attribute
+        """
         response = self.client.get_json(SETUP_COMPLETE)
         response.success = response.status_code == 200
 
         return response
 
     def set_setup_complete(self):
+        """
+        Complete the first steps setup process.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
         response = self.client.put_json(SETUP_COMPLETE)
         response.success = response.status_code == 200
 
         return response
 
     def get_sla_status(self):
+        """
+        Get the SLA status.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the SLA status is returned as JSON and can be accessed from
+            the response.json attribute
+        """
         response = self.client.get_json(SERVICE_AGREEMENTS_ACCEPTED)
         response.success = response.status_code == 200
 
         return response
 
     def set_sla_status(self, accept=True):
+        """
+        Accept the SLA.
+
+        Args:
+            accept (`bool`): Accept the SLA
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
         data = DataObject()
         data.add_value("accepted", accept)
 

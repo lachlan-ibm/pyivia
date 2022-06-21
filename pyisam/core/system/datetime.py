@@ -19,9 +19,24 @@ class DateTime(object):
         super(DateTime, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def update(
-            self, enable_ntp=True, ntp_servers=None, time_zone=None,
-            date_time="0000-00-00 00:00:00"):
+    def update(self, enable_ntp=True, ntp_servers=None, time_zone=None, date_time="0000-00-00 00:00:00"):
+        """
+        Update the date/time settings of an applaince.
+
+        Args:
+            enable_ntp (`bool`): Should NTP be enabled.
+            ntp_servers (:obj:`str`): A comma-separated list of NTP server hostnames or IP addresses.
+            time_zone (:obj:`str`): The id of the timezone the appliance is operating in.
+            date_time (:obj:`str`): The current date and time, in the format "YYYY-MM-DD HH:mm:ss"
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the new date/time configuration is returned as JSON and can be accessed from
+            the response.json attribute
+        """
         data = DataObject()
         data.add_value_string("dateTime", date_time)
         data.add_value_string("ntpServers", ntp_servers)

@@ -20,11 +20,30 @@ class StaticRoutes(object):
         super(StaticRoutes, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def create_route(
-            self, address=None, mask_or_prefix=None,
-            enabled=True, gateway=None, interface_uuid=None,
+    def create_route(self, address=None, mask_or_prefix=None, enabled=True, gateway=None, interface_uuid=None,
             metric=0, comment=None, table=None):
+        """
+        Create a new networking route.
 
+        Args:
+            address (:obj:`str`): route address (ipv4 or ipv6) or keyword "default"
+            mask_or_prefix (:obj:`str`): optional mask or prefix of the address.
+            enabled (`bool`): true if the route should be used, otherwise false.
+            gateway (:obj:`str`): optional route gateway
+            interface_uuid (:obj:`str`): interface for the route. If not defined, the operating system will determine 
+                            the correct interface.
+            metric (`int`): optional route metric
+            comment (:obj;`str`, optional): comment to identify the static route.
+            table (:obj:`str`, optional): "main" or uuid of address. If not defined "main" is assumed.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the created mechanism can be acess from the 
+            response.id_from_location attribute
+        """
         data = DataObject()
         data.add_value_string("address", address)
         data.add_value_string("maskOrPrefix", mask_or_prefix)
@@ -42,6 +61,17 @@ class StaticRoutes(object):
         return response
 
     def list_routes(self):
+        """
+        List the current networking routes.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the networking route configurations are returned as JSON and can be accessed from
+            the response.json attribute
+        """
         response = self.client.get_json(ROUTES)
         response.success = response.status_code == 200
 
@@ -49,8 +79,31 @@ class StaticRoutes(object):
 
 class StaticRoutes10000(StaticRoutes):
 
-    def update_route(self, uuid, enabled=None, address=None, mask_or_prefix=None,
-            gateway=None, interface_uuid=None, metric=0, comment=None, table=None):
+    def update_route(self, uuid, enabled=None, address=None, mask_or_prefix=None, gateway=None, interface_uuid=None, 
+            metric=0, comment=None, table=None):
+        """
+        Update a networking route configuration.
+
+        Args:
+            uuid (:obj:`str`): unique id of the static route to update
+            enabled (`bool`): true if the route should be used, otherwise false.
+            address (:obj:`str`): route address (ipv4 or ipv6) or keyword "default"
+            mask_or_prefix (:obj:`str`): optional mask or prefix of the address.
+            gateway (:obj:`str`): optional route gateway
+            interface_uuid (:obj:`str`): interface for the route. If not defined, the operating system will determine 
+                            the correct interface.
+            metric (`int`): optional route metric
+            comment (:obj;`str`, optional): comment to identify the static route.
+            table (:obj:`str`, optional): "main" or uuid of address. If not defined "main" is assumed.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the networking route configuration is returned as JSON and can be accessed from
+            the response.json attribute
+        """
 
         data = DataObject()
         data.add_value_string("address", address)

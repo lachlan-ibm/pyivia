@@ -14,7 +14,7 @@ CLUSTER_CONFIG = "/isam/cluster/v2"
 logger = logging.getLogger(__name__)
 
 
-class ConfigDb(object):
+class Cluster(object):
 
     def __init__(self, base_url, username, password):
         super(ConfigDb, self).__init__()
@@ -268,7 +268,7 @@ class ConfigDb(object):
 
             Success can be checked by examining the response.success boolean attribute
 
-            If the request is successful the obligations are returned as JSON and can be accessed from
+            If the request is successful the cluster configuration is returned as JSON and can be accessed from
             the response.json attribute
         """
         endpoint = CLUSTER_CONFIG
