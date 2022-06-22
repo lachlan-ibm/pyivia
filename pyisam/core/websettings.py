@@ -21,10 +21,10 @@ class WebSettings9020(object):
     '''
     Object used to manage WebSEAL configuration endpoints
 
-    dsc_admin: Manage the Distributed Session Cache
-    policy_administration: Manage the policy server
-    reverse_proxy: Create and manage WebSEAL instances
-    runtime_component: Create and manage the user registry and policy server configuration files
+    :var dsc_admin: Manage the Distributed Session Cache
+    :var policy_administration: Manage the policy server
+    :var reverse_proxy: Create and manage WebSEAL instances
+    :var runtime_component: Create and manage the user registry and policy server configuration files
     '''
 
     def __init__(self, base_url, username, password):

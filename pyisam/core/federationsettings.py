@@ -12,10 +12,11 @@ class Federation9020(object):
     '''
     Object is used to manage the Federations endpoints of a Verify Identity Access applaince
 
-    federations: Create and mnanage Federation and Partners
-    attribute_sources: Manage attributes added to identities in federation flows
-    sts: Create and manage Security Token Service chains
-    poc: Create and manage Point of Contact profiles
+    :var federations: Create and mnanage Federation and Partners
+    :var attribute_sources: Manage attributes added to identities in federation flows
+    :var sts: Create and manage Security Token Service chains
+    :var poc: Create and manage Point of Contact profiles
+    :var access_policy: Create and manage Access policy rules.
     '''
 
     def __init__(self, base_url, username, password):

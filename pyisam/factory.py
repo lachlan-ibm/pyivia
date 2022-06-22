@@ -49,6 +49,16 @@ class AuthenticationError(Exception):
 
 
 class Factory(object):
+    """
+    The Factory class is used to initalise a singleton "appliance" object which cna be use for all subsequent API 
+    requests.
+
+    The factory has getter methods for the three modules: WebSEAL, Advanced Access Control; and Federation. It also 
+    getter methods for the system and diagnostics API.
+
+    Finally this class has helper methods to determine if the IBM Security Verify Access deployment is an appliance
+    or container deployment model.
+    """
 
     def __init__(self, base_url, username, password):
         super(Factory, self).__init__()
