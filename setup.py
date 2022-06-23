@@ -8,11 +8,11 @@ setup(
     author='Lachlan Gleeson',
     author_email='lgleeson@au1.ibm.com',
     license='MIT',
-    package_dir={"": "pyisam"},
-    packages=find_packages(where="pyisam"),
+    package_dir={"": "pyisva"},
+    packages=find_packages(where="pyisva"),
     install_requires=[
         'requests>=2.23.0'
     ],
-    url='https://github.ibm.com/ibm-security/pyisam',
+    url='https://github.ibm.com/ibm-security/pyisva',
     zip_safe=False
 )

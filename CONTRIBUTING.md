@@ -15,7 +15,7 @@ This section provides a set of guidelines for reporting bugs.
 
 - Identify that the problem is with PyISAM and not the IBM Security Access Manager appliance you are trying to configure. This can be achieved by issuing a simple cURL request to the Web service endpoint in question.
 - Check the [Usage](README.md#usage) guide and documentation to ensure that PyISAM is being invoked as intended.
-- Search for both [**open** and **closed** issues](https://github.ibm.com/benmarti/pyisam/issues?utf8=%E2%9C%93&q=is%3Aissue) as the problem may have already been reported. If it has and is open, add a comment to the existing issue instead of opening a new one.
+- Search for both [**open** and **closed** issues](https://github.ibm.com/ibm-security/pyisva/issues?utf8=%E2%9C%93&q=is%3Aissue) as the problem may have already been reported. If it has and is open, add a comment to the existing issue instead of opening a new one.
 
 ### Submitting a Bug Report
 
@@ -37,8 +37,8 @@ Bugs are tracked as [GitHub Issues](https://guides.github.com/features/issues).
 
 When executing the code snippet stated below, the instance is restarted, however the Response success is set to `False`.
 ```python
->>> import pyisam
->>> factory = pyisam.Factory("https://isam.mmfa.ibm.com", "admin", "Passw0rd")
+>>> import pyisva
+>>> factory = pyisva.Factory("https://isam.mmfa.ibm.com", "admin", "Passw0rd")
 >>> web = factory.get_web_settings()
 >>> response = web.reverse_proxy.restart_instance("default")
 >>> print response
@@ -59,7 +59,7 @@ This section provides a set of guidelines for suggesting enhancements.
     - wrapping the IBM Security Access Manager Web service endpoints, and
     - common configuration tasks that requires multiple endpoint requests.
 - Check the PyISAM documentation to ensure the enhancement is not already available.
-- Search for both [**open** and **closed** issues](https://github.ibm.com/benmarti/pyisam/issues?utf8=%E2%9C%93&q=is%3Aissue) as the enhancement may have already been suggested. If it has and is open, add a comment to the existing issue instead of opening a new one.
+- Search for both [**open** and **closed** issues](https://github.ibm.com/ibm-security/pyisva/issues?utf8=%E2%9C%93&q=is%3Aissue) as the enhancement may have already been suggested. If it has and is open, add a comment to the existing issue instead of opening a new one.
 
 ### Submitting an Enhancement Request
 
@@ -92,7 +92,7 @@ This section provides a set of guidelines for contributing code. The procedure o
 All code contributions must be associated with a [GitHub Issue](https://guides.github.com/features/issues).
 
 1. Identify an issue you would like to contribute code to. This can be achieved by:
-    1. searching for [open issues](https://github.ibm.com/benmarti/pyisam/issues), or
+    1. searching for [open issues](https://github.ibm.com/ibm-security/pyisva/issues), or
     2. create a new [bug report](#reporting-bugs) or [enhancement request](#suggesting-enhancements).
 2. Assign yourself to the issue so others know you are working on it.
 
