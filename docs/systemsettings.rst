@@ -6,62 +6,62 @@ The System Settings module can be used to update system properties such as SSL d
 .. module:: pyisva.core.systemsettings
    :members:
 
-.. autoclass:: pyisam.core.system.adminsettings
+.. autoclass:: pyisva.core.system.adminsettings
    :members:
 
-.. autoclass:: pyisam.core.system.advancedtuning
+.. autoclass:: pyisva.core.system.advancedtuning
    :members:
 
-.. autoclass:: pyisam.core.settings.clicommands
+.. autoclass:: pyisva.core.settings.clicommands
    :members:
 
-.. autoclass:: pyisam.core.settings.cluster
+.. autoclass:: pyisva.core.settings.cluster
    :members:
 
-.. autoclass:: pyisam.core.system.configuration
+.. autoclass:: pyisva.core.system.configuration
    :members:
 
-.. autoclass:: pyisam.core.system.datetime
+.. autoclass:: pyisva.core.system.datetime
    :members:
 
-.. autoclass:: pyisam.core.system.dns
+.. autoclass:: pyisva.core.system.dns
    :members:
 
-.. autoclass:: pyisam.core.system.docker
+.. autoclass:: pyisva.core.system.docker
    :members:
 
-.. autoclass:: pyisam.core.system.filedownloads
+.. autoclass:: pyisva.core.system.filedownloads
    :members:
 
-.. autoclass:: pyisam.core.system.firststeps
+.. autoclass:: pyisva.core.system.firststeps
    :members:
 
-.. autoclass:: pyisam.core.system.fixpacks
+.. autoclass:: pyisva.core.system.fixpacks
    :members:
 
-.. autoclass:: pyisam.core.system.hostsfile
+.. autoclass:: pyisva.core.system.hostsfile
    :members:
 
-.. autoclass:: pyisam.core.systeminterfaces
+.. autoclass:: pyisva.core.systeminterfaces
    :members:
 
-.. autoclass:: pyisam.core.system.licensing
+.. autoclass:: pyisva.core.system.licensing
    :members:
 
-.. autoclass:: pyisam.core.system.managementauthorization
+.. autoclass:: pyisva.core.system.managementauthorization
    :members:
 
-.. autoclass:: pyisam.core.system.restartshutdown
+.. autoclass:: pyisva.core.system.restartshutdown
    :members:
 
-.. autoclass:: pyisam.core.system.runtimedb
+.. autoclass:: pyisva.core.system.runtimedb
    :members:
 
-.. autoclass:: pyisam.core.system.sslcertificates
+.. autoclass:: pyisva.core.system.sslcertificates
    :members:
 
-.. autoclass:: pyisam.core.system.staticroutes
+.. autoclass:: pyisva.core.system.staticroutes
    :members:
 
-.. autoclass:: pyisam.core.system.sysaccount
+.. autoclass:: pyisva.core.system.sysaccount
    :members:

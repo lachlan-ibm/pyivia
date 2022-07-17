@@ -1,0 +1,179 @@
+"""
+@copyright: IBM
+"""
+
+import importlib
+
+from pyisva.util.restclient import RESTClient
+
+
+DEVELOPMENT_VERSION = "IBM Security Access Manager Development"
+VERSIONS = {
+    DEVELOPMENT_VERSION: "11010",
+    "IBM Verify Identity Access 11.0.1.0": "11010",
+    "IBM Verify Identity Access 11.0.0.0": "11000",
+    "IBM Security Verify Access 11.0.0.0": "11000",
+    "IBM Security Verify Access 10.0.9.0": "11000",
+    "IBM Security Verify Access 10.0.8.0": "10080",
+    "IBM Security Verify Access 10.0.7.0": "10070",
+    "IBM Security Verify Access 10.0.6.0_b1": "10060",
+    "IBM Security Verify Access 10.0.6.0": "10060",
+    "IBM Security Verify Access 10.0.5.0": "10050",
+    "IBM Security Verify Access 10.0.4.0": "10040",
+    "IBM Security Verify Access 10.0.3.1": "10031",
+    "IBM Security Verify Access 10.0.3.0": "10030",
+    "IBM Security Verify Access 10.0.2.0": "10020",
+    "IBM Security Verify Access 10.0.1.0": "10010",
+    "IBM Security Verify Access 10.0.1.0_b1": "10010",
+    "IBM Security Verify Access 10.0.0.0": "10000",
+    "IBM Security Access Manager 10.0.0.0_b1": "10000",
+    "IBM Security Access Manager 10.0.0.0": "10000",
+    "IBM Security Access Manager 9.0.8.0": "9080",
+    "IBM Security Access Manager 9.0.7.3": "9073",
+    "IBM Security Access Manager 9.0.7.2": "9072",
+    "IBM Security Access Manager 9.0.7.1": "9071",
+    "IBM Security Access Manager 9.0.7.0": "9070",
+    "IBM Security Access Manager 9.0.6.0_b2": "9060",
+    "IBM Security Access Manager 9.0.6.0_b1": "9060",
+    "IBM Security Access Manager 9.0.6.0": "9060",
+    "IBM Security Access Manager 9.0.5.0": "9050",
+    "IBM Security Access Manager 9.0.4.0": "9040",
+    "IBM Security Access Manager 9.0.3.0": "9030",
+    "IBM Security Access Manager 9.0.2.1": "9021",
+    "IBM Security Access Manager 9.0.2.0": "9020"
+}
+
+
+class AuthenticationError(Exception):
+    pass
+
+
+class Factory(object):
+    """
+    The Factory class is used to initalise a singleton "appliance" object which cna be use for all subsequent API 
+    requests.
+
+    The factory has getter methods for the three modules: WebSEAL, Advanced Access Control; and Federation. It also 
+    getter methods for the system and diagnostics API.
+
+    Finally this class has helper methods to determine if the IBM Security Verify Access deployment is an appliance
+    or container deployment model.
+    """
+
+    def __init__(self, base_url, username, password):
+        super(Factory, self).__init__()
+        self._base_url = base_url
+        self._username = username
+        self._password = password
+        self._version = None
+        self._deployment_model = "Appliance"
+
+        self._discover_version_and_deployment()
+        self._get_version()
+
+    def get_federation(self):
+        '''
+        Return manager of Federation endpoint
+        '''
+        class_name = "Federation" + self._get_version()
+        module_name = "pyisva.core.federationsettings"
+        return self._class_loader(module_name, class_name)
+
+    def get_access_control(self):
+        '''
+        Return manager of AAC endpoint
+        '''
+        class_name = "AccessControl" + self._get_version()
+        module_name = "pyisva.core.accesscontrol"
+        return self._class_loader(module_name, class_name)
+
+    def get_analysis_diagnostics(self):
+        '''
+        Return manager of diagnostic endpoint
+        '''
+        class_name = "AnalysisDiagnostics" + self._get_version()
+        module_name = "pyisva.core.analysisdiagnostics"
+        return self._class_loader(module_name, class_name)
+
+    def get_system_settings(self):
+        '''
+        Return manager of system settings endpoint
+        '''
+        class_name = "SystemSettings" + self._get_version()
+        module_name = "pyisva.core.systemsettings"
+        return self._class_loader(module_name, class_name)
+
+    def get_version(self):
+        '''
+        Return the Verify Access version
+        '''
+        return self._version
+
+    def get_web_settings(self):
+        '''
+        Return manager of Web Reverse Proxy endpoints
+        '''
+        class_name = "WebSettings" + self._get_version()
+        module_name = "pyisva.core.websettings"
+        return self._class_loader(module_name, class_name)
+
+    def get_deployment_utility(self):
+        '''
+        Return manager of Web Reverse Proxy endpoints
+        '''
+        class_name = "WebSettings" + self._get_version()
+        module_name = "pyisva.core.websettings"
+        return self._class_loader(module_name, class_name)
+
+    def set_password(self, password):
+        '''
+        Update the password used to auhenticate to Verify Identity Access administrator endpoints
+        '''
+        self._password = password
+
+    def _class_loader(self, module_name, class_name):
+        Klass = getattr(importlib.import_module(module_name), class_name)
+        return Klass(self._base_url, self._username, self._password)
+
+    def is_docker(self):
+        '''
+        Return true if detected deployment is running in a container
+        '''
+        return self._deployment_model == "Docker"
+
+    def get_deployment_model(self):
+        '''
+        Get the deployment model detected by Verify Identity Access.
+        Appliance or Docker
+        '''
+        return self._deployment_model
+
+    def _discover_version_and_deployment(self):
+        client = RESTClient(self._base_url, self._username, self._password)
+
+        response = client.get_json("/core/sys/versions")
+        if response.status_code == 200:
+            self._version          = "{0} {1}".format(response.json.get("product_description"), response.json.get("firmware_version"))
+            self._deployment_model = response.json.get("deployment_model")
+        elif response.status_code == 403:
+            raise AuthenticationError("Authentication failed.")
+        else:
+            response = client.get_json("/firmware_settings")
+            if response.status_code == 200:
+                for entry in response.json:
+                    if entry.get("active", False):
+                        if entry.get("name", "").endswith("_nonproduction_dev"):
+                            self._version = DEVELOPMENT_VERSION
+                        else:
+                            self._version = entry.get("firmware_version")
+            elif response.status_code == 403:
+                raise AuthenticationError("Authentication failed.")
+
+        if not self._version:
+            raise Exception("Failed to retrieve the ISAM firmware version.")
+
+    def _get_version(self):
+        if self._version in VERSIONS:
+            return VERSIONS.get(self._version)
+        else:
+            raise Exception(self._version + " is not supported.")
