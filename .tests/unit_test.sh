@@ -1,7 +1,31 @@
 #!/bin/bash
 python setup.py sdist bdist_wheel
 export PYTHONPATH="$PYTHONPATH:$(pwd)/build/lib"
-cd .tests && python -m http.server &
+$( cd .tests && python <<EOF
+import SimpleHTTPServer
+import SocketServer
+PORT = 8000
+VERSION_JSON = '''{
+    "firmware_label":"isva_10.0.0.0_20200601-2346",
+    "firmware_build":"20200601-2346",
+    "firmware_version":"10.0.0.0",
+    "product_description":"IBM Security Verify Access",
+    "deployment_model":"Appliance",
+    "product_name":"isva"
+}
+'''
+def do_GET(self):
+    self.send_response(200)
+    self.send_header('Content-Type', 'application/json')
+    self.end_headers()
+    self.wfile.write(VERSION_JSON)
+
+Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
+Handler.do_GET = do_GET
+httpd = SocketServer.TCPServer(("", PORT), Handler)
+httpd.serve_forever()
+EOF
+) &
 SERVER_PID="$!"
 python <<EOF
 import pyisva
