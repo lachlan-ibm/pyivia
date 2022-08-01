@@ -2,7 +2,7 @@
 python setup.py sdist bdist_wheel
 export PYTHONPATH="$PYTHONPATH:$(pwd)/build/lib"
 $( cd .tests && python <<EOF
-import http.server
+from http import server
 import socketserver
 PORT = 8000
 VERSION_JSON = '''{
