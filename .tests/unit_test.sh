@@ -2,8 +2,8 @@
 python setup.py sdist bdist_wheel
 export PYTHONPATH="$PYTHONPATH:$(pwd)/build/lib"
 $( cd .tests && python <<EOF
-import SimpleHTTPServer
-import SocketServer
+import http.server
+import socketserver
 PORT = 8000
 VERSION_JSON = '''{
     "firmware_label":"isva_10.0.0.0_20200601-2346",
@@ -20,9 +20,9 @@ def do_GET(self):
     self.end_headers()
     self.wfile.write(VERSION_JSON)
 
-Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
+Handler = server.SimpleHTTPRequestHandler
 Handler.do_GET = do_GET
-httpd = SocketServer.TCPServer(("", PORT), Handler)
+httpd = sockerserver.TCPServer(("", PORT), Handler)
 httpd.serve_forever()
 EOF
 ) &
