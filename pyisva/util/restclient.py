@@ -158,8 +158,10 @@ class RESTClient(object):
 
     def _build_response(self, request_response):
         response = Response()
-
-        response.data = request_response.content
+        try:
+            response.data = request_response.content.decode()
+        except (UnicodeDecodeError, AttributeError):
+            response.data = request_response.content
         response.status_code = request_response.status_code
         content_type = request_response.headers.get("Content-type", "").lower()
         if "application/json" in content_type:
