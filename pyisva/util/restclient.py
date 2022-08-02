@@ -165,7 +165,6 @@ class RESTClient(object):
         response.status_code = request_response.status_code
         content_type = request_response.headers.get("Content-type", "").lower()
         if "application/json" in content_type:
-            print("JSON")
             response.decode_json()
         location = request_response.headers.get("Location", "").lower()
         if location:
@@ -198,4 +197,4 @@ class RESTClient(object):
         logger.debug("Request: %s %s headers=%s", method, url, safe_headers)
 
     def _log_response(self, status_code, headers, content):
-        print("Response: %i headers=%s\nContent: %s" % (status_code, headers, content))
+        logger.debug("Response: %i headers=%s content=%s", status_code, headers, content)

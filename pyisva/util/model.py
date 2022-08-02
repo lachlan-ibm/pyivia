@@ -51,6 +51,4 @@ class Response(object):
         try:
             self.json = json.loads(self.data)
         except Exception as e:
-            print(e)
-            print("EXCEPTION!")
             self.json = None
