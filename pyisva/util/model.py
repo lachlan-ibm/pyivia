@@ -50,6 +50,7 @@ class Response(object):
     def decode_json(self):
         try:
             self.json = json.loads(self.data)
-        except:
+        except Exception as e:
+            print(e)
             print("EXCEPTION!")
             self.json = None
