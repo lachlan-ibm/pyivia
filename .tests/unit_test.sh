@@ -17,7 +17,7 @@ def do_GET(self):
     self.send_response(200)
     self.send_header('Content-type', 'application/json; charset=utf-8')
     self.end_headers()
-    self.wfile.write(json.dumps(VERSION_JSON).decode())
+    self.wfile.write(json.dumps(VERSION_JSON).encode())
 
 Handler = server.SimpleHTTPRequestHandler
 Handler.do_GET = do_GET
