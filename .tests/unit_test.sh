@@ -22,7 +22,7 @@ def do_GET(self):
 
 Handler = server.SimpleHTTPRequestHandler
 Handler.do_GET = do_GET
-httpd = sockerserver.TCPServer(("", PORT), Handler)
+httpd = socketserver.TCPServer(("", PORT), Handler)
 httpd.serve_forever()
 EOF
 ) &
