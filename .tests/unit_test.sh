@@ -5,7 +5,7 @@ $( cd .tests && python <<EOF
 from http import server
 import socketserver
 PORT = 8000
-VERSION_JSON = '''{
+VERSION_JSON = {
     "firmware_label":"isva_10.0.0.0_20200601-2346",
     "firmware_build":"20200601-2346",
     "firmware_version":"10.0.0.0",
@@ -13,12 +13,11 @@ VERSION_JSON = '''{
     "deployment_model":"Appliance",
     "product_name":"isva"
 }
-'''
 def do_GET(self):
     self.send_response(200)
     self.send_header('Content-type', 'application/json; charset=utf-8')
     self.end_headers()
-    self.wfile.write(VERSION_JSON.encode())
+    self.wfile.write(json.dumps(VERSION_JSON))
 
 Handler = server.SimpleHTTPRequestHandler
 Handler.do_GET = do_GET
