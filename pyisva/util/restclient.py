@@ -54,7 +54,7 @@ class RESTClient(object):
         r = requests.get(
             url=url, params=parameters, headers=headers, verify=False)
 
-        self._log_response(r.status_code, r.headers, r.content)
+        self._log_response(r.status_code, r.headers, r._content)
 
         response = self._build_response(r)
         r.close()
