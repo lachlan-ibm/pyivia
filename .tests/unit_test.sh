@@ -3,7 +3,7 @@ python setup.py sdist bdist_wheel
 export PYTHONPATH="$PYTHONPATH:$(pwd)/build/lib"
 $( cd .tests && python <<EOF
 from http import server
-import socketserver
+import socketserver, json
 PORT = 8000
 VERSION_JSON = {
     "firmware_label":"isva_10.0.0.0_20200601-2346",
