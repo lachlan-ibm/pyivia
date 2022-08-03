@@ -9,7 +9,7 @@ setup(
     author_email='lgleeson@au1.ibm.com',
     license='MIT',
     package_dir={"": "pyisva"},
-    packages=find_packages(where="pyisva"),
+    packages=find_packages(),
     install_requires=[
         'requests>=2.23.0'
     ],
