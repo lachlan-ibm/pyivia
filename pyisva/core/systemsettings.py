@@ -22,6 +22,7 @@ from .system.docker import Docker
 from .system.fixpacks import Fixpacks
 from .system.sysaccount import SysAccount
 from .system.managementauthorization import ManagementAuthorization
+from .system.snapshot import Snapshot
 
 
 class SystemSettings9020(object):
@@ -137,6 +138,7 @@ class SystemSettings10000(SystemSettings9080):
             self.static_routes = StaticRoutes10000(base_url, username, password)
             self.interfaces = Interfaces10000(base_url, username, password)
             self.managementauthrization = ManagementAuthorisaton(url, username, password)
+            self.snapshot = Snapshot(base_url, username, password)
 
 class SystemSettings10010(SystemSettings10000):
 

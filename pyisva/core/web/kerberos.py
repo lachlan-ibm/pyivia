@@ -10,7 +10,7 @@ from pyisva.util.restclient import RESTClient
 
 logger = logging.getLogger(__name__)
 
-KERBEROS_CONFIG = "/wga/kerberos_config"
+KERBEROS_CONFIG = "/wga/kerberos/config"
 KERBEROS_KEYTAB = "/wga/kerberos/keytab"
 
 class Kerberos(object):
