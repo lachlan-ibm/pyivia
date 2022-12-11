@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 class Cluster(object):
 
     def __init__(self, base_url, username, password):
-        super(ConfigDb, self).__init__()
+        super(Cluster, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
 
