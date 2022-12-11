@@ -40,7 +40,7 @@ class AdminSettings(object):
             session_timeout=None, session_inactive_timeout=None, session_cache_purge=None, ba_session_timeout=None, 
             http_port=None, https_port=None, sshd_port=None, sshd_client_alive=None, swap_size=None, min_threads=None, max_threads=None, max_pool_size=None, 
             lmi_debugging_enabled=None, console_log_level=None, accept_client_certs=None, validate_client_cert_identity=None, 
-            exclude_csrf_checking=None, enabled_server_protocols=None, enabled_tls=[], log_max_files=None, log_max_size=None
+            exclude_csrf_checking=None, enabled_server_protocols=None, enabled_tls=[], log_max_files=None, log_max_size=None,
             http_proxy=None, https_proxy=None, login_header=None, login_msg=None, access_log_fmt=None, lmi_msg_timeout=None,
             valid_verify_domains=None):
         """
