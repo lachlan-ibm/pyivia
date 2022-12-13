@@ -39,7 +39,6 @@ class Federation9040(Federation9030):
 
     def __init__(self, base_url, username, password):
         super(Federation9040, self).__init__(base_url, username, password)
-       
         self.federations = Federations9040(base_url, username, password)
         self.poc = PointOfContact(base_url, username, password)
         self.access_policy = AccessPolicy(base_url, username, password)
@@ -48,25 +47,25 @@ class Federation9040(Federation9030):
 class Federation9050(Federation9040):
 
     def __init__(self, base_url, username, password):
-            super(Federation9050, self).__init__(base_url, username, password)
+        super(Federation9050, self).__init__(base_url, username, password)
 
 
 class Federation9060(Federation9050):
 
     def __init__(self, base_url, username, password):
-            super(Federation9060, self).__init__(base_url, username, password)
+        super(Federation9060, self).__init__(base_url, username, password)
 
 
 class Federation9070(Federation9060):
 
     def __init__(self, base_url, username, password):
-            super(Federation9070, self).__init__(base_url, username, password)
+        super(Federation9070, self).__init__(base_url, username, password)
 
 
 class Federation9071(Federation9070):
 
     def __init__(self, base_url, username, password):
-            super(Federation9071, self).__init__(base_url, username, password)
+        super(Federation9071, self).__init__(base_url, username, password)
 
 
 class Federation9072(Federation9071):
@@ -84,7 +83,7 @@ class Federation9073(Federation9072):
 class Federation9080(Federation9073):
 
     def __init__(self, base_url, username, password):
-            super(Federation9080, self).__init__(base_url, username, password)
+        super(Federation9080, self).__init__(base_url, username, password)
 
 
 class Federation10000(Federation9080):
@@ -99,31 +98,30 @@ class Federation10000(Federation9080):
 class Federation10010(Federation10000):
 
     def __init__(self, base_url, username, password):
-            super(Federation10010, self).__init__(base_url, username, password)
-
+        super(Federation10010, self).__init__(base_url, username, password)
 
 class Federation10020(Federation10010):
 
     def __init__(self, base_url, username, password):
-            super(Federation10020, self).__init__(base_url, username, password)
+        super(Federation10020, self).__init__(base_url, username, password)
 
 
 class Federation10030(Federation10020):
 
     def __init__(self, base_url, username, password):
-            super(Federation10030, self).__init__(base_url, username, password)
+        super(Federation10030, self).__init__(base_url, username, password)
 
 
 class Federation10031(Federation10030):
 
     def __init__(self, base_url, username, password):
-            super(Federation10031, self).__init__(base_url, username, password)
+        super(Federation10031, self).__init__(base_url, username, password)
 
 
 class Federation10040(Federation10031):
 
     def __init__(self, base_url, username, password):
-            super(Federation10040, self).__init__(base_url, username, password)
+        super(Federation10040, self).__init__(base_url, username, password)
 
 
 class Federation10050(Federation10040):
