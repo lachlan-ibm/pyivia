@@ -461,7 +461,7 @@ class Federations(object):
             decrypt_key_alias=None, encrypt_block_alg=None, encrypt_transport_alg=None, encrypt_key_store=None, 
             encrypt_key_alias=None, encrypt_name_id=None, encrypt_assertion=None, encrypt_assertion_attrs=None,
             identity_delegate_id=None, identity_rule_type='JAVASCRIPT', identity_mr=None, identity_applies_to=None,
-            identity_auth_type=None, identity_auth_type=None, identity_ba_user=None, identity_ba_password=None,
+            identity_auth_type=None, identity_ba_user=None, identity_ba_password=None,
             identity_client_key_store=None, identity_client_key_alias=None, identity_issuer_uri=None, identity_mgs_fmt=None,
             identity_ssl_key_store=None, identity_uri=None, ext_delegate_id=None, ext_mr=None, include_fed_id_in_partner_id=None, 
             logout_req_lifetime=None, manage_name_id_services=[], name_id_default=None, name_id_supported=[],
