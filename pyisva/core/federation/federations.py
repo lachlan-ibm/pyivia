@@ -456,7 +456,7 @@ class Federations(object):
 
 
     def create_saml_partner(self, federation_id, name=None, enabled=False, role=None, template_name=None, access_policy=None,
-            arti_resolution_svc=[], assert_consume_svc=[], assert_valid_before=None, assert_valid_after=None, assert_attr_types=[]
+            arti_resolution_svc=[], assert_consume_svc=[], assert_valid_before=None, assert_valid_after=None, assert_attr_types=[],
             assert_session_not_after=None, assert_multi_attr_stmt=None, attr_mapping=[], decrypt_key_store=None, 
             decrypt_key_alias=None, encrypt_block_alg=None, encrypt_transport_alg=None, encrypt_key_store=None, 
             encrypt_key_alias=None, encrypt_name_id=None, encrypt_assertion=None, encrypt_assertion_attrs=None,
@@ -464,7 +464,7 @@ class Federations(object):
             identity_auth_type=None, identity_auth_type=None, identity_ba_user=None, identity_ba_password=None,
             identity_client_key_store=None, identity_client_key_alias=None, identity_issuer_uri=None, identity_mgs_fmt=None,
             identity_ssl_key_store=None, identity_uri=None, ext_delegate_id=None, ext_mr=None, include_fed_id_in_partner_id=None, 
-            logout_req_lifetime=None, manage_name_id_services=[], name_id_default=None, name_id_supported=[]
+            logout_req_lifetime=None, manage_name_id_services=[], name_id_default=None, name_id_supported=[],
             provider_id=None, session_timeout=None, sign_include_pub_key=None, sign_include_cert=None, sign_include_issuer=None, 
             sign_include_ski=None, sign_include_subject=None, sign_key_store=None, sign_key_alias=None, sign_arti_request=None, 
             sign_arti_rsp=None, sign_assertion=None, sign_authn_rsp=None, sign_logout_req=None, sign_logout_rsp=None, 
@@ -890,7 +890,7 @@ class Federations9040(Federations):
 class Federations10000(Federations9040):
 
     def create_saml_federation(self, name=None, role=None, template_name=None, active_delegate_id=None, need_consent_to_federate=None,
-            signature_algorithm=None, signing_keystore=None, signing_key_label=None, sso_service_binding=None,message_issuer_format=None,
+            signature_algorithm=None, signing_keystore=None, signing_key_label=None, sso_service_binding=None, message_issuer_format=None,
             decrypt_keystore=None, decrypt_key_label=None, point_of_contact_url=None, provider_id=None, company_name=None):
 
         data = DataObject()
@@ -944,7 +944,7 @@ class Federations10000(Federations9040):
 
 
     def create_saml_partner(self, federation_id, name=None, enabled=False, role=None, template_name=None, acs_binding=None, block_encryption_algorithm=None,
-        encryption_key_transport_algorithm = None, encryption_keystore=None, encryption_key_label=None,signature_digest_algorithm=None, acs=None, single_logout_service=None,
+        encryption_key_transport_algorithm = None, encryption_keystore=None, encryption_key_label=None, signature_digest_algorithm=None, acs=None, single_logout_service=None,
         acs_default=True, acs_index=0, acs_url=None, attribute_mapping=[], active_delegate_id=None, client_auth_method=None, signature_algorithm=None,
         validate_logout_request=None,validate_logout_response=None,
         provider_id=None, signature_validation=None, validate_authn_request=None, validation_keystore=None, validation_key_label=None, mapping_rule=None):
