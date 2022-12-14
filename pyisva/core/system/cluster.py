@@ -149,7 +149,7 @@ class Cluster(object):
         data.add_value_boolean("hvdb_embedded", embedded)
         data.add_value_string("hvdb_address", host)
         data.add_value_string("hvdb_port", port)
-        data.add_value_string("hvdb_secure", "true" if secure else "false")
+        data.add_value_string("hvdb_db_secure", "true" if secure else "false")
         data.add_value_string("hvdb_user", user)
         data.add_value_string("hvdb_password", passwd)
         data.add_value_string("hvdb_db_name", db_name)
@@ -158,7 +158,6 @@ class Cluster(object):
         if extra_config != None and isinstance(extra_config, dict):
             for key in extra_config.keys():
                 data.add_value(key, extra_config.get(key))
-        print(data.data)
         endpoint = CLUSTER_CONFIG
 
         response = self.client.post_json(endpoint, data.data)
