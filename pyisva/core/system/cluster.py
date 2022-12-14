@@ -73,7 +73,7 @@ class Cluster(object):
         data = DataObject()
         get_response = self.get_cluster()
         data.data = get_response.json
-        data.add_vaule_boolean("cfgdb_embedded", embedded)
+        data.add_value_boolean("cfgdb_embedded", embedded)
         data.add_value_string("cfgdb_address", host)
         data.add_value_string("cfgdb_port", port)
         data.add_value_string("cfgdb_secure", "true" if secure else "false")
@@ -146,7 +146,7 @@ class Cluster(object):
         data = DataObject()
         get_response = self.get_cluster()
         data.data = get_response.json
-        data.add_vaule_boolean("hvdb_embedded", embedded)
+        data.add_value_boolean("hvdb_embedded", embedded)
         data.add_value_string("hvdb_address", host)
         data.add_value_string("hvdb_port", port)
         data.add_value_string("hvdb_secure", "true" if secure else "false")
