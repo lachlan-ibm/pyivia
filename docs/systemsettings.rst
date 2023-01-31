@@ -1,3 +1,5 @@
+System Settings
+**************
 
 .. base::
 
@@ -6,62 +8,71 @@ The System Settings module can be used to update system properties such as SSL d
 .. module:: pyisva.core.systemsettings
    :members:
 
-.. autoclass:: pyisva.core.system.adminsettings
+.. autoclass:: pyisva.core.system.adminsettings.AdminSettings
    :members:
 
-.. autoclass:: pyisva.core.system.advancedtuning
+.. autoclass:: pyisva.core.system.advancedtuning.AdvancedTuning
    :members:
 
-.. autoclass:: pyisva.core.settings.clicommands
+.. autoclass:: pyisva.core.settings.clicommands.CLICommands
    :members:
 
-.. autoclass:: pyisva.core.settings.cluster
+.. autoclass:: pyisva.core.settings.cluster.Cluster
    :members:
 
-.. autoclass:: pyisva.core.system.configuration
+.. autoclass:: pyisva.core.system.configuration.Configuration
    :members:
 
-.. autoclass:: pyisva.core.system.datetime
+.. autoclass:: pyisva.core.system.datetime.DateTime
    :members:
 
-.. autoclass:: pyisva.core.system.dns
+.. autoclass:: pyisva.core.system.dns.DNS
    :members:
 
-.. autoclass:: pyisva.core.system.docker
+.. autoclass:: pyisva.core.system.docker.Docker
    :members:
 
-.. autoclass:: pyisva.core.system.filedownloads
+.. autoclass:: pyisva.core.system.filedownloads.FileDownloads
    :members:
 
-.. autoclass:: pyisva.core.system.firststeps
+.. autoclass:: pyisva.core.system.firststeps.FirstSteps
    :members:
 
-.. autoclass:: pyisva.core.system.fixpacks
+.. autoclass:: pyisva.core.system.fixpacks.Fixpacks
    :members:
 
-.. autoclass:: pyisva.core.system.hostsfile
+.. autoclass:: pyisva.core.system.hostsfile.HostsFile
    :members:
 
-.. autoclass:: pyisva.core.systeminterfaces
+.. autoclass:: pyisva.core.system.interfaces.Interfaces
    :members:
 
-.. autoclass:: pyisva.core.system.licensing
+.. autoclass:: pyisva.core.system.licensing.Licensing
    :members:
 
-.. autoclass:: pyisva.core.system.managementauthorization
+.. autoclass:: pyisva.core.system.managementauthorization.ManagementAuthorization
    :members:
 
-.. autoclass:: pyisva.core.system.restartshutdown
+.. autoclass:: pyisva.core.system.restartshutdown.RestartShutdown
    :members:
 
-.. autoclass:: pyisva.core.system.runtimedb
+.. autoclass:: pyisva.core.system.runtimedb.RuntimeDb
    :members:
 
-.. autoclass:: pyisva.core.system.sslcertificates
+SSL Certificate and Keystore
+____________________________
+
+.. autoclass:: pyisva.core.system.sslcertificates.SSLCertificates
    :members:
 
-.. autoclass:: pyisva.core.system.staticroutes
+Static Routes
+_____________
+
+.. autoclass:: pyisva.core.system.staticroutes.StaticRoutes
    :members:
 
-.. autoclass:: pyisva.core.system.sysaccount
+System Accounts
+_______________
+
+.. autoclass:: pyisva.core.system.sysaccount.SysAccount
    :members:
