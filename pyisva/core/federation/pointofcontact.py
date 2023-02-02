@@ -29,20 +29,66 @@ class PointOfContact(object):
             name (:obj:`str`): A meaningful name to identify this point of contact profile.
             description (:obj:`str`, optional): A description of the point of contact profile.
             authenticate_callbacks (:obj:`list` of :obj:`dict`): An array of callbacks for authentication. The format 
-                        of the dictionary is `{"index":0,"moduleReferenceId":"websealPocAuthenticateCallback","
-                        parameters":[{"name":"authentication.level","value":"1"}]}`
-            sign_in_callbacks (:obj:`list` of :obj`str`): An array of callbacks for sign in. The format of the dictionary
-                        is `{"index":0,"moduleReferenceId":"websealPocSignInCallback",
-                        "parameters":[{"name":"fim.user.response.header.name","value":"am-fim-eai-user-id"}]}`
+                                    of the dictionary is::
+
+                                        {
+                                            "index":0,
+                                            "moduleReferenceId":"websealPocAuthenticateCallback",
+                                            "parameters": [
+                                                            {"name":"authentication.level",
+                                                             "value":"1"}
+                                                        ]
+                                        }
+
+            sign_in_callbacks (:obj:`list` of :obj:`str`): An array of callbacks for sign in. The format of the 
+                                    dictionary is::
+
+                                            {
+                                                "index":0,
+                                                "moduleReferenceId":"websealPocSignInCallback",
+                                                "parameters": [
+                                                                {"name":"fim.user.response.header.name",
+                                                                 "value":"am-fim-eai-user-id"}
+                                                            ]
+                                            }
+
             local_id_callbacks (:obj:`list` of :obj:`dict`): An array of callbacks for local identity. The format of 
-                        the dictionary is `{"index":0,"moduleReferenceId":"websealPocLocalIdentityCallback",
-                        "parameters":[{"name":"fim.cred.request.header.name","value":"iv-creds"}]}`
+                                    the dictionary is::
+
+                                        {
+                                            "index":0,
+                                            "moduleReferenceId":"websealPocLocalIdentityCallback",
+                                            "parameters":[
+                                                          {"name":"fim.cred.request.header.name",
+                                                           "value":"iv-creds"}
+                                                        ]
+                                        }
+
             sign_out_callbacks (:obj:`list` of :obj:`dict`): An array of callbacks for sign out. The format of the 
-                        dictionary is `{"index":0,"moduleReferenceId":"websealPocSignOutCallback",
-                        "parameters":[{"name":"fim.user.session.id.request.header.name","value":"user_session_id"}]}`
+                                    dictionary is::
+
+                                        {
+                                            "index":0,
+                                            "moduleReferenceId":"websealPocSignOutCallback",
+                                            "parameters":[
+                                                          {"name":"fim.user.session.id.request.header.name",
+                                                           "value":"user_session_id"}
+                                                        ]
+                                        }
+
+
             authn_policy_callbacks (:obj:`list` of :obj:`dict`): An array of callbacks for authentication policy. The format
-                        of the dictionary is `{"index":0,"moduleReferenceId":"genericPocAuthnPolicyCallback",
-                        "parameters":[{"name":"authentication.level","value":"1"}]}`
+                                    of the dictionary is::
+
+                                        {
+                                            "index":0,
+                                            "moduleReferenceId":"genericPocAuthnPolicyCallback",
+                                            "parameters":[
+                                                          {"name":"authentication.level",
+                                                           "value":"1"}
+                                                        ]
+                                        }
+
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -66,20 +112,64 @@ class PointOfContact(object):
             name (:obj:`str`): A meaningful name to identify this point of contact profile.
             description (:obj:`str`, optional): A description of the point of contact profile.
             authenticate_callbacks (:obj:`list` of :obj:`dict`): An array of callbacks for authentication. The format 
-                        of the dictionary is `{"index":0,"moduleReferenceId":"websealPocAuthenticateCallback","
-                        parameters":[{"name":"authentication.level","value":"1"}]}`
-            sign_in_callbacks (:obj:`list` of :obj`str`): An array of callbacks for sign in. The format of the dictionary
-                        is `{"index":0,"moduleReferenceId":"websealPocSignInCallback",
-                        "parameters":[{"name":"fim.user.response.header.name","value":"am-fim-eai-user-id"}]}`
+                        of the dictionary is::
+
+                                        {
+                                            "index":0,
+                                            "moduleReferenceId":"websealPocAuthenticateCallback",
+                                            "parameters": [
+                                                            {"name":"authentication.level",
+                                                             "value":"1"}
+                                                        ]
+                                        }
+
+            sign_in_callbacks (:obj:`list` of :obj:`str`): An array of callbacks for sign in. The format of the 
+                        dictionary is::
+
+                                        {
+                                            "index":0,"moduleReferenceId":
+                                            "websealPocSignInCallback",
+                                            "parameters": [
+                                                            {"name":"fim.user.response.header.name",
+                                                             "value":"am-fim-eai-user-id"}
+                                                        ]
+                                        }
+
             local_id_callbacks (:obj:`list` of :obj:`dict`): An array of callbacks for local identity. The format of 
-                        the dictionary is `{"index":0,"moduleReferenceId":"websealPocLocalIdentityCallback",
-                        "parameters":[{"name":"fim.cred.request.header.name","value":"iv-creds"}]}`
+                        the dictionary is::
+
+                                            {
+                                                "index":0,
+                                                "moduleReferenceId":"websealPocLocalIdentityCallback",
+                                                "parameters": [
+                                                                {"name":"fim.cred.request.header.name",
+                                                                 "value":"iv-creds"}
+                                                            ]
+                                            }
+
             sign_out_callbacks (:obj:`list` of :obj:`dict`): An array of callbacks for sign out. The format of the 
-                        dictionary is `{"index":0,"moduleReferenceId":"websealPocSignOutCallback",
-                        "parameters":[{"name":"fim.user.session.id.request.header.name","value":"user_session_id"}]}`
+                        dictionary is::
+
+                                        {
+                                            "index":0,
+                                            "moduleReferenceId":"websealPocSignOutCallback",
+                                            "parameters": [
+                                                            {"name":"fim.user.session.id.request.header.name",
+                                                             "value":"user_session_id"}
+                                                        ]
+                                        }
+
             authn_policy_callbacks (:obj:`list` of :obj:`dict`): An array of callbacks for authentication policy. The format
-                        of the dictionary is `{"index":0,"moduleReferenceId":"genericPocAuthnPolicyCallback",
-                        "parameters":[{"name":"authentication.level","value":"1"}]}`
+                        of the dictionary is::
+
+                                        {
+                                            "index":0,
+                                            "moduleReferenceId":"genericPocAuthnPolicyCallback",
+                                            "parameters": [
+                                                            {"name":"authentication.level",
+                                                             "value":"1"}
+                                                        ]
+                                        }
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 

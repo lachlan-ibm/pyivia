@@ -132,10 +132,10 @@ class SCIMConfig(object):
         Args:
             schema_name (:obj:`str`): Name of ths SCIM schema to update attribute modes for.
             scim_attribute (:obj:`str`): Name of the SCIM attribute to update mode for
-            scim_subattribute (:ob:`str`, optional): If the SCIM attribute is a mult-valued attribute this is the second 
+            scim_subattribute (:obj:`str`, optional): If the SCIM attribute is a mult-valued attribute this is the second 
                                 level attribute name.
             mode (:obj:`str`): New mode for the SCIM attribute. Valid values are: "readonly", "writeonly", "readwrite", 
-                                "adminwrite" or "immutable"`
+                                "adminwrite" or "immutable"
 
         Returns:
             :obj:`~requests.Response`: The response from verify access.

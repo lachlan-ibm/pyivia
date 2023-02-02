@@ -72,7 +72,7 @@ class RuntimeParameters(object):
 
         Args:
             interface (:obj:`str`): The concatenation of the interface and IP address UUIDs, separated by a '.' character.
-                                    eg: ``"38a69185-a61a-44a1-b574-a3b502f01414.f980aabe-80b7-4738-9cda-bccede8d34f2"``
+                                    eg: ``38a69185-a61a-44a1-b574-a3b502f01414.f980aabe-80b7-4738-9cda-bccede8d34f2``
             port (int): The port that the endpoint will listen on.
             secure (bool): Flag to indicate if endpoint uses SSL
 
@@ -104,7 +104,7 @@ class RuntimeParameters(object):
 
         Args:
             interface (:obj:`str`): The concatenation of the interface and IP address UUIDs, separated by a '.' character.
-                                    eg: ``"38a69185-a61a-44a1-b574-a3b502f01414.f980aabe-80b7-4738-9cda-bccede8d34f2"``
+                                    eg: ``38a69185-a61a-44a1-b574-a3b502f01414.f980aabe-80b7-4738-9cda-bccede8d34f2``
             port (int): The port that the endpoint will listen on.
             secure (bool): Flag to indicate if endpoint uses SSL
 

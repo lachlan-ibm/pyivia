@@ -147,7 +147,7 @@ class HostsFile(object):
 
         Args:
             address (:obj:`str`): The IP address of the host record.
-            host_name (;obj:`str`): The hostname of the host record.
+            host_name (:obj:`str`): The hostname of the host record.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access.

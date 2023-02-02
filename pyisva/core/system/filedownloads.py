@@ -47,3 +47,35 @@ class FileDownloads(object):
         response.success = response.status_code == 200
 
         return response
+
+
+    def get_directory(self, path, recursive=None):
+        '''
+        Get the contents of a directory from the hosted files of a Verify Access appliance.
+
+        Args:
+            path (:obj:`str`): The direcotry whcih contains the files to be downloaded.
+            recursive (bool, optional): Return files in sub-direcotories of the path specified. Default is False.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the file contents are returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
+        parameters = DataObject()
+        parameters.add_value("recursive", recursive)
+
+        endpoint = "%s/%s" % (FILE_DOWNLOADS, path)
+
+        response = self.client.get_json(endpoint, parameters.data)
+        response.success == response.status_code == 200
+
+        if response.success and isinstance(response.json, dict):
+            response.json = response.json.get("contents", [])
+
+        return response
+

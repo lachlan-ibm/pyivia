@@ -93,7 +93,7 @@ class StaticRoutes10000(StaticRoutes):
             interface_uuid (:obj:`str`): interface for the route. If not defined, the operating system will determine 
                             the correct interface.
             metric (`int`): optional route metric
-            comment (:obj;`str`, optional): comment to identify the static route.
+            comment (:obj:`str`, optional): comment to identify the static route.
             table (:obj:`str`, optional): "main" or uuid of address. If not defined "main" is assumed.
 
         Returns:

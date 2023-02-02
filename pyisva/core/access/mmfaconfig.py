@@ -29,7 +29,7 @@ class MMFAConfig(object):
             hostname (:obj:`str`): The hostname of the webseal instance configured for MMFA.
             junction (:obj:`astr`): The junction prefix configured for MMFA.
             options (:obj:`str`): A list of configurable key-value pairs to be presented in the QR code.
-            port (:obj:`str): The port the MMFA endpoint is listening on.
+            port (:obj:`str`): The port the MMFA endpoint is listening on.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 

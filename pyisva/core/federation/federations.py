@@ -166,11 +166,11 @@ class Federations(object):
                             the provider. Defaults to ["openid"].
             perform_user_info (`bool`, optional): A setting that specifies whether to perform user info request 
                             automatically whenever possible.
-            token_endpoint_auth_method (:obj:`str): The token endpoint authentication method. Valid values are 
+            token_endpoint_auth_method (:obj:`str`): The token endpoint authentication method. Valid values are 
                             "client_secret_basic" and "client_secret_post".
             attribute_mapping (:obj:`list` of :obj:`dict`, optional): List of configured attribute sources. Format of
-                            complex object is ```[{"name":"email", "source": "ldap"}, {"name":"preferred_name", 
-                            "source":"credential"}]```.
+                            complex object is ``[{"name":"email", "source": "ldap"}, {"name":"preferred_name", 
+                            "source":"credential"}]``.
             identity_delegate_id (:obj:`str`): The active mapping module instance. Valid values are "skip-identity-map", 
                             "default-map" and "default-http-custom-map".
             identity_auth_type (:obj:`str`, optional): Authentication method used when contacting external service. Supported 

@@ -55,7 +55,7 @@ class AdvancedTuning(object):
             atp_id (:obj:`str`): Unique id of the advanced tuning parameter.
             key (:obj:`str`): The name of the advanced tuning parameter.
             value (:obj:`str`): The value of the advanced tuning parameter.
-            comment (:obj:`str, optional): A description for the advanced tuning parameter.
+            comment (:obj:`str`, optional): A description for the advanced tuning parameter.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 

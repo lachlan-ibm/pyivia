@@ -23,7 +23,7 @@ class ApplicationLog(object):
         Download a log file from an applaince
 
         Args:
-            path (:obj:`str): The relative path of the file to be retrieved.
+            path (:obj:`str`): The relative path of the file to be retrieved.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 

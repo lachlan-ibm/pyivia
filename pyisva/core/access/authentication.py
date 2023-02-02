@@ -31,10 +31,24 @@ class Authentication(object):
             name (:obj:`str`): Name of the mechanism.
             uri (:obj:`str`): URI of the mechainsm.
             type_id (:obj:`str`): Mechanism type to inherit from
-            properties (:obj:`list` of :obj:`dict`): List of properties for the mechaism. Properties are determined by the mechanism type.
-                                                    properties in the form `[{"key":"property.key.name", "value":"property.value"}]`
-            attributes: (:obj:`list` of :obj:`dict`): List of attributes to retireve from the request context before executing the mechanism.
-                                                    attributes in the form ``[{"selector":"Context.REQUEST", "namespace": "urn:ibm:security:asf:request:parameter", "name": "parameter"}]``
+            properties (:obj:`list` of :obj:`dict`): List of properties for the mechaism. Properties are determined by 
+                                                    the mechanism type. Properties should follow the format::
+
+                                                            [
+                                                                {"key":"property.key.name", 
+                                                                 "value":"property.value"
+                                                                }
+                                                            ]
+
+            attributes: (:obj:`list` of :obj:`dict`): List of attributes to retireve from the request context before 
+                                                    executing the mechanism. Attributes should follow the format::
+
+                                                            [
+                                                                {"selector":"Context.REQUEST", 
+                                                                 "namespace": "urn:ibm:security:asf:request:parameter", 
+                                                                 "name": "parameter"
+                                                                }
+                                                            ]
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -130,10 +144,24 @@ class Authentication(object):
             name (:obj:`str`): Name of the mechanism.
             uri (:obj:`str`): URI of the mechainsm.
             type_id (:obj:`str`): Mechanism type to inherit from
-            properties (:obj:`list` of :obj:`dict`): List of properties for the mechaism. Properties are determined by the mechanism type.
-                                                    properties in the form `[{"key":"property.key.name", "value":"property.value"}]`
-            attributes: (:obj:`list` of :obj:`dict`): List of attributes to retireve from the request context before executing the mechanism.
-                                                    attributes in the form ``[{"selector":"Context.REQUEST", "namespace": "urn:ibm:security:asf:request:parameter", "name": "parameter"}]``
+            properties (:obj:`list` of :obj:`dict`): List of properties for the mechaism. Properties are determined by 
+                                                    the mechanism type. Properties should use the format::
+
+                                                    [
+                                                        {"key":"property.key.name", 
+                                                         "value":"property.value"
+                                                        }
+                                                    ]
+
+            attributes: (:obj:`list` of :obj:`dict`): List of attributes to retireve from the request context before 
+                                                    executing the mechanism. Attributes should use the format::
+
+                                                    [
+                                                        {"selector":"Context.REQUEST", 
+                                                         "namespace": "urn:ibm:security:asf:request:parameter", 
+                                                         "name": "parameter"
+                                                        }
+                                                    ]
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -166,7 +194,7 @@ class Authentication(object):
         '''
         Create an authentication policy.
 
-        Agrs:
+        Args:
             name (:obj:`str`): Name of the policy to be created
             policy (:obj:`str`): XML config of the policy.
             uri (:obj:`str`): URI used to identify the policy.
@@ -257,15 +285,16 @@ class Authentication(object):
         '''
         Update an AAC authentication policy
 
-        Agrs:
+        Args:
             id (:obj:`str`): The id of the policy to be updated.
             name (:obj:`str`): Name of the policy.
             policy (:obj:`str`): XML config of the policy.
             uri (:obj:`str`): URI used to identify the policy.
             description (:obj:`str`, optional): Description of the policy.
-            dialect (:obj:`str`, optional): Schema used to create policy. use the default "urn:ibm:security:authentication:policy:1.0:schema"
+            dialect (:obj:`str`, optional): Schema used to create policy. use the default 
+                                            ``urn:ibm:security:authentication:policy:1.0:schema``
             user_las_mdified (:obj:`str`): User id of the user who last made modifications to the authentication policy.
-            last_modified (:ob:`str`): Timestamp of when this policy was last modified.
+            last_modified (:obj:`str`): Timestamp of when this policy was last modified.
             date_created (:obj:`str`): Timestamp of when this policy was created.
             predefined (bool): Flag to indicate if this is a default policy avaliable out of the box.
             enabled (bool): Flag to enable the policy for use by the AAC runtime.

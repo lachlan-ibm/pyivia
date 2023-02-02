@@ -74,6 +74,9 @@ class Factory(object):
     def get_federation(self):
         '''
         Return manager of Federation endpoint
+
+        Returns:
+            versioned :ref:`federation` object.
         '''
         class_name = "Federation" + self._get_version()
         module_name = "pyisva.core.federationsettings"
@@ -82,6 +85,9 @@ class Factory(object):
     def get_access_control(self):
         '''
         Return manager of AAC endpoint
+
+        Returns:
+            versioned :ref:`access_control` object.
         '''
         class_name = "AccessControl" + self._get_version()
         module_name = "pyisva.core.accesscontrol"
@@ -90,6 +96,9 @@ class Factory(object):
     def get_analysis_diagnostics(self):
         '''
         Return manager of diagnostic endpoint
+        
+        Returns:
+            versioned :ref:`analysis_diagnostics` object.
         '''
         class_name = "AnalysisDiagnostics" + self._get_version()
         module_name = "pyisva.core.analysisdiagnostics"
@@ -98,6 +107,9 @@ class Factory(object):
     def get_system_settings(self):
         '''
         Return manager of system settings endpoint
+
+        Returns:
+            versioned :ref:`system_settings` object.
         '''
         class_name = "SystemSettings" + self._get_version()
         module_name = "pyisva.core.systemsettings"
@@ -112,6 +124,9 @@ class Factory(object):
     def get_web_settings(self):
         '''
         Return manager of Web Reverse Proxy endpoints
+
+        Returns:
+        versioned :ref:`web_settings` object.
         '''
         class_name = "WebSettings" + self._get_version()
         module_name = "pyisva.core.websettings"

@@ -1,4 +1,4 @@
-Welcome to pyISVA's documentation!
+Welcome to pyISVA!
 ==================================
 pyISVA is an python wrapper to the IBM Security Verify Access configuration API. You can use this library to interact 
 with a Verify Access Deployment; applying and deploying configuration.
@@ -8,10 +8,10 @@ Installation
 ------------
 You can install ``pyisva`` with ``pip``:
 
-.. code-block:: console
-    $ pip install pyisva
+.. code-block:: bash
 
-.. _pyisva_architecture
+   $ pip install pyisva
+
 
 Architecture
 ------------
@@ -25,10 +25,6 @@ log forwarding.The WebSEAL, Access Control and Federation modules are responsibl
 Changes are published using the ``system.restartshutdown`` module, which is capable of pubishing changes for both 
 Container and Appliance deployment architectures. Note for Container architectures pyISVA is NOT capable of managing the 
 runtime containers.
-
-
-.. automodule:: pyisva
-   :members:
 
 
 .. toctree::

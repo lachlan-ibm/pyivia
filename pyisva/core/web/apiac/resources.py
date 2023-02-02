@@ -67,7 +67,7 @@ class Resources(object):
             oauth_introspection_response_attributes (:obj:`list` of :obj:`dict`): A list of rules indicating which parts 
                         of the json response should be added to the credential. 
                         eg: ``{"pos":1,"action":"put","attribute":"givenName"}``
-            static_response_headers (:obj:`list` of `:obj:`dict`): A list of header names and values that should be 
+            static_response_headers (:obj:`list` of :obj:`dict`): A list of header names and values that should be 
                         added to the HTTP response. eg: ``{"name":"HeaderName","value":"HeaderValue"}``
             jwt_header_name (:obj:`str`): The name of the HTTP header that will contain the JWT.
             jwt_certificate (:obj:`str`): The label of the personal certificate that will sign the JWT.

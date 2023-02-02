@@ -1,5 +1,6 @@
 """
 @copyright: IBM
+
 """
 
 import logging
@@ -24,12 +25,13 @@ class Cluster(object):
     def set_config_db(self, embedded=None, db_type=None, port=None, host=None, secure=True, user=None, passwd=None, 
             db_name=None, db_key_store=None, extra_config={}):
         """
+
         Set the Configuration Database connection.
 
         Args:
             embedded (`bool`): A flag true/false indicating whether or not the Configuration database is embedded (true) 
                             or external (false).
-            db_type (:obj:`str`)): The type of database that is being used. Valid values are db2, postgresql and oracle.
+            db_type (:obj:`str`): The type of database that is being used. Valid values are db2, postgresql and oracle.
             port (`int`): The port on which the external database server is listening.
             host (:obj:`str`): The IP or hostname of the external database server.
             secure (`bool`, optional): A flag true/false indicating whether or not the external database is secure.
@@ -40,30 +42,31 @@ class Cluster(object):
                             requiring secure connectivity.
             extra_config (:obj:`dict`, optional): External databases require different sets of parameters depending on 
                             the type of database. Any additional paramters can be added to a dictioanry.
-                            Examples of `extra_config` include:``
-                            DB2
-                           { "cfgdb_db_alt": true,
-                             "cfgdb_db2_alt_address": "db2-bak.isam.ibm.com",
-                             "cfgdb_db2_alt_port": "50009"
-                            }
+                            Examples of ``extra_config`` include:
+        .. code-block::
 
-                            Oracle
-                            {"cfgdb_driver_type": "thin"}
+            DB2
+                {"cfgdb_db_alt": true,
+                 "cfgdb_db2_alt_address": "db2-bak.isam.ibm.com",
+                 "cfgdb_db2_alt_port": "50009"
+                }
+
+            Oracle
+                {"cfgdb_driver_type": "thin"}
 
 
-                            Postgresql
-                            {"cfgdb_failover_servers": [
-                                 {"address":"secondary.pg.ibm.com",
-                                  "port":5432
-                                  "order":1
-                                 },
-                                 {"address":"tertiary.pg.ibm.com",
-                                  "port":5432
-                                  "order":2
-                                 }
-                                ]
-                            }
-                            ``
+            Postgresql
+                {"cfgdb_failover_servers": [
+                     {"address":"secondary.pg.ibm.com",
+                      "port":5432
+                      "order":1
+                     },
+                     {"address":"tertiary.pg.ibm.com",
+                      "port":5432
+                      "order":2
+                     }
+                    ]
+                }
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -113,30 +116,31 @@ class Cluster(object):
                             Runtime database.
             extra_config (:obj:`dict`, optional): External databases require different sets of parameters depending on 
                             the type of database. Any additional paramters can be added to a dictioanry.
-                            Examples of `extra_config` include:``
-                            DB2
-                           { "hvdb_db_alt": true,
-                             "hvdb_db2_alt_address": "db2-bak.isam.ibm.com",
-                             "hvdb_db2_alt_port": "50009"
-                            }
+                            Examples of ``extra_config`` include:
+        .. code-block::
 
-                            Oracle
-                            {"hvdb_driver_type": "thin"}
+            DB2
+                {"cfgdb_db_alt": true,
+                 "cfgdb_db2_alt_address": "db2-bak.isam.ibm.com",
+                 "cfgdb_db2_alt_port": "50009"
+                }
+
+            Oracle
+                {"cfgdb_driver_type": "thin"}
 
 
-                            Postgresql
-                            {"hvdb_failover_servers": [
-                                 {"address":"secondary.pg.ibm.com",
-                                  "port":5432
-                                  "order":1
-                                 },
-                                 {"address":"tertiary.pg.ibm.com",
-                                  "port":5432
-                                  "order":2
-                                 }
-                                ]
-                            }
-                            ``
+            Postgresql
+                {"cfgdb_failover_servers": [
+                     {"address":"secondary.pg.ibm.com",
+                      "port":5432
+                      "order":1
+                     },
+                     {"address":"tertiary.pg.ibm.com",
+                      "port":5432
+                      "order":2
+                     }
+                    ]
+                }
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -184,7 +188,7 @@ class Cluster(object):
             dsc_use_ssl (`bool`, optional): A flag true/false indicating whether or not SSL should be used when 
                             communicating with the DSC.
             dsc_ssl_label (:obj:`str`): The name of the SSL certificate that will be presented to clients.
-            dsc_worker_threads `int`): The number of worker threads that will be used.
+            dsc_worker_threads (`int`): The number of worker threads that will be used.
             dsc_maximum_session_lifetime (`int`): The maximum lifetime of sessions within the DSC.
             dsc_client_grace_period (`int`): When a client is shut down we give the client a grace period (in seconds) 
                             to restart and register an interest in a session again before we remove the session from 

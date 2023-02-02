@@ -12,10 +12,10 @@ logger = logging.getLogger(__name__)
 
 RATELIMIT = "/wga/ratelimiting"
 
-class Rate_Limit(object):
+class RateLimit(object):
 
     def __init__(self, base_url, username, password):
-        super(Rate_Limit, self).__init__()
+        super(RateLimit, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
 

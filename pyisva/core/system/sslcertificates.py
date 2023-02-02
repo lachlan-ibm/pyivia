@@ -224,7 +224,7 @@ class SSLCertificates(object):
         Args:
             kdb_name (:obj:`str`): The new certificate database name that is used to uniquely identify the certificate 
                             database.
-            db_type (:obj;`str`): The type of the new certificate database. Valid options are "kdb" for local databases 
+            db_type (:obj:`str`): The type of the new certificate database. Valid options are "kdb" for local databases 
                             and "p11" for network databases.
             token_label (:obj:`str`): The token label of the certificate database.
             passcode (:obj:`str`): The passcode of the certificate database.
@@ -247,12 +247,12 @@ class SSLCertificates(object):
                             and use_rfs is "true".
             rfs_port (`int`, optional): The port of the Remote File System (RFS). Only valid if the hsm_type is "ncipher".
             rfs_auth (`bool`, optional): Specifies whether KNETI authentication is used when connecting to the RFS.
-            update_zip (x:obj:`str`, optional): A zip file containing local data to be uploaded from the device. Only 
+            update_zip (:obj:`str`, optional): A zip file containing local data to be uploaded from the device. Only 
                             valid if the hsm_type is "ncipher" and use_rfs is "false".
             safenet_pw (:obj:`str`, optional): The password of the SafeNet device admin account. Only valid if the HSM 
                             type is "safenet". 
 
-            Returns:
+        Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
             Success can be checked by examining the response.success boolean attribute

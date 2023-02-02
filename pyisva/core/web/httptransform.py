@@ -13,10 +13,10 @@ HTTP_TRANSFORM_TEMPLATE = "/isam/wga_teplates"
 logger = logging.getLogger(__name__)
 
 
-class HTTP_Transform(object):
+class HTTPTransform(object):
 
     def __init__(self, base_url, username, password):
-        super(HTTP_Transform, self).__init__()
+        super(HTTPTransform, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
 

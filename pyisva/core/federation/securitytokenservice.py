@@ -134,13 +134,13 @@ class SecurityTokenService(object):
         Args:
             name (:obj:`str`): A friendly name for the STS Chain Template
             description (:obj:`str`): A description of the STS Chain Template
-            modules (:obj:`list` of :ogj:`str`): LAn array of the modules that make up the STS Chain Template. Each 
+            modules (:obj:`list` of :obj:`str`): An array of the modules that make up the STS Chain Template. Each 
                         module contains:
-                                id: The token id of an STS module
-                                mode: The mode the STS module is used in in the chain. Must be one of the supported 
-                                    modes of the STS module
-                                prefix: The prefix for the chain item.
-                        example: `{"id":"default-map","mode":"map","prefix":"uuid3dbf4c6a-013d-15d5-bb8b-c2665e02a402"}`
+                        - id: The token id of an STS module
+                        - mode: The mode the STS module is used in in the chain. Must be one of the supported 
+                        - modes of the STS module
+                        - prefix: The prefix for the chain item.
+                        example: ``{"id":"default-map","mode":"map","prefix":"uuid3dbf4c6a-013d-15d5-bb8b-c2665e02a402"}``
 
         Returns:
             :obj:`~requests.response`: the response from verify access. 

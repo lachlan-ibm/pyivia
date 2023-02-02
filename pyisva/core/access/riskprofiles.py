@@ -29,7 +29,16 @@ class RiskProfiles(object):
             active (bool): Indicate if this is the active risk profile.
             attributes (:obj:`list` of :obj:`dict`):Array of attributes comprising this risk profile and the weight 
                                                 value of each attribute which is used in determining the risk score.
-                                                eg: ``[{"weight":50,"attributeID":"28"},{"weight":10,"attributeID":"34"}]``
+                                                eg::
+
+                                                [
+                                                    {"weight":50,
+                                                     "attributeID":"28"
+                                                    },
+                                                    {"weight":10,
+                                                     "attributeID":"34"
+                                                    }
+                                                ]
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -64,7 +73,16 @@ class RiskProfiles(object):
             active (bool): Indicate if this is the active risk profile.
             attributes (:obj:`list` of :obj:`dict`):Array of attributes comprising this risk profile and the weight 
                                                 value of each attribute which is used in determining the risk score.
-                                                eg: ``[{"weight":50,"attributeID":"28"},{"weight":10,"attributeID":"34"}]``
+                                                eg::
+
+                                                [
+                                                    {"weight":50,
+                                                     "attributeID":"28"
+                                                    },
+                                                    {"weight":10,
+                                                     "attributeID":"34"
+                                                    }
+                                                ]
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 

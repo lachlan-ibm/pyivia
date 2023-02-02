@@ -228,7 +228,7 @@ class SysAccount(object):
         Create a new management interface group
 
         Args:
-            group (:obj;`str`): The name of the group the user will be added to. The name can contain any ASCII 
+            group (:obj:`str`): The name of the group the user will be added to. The name can contain any ASCII 
                             characters but leading and trailing white space will be trimmed.
 
         Returns:

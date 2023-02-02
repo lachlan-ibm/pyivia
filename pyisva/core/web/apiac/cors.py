@@ -28,7 +28,7 @@ class CORS(object):
             allowed_origins (:obj:`list` of :obj:`str`): An array of origins which are allowed to make cross origin 
                                                         requests to this resource.
             allow_credentials (bool): Controls whether or not the Access-Control-Allow-Credentials header will be set.
-            exposed headers (bool): Controls the values populated in the Access-Control-Expose-Headers header.
+            exposed_headers (bool): Controls the values populated in the Access-Control-Expose-Headers header.
             handle_preflight (bool): Controls whether or not the Reverse Proxy will handle pre-flight requests.
             allowed_methods (:obj:`list` of :obj:`str`): HTTP methods permitted in pre-flight requests and the subsequent 
                                                         Access-Control-Allow-Methods header.
@@ -145,7 +145,7 @@ class CORS(object):
         '''
         List the configured CORS policies.
 
-        Reurns:
+        Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
             Success can be checked by examining the response.success boolean attribute
