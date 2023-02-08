@@ -32,8 +32,18 @@ class Federations(object):
             name (:obj:`str`): 	A meaningful name to identify this federation.
             role (:obj:`str`): The role of a federation, valid values are "ip", "sp", "op" and "rp".
             response_types_supported (:obj:`str`): 
-            attribute_mappings (:obj:`list` of :obj:`dict`): The attribute mapping data. format is:
-                            `[{"name":"email","source":"ldap_email"},{"mobile":"source":"ldap_phone"}]`
+            attribute_mappings (:obj:`list` of :obj:`dict`): The attribute mapping data. format 
+                                                            is::
+
+                                                                [
+                                                                    {"name":"email",
+                                                                     "source":"ldap_email"
+                                                                    },
+                                                                    {"name":"mobile",
+                                                                     "source":"ldap_phone"
+                                                                    }
+                                                                ]
+
             identity_delegate_id (:obj:`str`): The active mapping module instance.
             identity_rule_type (:obj:`str`): The type of the mapping rule. The only supported type currently is JAVASCRIPT.
             identity_mapping_rule (:obj:`str`): A reference to an ID of an identity mapping rule. 
@@ -169,8 +179,15 @@ class Federations(object):
             token_endpoint_auth_method (:obj:`str`): The token endpoint authentication method. Valid values are 
                             "client_secret_basic" and "client_secret_post".
             attribute_mapping (:obj:`list` of :obj:`dict`, optional): List of configured attribute sources. Format of
-                            complex object is ``[{"name":"email", "source": "ldap"}, {"name":"preferred_name", 
-                            "source":"credential"}]``.
+                            dictionary is::
+                                                [
+                                                    {"name":"email", 
+                                                     "source": "ldap"
+                                                    }, 
+                                                    {"name":"preferred_name", 
+                                                     "source":"credential"
+                                                    }
+                                                ]
             identity_delegate_id (:obj:`str`): The active mapping module instance. Valid values are "skip-identity-map", 
                             "default-map" and "default-http-custom-map".
             identity_auth_type (:obj:`str`, optional): Authentication method used when contacting external service. Supported 
@@ -276,10 +293,33 @@ class Federations(object):
             assertion_valid_after (`int`, optional): The number of seconds the assertion is valid after being issued.
             artifact_resolution_service (:obj:`list` of :obj:`dict`, optional): Endpoints where artifacts are exchanged 
                             for actual SAML messages. Required if artifact binding is enabled. Format of artifact 
-                            resolution service data is ```[{"binding":"soap","default":false,"index":0,"url":"https://demo.com/endpoint"},
-                            {"binding":"soap","default":true,"index":1,"url":"https://domain.com/endpoint"}]```
-            attribute_mapping (:obj:`list` of :obj:`dict`, optional): The attribute mapping data. format is:
-                            ```[{"name":"email","source":"ldap_email"},{"mobile":"source":"ldap_phone"}]```
+                            resolution service data is::
+
+                                                        [
+                                                            {"binding":"soap",
+                                                             "default":false,
+                                                             "index":0,
+                                                             "url":"https://demo.com/endpoint"
+                                                            },
+                                                            {"binding":"soap",
+                                                             "default":true,
+                                                             "index":1,
+                                                             "url":"https://domain.com/endpoint"
+                                                            }
+                                                        ]
+
+            attribute_mapping (:obj:`list` of :obj:`dict`, optional): The attribute mapping data. format 
+                            is::
+
+                                [
+                                    {"name":"email",
+                                     "source":"ldap_email"
+                                    },
+                                    {"name":"mobile",
+                                     "source":"ldap_phone"
+                                    }
+                                ]
+
             company_name (:obj:`str`, optional): The name of the company that creates the identity provider or service 
                             provider.
             encrypt_block_alg (:obj:`str`, optional): Block encryption algorithm used to encrypt and decrypt SAML message.
@@ -313,7 +353,7 @@ class Federations(object):
             msg_issuer_fmt (:obj:`str`, optional): The format of the issuer of SAML message.
             msg_issuer_name_qualifier (:obj:`str`): The name qualifier of the issuer of SAML messaged.
             name_id_format (:obj:`str`): The name identifier format to use when the format attribute is not set, or is 
-                            set to "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified".
+                            set to ``urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified``.
             name_id_supported (:obj:`list` of :obj:`str`): The list of supported name identifier formats.
             consent_to_federate (`bool`, optional): A setting that specifies whether to ask user's consent before linking 
                             the account.

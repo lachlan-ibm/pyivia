@@ -31,14 +31,14 @@ class RiskProfiles(object):
                                                 value of each attribute which is used in determining the risk score.
                                                 eg::
 
-                                                [
-                                                    {"weight":50,
-                                                     "attributeID":"28"
-                                                    },
-                                                    {"weight":10,
-                                                     "attributeID":"34"
-                                                    }
-                                                ]
+                                                    [
+                                                        {"weight":50,
+                                                         "attributeID":"28"
+                                                        },
+                                                        {"weight":10,
+                                                         "attributeID":"34"
+                                                        }
+                                                    ]
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -75,14 +75,14 @@ class RiskProfiles(object):
                                                 value of each attribute which is used in determining the risk score.
                                                 eg::
 
-                                                [
-                                                    {"weight":50,
-                                                     "attributeID":"28"
-                                                    },
-                                                    {"weight":10,
-                                                     "attributeID":"34"
-                                                    }
-                                                ]
+                                                    [
+                                                        {"weight":50,
+                                                         "attributeID":"28"
+                                                        },
+                                                        {"weight":10,
+                                                         "attributeID":"34"
+                                                        }
+                                                    ]
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 

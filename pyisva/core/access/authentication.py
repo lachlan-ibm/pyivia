@@ -32,7 +32,8 @@ class Authentication(object):
             uri (:obj:`str`): URI of the mechainsm.
             type_id (:obj:`str`): Mechanism type to inherit from
             properties (:obj:`list` of :obj:`dict`): List of properties for the mechaism. Properties are determined by 
-                                                    the mechanism type. Properties should follow the format::
+                                                    the mechanism type. Properties should follow the 
+                                                    format::
 
                                                             [
                                                                 {"key":"property.key.name", 
@@ -41,7 +42,8 @@ class Authentication(object):
                                                             ]
 
             attributes: (:obj:`list` of :obj:`dict`): List of attributes to retireve from the request context before 
-                                                    executing the mechanism. Attributes should follow the format::
+                                                    executing the mechanism. Attributes should follow the 
+                                                    format::
 
                                                             [
                                                                 {"selector":"Context.REQUEST", 
@@ -145,23 +147,25 @@ class Authentication(object):
             uri (:obj:`str`): URI of the mechainsm.
             type_id (:obj:`str`): Mechanism type to inherit from
             properties (:obj:`list` of :obj:`dict`): List of properties for the mechaism. Properties are determined by 
-                                                    the mechanism type. Properties should use the format::
+                                                    the mechanism type. Properties should use the 
+                                                    format::
 
-                                                    [
-                                                        {"key":"property.key.name", 
-                                                         "value":"property.value"
-                                                        }
-                                                    ]
+                                                            [
+                                                                {"key":"property.key.name", 
+                                                                 "value":"property.value"
+                                                                }
+                                                            ]
 
             attributes: (:obj:`list` of :obj:`dict`): List of attributes to retireve from the request context before 
-                                                    executing the mechanism. Attributes should use the format::
+                                                    executing the mechanism. Attributes should use the 
+                                                    format::
 
-                                                    [
-                                                        {"selector":"Context.REQUEST", 
-                                                         "namespace": "urn:ibm:security:asf:request:parameter", 
-                                                         "name": "parameter"
-                                                        }
-                                                    ]
+                                                            [
+                                                                {"selector":"Context.REQUEST", 
+                                                                 "namespace": "urn:ibm:security:asf:request:parameter", 
+                                                                 "name": "parameter"
+                                                                }
+                                                            ]
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
