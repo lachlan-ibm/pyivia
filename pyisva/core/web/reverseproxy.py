@@ -34,7 +34,7 @@ class ReverseProxy(object):
         Create a new WebSEAL Reverse Proxy instance.
 
         Args:
-            iinst_name (:obj:`str`): Name of the WebSEAL instance.
+            inst_name (:obj:`str`): Name of the WebSEAL instance.
             host (:obj:`str`): The host name that is used by the Security Verify Access policy server to contact the appliance.
             admin_id (:obj:`str`): The Security Verify Access administrator name.
             admin_pwd (:obj:`str`): The Security Verify Access administrator password.

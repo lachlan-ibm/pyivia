@@ -21,7 +21,7 @@ class Interfaces(object):
         self.client = RESTClient(base_url, username, password)
 
     def create_address(self, interface_label, address=None, mask_or_prefix=None, enabled=True, allow_management=False, 
-            override_subnet_checking=False):
+            broadcast_address=None, override_subnet_checking=False):
         """
         Add a new address to an existing interface.
         
@@ -31,6 +31,7 @@ class Interfaces(object):
             mask_or_prefix (:obj:`str`): subnet mask or prefix. e.g. "255.255.255.0", "24".
             enabled (`bool`): true to enabled this address, otherwise false. 
             allow_management (`bool`): true if this is the primary management address.
+            broadcast_address (:obj:`str`): Broadcast address on the subnet.
             override_subnet_checking (`bool`): true to indicate that the check for overlapping subnets should not be executed. 
                             The default value of false is used if this data is not supplied.
 
@@ -56,6 +57,7 @@ class Interfaces(object):
                     address_data.add_value_string("address", address)
                     address_data.add_value_string(
                         "maskOrPrefix", mask_or_prefix)
+                    address_data.add_value_string("broadcastAddress", broadcast_address)
                     address_data.add_value("enabled", enabled)
                     address_data.add_value("allowManagement", allow_management)
 

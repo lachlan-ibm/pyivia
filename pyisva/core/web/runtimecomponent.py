@@ -11,6 +11,8 @@ from pyisva.util.restclient import RESTClient
 EMBEDDED_LDAP_PASSWORD = "/isam/embedded_ldap/change_pwd/v1"
 RUNTIME_COMPONENT = "/isam/runtime_components"
 UNCONFIGURE_RUNTIME_COMPONENT = RUNTIME_COMPONENT + "/RTE"
+FEDERATED_DIRECTORIES = RUNTIME_COMPONENT + "/federated_directories"
+RUNTIME_STANZA_FILE_BASE = "/isam/runtime"
 
 logger = logging.getLogger(__name__)
 
@@ -118,6 +120,163 @@ class RuntimeComponent(object):
 
         response = self.client.post_json(EMBEDDED_LDAP_PASSWORD, data.data)
         response.success = response.status_code == 200
+        return response
+
+
+    def create_federated_user_registry(self, _id, hostname=None, port=None, bind_dn=None, bind_pwd=None, 
+            ignore_if_down=None, use_ssl=None, client_cert_label=None, suffix=[]):
+        """
+        Add a federated LDAP server to the user registry for use as basic or full Verify Access users.
+
+        Args:
+            _id (:obj:`str`): The identifier of the federated LDAP server.
+            hostname (:obj:`str`): The hostname or address of the LDAP server.
+            port (:obj:`str`): The port that the LSAP server is listening on.
+            bind_dn (:obj:`str`): The Distinguished Name to bind to the LDAP server as to perform admin operations.
+            bind_pwd (:obj:`str`): The secret to authenticate as the ``bind_dn`` user.
+            ignore_if_down (`bool`, optional): Whether the server will continue to operate using the other configured 
+                                               federated registries if this user registry is unavailable.
+            use_ssl (`bool`): Whether or not SSL is used to communicate with the directory.
+            client_cert_label (:obj:`str`, optional): The client certificate to use when communicating with the 
+                                                      directory using SSL. Only valid if ``use_ssl`` is true.
+            suffix (:obj:`list` of :obj:`dict`): List of suffixes to use, eg::
+
+                                                                                [
+                                                                                 {"id": "dc=ibm,dc=com"},
+                                                                                 {"id": "o=ibm"}
+                                                                                ]
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        """
+        data = DataObject()
+        data.add_value_string("id", _id)
+        data.add_value_string("hostname", hostname)
+        data.add_value("port", port)
+        data.add_value_string("bind_dn", bind_dn)
+        data.add_value_string("bind_pwd", bind_pwd)
+        data.add_value_boolean("ignore_if_down", ignore_if_down)
+        data.add_value_boolean("use_ssl", use_ssl)
+        data.add_value_string("client_cert_label", client_cert_label)
+        data.add_value("suffix", suffix)
+
+        response = self.client.post_json(FEDERATED_DIRECTORIES + "/v1", data.data)
+        response.success = response.status_code == 200
+
+        return response
+
+
+    def delete_federated_user_registry(self, _id):
+        """
+        Remove a configured federated user registry
+
+        Args:
+            _id (:obj:`str`): The identifier of the federated user registry to remove.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        """
+        url = FEDERATED_DIRECTORIES + "/{}/v1".format(_id)
+        response = self.client.delete_json(url)
+        response.success = response.status_code == 204
+
+        return response
+
+
+    def create_configuration_file_entry(self, resource=None, stanza=None, entries=None):
+        """
+        Create a new stanza or entry in a runtime component configuration file.
+
+        Args:
+            resource (:obj:`str`): The configuration file to modify. For example: ldap.conf, pd.conf, instance.conf
+            stanza (:obj:`str`): The name of the resource stanza entry.
+            entries (:obj:`list` of :obj:`list`, optional): Entry name and value in the format of key value pairs. If 
+                                                            this property is not supplied then the stanza is created
+                                                            instead. Format of list is::
+
+                                                                                        [
+                                                                                          ["entryName", "entryValue"],
+                                                                                          ["anotherName", "theValue"]
+                                                                                        ]
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        """
+        url = RUNTIME_STANZA_FILE_BASE + "/{}/configuration/stanza/{}".format(resource, stanza)
+        data = DataObject()
+        if entries:
+            data.add_value("entries", entrites)
+            url += "/entry_name"
+
+        response = self.client.post_json(url, data.data)
+        response.success = response.status_code == 200
+
+        return response
+
+
+    def update_configuration_file_entry(self, resource=None, stanza=None, entries=None):
+        """
+        Update a stanza entry in a runtime component configuration file.
+
+        Args:
+            resource (:obj:`str`): The configuration file to modify. For example: ldap.conf, pd.conf, instance.conf
+            stanza (:obj:`str`): The name of the resource stanza entry.
+            entries (:obj:`list` of :obj:`list`): Entry name and value in the format of key value pairs. If 
+                                                            this property is not supplied then the stanza is created
+                                                            instead. Format of list is::
+
+                                                                                        [
+                                                                                          ["entryName", "entryValue"],
+                                                                                          ["anotherName", "theValue"]
+                                                                                        ]
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
+        url = RUNTIME_STANZA_FILE_BASE + "/{}/configuration/stanza/{}/entry_name".format(resource, stanza)
+        data = DataObject()
+        data.add_value("entries", entrites)
+        response = self.client.put_json(url, data.data)
+        response.success = response.status_code == 200
+
+        return response
+
+
+    def delete_configuration_file_entry(self, resource=None, stanza=None, entry=None, value=None):
+        """
+        Delete a stanza or entry in a runtime component configuration file.
+
+        Args:
+            resource (:obj:`str`): The configuration file to modify. For example: ldap.conf, pd.conf, instance.conf
+            stanza (:obj:`str`): The name of the resource stanza entry.
+            entry (:obj:`str`, optional): The entry name to be removed. If not supplied then the entire stanza is removed.
+            value (:obj:`str`, optional): The entry value to be removed. This must be set if the ``entry`` property is
+                                          supplied.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
+        response = None
+        url = RUNTIME_STANZA_FILE_BASE + "/{}/configuration/stanza/{}".format(resource, stanza)
+        if entry:
+            url += "/entry_name/{}/value/{}".format(entry, value)
+
+        response = self.client.delete_json(url)
+        response.success = response.status_code == 200
+
         return response
 
 
