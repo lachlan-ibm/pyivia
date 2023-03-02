@@ -180,6 +180,7 @@ class Federations(object):
                             "client_secret_basic" and "client_secret_post".
             attribute_mapping (:obj:`list` of :obj:`dict`, optional): List of configured attribute sources. Format of
                             dictionary is::
+
                                                 [
                                                     {"name":"email", 
                                                      "source": "ldap"
@@ -188,6 +189,7 @@ class Federations(object):
                                                      "source":"credential"
                                                     }
                                                 ]
+
             identity_delegate_id (:obj:`str`): The active mapping module instance. Valid values are "skip-identity-map", 
                             "default-map" and "default-http-custom-map".
             identity_auth_type (:obj:`str`, optional): Authentication method used when contacting external service. Supported 

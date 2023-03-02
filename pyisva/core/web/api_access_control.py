@@ -8,6 +8,7 @@ from .apiac.policies import Policies
 from .apiac.resources import Resources
 from .apiac.utilities import Utilities
 from .apiac.document_root import DocumentRoot
+from .apiac.authorization_server import AuthorizationServer
 
 class APIAccessControl(object):
     '''
@@ -21,3 +22,4 @@ class APIAccessControl(object):
         self.resoures = Resources(base_url, username, password)
         self.utilities = Utilities(base_url, username, password)
         self.document_root = DocumentRoot(base_url, username, password)
+        self.authz_server = AuthoriztaionServer(base_url, username, password)

@@ -485,7 +485,7 @@ class ReverseProxy(object):
             junction_cookie_javascript_block=None, client_ip_http=None,
             version_two_cookies=None, ltpa_keyfile=None, authz_rules=None,
             fsso_config_file=None, username=None, password=None,
-            server_uuid=None, virtual_hostname=None, server_dn=None,
+            server_uuid=None, virtual_hostname=None, server_dn=None, server_cn=None
             local_ip=None, query_contents=None, case_sensitive_url=None,
             windows_style_url=None, ltpa_keyfile_password=None,
             proxy_hostname=None, sms_environment=None, vhost_label=None,
@@ -513,6 +513,10 @@ class ReverseProxy(object):
                                                         included in cookies for junction identification.
             transparent_path_junction (:obj:`str`, optional): Specifies whether a transparent path junction is created. 
                                                             Valid value is "yes" or "no".
+            mutual_auth(:obj:`str`, optional): Specifies whether to enforce mutual authentication between a front-end 
+                                               Reverse Proxy server and a back-end Reverse Proxy server over SSL.
+            insert_ltpa_cookies (:obj:`str`, optional): Controls whether LTPA cookies are passed to the junctioned Web 
+                                                        server. Valid value is "yes" or "no".
             insert_session_cookies (:obj:`str`): Controls whether to send the session cookie to the junctioned Web server.
             request_encoding (:obj:`str`, optional): Specifies the encoding to use when the system generates HTTP 
                                     headers for junctions.
@@ -536,6 +540,7 @@ class ReverseProxy(object):
             server_uuid (:obj:`str`, optional): Specifies the UUID that will be used to identify the junctioned Web server.
             virtual_hostname (:obj:`str`, optional): Virtual host name that is used for the junctioned Web server.
             server_dn (:obj:`str`, optional): Specifies the distinguished name of the junctioned Web server.
+            server_cn (:obj:`str`, optional): Specifies the common name, or subject alternative name, of the junctioned Web server. 
             local_ip (:obj:`str`, optional): Specifies the local IP address that the Reverse Proxy uses when the system 
                                     communicates with the target back-end server.
             query_contents (:obj:`str`, optional): Provides the Reverse Proxy with the correct name of the query_contents 
@@ -604,6 +609,7 @@ class ReverseProxy(object):
         data.add_value_string("server_uuid", server_uuid)
         data.add_value_string("virtual_hostname", virtual_hostname)
         data.add_value_string("server_dn", server_dn)
+        data.add_value_string("server_cn", server_cn)
         data.add_value_string("local_ip", local_ip)
         data.add_value_string("query_contents", query_contents)
         data.add_value_string("case_sensitive_url", case_sensitive_url)
