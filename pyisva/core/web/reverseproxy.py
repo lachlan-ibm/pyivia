@@ -485,7 +485,7 @@ class ReverseProxy(object):
             junction_cookie_javascript_block=None, client_ip_http=None,
             version_two_cookies=None, ltpa_keyfile=None, authz_rules=None,
             fsso_config_file=None, username=None, password=None,
-            server_uuid=None, virtual_hostname=None, server_dn=None, server_cn=None
+            server_uuid=None, virtual_hostname=None, server_dn=None, server_cn=None,
             local_ip=None, query_contents=None, case_sensitive_url=None,
             windows_style_url=None, ltpa_keyfile_password=None,
             proxy_hostname=None, sms_environment=None, vhost_label=None,

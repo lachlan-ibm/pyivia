@@ -18,6 +18,13 @@ The API Access Control module is used to configure WebSEAL instances which can b
 
 .. automodule:: pyisva.core.web.api_access_control
 
+
+Authorization Server
+--------------------
+
+.. autoclass:: pyisva.core.web.apiac.authorization_server.AuthorizationServer
+   :members:
+
 Cross Origin Remote Scripting
 -----------------------------
 
