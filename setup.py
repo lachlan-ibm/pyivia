@@ -12,6 +12,6 @@ setup(
     install_requires=[
         'requests>=2.23.0'
     ],
-    url='https://github.ibm.com/ibm-security/pyisva',
+    url='https://github.com/lachlan-ibm/pyisva',
     zip_safe=False
 )
