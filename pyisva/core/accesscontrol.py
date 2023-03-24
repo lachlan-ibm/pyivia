@@ -4,6 +4,7 @@
 
 from .access.accesscontrol import AccessControl
 from .access.accesscontrol import AccessControl9030 as AC9030
+from .access.accesscontrol import AccessControl10000 as AC10000
 from .access.advancedconfig import AdvancedConfig
 from .access.apiprotection import APIProtection, APIProtection9040
 from .access.attributes import Attributes
@@ -20,6 +21,7 @@ from .access.userregistry import UserRegistry, UserRegistry10020
 from .access.mappingrules import MappingRules
 from .access.fido2config import FIDO2Config
 from .access.fido2registrations import FIDO2Registrations
+from .access.pip import PIP
 
 
 class AccessControl9020(object):
@@ -40,6 +42,7 @@ class AccessControl9020(object):
     :var server_connections: Create :ref:`Server Connections` to external service providers.
     :var template_files: Create and manage HTML and JSON i:ref:`Template Files`.
     :var user_registry: Manage :ref:`user authentication<User Registry>` to the Liberty runtime server.
+    :var pip: Manage :ref:`policy information points<PIP>`.
     '''
 
     def __init__(self, base_url, username, password):
@@ -61,6 +64,7 @@ class AccessControl9020(object):
         self.template_files = TemplateFiles(base_url, username, password)
         self.user_registry = UserRegistry(base_url, username, password)
         self.mapping_rules = MappingRules(base_url, username, password)
+        self.pip = PIP(base_url, username, password)
 
 
 class AccessControl9021(AccessControl9020):
@@ -142,6 +146,7 @@ class AccessControl10010(AccessControl10000):
 
     def __init__(self, base_url, username, password):
         super(AccessControl10010, self).__init__(base_url, username, password)
+        self.access_control = AC10000(base_url, username, password)
 
 
 class AccessControl10020(AccessControl10010):

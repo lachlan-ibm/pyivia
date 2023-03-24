@@ -77,6 +77,62 @@ class Attributes(object):
 
         return response
 
+    def update_attribute(
+            self, id, category=None, matcher=None, issuer=None, description=None,
+            name=None, datatype=None, uri=None, storage_session=None,
+            storage_behavior=None, storage_device=None, type_risk=None,
+            type_policy=None):
+        '''
+        Update an existing CBA attribute.
+
+        Args:
+            id (:obj:`str`): The assigned attribute identifier.
+            category (:obj:`str`): The part of the XACML request that the attribute value comes from.
+            matcher (:obj:`str`): ID of the attribute matcher.
+            issuer (:obj:`str`): The name of the policy information point from which the value of the attribute is retrieved.
+            description (:obj:`str`, optional): Description of the attribute.
+            name (:obj:`str`): Name of the attribute
+            datatype (:obj:`str`): The type of values that the attribute can accept.
+            uri (:obj:`str`): The identifier of the attribute that is used in the generated XACML policy.
+            storage_session (bool): True if the attribute is collected in the user session.
+            storage_behavior (bool): True if historic data for this attribute is stored in the database and used for behavior-based attribute matching.
+            storage_device (bool): True if the attribute is stored when a device is registered as part of the device fingerprint.
+            type_risk (bool): True if the attribute is used in risk profiles.
+            type_policy (bool): True if the attribute is used in policies.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
+        storage_data = DataObject()
+        storage_data.add_value("session", storage_session)
+        storage_data.add_value("behavior", storage_behavior)
+        storage_data.add_value("device", storage_device)
+
+        type_data = DataObject()
+        type_data.add_value("risk", type_risk)
+        type_data.add_value("policy", type_policy)
+
+        data = DataObject()
+        data.add_value_string("category", category)
+        data.add_value_string("matcher", matcher)
+        data.add_value_string("issuer", issuer)
+        data.add_value_string("description", description)
+        data.add_value_string("name", name)
+        data.add_value_string("datatype", datatype)
+        data.add_value_string("uri", uri)
+        data.add_value("predefined", False)
+        data.add_value_not_empty("storageDomain", storage_data.data)
+        data.add_value_not_empty("type", type_data.data)
+
+        endpoing = ATTRIBUTES + '/{}'.format(id)
+        response = self.client.post_json(, data.data)
+        response.success = response.status_code == 204
+
+        return response
+
     def list_attributes(self, sort_by=None, count=None, start=None, filter=None):
         '''
         Get a list of the configured attributes.

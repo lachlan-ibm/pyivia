@@ -27,14 +27,15 @@ class Resources(object):
             oauth_introspection_response_attributes=None, static_response_headers=None, jwt_header_name=None, 
             jwt_certificate=None, jwt_claims=None, description=None, junction_hard_limit=None, 
             junction_soft_limit=None, basic_auth_mode=None, tfim_sso=None, remote_http_header=None, 
-            stateful_junction=None, http2_junction=None, http2_proxy=None, sni_name=None, preserve_cookie=None, cookie_include_path=None, 
-            transparent_path_junction=None, mutual_auth=None, insert_ltpa_cookies=None, insert_session_cookies=None, 
-            request_encoding=None, enable_basic_auth=None, key_label=None, gso_respource_group=None, 
-            junction_cookie_javascript_block=None, client_ip_http=None, version_two_cookies=None, ltpa_keyfile=None, 
-            authz_rules=None, fsso_config_file=None, username=None, password=None, server_uuid=None, server_port=None, 
-            virtual_hostname=None, server_dn=None, server_cn=None, local_ip=None, query_contents=None, case_sensitive_url=None, 
-            windows_style_url=None, ltpa_keyfile_password=None, https_port=None, http_port=None, proxy_hostname=None, 
-            proxy_port=None, sms_environment=None, vhost_label=None, force=None, delegation_support=None, scripting_support=None):
+            stateful_junction=None, http2_junction=None, http2_proxy=None, sni_name=None, preserve_cookie=None, 
+            cookie_include_path=None, transparent_path_junction=None, mutual_auth=None, insert_ltpa_cookies=None, 
+            insert_session_cookies=None, request_encoding=None, enable_basic_auth=None, key_label=None, 
+            gso_respource_group=None, junction_cookie_javascript_block=None, client_ip_http=None, 
+            version_two_cookies=None, ltpa_keyfile=None, authz_rules=None, fsso_config_file=None, username=None, 
+            password=None, server_uuid=None, server_port=None, virtual_hostname=None, server_dn=None, server_cn=None, 
+            local_ip=None, query_contents=None, case_sensitive_url=None, windows_style_url=None, 
+            ltpa_keyfile_password=None, https_port=None, http_port=None, proxy_hostname=None, proxy_port=None, 
+            sms_environment=None, vhost_label=None, force=None, delegation_support=None, scripting_support=None):
         '''
         Create a new API Access Control resource server.
 
@@ -55,7 +56,7 @@ class Resources(object):
                         the token introspection.
             oauth_introspection_client_id (:obj:`str`): The client identifier which is used for OAuth introspection 
                         authentication.
-            oauth_introspection_client_secet (:obj:`str`): The client secret which is used for OAuth introspection 
+            oauth_introspection_client_secret (:obj:`str`): The client secret which is used for OAuth introspection 
                         authentication.
             oauth_introspection_client_id_hdr (:obj:`str`): The name of the HTTP header which contains the client 
                         identifier which is used to authenticate to the introspection endpoint.
@@ -71,7 +72,7 @@ class Resources(object):
                         added to the HTTP response. eg: ``{"name":"HeaderName","value":"HeaderValue"}``
             jwt_header_name (:obj:`str`): The name of the HTTP header that will contain the JWT.
             jwt_certificate (:obj:`str`): The label of the personal certificate that will sign the JWT.
-            jwt_claims (:obj:`str`): The list of claims to add to the JWT.
+            jwt_claims (:obj:`list` of :obj:`dict`): The list of claims to add to the JWT.
             description (:obj:`str`, optional): An optional description for this junction.
             junction_hard_limit (:obj:`str`): Defines the hard limit percentage for consumption of worker threads. 
                         Valid value is an integer from "0" to "100".

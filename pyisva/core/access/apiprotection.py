@@ -370,7 +370,7 @@ class APIProtection9040(APIProtection):
             enable_multiple_refresh_tokens_for_fault_tolerance=None,
             pin_policy_enabled=None, grant_types=None, oidc_enabled=False,
             iss=None, poc=None, lifetime=None, alg=None, db=None, cert=None,
-            enc_enabled=False, enc_alg=None, enc_enc=None, access_policy_id=None):
+            enc_enabled=False, enc_alg=None, enc_enc=None, access_policy_id=None, attribute_sources=None):
         '''
         Create an OIDC API Protection definition. Definitions can be used to configure one or more clients.
 
@@ -401,7 +401,7 @@ class APIProtection9040(APIProtection):
             enc_enabled (bool): Is encryption enabled for this definition.
             enc_alg (:obj:`str`): The key agreement algorithm for encryption.
             enc_enc (:obj:`str`): The encryption algorithm.
-            access_policy_id (int): The id of access policy assigned to this definition.
+            attribute_sources (:obj:`list` of :obj:`dict`): Array of configured attribute sources to use in id_token generation and userinfo requests.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -455,6 +455,7 @@ class APIProtection9040(APIProtection):
                 oidc.add_value("enc",enc_data.data)
 
             data.add_value("oidc",oidc.data)
+        data.add_value("attributeSources", attribute_sources)
 
         response = self.client.post_json(DEFINITIONS, data.data)
         response.success = response.status_code == 201

@@ -139,11 +139,70 @@ class AccessControl(object):
         return response
 
     def create_obligation(
-            self, name=None, predefined=False, description=None, obligationURI=None,
-            type=None, parameters=None, typeId=None, properties=None):
+            self, name=None, description=None, obligationURI=None,
+            type="Obligation", parameters=None, properties=None):
+        '''
+        Create a new obligation for use with RBA
+
+        Args:
+            name (:obj:`str`): Name of obligation.
+            description (:obj:`str`, optional): Description of the obligation,
+            obligationURI (:obj:`str`): URI of the obligation.
+            type (:obj:`str`): The obligation type, "Obligation"
+            parameters (:obj:`list` of :obj:`str`, optional): List of parameters used by the obligation when making a decision.
+            properties (:obj:`list` of :obj:`str`, optional): Properties used by the obligation.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the created obligation can be acess from the 
+            response.id_from_location attribute
+
+        '''
+
         data = DataObject()
         data.add_value_string("name", name)
-        data.add_value("predefined", predefined)
+        data.add_value_string("description", description)
+        data.add_value_string("obligationURI", obligationURI)
+        data.add_value_string("type", type)
+        data.add_value("parameters", parameters)
+        data.add_value_string("typeId", typeId)
+        data.add_value("properties", properties)
+
+        response = self.client.post_json(OBLIGATIONS, data.data)
+        response.success = response.status_code == 201
+
+        return response
+
+
+    def update_obligation(
+            self, id, name=None, description=None, obligationURI=None,
+            type="Obligation", parameters=None, properties=None):
+        '''
+        Update an existing obligation for use with RBA
+
+        Args:
+            id (:obj:`str`): The generated unique id of the obligation to update.
+            name (:obj:`str`): Name of obligation.
+            description (:obj:`str`, optional): Description of the obligation,
+            obligationURI (:obj:`str`): URI of the obligation.
+            type (:obj:`str`): The obligation type, "Obligation"
+            parameters (:obj:`list` of :obj:`str`, optional): List of parameters used by the obligation when making a decision.
+            properties (:obj:`list` of :obj:`str`, optional): Properties used by the obligation.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the created obligation can be acess from the 
+            response.id_from_location attribute
+
+        '''
+        data = DataObject()
+        data.add_value_string("name", name)
         data.add_value_string("description", description)
         data.add_value_string("obligationURI", obligationURI)
         data.add_value_string("type", type)
@@ -180,6 +239,48 @@ class AccessControl9030(AccessControl):
             "policyCombiningAlgorithm", policy_combining_algorithm)
         data.add_value("policies", policies)
         data.add_value_string("type", type)
+
+        response = self.client.post_json(POLICY_ATTACHMENTS, data.data)
+        response.success = response.status_code == 201
+
+        return response
+
+
+class AccessControl10000(AccessControl9030):
+
+    def __init__(self, base_url, username, password):
+        super(AccessControl10000, self).__init__(base_url, username, password)
+
+    def configure_resource(
+            self, server=None, resource_uri=None,
+            policy_combining_algorithm=None, policies=None,
+            cache=None):
+        '''
+        Create a new resource in the polic server wheich can be attached to an authentication policy.
+
+        Args:
+            server (:obj:`str`): Name of WebSEAL instance in the policy server where resource will be created
+            resource_uri (:obj:`str`): URI of resource to be created
+            policy_combining_algorithm (:obj:`str`): Algorithm to use: "denyOverrides" or "permitOverrides"
+            policies (:obj:`list` of :obj:`str`): List of policies, policy sets or API protection clients
+            cache (`int`, optional): 0 to disable the cache for this resource, -1 to cache the decision for 
+                                    the lifetime of the session or any number greater than 1 to set a 
+                                    specific timeout (in seconds) for the cached decision. If not specified 
+                                    a default of 0 will be used. 
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
+        data = DataObject()
+        data.add_value_string("server", server)
+        data.add_value_string("resourceUri", resource_uri)
+        data.add_value_string(
+            "policyCombiningAlgorithm", policy_combining_algorithm)
+        data.add_value("policies", policies)
+        data.add_value("cache", cache)
 
         response = self.client.post_json(POLICY_ATTACHMENTS, data.data)
         response.success = response.status_code == 201
