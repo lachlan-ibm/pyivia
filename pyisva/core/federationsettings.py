@@ -7,6 +7,7 @@ from .federation.pointofcontact import PointOfContact
 from .federation.accesspolicy import AccessPolicy
 from .federation.attributesources import AttributeSources
 from .federation.securitytokenservice import SecurityTokenService
+from .federation.alias_service import AliasService
 
 class Federation9020(object):
     '''
@@ -24,6 +25,7 @@ class Federation9020(object):
         self.federations = Federations(base_url, username, password)
         self.attribute_sources = AttributeSources(base_url, username, password)
         self.sts = SecurityTokenService(base_url, username, password)
+        self.alias_service = AliasService(base_url, username, password)
 
 class Federation9021(Federation9020):
 

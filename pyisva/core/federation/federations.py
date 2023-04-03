@@ -85,7 +85,7 @@ class Federations(object):
         advConfig.add_value_string("activeDelegateId", adv_delegate_id)
         advConfigProps = DataObject()
         advConfigProps.add_value_string("ruleType", adv_rule_type)
-        advConfigProps.add_vaule_string("advanceMappingRuleReference", adv_mapping_rule)
+        advConfigProps.add_value_string("advanceMappingRuleReference", adv_mapping_rule)
         advConfig.add_value_not_empty("properties", advConfigProps.data)
 
         identityMapping = DataObject()

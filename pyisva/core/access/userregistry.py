@@ -118,7 +118,7 @@ class UserRegistry10020(UserRegistry):
 
         '''
         data = DataObject()
-        data.add_vaule_string("id", user_id)
+        data.add_value_string("id", user_id)
         data.add_value_string("password", password)
         data.add_value("groups", groups)
 
