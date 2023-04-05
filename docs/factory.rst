@@ -26,9 +26,9 @@ Usage
 _____
 
 This module uses the firmware management API to return the version string from Verify Access and return the
-appropraite version implementation of the management API.
+appropriate version implementation of the management API.
 
-A user should not attempt to instansiate the versioned classes, instead the ``pyisva.factory`` module should be
+A user should not attempt to instantiate the versioned classes, instead the ``pyisva.factory`` module should be
 used to create a ``pyisava.factory.Factory`` object which is capable of returning version specific implementation of
 the five modules used.
 

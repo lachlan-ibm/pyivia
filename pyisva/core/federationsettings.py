@@ -7,17 +7,18 @@ from .federation.pointofcontact import PointOfContact
 from .federation.accesspolicy import AccessPolicy
 from .federation.attributesources import AttributeSources
 from .federation.securitytokenservice import SecurityTokenService
-from .federation.alias_service import AliasService
+from .federation.aliasservice import AliasService
 
 class Federation9020(object):
     '''
     Object is used to manage the Federations endpoints of a Verify Identity Access applaince
 
-    :var federations: Create and mnanage Federation and Partners
-    :var attribute_sources: Manage attributes added to identities in federation flows
-    :var sts: Create and manage Security Token Service chains
-    :var poc: Create and manage Point of Contact profiles
-    :var access_policy: Create and manage Access policy rules.
+    :var federations: Create and manage :ref:`Federation<Federations>` and Partners.
+    :var attribute_sources: Manage :ref:`attributes<AttributeSources>` added to identities in federation flows.
+    :var alias_service: Manage user :ref:`aliases<AliasService>` for federated identity sources.
+    :var sts: Create and manage :ref:`Security Token Service<SecurityTokenService>` chains.
+    :var poc: Create and manage :ref:`Point of Contact<PointOfContact>` profiles.
+    :var access_policy: Create and manage :ref:`Access Policy<AccessPolicy>` rules.
     '''
 
     def __init__(self, base_url, username, password):
@@ -25,7 +26,7 @@ class Federation9020(object):
         self.federations = Federations(base_url, username, password)
         self.attribute_sources = AttributeSources(base_url, username, password)
         self.sts = SecurityTokenService(base_url, username, password)
-        self.alias_service = AliasService(base_url, username, password)
+
 
 class Federation9021(Federation9020):
 
@@ -44,6 +45,7 @@ class Federation9040(Federation9030):
         self.federations = Federations9040(base_url, username, password)
         self.poc = PointOfContact(base_url, username, password)
         self.access_policy = AccessPolicy(base_url, username, password)
+        self.alias_service = AliasService(base_url, username, password)
 
 
 class Federation9050(Federation9040):

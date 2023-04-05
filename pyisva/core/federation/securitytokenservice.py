@@ -86,7 +86,7 @@ class SecurityTokenService(object):
         return response
 
 
-    def get_templates(self):
+    def list_templates(self):
         """
         Get a list of STS chain templates.
 

@@ -26,19 +26,19 @@ from .access.pip import PIP
 
 class AccessControl9020(object):
     '''
-    Object used to managed Advanced Access Control endpoints. Avaliable modules are:
+    Object used to managed Advanced Access Control endpoints. Available modules are:
 
     :var access_control: Create and manage :ref:`Access Control` policies.
     :var advanced_config: Manage :ref:`Advanced Configuration` parameters.
     :var api_protection: Create and manage OIDC :ref:`API Protection` definitions and clients.
-    :var attributes: Craete and manage Risk Based Access :ref:`Attribute <Attributes>` mappings.
+    :var attributes: Create and manage Risk Based Access :ref:`Attribute <Attributes>` mappings.
     :var authentication: Create and manage :ref:Authentication` policies and mechanisms.
     :var mapping_rules: Create and manage JavaScript :ref:`Mapping Rules` used for customized authentication.
     :var mmfa_config: Configure :ref:`Mobile Multi-Factor Authentication` for Verify Access.
     :var push_notifications: Configure and manage :ref:`Push Notification Providers`.
     :var risk_profiles: Create and manage Risk Based Access :ref:`Risk Profiles`.
     :var runtime_parameters: Manage :ref:`Runtime Parameters` of the Liberty runtime server.
-    :var scim_config: Create and manage :ref:`SCIM<SCIM Configuration>` attribute mapping.
+    :var scim_config: Create and manage :ref:`SCIM<System for Cross-Domain Identity Management (SCIM) Configuration>` attribute mapping.
     :var server_connections: Create :ref:`Server Connections` to external service providers.
     :var template_files: Create and manage HTML and JSON i:ref:`Template Files`.
     :var user_registry: Manage :ref:`user authentication<User Registry>` to the Liberty runtime server.

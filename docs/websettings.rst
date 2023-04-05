@@ -1,3 +1,6 @@
+WebSEAL Reverse Proxy Settings
+##############################
+The WebSEAL module contains methods to configure reverse proxy instances and the associated identity configuration.
 
 .. _web_settings:
 

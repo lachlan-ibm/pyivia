@@ -26,7 +26,7 @@ class AttributeSources(object):
             attribute_name (:obj:`str`): The name of the attribute.
             attribute_type (:obj:`str`): The type of the attribute source. Valid types are: credential, value, ldap.
             attribute_value (:obj:`str`): The value of the source attribute.
-            properties (:obj:`list` of :obj:`str`): The properties associated with an attribute source.
+            properties (:obj:`list` of :obj:`dict`): The properties associated with an attribute source.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 

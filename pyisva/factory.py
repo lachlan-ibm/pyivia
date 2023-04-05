@@ -50,7 +50,7 @@ class AuthenticationError(Exception):
 
 class Factory(object):
     """
-    The Factory class is used to initalise a singleton "appliance" object which cna be use for all subsequent API 
+    The Factory class is used to initialise a singleton "appliance" object which can be use for all subsequent API 
     requests.
 
     The factory has getter methods for the three modules: WebSEAL, Advanced Access Control; and Federation. It also 

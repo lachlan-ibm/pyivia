@@ -114,14 +114,14 @@ class RESTClient(object):
         return response
 
     def post_file(
-            self, endpoint, accept_type="application/json", data="", files={}):
+            self, endpoint, accept_type="application/json", data="", files={}, parameters=None):
         url = self._base_url + endpoint
         headers = self._get_headers(accept_type)
 
         self._log_request("POST", url, headers)
 
         r = requests.post(
-            url=url, headers=headers, data=data, files=files, verify=False)
+            url=url, headers=headers, data=data, files=files, params=parameters, verify=False)
 
         self._log_response(r.status_code, r.headers, r.content)
 
@@ -155,6 +155,23 @@ class RESTClient(object):
     def put_json(self, endpoint, data=""):
         return self.put(
             endpoint, accept_type="application/json", data=json.dumps(data))
+
+    def put_file(
+            self, endpoint, accept_type="application/json", data="", files={}, parameters=None):
+        url = self._base_url + endpoint
+        headers = self._get_headers(accept_type)
+
+        self._log_request("PUT", url, headers)
+
+        r = requests.put(
+            url=url, headers=headers, data=data, files=files, params=parameters, verify=False)
+
+        self._log_response(r.status_code, r.headers, r.content)
+
+        response = self._build_response(r)
+        r.close()
+
+        return response
 
     def _build_response(self, request_response):
         response = Response()
