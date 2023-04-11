@@ -22,7 +22,7 @@ class TemplateFiles(object):
 
     def create_directory(self, path, dir_name=None):
         '''
-        Create a new directory for template files
+        Create a new directory for template files.
 
         Args:
             path (:obj:`str`): Path to directory where new directory will be created.
@@ -33,7 +33,7 @@ class TemplateFiles(object):
 
             Success can be checked by examining the response.success boolean attribute
 
-            If the request is successful the id of the direcotry is returned as JSON and can be accessed from
+            If the request is successful the id of the directory is returned as JSON and can be accessed from
             the response.json attribute
 
         '''
@@ -54,16 +54,16 @@ class TemplateFiles(object):
         List the contents of a directory.
 
         Args:
-            path (:obj:`str`): Path to direcotry to list.
+            path (:obj:`str`): Path to directory to list.
             recursive (bool): Flag to recursively list subdirectories.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the contents of the direcotry is returned as JSON and can be accessed from
-            the response.json attribute
+            If the request is successful the contents of the directory is returned as JSON and can be accessed from
+            the response.json attribute.
 
         '''
         parameters = DataObject()
@@ -86,7 +86,7 @@ class TemplateFiles(object):
 
         Args:
             name (:obj:`str`): Name of new file
-            file_name (:obj:`str`, optional): Absolute path to file with contents of new tempalte file. Either file_name
+            file_name (:obj:`str`, optional): Absolute path to file with contents of new template file. Either file_name
                                             or contents must be specified.
             contents (:obj:`str`, optional): Contents of new template file. Either file_name or contents must be specified.
 
@@ -95,7 +95,7 @@ class TemplateFiles(object):
 
             Success can be checked by examining the response.success boolean attribute
 
-            If the request is successful the contents of the direcotry is returned as JSON and can be accessed from
+            If the request is successful the contents of the directory is returned as JSON and can be accessed from
             the response.json attribute.
 
         '''
@@ -115,11 +115,11 @@ class TemplateFiles(object):
 
     def delete_file(self, path, file_name):
         '''
-        Delete a templafile from Verify Access.
+        Delete a template file from Verify Access.
 
         Args:
             path (:obj:`str`): Path to template file.
-            file_name (:obj:`str`): Name of tempalte file to be removed.
+            file_name (:obj:`str`): Name of template file to be removed.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -199,10 +199,10 @@ class TemplateFiles(object):
 
     def import_files(self, file_path, force=True):
         '''
-        Import a compressed (zip) file of tempalte files.
+        Import a compressed (zip) file of template files.
 
         Args:
-            file_path (:obj:`str`): Absolute path to compessed file to be imported.
+            file_path (:obj:`str`): Absolute path to compressed file to be imported.
             force (bool): Flag to overwrite any existing template files in Verify Access.
 
         Returns:

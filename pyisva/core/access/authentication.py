@@ -29,9 +29,9 @@ class Authentication(object):
         Args:
             description: (:obj:`str`): Description of the mechanism.
             name (:obj:`str`): Name of the mechanism.
-            uri (:obj:`str`): URI of the mechainsm.
+            uri (:obj:`str`): URI of the mechanism.
             type_id (:obj:`str`): Mechanism type to inherit from
-            properties (:obj:`list` of :obj:`dict`): List of properties for the mechaism. Properties are determined by 
+            properties (:obj:`list` of :obj:`dict`): List of properties for the mechanism. Properties are determined by 
                                                     the mechanism type. Properties should follow the 
                                                     format::
 
@@ -41,7 +41,7 @@ class Authentication(object):
                                                                 }
                                                             ]
 
-            attributes: (:obj:`list` of :obj:`dict`): List of attributes to retireve from the request context before 
+            attributes: (:obj:`list` of :obj:`dict`): List of attributes to retrieve from the request context before 
                                                     executing the mechanism. Attributes should follow the 
                                                     format::
 
@@ -55,10 +55,10 @@ class Authentication(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the id of the created mechanism can be acess from the 
-            response.id_from_location attribute
+            If the request is successful the id of the created mechanism can be accessed from the 
+            response.id_from_location attribute.
 
         '''
         data = DataObject()
@@ -74,14 +74,15 @@ class Authentication(object):
 
         return response
 
+
     def list_mechanism_types(self, sort_by=None, count=None, start=None, filter=None):
         '''
-        Get the list of avaliable mechanism types
+        Get the list of available mechanism types
 
         Args:
             sort_by (:obj:`str`, optional): Attribute to sort results by.
             count (:obj:`str`, optional): Maximum number of results to fetch.
-            start (:obj:`str`, optional): Pagenation offset of returned results.
+            start (:obj:`str`, optional): Pagination offset of returned results.
             filter (:obj:`str`): Attribute to filter results by.
 
         Returns:
@@ -89,8 +90,8 @@ class Authentication(object):
 
             Success can be checked by examining the response.success boolean attribute
 
-            If the request is successful the obligations are returned as JSON and can be accessed from
-            the response.json attribute
+            If the request is successful the authentication mechanism types are returned as JSON and can be accessed from
+            the response.json attribute.
 
         '''
         parameters = DataObject()
@@ -105,23 +106,24 @@ class Authentication(object):
 
         return response
 
+
     def list_mechanisms(self, sort_by=None, count=None, start=None, filter=None):
         '''
-        Get the list of avaliable mechanisms
+        Get the list of available mechanisms
 
         Args:
             sort_by (:obj:`str`, optional): Attribute to sort results by.
             count (:obj:`str`, optional): Maximum number of results to fetch.
-            start (:obj:`str`, optional): Pagenation offset of returned results.
+            start (:obj:`str`, optional): Pagination offset of returned results.
             filter (:obj:`str`): Attribute to filter results by.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the obligations are returned as JSON and can be accessed from
-            the response.json attribute
+            If the request is successful the authentication mechanism are returned as JSON and can be accessed from
+            the response.json attribute.
 
         '''
         parameters = DataObject()
@@ -136,17 +138,19 @@ class Authentication(object):
 
         return response
 
+
     def update_mechanism(self, id, description=None, name=None, uri=None, type_id=None,
-            predefined=None, properties=None, attributes=None):
+            predefined=True, properties=None, attributes=None):
         '''
         Update an authentication mechanism.
 
         Args:
             description: (:obj:`str`): Description of the mechanism.
             name (:obj:`str`): Name of the mechanism.
-            uri (:obj:`str`): URI of the mechainsm.
-            type_id (:obj:`str`): Mechanism type to inherit from
-            properties (:obj:`list` of :obj:`dict`): List of properties for the mechaism. Properties are determined by 
+            uri (:obj:`str`): URI of the mechanism.
+            type_id (:obj:`str`): Mechanism type to inherit from.
+            predefined (bool, optional): If this mechanism is pre-defined by Verify Access. Default value is ``true``.
+            properties (:obj:`list` of :obj:`dict`): List of properties for the mechanism. Properties are determined by 
                                                     the mechanism type. Properties should use the 
                                                     format::
 
@@ -156,7 +160,7 @@ class Authentication(object):
                                                                 }
                                                             ]
 
-            attributes: (:obj:`list` of :obj:`dict`): List of attributes to retireve from the request context before 
+            attributes: (:obj:`list` of :obj:`dict`): List of attributes to retrieve from the request context before 
                                                     executing the mechanism. Attributes should use the 
                                                     format::
 
@@ -172,7 +176,7 @@ class Authentication(object):
 
             Success can be checked by examining the response.success boolean attribute
 
-            If the request is successful the id of the created mechanism can be acess from the 
+            If the request is successful the id of the created mechanism can be accessed from the 
             response.id_from_location attribute
 
         '''
@@ -182,9 +186,9 @@ class Authentication(object):
         data.add_value_string("name", name)
         data.add_value_string("uri", uri)
         data.add_value_string("typeId", type_id)
-        data.add_value("predefined", predefined)
-        data.add_value("properties", properties)
-        data.add_value("attributes", attributes)
+        data.add_value_boolean("predefined", predefined)
+        data.add_value_not_empty("properties", properties)
+        data.add_value_not_empty("attributes", attributes)
 
         endpoint = "%s/%s" % (AUTHENTICATION_MECHANISMS, id)
 
@@ -193,26 +197,47 @@ class Authentication(object):
 
         return response
 
+
+    def delete_mechanism(self, mechanism_id):
+        '''
+        Delete an existing authentication mechanism. Only  administrator created (not pre-defined) mechanisms can be deleted.
+
+        Args:
+            mechanism_id (:obj:`str`): The identifier for the mechanism to be removed.
+        
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute.
+
+        '''
+        endpoint = "{}/{}".format(AUTHENTICATION_MECHANISMS, id)
+        response = self.client.delete_json(endpoint)
+        response.success = response.status_code == 204
+
+        return response
+
+
     def create_policy(self, name=None, policy=None, uri=None, description=None,
             dialect="urn:ibm:security:authentication:policy:1.0:schema", enabled=None):
         '''
         Create an authentication policy.
 
         Args:
-            name (:obj:`str`): Name of the policy to be created
+            name (:obj:`str`): Name of the policy to be created.
             policy (:obj:`str`): XML config of the policy.
             uri (:obj:`str`): URI used to identify the policy.
             description (:obj:`str`, optional): Description of the policy.
-            dialect (:obj:`str`, optional): Schema used to create policy. use the default "urn:ibm:security:authentication:policy:1.0:schema"
+            dialect (:obj:`str`, optional): Schema used to create policy. use the default "urn:ibm:security:authentication:policy:1.0:schema".
             enabled (bool): Flag to enable the policy for use by the AAC runtime.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the id of the created mechanism can be acess from the 
-            response.id_from_location attribute
+            If the request is successful the id of the created mechanism can be accessed from the 
+            response.id_from_location attribute.
 
         '''
         data = DataObject()
@@ -221,12 +246,13 @@ class Authentication(object):
         data.add_value_string("uri", uri)
         data.add_value_string("description", description)
         data.add_value_string("dialect", dialect)
-        data.add_value_string("enabled", enabled)
+        data.add_value_boolean("enabled", enabled)
 
         response = self.client.post_json(AUTHENTICATION_POLICIES, data.data)
         response.success = response.status_code == 201
 
         return response
+
 
     def get_policy(self, id):
         '''
@@ -251,6 +277,7 @@ class Authentication(object):
 
         return response
 
+
     def list_policies(self, sort_by=None, count=None, start=None, filter=None):
         '''
         Get a list of all of hte configured AAC policies.
@@ -258,16 +285,16 @@ class Authentication(object):
         Args:
             sort_by (:obj:`str`, optional): Attribute to sort results by.
             count (:obj:`str`, optional): Maximum number of results to fetch.
-            start (:obj:`str`, optional): Pagenation offset of returned results.
+            start (:obj:`str`, optional): Pagination offset of returned results.
             filter (:obj:`str`): Attribute to filter results by
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the obligations are returned as JSON and can be accessed from
-            the response.json attribute
+            If the request is successful the authentication policies are returned as JSON and can be accessed from
+            the response.json attribute.
 
         '''
         parameters = DataObject()
@@ -281,6 +308,7 @@ class Authentication(object):
         response.success = response.status_code == 200
 
         return response
+
 
     def update_policy(self, id, name=None, policy=None, uri=None, description=None,
             dialect="urn:ibm:security:authentication:policy:1.0:schema",
@@ -297,16 +325,16 @@ class Authentication(object):
             description (:obj:`str`, optional): Description of the policy.
             dialect (:obj:`str`, optional): Schema used to create policy. use the default 
                                             ``urn:ibm:security:authentication:policy:1.0:schema``
-            user_las_mdified (:obj:`str`): User id of the user who last made modifications to the authentication policy.
+            user_las_modified (:obj:`str`): User id of the user who last made modifications to the authentication policy.
             last_modified (:obj:`str`): Timestamp of when this policy was last modified.
             date_created (:obj:`str`): Timestamp of when this policy was created.
-            predefined (bool): Flag to indicate if this is a default policy avaliable out of the box.
+            predefined (bool): Flag to indicate if this is a default policy available out of the box.
             enabled (bool): Flag to enable the policy for use by the AAC runtime.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         '''
         data = DataObject()
@@ -316,11 +344,11 @@ class Authentication(object):
         data.add_value_string("description", description)
         data.add_value_string("dialect", dialect)
         data.add_value_string("id", id)
-        data.add_value_string("enabled", enabled)
+        data.add_value_boolean("enabled", enabled)
         data.add_value_string("userlastmodified", user_last_modified)
         data.add_value_string("lastmodified", last_modified)
         data.add_value_string("datecreated", date_created)
-        data.add_value("predefined", predefined)
+        data.add_value_boolean("predefined", predefined)
 
         endpoint = "%s/%s" % (AUTHENTICATION_POLICIES, id)
 
@@ -342,20 +370,20 @@ class Authentication9021(Authentication):
         '''
         Create an authentication policy.
 
-        Agrs:
+        Args:
             name (:obj:`str`): Name of the policy to be created
             policy (:obj:`str`): XML config of the policy.
             uri (:obj:`str`): URI used to identify the policy.
             description (:obj:`str`, optional): Description of the policy.
             dialect (:obj:`str`, optional): Schema used to create policy. use the default "urn:ibm:security:authentication:policy:1.0:schema"
-            enabled (bool): Flag to enable the policy for use by the AAC runtime.
+            enabled (bool, optional): Flag to enable the policy for use by the AAC runtime. Default is ``true``.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
             Success can be checked by examining the response.success boolean attribute
 
-            If the request is successful the id of the created mechanism can be acess from the 
+            If the request is successful the id of the created mechanism can be accessed from the 
             response.id_from_location attribute
 
         '''
@@ -369,12 +397,13 @@ class Authentication9021(Authentication):
         data.add_value_string("userlastmodified", user_last_modified)
         data.add_value_string("lastmodified", last_modified)
         data.add_value_string("datecreated", date_created)
-        data.add_value("enabled", enabled)
+        data.add_value_boolean("enabled", enabled)
 
         response = self.client.post_json(AUTHENTICATION_POLICIES, data.data)
         response.success = response.status_code == 201
 
         return response
+
 
     def update_policy(self, id, name=None, policy=None, uri=None, description=None,
             dialect="urn:ibm:security:authentication:policy:1.0:schema",
@@ -383,7 +412,7 @@ class Authentication9021(Authentication):
         '''
         Update an AAC authentication policy
 
-        Agrs:
+        Args:
             id (:obj:`str`): The id of the policy to be updated.
             name (:obj:`str`): Name of the policy.
             policy (:obj:`str`): XML config of the policy.
@@ -393,13 +422,13 @@ class Authentication9021(Authentication):
             user_las_modified (:obj:`str`): User id of the user who last made modifications to the authentication policy.
             last_modified (:ob:`str`): Timestamp of when this policy was last modified.
             date_created (:obj:`str`): Timestamp of when this policy was created.
-            predefined (bool): Flag to indicate if this is a default policy avaliable out of the box.
-            enabled (bool): Flag to enable the policy for use by the AAC runtime.
+            predefined (bool): Flag to indicate if this is a default policy available out of the box.
+            enabled (bool, optional): Flag to enable the policy for use by the AAC runtime. Default is ``true``.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         '''
         data = DataObject()
@@ -412,8 +441,8 @@ class Authentication9021(Authentication):
         data.add_value_string("userlastmodified", user_last_modified)
         data.add_value_string("lastmodified", last_modified)
         data.add_value_string("datecreated", date_created)
-        data.add_value("predefined", predefined)
-        data.add_value("enabled", enabled)
+        data.add_value_boolean("predefined", predefined)
+        data.add_value_boolean("enabled", enabled)
 
         endpoint = "%s/%s" % (AUTHENTICATION_POLICIES, id)
 
@@ -430,11 +459,11 @@ class Authentication9021(Authentication):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         '''
         data = DataObject()
-        data.add_value("enabled", False)
+        data.add_value_boolean("enabled", False)
         response = self.client.put_json(AUTHENTICATION_POLICIES, data.data)
         response.success = response.status_code == 204
         return response
@@ -447,11 +476,11 @@ class Authentication9021(Authentication):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         '''
         data = DataObject()
-        data.add_value("enabled", True)
+        data.add_value_boolean("enabled", True)
         response = self.client.put_json(AUTHENTICATION_POLICIES, data.data)
         response.success = response.status_code == 204
         return response
@@ -459,7 +488,7 @@ class Authentication9021(Authentication):
 
     def delete_policy(self, _id):
         '''
-        Remove an authenication policy.
+        Remove an authentication policy.
 
         Args:
             _id (:obj:`str`): The id of the policy to be removed.
@@ -471,27 +500,6 @@ class Authentication9021(Authentication):
 
         '''
         endpoint = "%s/%s" % (AUTHENTICATION_POLICIES, _id)
-
-        response = self.client.delete_json(endpoint)
-        response.success = response.status_code == 204
-
-        return response
-
-
-    def delete_mechanism(self, _id):
-        '''
-        Remove an authenication mechanism.
-
-        Args:
-            _id (:obj:`str`): The id of the mechanism to be removed.
-
-        Returns:
-            :obj:`~requests.Response`: The response from verify access. 
-
-            Success can be checked by examining the response.success boolean attribute
-
-        '''
-        endpoint = "%s/%s" % (AUTHENTICATION_MECHANISMS, _id)
 
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 204

@@ -6,9 +6,6 @@ from pyisva.util.model import DataObject
 from pyisva.util.restclient import RESTClient
 
 
-"""
-Allows basic management of FIDO2 egistrations
-"""
 FIDO2_REGISTRATIONS="/iam/access/v8/fido2/registrations"
 FIDO2_USER_REGISTRATIONS="/iam/access/v8/fido2/registrations/username"
 FIDO2_CRED_ID_REGISTRATIONS="/iam/access/v8/fido2/registrations/credentialId"
@@ -22,6 +19,7 @@ class FIDO2Registrations(object):
         super(FIDO2Registrations, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
+
     def list_registrations(self, username=None, credential_id=None):
         '''
         Get a list all of the known FIDO2 registrations.
@@ -33,10 +31,10 @@ class FIDO2Registrations(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
             If the request is successful the FIDO2 registrations are returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
 
         '''
         endpoint = FIDO2_REGISTRATIONS
@@ -45,7 +43,7 @@ class FIDO2Registrations(object):
         elif credential_id:
             endpoint = "{}/{}".format(FIDO2_REGISTRATIONS, credential_id)
         response = self.client.get_json(endpoint)
-        response.success = response.stauts_code == 200
+        response.success = response.status_code == 200
 
         return response
 
@@ -55,42 +53,59 @@ class FIDO2Registrations(object):
         Remove all registrations associated with a username.
 
         Args:
-            username (:obj:`str`): The username to remove registratiosn for.
+            username (:obj:`str`): The username to remove registrations for.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
-
-            If the request is successful the FIDO2 registrations are returned as JSON and can be accessed from
-            the response.json attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         '''
         endpoint = "{}/{}".format(FIDO2_USER_REGISTRATIONS, username)
         response = self.client.delete_json(endpoint)
-        response.success = response.stauts_code == 200
+        response.success = response.status_code == 204
 
         return response
 
 
     def delete_registration_by_credential_id(self, credential_id=None):
         '''
-        Delete a registration associated with the specified credential id
+        Delete a registration associated with the specified credential id.
 
         Args:
-            credential_id (:obj:`str`): The credential id to be removed
+            credential_id (:obj:`str`): The credential id to be removed.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
-
-            If the request is successful the FIDO2 registrations are returned as JSON and can be accessed from
-            the response.json attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         '''
         endpoint = "{}/{}".format(FIDO2_CRED_ID_REGISTRATIONS, credential_id)
         response = self.client.delete_json(endpoint)
-        response.success = response.stauts_code == 200
+        response.success = response.status_code == 204
+
+        return response
+
+
+    def get_registration(self, credential_id):
+        '''
+        Get a specific registration by credential id.
+
+        Args:
+            credential_id (:obj:`str`): The unique identifier for the authenticator.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute.
+
+            If the request is successful the FIDO2 registration is returned as JSON and can be accessed from
+            the response.json attribute.
+
+        '''
+        endpoint = "{}/{}".format(FIDO2_REGISTRATIONS, credential_id)
+        response = self.client.delete_json(endpoint)
+        response.success = response.status_code == 204
 
         return response

@@ -48,7 +48,7 @@ class AccessControl(object):
         data.add_value_string("description", description)
         data.add_value_string("dialect", dialect)
         data.add_value_string("policy", policy)
-        data.add_value_boolean("attributesrequired", attributes_required)
+        data.add_value_boolean("attributesRequired", attributes_required)
         data.add_value_boolean("predefined", False)
 
         response = self.client.post_json(POLICIES, data.data)
@@ -228,7 +228,7 @@ class AccessControl(object):
         return response
 
 
-    def publish_multiple_policy_attachments(self, *ids):
+    def publish_multiple_policy_attachments(self, ids=[]):
         '''
         Publish the changes to the policy server for one or more resources. This will require a restart of the
         corresponding WebSEAL instance.
@@ -287,16 +287,17 @@ class AccessControl(object):
         return response
 
 
-    def create_obligation(self, name=None, description=None, obligationURI=None,
-                        type="Obligation", parameters=None, properties=None):
+    def create_obligation(self, name=None, description=None, obligation_uri=None,
+                        type="Obligation", type_id="1", parameters=None, properties=None):
         '''
         Create a new obligation for use with RBA.
 
         Args:
             name (:obj:`str`): Name of obligation.
             description (:obj:`str`, optional): Description of the obligation.
-            obligationURI (:obj:`str`): URI of the obligation.
+            obligation_uri (:obj:`str`): URI of the obligation.
             type (:obj:`str`): The obligation type, "Obligation".
+            type_id (:obj:`str`, optional): The obligation type id. If not provided, the value will be set to "1", which is the "Enforcement Point" type.
             parameters (:obj:`list` of :obj:`str`, optional): List of parameters used by the obligation when making a decision.
             properties (:obj:`list` of :obj:`str`, optional): Properties used by the obligation.
 
@@ -313,10 +314,10 @@ class AccessControl(object):
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value_string("description", description)
-        data.add_value_string("obligationURI", obligationURI)
+        data.add_value_string("obligationURI", obligation_uri)
         data.add_value_string("type", type)
         data.add_value("parameters", parameters)
-        data.add_value_string("typeId", typeId)
+        data.add_value_string("typeId", type_id)
         data.add_value("properties", properties)
 
         response = self.client.post_json(OBLIGATIONS, data.data)

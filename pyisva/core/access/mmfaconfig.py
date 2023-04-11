@@ -19,14 +19,15 @@ class MMFAConfig(object):
         super(MMFAConfig, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
+
     def update(self, client_id=None, hostname=None, junction=None, options=None,
             port=None):
         '''
-        Update the mobile multifactor authentication configuration.
+        Update the mobile multi-factor authentication (MMFA) configuration.
 
         Args:
-            client_id (:obj:`str`): The id of the OIDC client to use.
-            hostname (:obj:`str`): The hostname of the webseal instance configured for MMFA.
+            client_id (:obj:`str`): The id of the Open-Id Connect client to use.
+            hostname (:obj:`str`): The hostname of the WebSEAL instance configured for MMFA.
             junction (:obj:`astr`): The junction prefix configured for MMFA.
             options (:obj:`str`): A list of configurable key-value pairs to be presented in the QR code.
             port (:obj:`str`): The port the MMFA endpoint is listening on.
@@ -55,27 +56,28 @@ class MMFAConfig9021(MMFAConfig):
     def __init__(self, base_url, username, password):
         super(MMFAConfig9021, self).__init__(base_url, username, password)
 
+
     def update(self, client_id=None, hostname=None, junction=None, port=None,
             details_url=None, enrollment_endpoint=None,
             hotp_shared_secret_endpoint=None, totp_shared_secret_endpoint=None,
             token_endpoint=None, authntrxn_endpoint=None,
             mobile_endpoint_prefix=None, qrlogin_endpoint=None,
-            discovery_mechanisms=None, options=None):
+            discovery_mechanisms=[], options=None):
         '''
-        Update the mobile multifactor authentication configuration.
+        Update the mobile multi-factor authentication (MMFA) configuration.
 
         Args:
             client_id (:obj:`str`): The id of the OIDC client to use.
-            hostname (:obj:`str`, optional): The hosname of the WebSEAL instance configured for MMFA.
+            hostname (:obj:`str`, optional): The hostname of the WebSEAL instance configured for MMFA.
             junction (:obj:`str`, optional): The junction prefix configured for MMFA.
             port (int, optional): The port the MMFA endpoint is listening on.
             hotp_shared_secret_endpoint (:obj:`str`): The HOTP shared secret endpoint returned from the discovery endpoint.
             totp_shared_secret_endpoint (:obj:`str`): The TOTP shared secret endpoint returned from the discovery endpoint.
             token_endpoint (:obj:`str`): The OAuth token endpoint returned from the discovery endpoint.
             authntrxn_endpoint (:obj:`str`): The SCIM Transaction endpoint returned from the discovery endpoint.
-            mobile_endpoint_prefix (:obj:`str`): The prefix of the runtime endpoint that is constructed and saved as the requestUrl of a transaction. 
+            mobile_endpoint_prefix (:obj:`str`): The prefix of the runtime endpoint that is constructed and saved as the request URL of a transaction. 
             qrlogin_endpoint (:obj:`str`): The QR Code login endpoint returned from the discovery endpoint.
-            discovery_mechanisms (:obj:`str`): A list of authentication mechanism URIs to be included in the discovery endpoint response.
+            discovery_mechanisms (:obj:`list` of :obj:`str`): A list of authentication mechanism URIs to be included in the discovery endpoint response.
             options (:obj:`str`): A list of configurable key-value pairs to be presented in the QR code.
 
         Returns:
@@ -95,7 +97,7 @@ class MMFAConfig9021(MMFAConfig):
         endpoints.add_value_string("authntrxn_endpoint", authntrxn_endpoint)
         endpoints.add_value_string(
             "mobile_endpoint_prefix", mobile_endpoint_prefix)
-        endpoints.add_value_not_empty("qrlogin_endpoint", qrlogin_endpoint)
+        endpoints.add_value_string("qrlogin_endpoint", qrlogin_endpoint)
 
         data = DataObject()
         data.add_value_string("client_id", client_id)
@@ -111,9 +113,10 @@ class MMFAConfig9021(MMFAConfig):
 
         return response
 
+
     def delete(self):
         '''
-        Delete the mobile multifactor authentication configuration.
+        Delete the mobile multi-factor authentication configuration.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 

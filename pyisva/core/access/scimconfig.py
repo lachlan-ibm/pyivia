@@ -20,17 +20,17 @@ class SCIMConfig(object):
         super(SCIMConfig, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def get(self):
+    def get_config(self):
         '''
         Get the current SCIM configuration profile.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access.
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
             If the request is successful the SCIM profile is returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
 
         '''
         response = self.client.get_json(SCIM_CONFIGURATION)
@@ -39,7 +39,7 @@ class SCIMConfig(object):
         return response
 
 
-    def get_schema(self,schema_name):
+    def get_schema(self, schema_name):
         '''
         Get the current SCIM configuration for a specific schema.
 
@@ -49,10 +49,10 @@ class SCIMConfig(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access.
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
             If the request is successful the SCIM schema profile is returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
 
         '''
         endpoint = "%s/%s" % (SCIM_CONFIGURATION,schema_name)
@@ -65,7 +65,7 @@ class SCIMConfig(object):
 
     def update(self, data):
         '''
-        Update the SCIM confiuration profile. This method could be better
+        Update the SCIM configuration profile. This method could be better.
         '''
         response = self.client.put_json(SCIM_CONFIGURATION, data)
         response.success = response.status_code == 200
@@ -102,16 +102,16 @@ class SCIMConfig(object):
 
         Args:
             admin_group (:obj:`str`, optional): The name of the group used to identify SCIM admin users. 
-                                                Default is "adminGroup"
+                                                Default is "adminGroup".
             enable_header_authentication (bool, optional): Whether or not SCIM header authentication is enabled. 
-                                                Default is ``true``
+                                                Default is ``true``.
             enable_authz_filter (bool, optional): Whether or not the authorization filter is enabled.
             max_user_response (int, optional): The maximum number of entries that can be returned from a single call to the /User endpoint.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access.
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         '''
         data = DataObject()
@@ -125,22 +125,40 @@ class SCIMConfig(object):
 
         return response
 
+    def get_general_config(self):
+        '''
+        Get the general SCIM configuration settings:
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access.
+
+            Success can be checked by examining the response.success boolean attribute.
+
+            If the request is successful the general SCIM properties are returned as JSON and can be accessed from
+            the response.json attribute.
+        '''
+        response = self.client.get_json(SCIM_CONFIGURATION_GENERAL)
+        response.success = response.status_code == 200
+
+        return response
+
+
     def update_attribute_mode(self, schema_name, scim_attribute, scim_subattribute=None, mode=None):
         '''
         Update the attribute model used for SCIM attribute mapping.
 
         Args:
             schema_name (:obj:`str`): Name of ths SCIM schema to update attribute modes for.
-            scim_attribute (:obj:`str`): Name of the SCIM attribute to update mode for
-            scim_subattribute (:obj:`str`, optional): If the SCIM attribute is a mult-valued attribute this is the second 
+            scim_attribute (:obj:`str`): Name of the SCIM attribute to update mode for.
+            scim_subattribute (:obj:`str`, optional): If the SCIM attribute is a multi-valued attribute this is the second 
                                 level attribute name.
             mode (:obj:`str`): New mode for the SCIM attribute. Valid values are: "readonly", "writeonly", "readwrite", 
-                                "adminwrite" or "immutable"
+                                "adminwrite" or "immutable".
 
         Returns:
             :obj:`~requests.Response`: The response from verify access.
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         '''
 
@@ -170,10 +188,10 @@ class SCIMConfig(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access.
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
             If the request is successful the updated SCIM user configuration is returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
 
         '''
         data = DataObject()
@@ -209,10 +227,10 @@ class SCIMConfig9050(SCIMConfig):
         Returns:
             :obj:`~requests.Response`: The response from verify access.
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
             If the request is successful the updated SCIM user configuration is returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
 
         '''
         data = DataObject()

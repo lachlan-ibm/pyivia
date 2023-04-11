@@ -19,7 +19,7 @@ from .access.serverconnections import ServerConnections, ServerConnections9050
 from .access.templatefiles import TemplateFiles
 from .access.userregistry import UserRegistry, UserRegistry10020
 from .access.mappingrules import MappingRules
-from .access.fido2config import FIDO2Config
+from .access.fido2config import FIDO2Config, FIDO2Config10050
 from .access.fido2registrations import FIDO2Registrations
 from .access.pip import PIP
 
@@ -159,22 +159,24 @@ class AccessControl10020(AccessControl10010):
 class AccessControl10030(AccessControl10020):
 
     def __init__(self, base_url, username, password):
-              super(AccessControl10030, self).__init__(base_url, username, password)
+        super(AccessControl10030, self).__init__(base_url, username, password)
 
 class AccessControl10031(AccessControl10030):
 
     def __init__(self, base_url, username, password):
-              super(AccessControl10031, self).__init__(base_url, username, password)
+        super(AccessControl10031, self).__init__(base_url, username, password)
 
 class AccessControl10040(AccessControl10031):
 
     def __init__(self, base_url, username, password):
-              super(AccessControl10040, self).__init__(base_url, username, password)
+        super(AccessControl10040, self).__init__(base_url, username, password)
 
 class AccessControl10050(AccessControl10040):
 
     def __init__(self, base_url, username, password):
-              super(AccessControl10050, self).__init__(base_url, username, password)
+        super(AccessControl10050, self).__init__(base_url, username, password)
+        self.fido2_config = FIDO2Config10050(base_url, username, password)
+
 
 class AccessControl10060(AccessControl10050):
 

@@ -21,7 +21,7 @@ class RuntimeParameters(object):
         super(RuntimeParameters, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def update(self, parameter, value=None):
+    def update_parameter(self, parameter, value=None):
         '''
         Update a single runtime tuning parameter.
 
@@ -45,17 +45,17 @@ class RuntimeParameters(object):
         return response
 
 
-    def get_runtime_tuning(self):
+    def list_parameters(self):
         '''
         Get a list of all of the configured runtime tuning parameters.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
             If the request is successful the runtime tuning parameters are returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
 
         '''
         endpoint = "%s/v1" % RUNTIME_TUNING
@@ -79,10 +79,10 @@ class RuntimeParameters(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
             If the request is successful the new runtime endpoint id is returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
 
         '''
         data = DataObject()
@@ -111,7 +111,7 @@ class RuntimeParameters(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         '''
         endpoint = "%s/%s/%s:%d/v1" % (RUNTIME_TUNING, ENDPOINTS, interface, port)
@@ -123,6 +123,17 @@ class RuntimeParameters(object):
 
 
     def update_trace(self, trace_string=""):
+        '''
+        Update the JVM trace settings for the Runtime Liberty server.
+
+        Args:
+            trace_string (:obj:`str`): The new JVM trace settings.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute.        
+        '''
         parameters = DataObject()
         parameters.add_value("value", trace_string)
 

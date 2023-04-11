@@ -20,11 +20,10 @@ class Attributes(object):
         super(Attributes, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def create_attribute(
-            self, category=None, matcher=None, issuer=None, description=None,
-            name=None, datatype=None, uri=None, storage_session=None,
-            storage_behavior=None, storage_device=None, type_risk=None,
-            type_policy=None):
+
+    def create_attribute(self, category=None, matcher=None, issuer=None, description=None,
+            name=None, datatype=None, uri=None, storage_session=None, storage_behavior=None, 
+            storage_device=None, type_risk=None, type_policy=None):
         '''
         Create an CBA attribute.
 
@@ -45,20 +44,20 @@ class Attributes(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the id of the created obligation can be acess from the 
-            response.id_from_location attribute
+            If the request is successful the id of the created CBA attribute can be accessed from the 
+            response.id_from_location attribute.
 
         '''
         storage_data = DataObject()
-        storage_data.add_value("session", storage_session)
-        storage_data.add_value("behavior", storage_behavior)
-        storage_data.add_value("device", storage_device)
+        storage_data.add_value_boolean("session", storage_session)
+        storage_data.add_value_boolean("behavior", storage_behavior)
+        storage_data.add_value_boolean("device", storage_device)
 
         type_data = DataObject()
-        type_data.add_value("risk", type_risk)
-        type_data.add_value("policy", type_policy)
+        type_data.add_value_boolean("risk", type_risk)
+        type_data.add_value_boolean("policy", type_policy)
 
         data = DataObject()
         data.add_value_string("category", category)
@@ -68,7 +67,7 @@ class Attributes(object):
         data.add_value_string("name", name)
         data.add_value_string("datatype", datatype)
         data.add_value_string("uri", uri)
-        data.add_value("predefined", False)
+        data.add_value_boolean("predefined", False)
         data.add_value_not_empty("storageDomain", storage_data.data)
         data.add_value_not_empty("type", type_data.data)
 
@@ -77,10 +76,9 @@ class Attributes(object):
 
         return response
 
-    def update_attribute(
-            self, id, category=None, matcher=None, issuer=None, description=None,
-            name=None, datatype=None, uri=None, storage_session=None,
-            storage_behavior=None, storage_device=None, type_risk=None,
+
+    def update_attribute(self, id, category=None, matcher=None, issuer=None, description=None, name=None, 
+            datatype=None, uri=None, storage_session=None, storage_behavior=None, storage_device=None, type_risk=None,
             type_policy=None):
         '''
         Update an existing CBA attribute.
@@ -103,17 +101,17 @@ class Attributes(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         '''
         storage_data = DataObject()
-        storage_data.add_value("session", storage_session)
-        storage_data.add_value("behavior", storage_behavior)
-        storage_data.add_value("device", storage_device)
+        storage_data.add_value_boolean("session", storage_session)
+        storage_data.add_value_boolean("behavior", storage_behavior)
+        storage_data.add_value_boolean("device", storage_device)
 
         type_data = DataObject()
-        type_data.add_value("risk", type_risk)
-        type_data.add_value("policy", type_policy)
+        type_data.add_value_boolean("risk", type_risk)
+        type_data.add_value_boolean("policy", type_policy)
 
         data = DataObject()
         data.add_value_string("category", category)
@@ -123,15 +121,16 @@ class Attributes(object):
         data.add_value_string("name", name)
         data.add_value_string("datatype", datatype)
         data.add_value_string("uri", uri)
-        data.add_value("predefined", False)
+        data.add_value_boolean("predefined", False)
         data.add_value_not_empty("storageDomain", storage_data.data)
         data.add_value_not_empty("type", type_data.data)
 
-        endpoing = ATTRIBUTES + '/{}'.format(id)
-        response = self.client.post_json(, data.data)
+        endpoint = '{}/{}'.format(ATTRIBUTES, id)
+        response = self.client.post_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
+
 
     def list_attributes(self, sort_by=None, count=None, start=None, filter=None):
         '''
@@ -140,15 +139,15 @@ class Attributes(object):
         Args:
             sort_by (:obj:`str`, optional): Attribute to sort results by.
             count (:obj:`str`, optional): Maximum number of results to fetch.
-            start (:obj:`str`, optional): Pagenation offset of returned results.
+            start (:obj:`str`, optional): Pagination offset of returned results.
             filter (:obj:`str`): Attribute to filter results by.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the obligations are returned as JSON and can be accessed from
+            If the request is successful the attributes are returned as JSON and can be accessed from
             the response.json attribute
 
         '''
@@ -163,6 +162,50 @@ class Attributes(object):
 
         return response
 
+    
+    def get_attribute(self, id):
+        '''
+        Get a specific configured attribute.
+
+        Args:
+            id (:obj:`str`): The system-assigned attribute ID value.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute.
+
+            If the request is successful the attribute is returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
+        endpoint = "{}/{}".format(ATTRIBUTES, attribute_id)
+        response = self.client.get_json(endpoint)
+        response.success = response.status_code == 200
+
+        return response
+
+
+    def delete_attribute(self, attribute_id):
+        '''
+        Delete an existing attribute.
+
+        Args:
+            attribute_id (:obj:`str`, optional): The system-assigned attribute ID value.
+    
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute.
+        
+        '''
+        endpoint = "{}/{}".format(ATTRIBUTES, attribute_id)
+        response = self.client.delete_json(endpoint)
+        response.success = response.status_code == 204
+
+        return response
+
+
     def list_attribute_matchers(self, sort_by=None, filter=None):
         '''
         Get a list of the configured attribute matchers.
@@ -174,10 +217,10 @@ class Attributes(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the obligations are returned as JSON and can be accessed from
-            the response.json attribute
+            If the request is successful the attribute matchers are returned as JSON and can be accessed from
+            the response.json attribute.
 
         '''
         parameters = DataObject()
@@ -186,5 +229,35 @@ class Attributes(object):
 
         response = self.client.get_json(ATTRIBUTE_MATCHERS, parameters.data)
         response.success = response.status_code == 200
+
+        return response
+
+
+    def update_attribute_matcher(self, id, uri=None, predefined=True, supported_data_types="String", properties=[]):
+        '''
+        Update an existing attribute matcher's properties.
+
+        Args:
+            id (:obj:`str`): The system-assigned attribute matcher ID value.
+            uri: (:obj:`str`): The identifier of the attribute matcher that is used in generated XACML. Cannot be updated.
+            supported_data_types (:obj:`str`): "String" to accept string input for the properties. Cannot be updated.
+            predefined (bool): True to indicate the attribute matcher is predefined and ships with the product. Cannot be updated.
+            properties(:obj:`list` of :obj:`dict`): Array of property values associated with this attribute matcher.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute.
+        
+        '''
+        data = DataObject()
+        data.add_value_string("uri", uri)
+        data.add_value_string("supportedDatatype", supported_data_types)
+        data.add_value_boolean("predefined", predefined)
+        data.add_value_not_empty("properties", properties)
+
+        endpoint = "{}/{}".format(ATTRIBUTE_MATCHERS, id)
+        response = self.client.put_json(endpoint, data.data)
+        response.success = response.status_code == 204
 
         return response

@@ -30,7 +30,7 @@ class UserRegistry(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         '''
         data = DataObject()
@@ -62,10 +62,10 @@ class UserRegistry10020(UserRegistry):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the id of the created group is returned as JSON and can be acessed from the
-            response.JSON attribute
+            If the request is successful the id of the created group is returned as JSON and can be accessed from the
+            response.JSON attribute.
 
         '''
         data = DataObject()
@@ -81,7 +81,7 @@ class UserRegistry10020(UserRegistry):
 
     def delete_group(self, group_id):
         '''
-        Delete a group from the AAC runtime user registry
+        Delete a group from the AAC runtime user registry.
 
         Args:
             group_id (:obj:`str`): The id of the group to be removed.
@@ -89,7 +89,7 @@ class UserRegistry10020(UserRegistry):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         '''
         endpoint = "{}/groups/{}/v1".format(USER_REGISTRY, group_id)
@@ -101,7 +101,7 @@ class UserRegistry10020(UserRegistry):
 
     def create_user(self, user_id, password=None, groups=None):
         '''
-        Creata a new AAC Runtime user.
+        Create a new AAC Runtime user.
 
         Args:
             _id (:obj:`str`): The unique id of the new user.
@@ -113,7 +113,7 @@ class UserRegistry10020(UserRegistry):
 
             Success can be checked by examining the response.success boolean attribute
 
-            If the request is successful the id of the created user is returned as JSON and can be acessed from the
+            If the request is successful the id of the created user is returned as JSON and can be accessed from the
             response.JSON attribute
 
         '''
@@ -139,7 +139,7 @@ class UserRegistry10020(UserRegistry):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         '''
         endpoint = "{}/users/{}/v1".format(USER_REGISTRY, user_id)
@@ -160,16 +160,16 @@ class UserRegistry10020(UserRegistry):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the id of the modified group is returned as JSON and can be acessed from the
-            response.JSON attribute
+            If the request is successful the id of the modified group is returned as JSON and can be accessed from the
+            response.JSON attribute.
 
         '''
         data = DataObject()
         data.add_value_string("id", group_id)
 
-        endpoint = "{}/users/{}/groups/v1".fomat(USER_REGISTRY, user_id)
+        endpoint = "{}/users/{}/groups/v1".format(USER_REGISTRY, user_id)
         response = self.client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
@@ -187,14 +187,14 @@ class UserRegistry10020(UserRegistry):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         '''
         data = DataObject()
         data.add_value_string("id", group_id)
 
         endpoint = "{}/users/{}/groups/v1".format(USER_REGISTRY, user_id)
-        response = self.client.delete_json(enpoint, data.data)
+        response = self.client.delete_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -210,10 +210,10 @@ class UserRegistry10020(UserRegistry):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the user's properties is returned as JSON and can be acessed from the
-            response.JSON attribute
+            If the request is successful the user's properties is returned as JSON and can be accessed from the
+            response.JSON attribute.
 
         '''
         endpoint = "{}/users/{}/v1".format(USER_REGISTRY, user_id)
@@ -233,10 +233,10 @@ class UserRegistry10020(UserRegistry):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the user's properties is returned as JSON and can be acessed from the
-            response.JSON attribute
+            If the request is successful the user's properties is returned as JSON and can be accessed from the
+            response.JSON attribute.
 
         '''
         endpoint = "{}/groups/{}/v1".format(USER_REGISTRY, group_id)
@@ -253,10 +253,10 @@ class UserRegistry10020(UserRegistry):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the list of users is returned as JSON and can be acessed from the
-            response.JSON attribute
+            If the request is successful the list of users is returned as JSON and can be accessed from the
+            response.JSON attribute.
 
         '''
         endpoint = "{}/users/v1".format(USER_REGISTRY)
@@ -273,14 +273,14 @@ class UserRegistry10020(UserRegistry):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the list of groups is returned as JSON and can be acessed from the
-            response.JSON attribute
+            If the request is successful the list of groups is returned as JSON and can be accessed from the
+            response.JSON attribute.
 
         '''
         endpoint = "{}/groups/v1".format(USER_REGISTRY)
-        response = self.client.get_json(enpoint)
+        response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response

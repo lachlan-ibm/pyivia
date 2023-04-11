@@ -20,9 +20,10 @@ class MappingRules(object):
         super(MappingRules, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
+
     def create_rule(self, rule_name=None, category=None, content=None):
         '''
-        Create a JavaScript mapping rule from a file.
+        Create a JavaScript mapping rule.
 
         Args:
             rule_name (:obj:`str`): The name of the new mapping rule.
@@ -32,10 +33,10 @@ class MappingRules(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the id of the created obligation can be acess from the
-            response.id_from_location attribute
+            If the request is successful the id of the created mapping rule can be accessed from the
+            response.id_from_location attribute.
 
         '''
         data = DataObject()
@@ -56,17 +57,17 @@ class MappingRules(object):
         Create a JavaScript mapping rule from a file.
 
         Args:
-            file_name (:obj:`str`, optional): The file to be uploaded as a new mapping rule.
+            rule_name (:obj:`str`): The name of the rule to be created.
             category (:obj:`str`): Type of mapping rule to create.
-            contents (:obj:`str`): The JavaScript content of the new mapping rule.
+            file_name (:obj:`str`): The absolute path to the JavaScript mapping rule.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the id of the created obligation can be acess from the
-            response.id_from_location attribute
+            If the request is successful the id of the created obligation can be accessed from the
+            response.id_from_location attribute.
 
         '''
         response = Response()
@@ -91,19 +92,19 @@ class MappingRules(object):
 
     def update_rule(self, rule_id, file_name=None, content=None):
         '''
-        Update an existing JavaScript mappign rule with new contents
+        Update an existing JavaScript mapping rule with new contents
 
         Args:
             rule_id (:obj:`str`): The id of the rule to be updated.
             file_name (:obj:`str`, optional): Absolute path to file containing new mapping rule. Must specify either
                                             file_name or content.
-            content (:obj:`str`, optional): The javascript code to replace current mappign rule. Must specify either
+            content (:obj:`str`, optional): The javascript code to replace current mapping rule. Must specify either
                                             file_name or content.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         '''
         response = Response()
@@ -128,34 +129,36 @@ class MappingRules(object):
         return response
 
 
-    def get_rule(self, rule_id=None, filter=None):
+    def get_rule(self, rule_id=None,):
         '''
-        Get a mapping rule based on a rule id or filter.
+        Get a mapping rule based on a rule id.
 
         Args:
             rule_id (:obj:`str`, optional): The id of the mapping rule to return.
-            filter (:obj:`str`, optional): Filter to apply to returned rules. eg. "name startswith Test"
+
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the mapping rules are returned as JSON and can be accessed from
-            the response.json attribute
+            If the request is successful the mapping rule is returned as JSON and can be accessed from
+            the response.json attribute.
 
         '''
-        endpoint = ("%s/%s?filter=%s" % (MAPPING_RULES, rule_id if rule_id != None else "", filter))
-
+        endpoint = "{}/{}".format(MAPPING_RULES, rule_id)
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
 
 
-    def get_rules(self):
+    def list_rules(self, filter=None):
         '''
-        Return list of all mapping rules.
+        Return a list of all mapping rules.
+
+        Args:
+            filter (:obj:`str`, optional): Filter to apply to returned rules. eg. "name startswith Test".
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -166,7 +169,8 @@ class MappingRules(object):
             the response.json attribute
 
         '''
-        response = self.client.get_json(MAPPING_RULES)
+        endpoint = ("%s%s" % (MAPPING_RULES, "?filter=" + filter if isinstance(filter, str) else ""))
+        response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -182,10 +186,10 @@ class MappingRules(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         '''
-        endpoint = MAPPING_RULES + "/{}".format(rule_id)
+        endpoint = "{}/{}".format(MAPPING_RULES, rule_id)
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 204
 

@@ -26,6 +26,7 @@ class ServerConnections(object):
         super(ServerConnections, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
+
     def create_ldap(self, name=None, description=None, locked=None,
             connection_host_name=None, connection_bind_dn=None,
             connection_bind_pwd=None, connection_ssl_truststore=None,
@@ -40,9 +41,9 @@ class ServerConnections(object):
             locked (bool): Controls whether the connection is allowed to be deleted.
             connection_host_name (:obj:`str`): Host name for the LDAP server.
             connection_bind_dn (:obj:`str`): Name to bind to LDAP server for admin operations.
-            connection_bind_pwd (:obj:`str`): Password associted with admin domain name.
+            connection_bind_pwd (:obj:`str`): Password associated with admin domain name.
             connection_ssl_truststore (:obj:`str`, optional): The SSL database to use. Only valid if ssl is enabled.
-            connection_ssl_auth_key (:obj:`str`, optional): The cetificate to use to authentication connections. Only 
+            connection_ssl_auth_key (:obj:`str`, optional): The certificate to use to authentication connections. Only 
                                                             valid if ssl is enabled.
             connection_host_port (:obj:`str`): The port that the LDAP server is listening on.
             connection_ssl (bool): Enable SSL encryption on connections.
@@ -52,10 +53,10 @@ class ServerConnections(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access.
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the uuid of the created LDAP connection can be acess from the 
-            response.id_from_location attribute
+            If the request is successful the uuid of the created LDAP connection can be accessed from the 
+            response.id_from_location attribute.
 
         '''
         connection_data = DataObject()
@@ -87,6 +88,7 @@ class ServerConnections(object):
 
         return response
 
+
     def delete_ldap(self, uuid):
         '''
         Delete an existing LDAP server connection.
@@ -97,7 +99,7 @@ class ServerConnections(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access.
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         '''
         endpoint = "%s/%s/v1" % (SERVER_CONNECTION_LDAP, uuid)
@@ -107,6 +109,7 @@ class ServerConnections(object):
 
         return response
 
+
     def list_ldap(self):
         '''
         List the configured LDAP server connections.
@@ -114,10 +117,10 @@ class ServerConnections(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
             If the request is successful the LDAP server connections are returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
 
         '''
         endpoint = SERVER_CONNECTION_LDAP + "/v1"
@@ -126,6 +129,7 @@ class ServerConnections(object):
         response.success = response.status_code == 200
 
         return response
+
 
     def create_smtp(self, name=None, description=None, locked=None, connect_timeout=None, 
             connection_host_name=None, connection_host_port=None,
@@ -139,19 +143,19 @@ class ServerConnections(object):
             locked (bool): Controls whether the connection is allowed to be deleted.
             connect_timeout (int): Amount of time Verify Access will wait before timing out a connection.
             connection_host_name (:obj:`str`, optional): The hostname of the SMTP server. Only valid if SSL is enabled.
-            connection_host_port (:obj:`str`, optional): The port that the SMTP server is listenting on. Only valid if
+            connection_host_port (:obj:`str`, optional): The port that the SMTP server is listening on. Only valid if
                                                         SSL is enabled.
             connection_ssl (bool): Enable SSL encryption on connections.
             connection_user (:obj:`str`, optional): User to authenticate to SMTP server.
-            connection_password (:obj:`str`, optonal): Password to authenticate to SMTP server.
+            connection_password (:obj:`str`, optional): Password to authenticate to SMTP server.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access.
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the uuid of the created LDAP connection can be acess from the 
-            response.id_from_location attribute
+            If the request is successful the uuid of the created LDAP connection can be accessed from the 
+            response.id_from_location attribute.
 
         '''
         connection_data = DataObject()
@@ -178,6 +182,7 @@ class ServerConnections(object):
         response.success = response.status_code == 201
 
         return response
+
 
     def delete_smtp(self, uuid):
         '''
@@ -231,7 +236,7 @@ class ServerConnections(object):
             name (:obj:`str`): Unique name for the server connection.
             description (:obj:`str`): Description of the server connection.
             locked (bool): Controls whether the connection is allowed to be deleted.
-            connection_host_name (:obj:`str`): The hostname of the Clud Idenity Tenant.
+            connection_host_name (:obj:`str`): The hostname of the Cloud Identity Tenant.
             connection_client_id (:obj:`str`): The id of the OIDC client to authenticate to Cloud Identity.
             connection_client_secret (:obj:`str`): The OIDC client secret to authenticate to Cloud Identity.
             connection_ssl_truststore (:obj:`str`): The SSL database to authenticate connections.
@@ -241,7 +246,7 @@ class ServerConnections(object):
 
             Success can be checked by examining the response.success boolean attribute
 
-            If the request is successful the uuid of the created Cloud Identity connection can be acess from the 
+            If the request is successful the uuid of the created Cloud Identity connection can be accessed from the 
             response.id_from_location attribute
 
         '''
@@ -271,9 +276,10 @@ class ServerConnections(object):
 
         return response
 
+
     def delete_ci(self, uuid):
         '''
-        Delete an existing Cloid Identity server connection.
+        Delete an existing Cloud Identity server connection.
 
         Args:
             uuid (:obj:`str`): The id of the Cloud Identity connection to remove.
@@ -281,7 +287,7 @@ class ServerConnections(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access.
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         '''
         endpoint = "%s/%s/v1" % (SERVER_CONNECTION_CI, uuid)
@@ -291,14 +297,15 @@ class ServerConnections(object):
 
         return response
 
+
     def list_ci(self):
         '''
-        List the configured Cloid Identity server connections.
+        List the configured Cloud Identity server connections.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access.
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
             If the request is successful the Cloud Identity server connections are returned as JSON and can be accessed from
             the response.json attribute
@@ -311,12 +318,12 @@ class ServerConnections(object):
 
         return response
 
+
     def create_web_service(self, name=None, description=None, locked=None, connection_url=None,
-            connection_user=None, connection_password=None,
-            connection_ssl_truststore=None, connection_ssl_auth_key=None,
-            connection_ssl=None):
+            connection_user=None, connection_password=None, connection_ssl_truststore=None, 
+            connection_ssl_auth_key=None, connection_ssl=None):
         '''
-        Create a Web Serivece server connection.
+        Create a Web Service server connection.
 
         Args:
             name (:obj:`str`): Unique name for the server connection.
@@ -329,14 +336,14 @@ class ServerConnections(object):
                                                             if SSL is enabled.
             connection_ssl_auth_key (:obj:`str`): The certificate to authenticate connections. Only valid if SSL is 
                                                 enabled.
-            connection_ssl (bool): Flag to enable SSL encryption ofr connections.
+            connection_ssl (bool): Flag to enable SSL encryption for connections.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access.
 
             Success can be checked by examining the response.success boolean attribute
 
-            If the request is successful the uuid of the created Web Service connection can be acess from the 
+            If the request is successful the uuid of the created Web Service connection can be accessed from the 
             response.id_from_location attribute
 
         '''
@@ -385,15 +392,15 @@ class ServerConnections(object):
 
     def list_web_service(self):
         '''
-        List the configure Web Service server connections
+        List the configure Web Service server connections.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access.
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
             If the request is successful the Web Service server connections are returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
 
         '''
         endpoint = SERVER_CONNECTION_WEB_SERVICE + "/v1"
@@ -437,14 +444,14 @@ class ServerConnections(object):
             connection_purge_policy (:obj:`str`): Specifies which connections to destroy when a stale connection is 
                                                 detected in a pool.
             connection_reap_time (:obj:`str`): Amount of time between runs of the pool maintenance thread. A value of -1
-                                                disables pool maintenace.
+                                                disables pool maintenance.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access.
 
             Success can be checked by examining the response.success boolean attribute
 
-            If the request is successful the uuid of the created JDBC can be acess from the 
+            If the request is successful the uuid of the created JDBC can be accessed from the 
             response.id_from_location attribute
 
         '''
@@ -498,7 +505,7 @@ class ServerConnections(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access.
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         '''
         endpoint = "%s/%s/v1" % (SERVER_CONNECTION_JDBC, uuid)
@@ -516,10 +523,10 @@ class ServerConnections(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access.
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
             If the request is successful the JDBC's are returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
 
         '''
         endpoint = SERVER_CONNECTION_JDBC + "/v1"
@@ -532,15 +539,15 @@ class ServerConnections(object):
 
     def list_all(self):
         '''
-        List all of the configued server connections.
+        List all of the configured server connections.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access.
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
             If the request is successful the server connections are returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
 
         '''
         endpoint = SERVER_CONNECTION_ROOT + "/v1"
@@ -569,11 +576,11 @@ class ServerConnections9050(ServerConnections):
             description (:obj:`str`): Description of the server connection.
             locked (bool): Controls whether the connection is allowed to be deleted.
             connection_bind_dn (:obj:str`): The domain name to bind to the runtime server.
-            connection_bind_pwd (:obj:`str`): The passwrod to bind to the runtime server.
+            connection_bind_pwd (:obj:`str`): The password to bind to the runtime server.
             connection_ssl_truststore (:obj:`str`): The SSL database to authenticate connections. Only valid if SSL is
                                                 enabled.
-            connetion_ssl_auth_key (:obj:`str`): The certificate to authenticate connections. Only valid if SSL is enabled.
-            connection_ssl (bool): Flag to enable SSL encryption for connetions.
+            connection_ssl_auth_key (:obj:`str`): The certificate to authenticate connections. Only valid if SSL is enabled.
+            connection_ssl (bool): Flag to enable SSL encryption for connections.
             connect_timeout (int): Length of time Verify Access will wait before timing out a connection.
             servers: (:obj:`list` of :obj:`dict`): Additional LDAP servers for this connection.
 
@@ -582,7 +589,7 @@ class ServerConnections9050(ServerConnections):
 
             Success can be checked by examining the response.success boolean attribute
 
-            If the request is successful the uuid of the created LDAP connection can be acess from the 
+            If the request is successful the uuid of the created LDAP connection can be accessed from the 
             response.id_from_location attribute
 
         '''
@@ -615,15 +622,15 @@ class ServerConnections9050(ServerConnections):
 
     def list_runtime(self):
         '''
-        List the configured Verify Accss runtime server connections.
+        List the configured Verify Access runtime server connections.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access.
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
             If the request is successful the Verify Access runtime server connections are returned as JSON and can be 
-            accessed from the response.json attribute
+            accessed from the response.json attribute.
 
         '''
         endpoint = SERVER_CONNECTION_ISAM_RUNTIME + "/v1"
@@ -643,7 +650,7 @@ class ServerConnections9050(ServerConnections):
         Returns:
             :obj:`~requests.Response`: The response from verify access.
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         '''
         endpoint = "%s/%s/v1" % (SERVER_CONNECTION_ISAM_RUNTIME, uuid)
