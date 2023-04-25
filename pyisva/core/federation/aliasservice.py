@@ -35,7 +35,7 @@ class AliasService(object):
 
             Success can be checked by examining the response.success boolean attribute
 
-            If the request is successful the id of the created alias association can be acessed from the
+            If the request is successful the id of the created alias association can be accessed from the
             response.id_from_location attribute
         '''
         data = DataObject()
@@ -78,7 +78,7 @@ class AliasService(object):
         return response
 
 
-    def list_alias_association(self):
+    def list_alias_associations(self):
         '''
         Get a list of existing SAML alias service associations.
 

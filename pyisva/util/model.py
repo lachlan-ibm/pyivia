@@ -19,6 +19,8 @@ class DataObject(object):
             self.data[key] = value
 
     def add_value_boolean(self, key, value):
+        if value == None:
+            return
         if value is True:
             self.data[key] = True
         else:

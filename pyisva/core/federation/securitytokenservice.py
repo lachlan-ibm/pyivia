@@ -21,17 +21,17 @@ class SecurityTokenService(object):
         super(SecurityTokenService, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def get_module_types(self):
+    def list_module_types(self):
         """
         Get the list of Security Token Service module types.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
             If the request is successful the STS module types are returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
         """
 
         endpoint = STS_MODULE_TYPES
@@ -41,17 +41,17 @@ class SecurityTokenService(object):
 
         return response
 
-    def get_modules(self):
+    def list_modules(self):
         """
         Get a list of the configured Security Token Service modules.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the STS module are returned as JSON and can be accessed from
-            the response.json attribute
+            If the request is successful the STS modules are returned as JSON and can be accessed from
+            the response.json attribute.
         """
 
         endpoint = STS_MODULES
@@ -72,10 +72,10 @@ class SecurityTokenService(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the STS module configuration are returned as JSON and can be accessed from
-            the response.json attribute
+            If the request is successful the STS module configuration is returned as JSON and can be accessed from
+            the response.json attribute.
         """
 
         endpoint = "%s/%s" % (STS_MODULES, module_id)
@@ -93,10 +93,10 @@ class SecurityTokenService(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
             If the request is successful the STS chain templates are returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
         """
 
         endpoint = STS_TEMPLATES
@@ -109,15 +109,15 @@ class SecurityTokenService(object):
 
     def get_template(self, template_id):
         """
-        Get a STS cain tempalte.
+        Get a STS cain template.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
             If the request is successful the STS chain template is returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
         """
         endpoint = "%s/%s" % (STS_TEMPLATES, template_id)
 
@@ -145,10 +145,10 @@ class SecurityTokenService(object):
         Returns:
             :obj:`~requests.response`: the response from verify access. 
 
-            success can be checked by examining the response.success boolean attribute
+            success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the id of the created template can be acess from the 
-            response.id_from_location attribute
+            If the request is successful the id of the created STS template can be accessed from the 
+            response.id_from_location attribute.
         """
         data = DataObject()
         data.add_value_string("name", name)
@@ -163,7 +163,7 @@ class SecurityTokenService(object):
 
     def delete_template(self, template_id):
         """
-        Remove a STS template
+        Remove a STS chian template.
 
         Args:
             template_id (:obj:`str`): The system-assigned STS chain ID value.
@@ -171,7 +171,7 @@ class SecurityTokenService(object):
         Returns:
             :obj:`~requests.response`: the response from verify access. 
 
-            success can be checked by examining the response.success boolean attribute
+            success can be checked by examining the response.success boolean attribute.
         """
         endpoint = "%s/%s" % (STS_TEMPLATES, template_id)
 
@@ -188,10 +188,10 @@ class SecurityTokenService(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
             If the request is successful the STS chains are returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
         """
         response = self.client.get_json(STS_CHAINS)
         response.success = response.status_code == 200
@@ -209,10 +209,10 @@ class SecurityTokenService(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
             If the request is successful the STS chain is returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
         """
         endpoint = "%s/%s" % (STS_CHAINS, chain_id)
 
@@ -224,53 +224,55 @@ class SecurityTokenService(object):
     def create_chain(self, name, description=None, template_id=None, request_type=None, token_type=None, xpath=None,
             sign_responses=None, sign_key_store=None, sign_key_alias=None, sign_include_cert=None, sign_include_pubkey=None, 
             sign_include_ski=None, sign_include_issuer=None, sign_include_subject=None, validate_requests=None, 
-            validation_key_store=None, validtion_key_alias=None, validation_include_cert=None, validation_include_pubkey=None,
+            validation_key_store=None, validation_key_alias=None, validation_include_cert=None, validation_include_pubkey=None,
             validation_include_ski=None, validation_include_issuer=None , validation_include_subject=None, 
             send_validation_confirmation=None, issuer_address=None, issuer_port_type_namespace=None, issuer_port_type_name=None,
             issuer_service_namespace=None, issuer_service_name=None, applies_to_address=None, applies_to_port_type_namespace=None, 
             applies_to_port_type_name=None, applies_to_service_namespace=None, applies_to_service_name=None, 
             self_properties=[], partner_properties=[]):
         """
-        Create a STS chain
+        Create a STS chain.
 
         Args:
             name (:obj:`str`): A friendly name for the STS Chain
             description (:obj:`str`, optional): A description of the STS Chain
             template_id (:obj:`str`): The Id of the STS Chain Template that is referenced by this STS Chain
             request_type (:obj:`str`): The type of request to associate with this chain. The request is one of the types 
-                            that are supported by the WS-Trust specification.
+                                       that are supported by the WS-Trust specification.
             token_type (:obj:`str`, optional): The STS module type to map a request message to an STS Chain Template
-            xpath (:obj:`str`, optional): The custom lookup rule in XML Path Language to map a requet message to an STS 
+            xpath (:obj:`str`, optional): The custom lookup rule in XML Path Language to map a request message to an STS 
                             Chain Template
             sign_responses (`bool`, optional): Whether to sign the Trust Server SOAP response messages.
-            sign_key_store (:obj:`str`, optional): SSL database which contains pribate key to sign messages.
+            sign_key_store (:obj:`str`, optional): SSL database which contains private key to sign messages.
             sign_key_alias (:obj:`str`, optional): private key to sign messages.
             sign_include_cert (`bool`, optional): Whether to include the BASE64 encoded certificate data with your 
-                            signature.
+                                                  signature.
             sign_include_pubkey (`bool`, optional): Whether to include the public key with the signature.
             sign_include_ski (`bool`, optional): Whether to include the X.509 subject key identifier with the signature
             sign_include_issuer (`bool`, optional): Whether to include the issuer name and the certificate serial 
-                            number with the signature
+                                                    number with the signature
             sign_include_subject (`bool`, optional): Whether to include the subject name with the signature.
             validate_requests (`bool`, optional): Whether requires a signature on the received SOAP request message 
-                            that contains the RequestSecurityToken message.
+                                                  that contains the RequestSecurityToken message.
             validation_key_store (:obj:`str`, optional): The SSL database which contains the private key to validate
-                            messages.
-            validtion_key_alias (:obj:`str`, optional): The key to validate the received SOAP request message
+                                                        messages.
+            validation_key_alias (:obj:`str`, optional): The key to validate the received SOAP request message
             validation_include_cert (`bool`, optional): Whether the BASE64 encoded certificate data is included with 
-                            the signature.
-            validation_include_pubkey (`bool`, optional):
-            validation_include_ski (`bool`, optional):
-            validation_include_issuer (`bool`, optional): 
-            validation_include_subject (`bool`, optional):
+                                                        the signature.
+            validation_include_pubkey (`bool`, optional): Whether to include the public key with the signature.
+            validation_include_ski (`bool`, optional): Whether to include the X.509 subject key identifier with the 
+                                                       signature.
+            validation_include_issuer (`bool`, optional): Whether to include the issuer name and the certificate serial 
+                                                          number with the signature.
+            validation_include_subject (`bool`, optional): Whether to include the subject name with the signature.
             send_validation_confirmation (`bool`, optional): Whether to send signature validation confirmation.
             issuer_address (:obj:`str`): The URI of the issuer company or enterprise
             issuer_port_type_namespace (:obj:`str`, optional): The namespace URI part of a qualified name for the issuer
-                            Web service port type.
+                                                               Web service port type.
             issuer_port_type_name (:obj:`str`, optional): The local part of a qualified name for the issuer Web service 
-                            port type.
+                                                        port type.
             issuer_service_namespace (:obj:`str`, optional): The namespace URI part of a qualified name for the issuer 
-                            Web service.
+                                                            Web service.
             issuer_service_name (:obj:`str`, optional): The local part of a qualified name for the issuer Web service.
             applies_to_address (:obj:`str`): The URI of the scope company or enterprise
             applies_to_port_type_namespace (:obj:`str`, optional): The namespace URI part of a qualified name for the scope
@@ -330,10 +332,10 @@ class SecurityTokenService(object):
         return response
 
 
-    def update_chain(self, _id, name=None, description=None, template_id=None, request_type=None, token_type=None, xpath=None,
+    def update_chain(self, chain_id, name=None, description=None, template_id=None, request_type=None, token_type=None, xpath=None,
             sign_responses=None, sign_key_store=None, sign_key_alias=None, sign_include_cert=None, sign_include_pubkey=None, 
             sign_include_ski=None, sign_include_issuer=None, sign_include_subject=None, validate_requests=None, 
-            validation_key_store=None, validtion_key_alias=None, validation_include_cert=None, validation_include_pubkey=None,
+            validation_key_store=None, validation_key_alias=None, validation_include_cert=None, validation_include_pubkey=None,
             validation_include_ski=None, validation_include_issuer=None , validation_include_subject=None, 
             send_validation_confirmation=None, issuer_address=None, issuer_port_type_namespace=None, issuer_port_type_name=None,
             issuer_service_namespace=None, issuer_service_name=None, applies_to_address=None, applies_to_port_type_namespace=None, 
@@ -343,17 +345,17 @@ class SecurityTokenService(object):
         Update an existing STS chain
 
         Args:
-            _id (:obj:`str`): The Verify Access assigned identifier of the STS chain.
+            chain_id (:obj:`str`): The Verify Access assigned identifier of the STS chain.
             name (:obj:`str`): A friendly name for the STS Chain
             description (:obj:`str`, optional): A description of the STS Chain
             template_id (:obj:`str`): The Id of the STS Chain Template that is referenced by this STS Chain
             request_type (:obj:`str`): The type of request to associate with this chain. The request is one of the types 
                             that are supported by the WS-Trust specification.
             token_type (:obj:`str`, optional): The STS module type to map a request message to an STS Chain Template
-            xpath (:obj:`str`, optional): The custom lookup rule in XML Path Language to map a requet message to an STS 
+            xpath (:obj:`str`, optional): The custom lookup rule in XML Path Language to map a request message to an STS 
                             Chain Template
             sign_responses (`bool`, optional): Whether to sign the Trust Server SOAP response messages.
-            sign_key_store (:obj:`str`, optional): SSL database which contains pribate key to sign messages.
+            sign_key_store (:obj:`str`, optional): SSL database which contains private key to sign messages.
             sign_key_alias (:obj:`str`, optional): private key to sign messages.
             sign_include_cert (`bool`, optional): Whether to include the BASE64 encoded certificate data with your 
                             signature.
@@ -366,13 +368,15 @@ class SecurityTokenService(object):
                             that contains the RequestSecurityToken message.
             validation_key_store (:obj:`str`, optional): The SSL database which contains the private key to validate
                             messages.
-            validtion_key_alias (:obj:`str`, optional): The key to validate the received SOAP request message
+            validation_key_alias (:obj:`str`, optional): The key to validate the received SOAP request message
             validation_include_cert (`bool`, optional): Whether the BASE64 encoded certificate data is included with 
                             the signature.
-            validation_include_pubkey (`bool`, optional):
-            validation_include_ski (`bool`, optional):
-            validation_include_issuer (`bool`, optional): 
-            validation_include_subject (`bool`, optional):
+            validation_include_pubkey (`bool`, optional): Whether to include the public key with the signature.
+            validation_include_ski (`bool`, optional): Whether to include the X.509 subject key identifier with the 
+                                                       signature.
+            validation_include_issuer (`bool`, optional): Whether to include the issuer name and the certificate serial 
+                                                          number with the signature.
+            validation_include_subject (`bool`, optional): Whether to include the subject name with the signature.
             send_validation_confirmation (`bool`, optional): Whether to send signature validation confirmation.
             issuer_address (:obj:`str`): The URI of the issuer company or enterprise
             issuer_port_type_namespace (:obj:`str`, optional): The namespace URI part of a qualified name for the issuer
@@ -415,7 +419,7 @@ class SecurityTokenService(object):
             "self": properties
         })
 
-        endpoint = STS_CHAINS + '/{}'.foramt(_id)
+        endpoint = "{}/{}".format(STS_CHAINS, chain_id)
         response = self.client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 

@@ -59,7 +59,7 @@ class AuthorizationServer(object):
 
     def update_server(self, inst_name, admin_id=None, admin_pwd=None, operation='renew', force=None):
         '''
-        Update an API authorization server. This can be used to update the certifiate used to communicate with
+        Update an API authorization server. This can be used to update the certificate used to communicate with
         the Verify Access policy server.
         
         Args:

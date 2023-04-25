@@ -18,7 +18,7 @@ class AccessPolicy(object):
         super(AccessPolicy, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def get_policies(self, _filter=None):
+    def list_policies(self, _filter=None):
         """
         Get the configured access policies.
 
@@ -28,10 +28,10 @@ class AccessPolicy(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
             If the request is successful the access policies are returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
 
         """
         endpoint = ACCESS_POLICY
@@ -47,15 +47,15 @@ class AccessPolicy(object):
         Get a specific access policy.
 
         Args:
-            policy_id (:obj:`str`): The id of the policy to gfetch.
+            policy_id (:obj:`str`): The id of the policy to fetch.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
             If the request is successful the access policy is returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
 
         """
 
@@ -79,10 +79,10 @@ class AccessPolicy(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the id of the create access policy can be acess from the
-            response.id_from_location attribute
+            If the request is successful the id of the create access policy can be accessed from the
+            response.id_from_location attribute.
 
         """
         data = DataObject()
@@ -103,12 +103,12 @@ class AccessPolicy(object):
 
         Args:
             policy_id (:obj:`str`): The name of the access policy to be updated.
-            content (:obj:`str`): The serialsed content of the new JavaScript access policy
+            content (:obj:`str`): The serialized content of the new JavaScript access policy.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         """
         data = DataObject()
@@ -116,4 +116,25 @@ class AccessPolicy(object):
         endpoint = "%s/%s" % (ACCESS_POLICY, policy_id)
         response = self.client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
+        return response
+
+
+    def delete_policy(self, policy_id=None):
+        """
+        Delete a specific access policy.
+
+        Args:
+            policy_id (:obj:`str`): The id of the policy to fetch.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute.
+
+        """
+
+        endpoint = "%s/%s" % (ACCESS_POLICY, policy_id)
+        response = self.client.delete_json(endpoint)
+        response.success = response.status_code == 204
+
         return response

@@ -181,7 +181,7 @@ class PointOfContact(object):
         return
 
 
-    def get_profiles(self):
+    def list_profiles(self):
         """
         Get the list of configured Point of Contact profiles.
 
@@ -200,6 +200,29 @@ class PointOfContact(object):
         response.success = response.status_code == 200
 
         return response
+
+
+    def get_profile(self, poc_id):
+        """
+        Get a configured Point of Contact profiles.
+
+        Args:
+            poc_id (:obj:`str`): The system-assigned point of contact profile identifier.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the POC profile is returned as JSON and can be accessed from
+            the response.json attribute
+        """
+
+        endpoint = "{}/{}".format(POC_PROFILES, poc_id)
+        response = self.client.get_json(endpoint)
+        response.success = response.status_code == 200
+        return response
+
 
     def get_current_profile(self):
         """

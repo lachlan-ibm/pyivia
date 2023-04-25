@@ -20,7 +20,7 @@ class Federations(object):
         self.client = RESTClient(base_url, username, password)
 
     def create_oidc_federation(self, name=None, role=None, redirect_uri_prefix=None, response_types_supported=None, 
-            attribute_mappings=None, identity_delegate_id=None, identity_rule_type="JAVASCRIPT", identity_mapping_rule=None, 
+            attribute_mappings=[], identity_delegate_id=None, identity_rule_type="JAVASCRIPT", identity_mapping_rule=None, 
             identity_applies_to=None, identity_auth_type=None, identity_ba_user=None, identity_ba_password=None,
             identity_client_keystore=None, identity_client_key_alias=None, identity_issuer_uri=None, 
             identity_message_format=None, identity_ssl_keystore=None, identity_uri=None, adv_delegate_id=None,
@@ -31,7 +31,11 @@ class Federations(object):
         Args:
             name (:obj:`str`): 	A meaningful name to identify this federation.
             role (:obj:`str`): The role of a federation, valid values are "ip", "sp", "op" and "rp".
-            response_types_supported (:obj:`str`): 
+            redirect_uri_prefix (:obj:`str`): The reverse proxy address to prepend to the redirect URI sent to the provider to 
+                                              communicate with this instance.
+            response_types_supported (:obj:`str`): List of response types which determine the flow to be executed. Valid values 
+                                                   to be included are "code", "token", "id_token". This selects the default flow
+                                                   to run when a metadata URL is specified in the partner configuration.
             attribute_mappings (:obj:`list` of :obj:`dict`): The attribute mapping data. format 
                                                             is::
 
@@ -45,10 +49,10 @@ class Federations(object):
                                                                 ]
 
             identity_delegate_id (:obj:`str`): The active mapping module instance.
-            identity_rule_type (:obj:`str`): The type of the mapping rule. The only supported type currently is JAVASCRIPT.
+            identity_rule_type (:obj:`str`): The type of the mapping rule. The only supported type currently is "JAVASCRIPT".
             identity_mapping_rule (:obj:`str`): A reference to an ID of an identity mapping rule. 
-            identity_applies_to (:obj:`str`): Refers to STS chain that consumes callout response. Required if WSTRUST 
-                            messageFormat is specified, ignored otherwise.
+            identity_applies_to (:obj:`str`): Refers to the STS chain that consumes callout responses. Required if WSTRUST 
+                                              messageFormat is specified, ignored otherwise.
             identity_auth_type (:obj:`str`): Authentication method used when contacting external service. Supported 
                             values are NONE, BASIC or CERTIFICATE.
             identity_ba_user (:obj:`str`): Username for authentication to external service. Required if BASIC authType 
@@ -72,10 +76,10 @@ class Federations(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the id of the created obligation can be acess from the
-            response.id_from_location attribute
+            If the request is successful the id of the created obligation can be access from the
+            response.id_from_location attribute.
 
         """
         attributeMapping = DataObject()
@@ -126,12 +130,9 @@ class Federations(object):
 
         return response
 
-    def create_oidc_partner(self, federation_id, name=None, enabled=False, role="rp", template_name=None, client_id=None, 
-        client_secret="", active_delegate_id=None, metadata_endpoint_url=None, issuer_identifier=None, response_types=[],
-        authorization_endpoint=None, token_endpoint=None, user_info_endpoint=None, signature_alg=None, 
-        verification_keystore=None, verification_key_label=None, jwk_endopoint_url=None, key_mgmt_alg=None, 
-        content_encrypt_alg=None, decrypt_keystore=None, decrypt_key_label=None, scope=[], perform_user_info=None, 
-        token_endpoint_auth_method=None, attribute_mapping=None, identity_delegate_id=None, identity_mapping_rule=None,
+
+    def create_oidc_partner(self, federation_id, name=None, role="rp", redirect_uri_prefix=None,
+        response_types=[], attribute_mappings=[], identity_delegate_id=None, identity_mapping_rule=None,
         identity_auth_type=None, identity_ba_user=None, identity_ba_password=None, identity_client_keystore=None, 
         identity_client_key_alias=None, identity_issuer_uri=None, identity_msg_fmt=None, identity_ssl_keystore=None,
         identity_uri=None, adv_config_delegate_id=None, adv_config_rule_type="JAVASCRIPT", adv_config_mapping_rule=None):
@@ -140,45 +141,10 @@ class Federations(object):
 
         Args:
             federation_id (:obj:`str`): The id of the ODIC federation to create a partner for.
-            name (:obj:`str`): THe name o the partner to be created.
-            enabled (:obj:`str`): Whether to enable the partner.
+            name (:obj:`str`): The name o the partner to be created.
             role (:obj:`str`, optional): The role this partner plays in its federation. Default is "rp"
-            template_name (:obj:`str`): An identifier for the template on which to base this partner.
-            client_id (:obj:`str`): The id that identifies this client to the provider.
-            client_secret(:obj:`str`, optional): The secret associated with the client ID. Set as "" if using a public 
-                            client.
-            active_delegate_id (:obj:`str`): The active module instance. Valid values are "noMetadata" and "metadataEndpointUrl".
-            metadata_endpoint (:obj:`str`, optional): The /metadata endpoint URL of the provider.
-            issuer_identifier (:obj:`str`, optional): The issuer ("iss") value of the provider.
             response_types (:obj:`str`, optional): List of response type which determines which flow to be executed.
-            authorization_endpoint (:obj:`str`, optional): The /authorize endpoint URL of the provider.
-            token_endpoint (:obj:`str`, optional): The /token endpoint URL of the provider. Required if "code" response 
-                            type is selected.
-            user_info_endpoint (:obj:`str`, optional): The /userinfo endpoint URL of the provider.
-            signature_alg (:obj:`str`, optional): The signing algorithm to use. Supported values are "none", "HS256", 
-                            "HS384", "HS512", "RS256", "RS384", "RS512", "ES256", "ES384", "ES512", "PS256", "PS384", 
-                            "PS512". Default is none.
-            verification_keystore (:obj:`str`, optional): When signature algorithm requires a certificate, the keystore 
-                            which contains the selected certificate to perform the signing.
-            verification_key_label (:obj:`str`, optional): When signature algorithm requires a certificate, the alias 
-                            of the public key in the selected keystore to use in signature verification.
-            jwk_endopoint_url (:obj:`str`): When signature algorithm requires a certificate, the JWK endpoint of the provider.
-            key_mgmt_alg (:obj:`str`, optional): The key management algorithm to use. Supported values are "none", "dir", 
-                            "A128KW", "A192KW", "A256KW", "A128GCMKW", "A192GCMKW", "A256GCMKW", "ECDH-ES", "ECDH-ES+A128KW", 
-                            "ECDH-ES+A192KW", "ECDH-ES+A256KW", "RSA1_5", "RSA-OAEP", "RSA-OAEP-256".
-            content_encrypt_alg (:obj:`str`, optional): The content encryption algorithm to use. Supported values are 
-                            "none", "A128CBC-HS256", "A192CBC-HS384", "A256CBC-HS512", "A128GCM", "A192GCM", "A256GCM".
-            decrypt_keystore (:obj:`str`): When key management algorithm requires a certificate, the keystore which 
-                            contains the selected certificate to perform JWT decryption.
-            decrypt_key_label (:obj:`str`): When key management algorithm requires a certificate, the alias of the 
-                            private key in the selected keystore to perform JWT decryption.
-            scope (:obj:`list` of :obj:`str`, optional): An array of strings that identify the scopes to request from 
-                            the provider. Defaults to ["openid"].
-            perform_user_info (`bool`, optional): A setting that specifies whether to perform user info request 
-                            automatically whenever possible.
-            token_endpoint_auth_method (:obj:`str`): The token endpoint authentication method. Valid values are 
-                            "client_secret_basic" and "client_secret_post".
-            attribute_mapping (:obj:`list` of :obj:`dict`, optional): List of configured attribute sources. Format of
+            attribute_mappings (:obj:`list` of :obj:`dict`, optional): List of configured attribute sources. Format of
                             dictionary is::
 
                                                 [
@@ -191,60 +157,71 @@ class Federations(object):
                                                 ]
 
             identity_delegate_id (:obj:`str`): The active mapping module instance. Valid values are "skip-identity-map", 
-                            "default-map" and "default-http-custom-map".
+                                               "default-map" and "default-http-custom-map".
+            identity_mapping_rule (:obj:`str`): A reference to an ID of an identity mapping rule.
             identity_auth_type (:obj:`str`, optional): Authentication method used when contacting external service. Supported 
-                            values are NONE, BASIC or CERTIFICATE.
+                                                       values are NONE, BASIC or CERTIFICATE.
             identity_ba_user (:obj:`str`, optional): Username for authentication to external service.
             identity_ba_password (:obj:`str`, optional): Password for authentication to external service.
             identity_client_keystore (:obj:`str`, optional): Contains key for HTTPS client authentication.
-            identity_cliekt_key_alias (:obj:`str`, optional): Alias of the key for HTTPS client authentication.
+            identity_client_key_alias (:obj:`str`, optional): Alias of the key for HTTPS client authentication.
             identity_issuer_uri (:obj:`str`, optional): Refers to STS chain that provides input for callout request.
             identity_msg_fmt (:obj:`str`, optional): Message format of callout request.
             identity_ssl_keystore (:obj:`str`, optional): SSL certificate trust store to use when validating SSL 
-                            certificate of external service.
+                                                          certificate of external service.
             identity_uri (:obj:`str`): Address of destination server to call out to.
             adv_config_delegate_id (:obj:`str`): The active module instance. Valid values are "skip-advance-map" and 
-                            "default-map".
+                                                 "default-map".
             adv_config_rule_type (:obj:`str`, optional): The type of the mapping rule. The only supported type currently 
-                            is JAVASCRIPT.
+                                                         is "JAVASCRIPT".
             adv_config_mapping_rule (:obj:`str`, optional): A reference to an ID of an advance configuration.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the id of the created obligation can be acess from the
-            response.id_from_location attribute
+            If the request is successful the id of the created obligation can be access from the
+            response.id_from_location attribute.
 
         """
-        #TODO
         data = DataObject()
         data.add_value_string("name", name)
-        data.add_value("enabled", enabled)
         data.add_value_string("role", role)
 
-        attributeMapping = DataObject()
         identityMapping = DataObject()
+        identityMapping.add_value_string("activeDelegateId", identity_delegate_id)
+        identityProps = DataObject()
+        if identity_mapping_rule:
+            identityProps.add_value_string("identityMappingRuleReference", identity_mapping_rule)
+            identityProps.add_value_string("ruleType", "JAVASCRIPT")
+        else:
+            identityProps.add_value_string("authType", identity_auth_type)
+            identityProps.add_value_string("basicAuthUsername", identity_ba_user)
+            identityProps.add_value_string("basicAuthPassword", identity_ba_password)
+            identityProps.add_value_string("clientKeyStore", identity_client_keystore)
+            identityProps.add_value_string("clientKeyAlias", identity_client_key_alias)
+            identityProps.add_value_string("issuerUri", identity_issuer_uri)
+            identityProps.add_value_string("messageFormat", identity_msg_fmt)
+            identityProps.add_value_string("sslKeyStore", identity_ssl_keystore)
+            identityProps.add_value_string("uri", identity_uri)
+        identityMapping.add_value_not_empty("properties", identityProps.data)
+
+        advConfig = DataObject()
+        advConfProps = DataObject()
+        advConfProps.add_value_string("ruleType", adv_config_rule_type)
+        advConfProps.add_value_string("advanceMappingRuleReference", adv_config_mapping_rule)
+        advConfig.add_value_not_empty("properties", advConfProps.data)
+        advConfig.add_value_string("activeDelegateId", adv_config_delegate_id)
 
         configuration = DataObject()
+        configuration.add_value_not_empty("advanceConfiguration", advConfig.data)
         configuration.add_value_not_empty("identityMapping", identityMapping.data)
+        attributeMapping = DataObject()
+        attributeMapping.add_value_not_empty("map", attribute_mappings)
         configuration.add_value_not_empty("attributeMapping", attributeMapping.data)
-
-        configuration.add_value_not_empty("templateName", template_name)
-        configuration.add_value_not_empty("clientId", client_id)
-        configuration.add_value_not_empty("clientSecret", client_secret)
-        configuration.add_value_not_empty("appliesTo", applies_to)
-        configuration.add_value_not_empty("grantType", grant_type)
-        configuration.add_value_not_empty("authorizationEndpointUrl", authorization_endpoint_url)
-        configuration.add_value_not_empty("tokenEndpointUrl", token_endpoint_url)
-        configuration.add_value_not_empty("signatureAlgorithm", signature_algorithm)
-        configuration.add_value_not_empty("signingKeystore", signing_keystore)
-        configuration.add_value_not_empty("signingKeyLabel", signing_key_label)
-        configuration.add_value_not_empty("issuerIdentifier", issuer_identifier)
-        configuration.add_value_not_empty("redirectUriPrefix", redirect_uri_prefix)
-        configuration.add_value_not_empty("jwkEndpointUrl", jwk_endopoint_url)
-        configuration.add_value("scope", scope)
+        configuration.add_value_string("redirect_uri_prefix", redirect_uri_prefix)
+        configuration.add_value_not_empty("responseTypes", response_types)
 
         data.add_value_not_empty("configuration", configuration.data)
 
@@ -256,19 +233,19 @@ class Federations(object):
         return response
 
 
-    def create_saml_federation(self, name=None, role=None, access_policy=None, artifact_lifetime=None, assertion_attr_types=[],
-            assertion_session_not_on_or_after=None, assertion_multi_attr_stmt=None, assertion_valid_before=None, 
-            assertion_valid_after=None, artifact_resolution_service=[], attribute_mapping=[], company_name=None,
-            encrypt_block_alg=None, encrypt_key_transport_alg=None, encrypt_key_alias=None, encrypt_key_store=None, 
-            encrypt_name_id=None, encrypt_assertions=None, encrypt_assertion_attrs=None, decrypt_key_alias=None, 
-            decrypt_key_store=None, identity_delegate_id=None, identity_rule_type='JAVASCRIPT', identity_rule_id=None,
-            identity_applies_to=None, identity_auth_type=None, identity_ba_user=None, identity_ba_password=None,
-            identity_client_keystore=None, identity_client_key_alias=None, identity_issuer_uri=None, identity_msg_fmt=None,
-            identity_ssl_keystore=None, identity_uri=None, ext_delegate_id=None, ext_mapping_rule=None, manage_name_id_services=[],
-            msg_valid_time=None, msg_issuer_fmt=None, msg_issuer_name_qualifier=None, name_id_format=None, name_id_supported=[],
-            consent_to_federate=True, exclude_session_index_logout_request=False, poc_url=None, provider_id=None, 
-            session_timeout=None, sign_alg=None, sign_digest_alg=None, sign_valid_key_store=None, sign_valid_key_alias=None, 
-            sign_assertion=None, sign_auth_rsp=None, sign_arti_req=None, sign_arti_rsp=None, 
+    def create_saml_federation(self, name=None, role=None, template_name=None, access_policy=None, artifact_lifetime=None, 
+            assertion_attr_types=[], assertion_session_not_on_or_after=None, assertion_multi_attr_stmt=None, 
+            assertion_valid_before=None, assertion_valid_after=None, artifact_resolution_service=[], attribute_mappings=[], 
+            company_name=None, encrypt_block_alg=None, encrypt_key_transport_alg=None, encrypt_key_alias=None, 
+            encrypt_key_store=None, encrypt_name_id=None, encrypt_assertions=None, encrypt_assertion_attrs=None, 
+            decrypt_key_alias=None, decrypt_key_store=None, identity_delegate_id=None, identity_rule_type='JAVASCRIPT', 
+            identity_rule_id=None, identity_applies_to=None, identity_auth_type=None, identity_ba_user=None, 
+            identity_ba_password=None, identity_client_keystore=None, identity_client_key_alias=None, identity_issuer_uri=None, 
+            identity_msg_fmt=None, identity_ssl_keystore=None, identity_uri=None, ext_delegate_id=None, ext_mapping_rule=None, 
+            manage_name_id_services=[], msg_valid_time=None, msg_issuer_fmt=None, msg_issuer_name_qualifier=None, 
+            name_id_default=None, name_id_supported=[], consent_to_federate=True, exclude_session_index_logout_request=False, 
+            poc_url=None, provider_id=None, session_timeout=None, sign_alg=None, sign_digest_alg=None, sign_valid_key_store=None, 
+            sign_valid_key_alias=None, sign_assertion=None, sign_auth_rsp=None, sign_arti_req=None, sign_arti_rsp=None, 
             sign_logout_req=None, sign_logout_rsp=None, sign_name_id_req=None, sign_name_id_rsp=None, validate_auth_req=None,
             validate_assert=None, validate_arti_req=None, validate_arti_rsp=None, validate_logout_req=None, validate_logout_rsp=None,
             validate_name_id_req=None, validate_name_id_rsp=None, transform_include_namespace=None, sign_include_pubkey=None,
@@ -282,6 +259,7 @@ class Federations(object):
             name (:obj:`str`): The name of the federation
             role (:obj:`str`): The role of a federation: "ip" for a SAML 2.0 identity provider federation, and "sp" for 
                             a SAML 2.0 service provider federation.
+            template_name (:obj:`str`): An identifier for the template on which to base this federation.
             access_policy (:obj:`str`, optional): The access policy that should be applied during single sign-on.
             artifact_lifetime(`int`, optional): The number of seconds that an artifact is valid. The default value is 120.
             assertion_attr_types (:obj:`list` of :obj:`str`, optional): A setting that specifies the types of attributes 
@@ -310,7 +288,7 @@ class Federations(object):
                                                             }
                                                         ]
 
-            attribute_mapping (:obj:`list` of :obj:`dict`, optional): The attribute mapping data. format 
+            attribute_mappings (:obj:`list` of :obj:`dict`, optional): The attribute mapping data. format 
                             is::
 
                                 [
@@ -354,7 +332,7 @@ class Federations(object):
             msg_valid_time (`int`, optional): The number of seconds that a message is valid. The default value is 300.
             msg_issuer_fmt (:obj:`str`, optional): The format of the issuer of SAML message.
             msg_issuer_name_qualifier (:obj:`str`): The name qualifier of the issuer of SAML messaged.
-            name_id_format (:obj:`str`): The name identifier format to use when the format attribute is not set, or is 
+            name_id_default (:obj:`str`): The name identifier format to use when the format attribute is not set, or is 
                             set to ``urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified``.
             name_id_supported (:obj:`list` of :obj:`str`): The list of supported name identifier formats.
             consent_to_federate (`bool`, optional): A setting that specifies whether to ask user's consent before linking 
@@ -442,10 +420,10 @@ class Federations(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
-            If the request is successful the id of the created obligation can be acess from the
-            response.id_from_location attribute
+            If the request is successful the id of the created obligation can be access from the
+            response.id_from_location attribute.
         """
         data = DataObject()
         data.add_value_string("name", name)
@@ -455,42 +433,119 @@ class Federations(object):
 
         encryptionSettings = DataObject()
         signatureSettings = DataObject()
+        assertionSettings = DataObject()
+        nameIdFmt = DataObject()
 
         identityMapping = None
-        if (active_delegate_id is not None):
+        if (identity_delegate_id is not None):
             identityMapping = DataObject()
-            identityMapping.add_value_string("activeDelegateId", active_delegate_id)
+            identityMapping.add_value_string("activeDelegateId", identity_delegate_id)
+            if (identity_mapping_rule is not None):
+                identityMapping.add_value_not_empty("properties": 
+                        {"identityMappingRuleReference": identity_rule_id,
+                         "ruleType": identity_rule_type})
+            else:
+                identProps = DataObject()
+                identProps.add_value_string("appliesTo", identity_applies_to)
+                identProps.add_value_string("authType", identity_auth_type)
+                identProps.add_value_string("basicAuthUsername", identity_ba_user)
+                identProps.add_value_string("basicAuthPassword", identity_ba_password)
+                identProps.add_value_string("clientKeyStore", identity_client_keystore)
+                identProps.add_value_string("clientKeyAlias", identity_client_key_alias)
+                identProps.add_value_string("issuerUri", identity_issuer_uri)
+                identProps.add_value_string("messageFormat", identity_msg_fmt)
+                identProps.add_value_string("sslKeyStore", identity_ssl_keystore)
+                identProps.add_value_string("uri", identity_uri)
+                identityMapping.add_value_not_empty("properties", identProps.data)
+
+        extensionMapping = None
+        if(ext_delegate_id is not None):
+            extensionMapping = DataObject()
+            extensionMapping.add_value_string("activeDelegateId")
+            if ext_mapping_rule is not None:
+                extensionMapping.add_value("properties": {"extensionMappingRuleReference", ext_mapping_rule})
 
         decryptionKeyIdentifier = DataObject()
         decryptionKeyIdentifier.add_value_string("keystore", decrypt_keystore)
         decryptionKeyIdentifier.add_value_string("label", decrypt_key_label)
+
+        encryptionSettings.add_value_not_empty("decryptionKeyIdentifier", decryptionKeyIdentifier.data)
+        signatureSettings.add_value_not_empty("signingKeyIdentifier", signingKeyIdentifier.data)
+        signatureSettings.add_value_string("signatureAlgorithm", sign_alg)
+        signatureSettings.add_value_string("digestAlgorithm", sign_digest_alg)
+        signOpts = DataObject()
+        signOpts.add_value_boolean("signAssertion", sign_assertion)
+        signOpts.add_value_boolean("signAuthnResponse", sign_authn_rsp)
+        signOpts.add_value_boolean("signArtifactRequest", sign_arti_req)
+        signOpts.add_value_boolean("signArtifactResponse", sign_arti_rsp)
+        signOpts.add_value_boolean("signLogoutRequest", sign_logout_req)
+        signOpts.add_value_boolean("signLogoutResponse", sign_logout_rsp)
+        signOpts.add_value_boolean("signNameIDManagementRequest", sign_name_id_req)
+        signOpts.add_value_boolean("signNameIDManagementResponse", sign_name_id_rsp)
+        signatureSettings.add_value_not_empty("signingOptions", signOpts.data)
+
+        validOpts = DataObject()
+        validOpts.add_value_boolean("validateAuthnRequest", validate_auth_req)
+        validOpts.add_value_boolean("validateAssertion", validate_assert)
+        validOpts.add_value_boolean("validateArtifactRequest", validate_arti_req)
+        validOpts.add_value_boolean("validateArtifactResponse", validate_arti_rsp)
+        validOpts.add_value_boolean("validateLogoutRequest", validate_logout_req)
+        validOpts.add_value_boolean("validateLogoutResponse", validate_logout_rsp)
+        validOpts.add_value_boolean("validateNameIDManagementRequest", validate_name_id_req)
+        validOpts.add_value_boolean("validateNameIDManagementResponse", validate_name_id_rsp)
+        signatureSettings.add_value_not_empty("validationOptions", validOpts.data)
+        if transform_include_namespace is not None:
+            signatureSettings.add_value(
+                "transformAlgorithmElements", {"includeInclusiveNamespaces": transform_include_namespace})
+        keyInfo = DataObject()
+        keyInfo.add_value_boolean("includePublicKey", sign_include_pubkey)
+        keyInfo.add_value_boolean("includeX509CertificateData", sign_include_cert)
+        keyInfo.add_value_boolean("includeX509IssuerDetails", sign_include_issuer)
+        keyInfo.add_value_boolean("includeX509SubjectKeyIdentifier", sign_include_ski)
+        keyInfo.add_value_boolean("includeX509SubjectName", sign_include_subject)
+        keyInfo.add_value_boolean("includeX509SubjectName", sign_include_subject)
+        signatureSettings.add_value_not_empty("keyInfoElements", keyInfo.data)
         signingKeyIdentifier = DataObject()
         signingKeyIdentifier.add_value_string("keystore", signing_keystore)
         signingKeyIdentifier.add_value_string("label", signing_key_label)
 
-        encryptionSettings.add_value_not_empty("decryptionKeyIdentifier", decryptionKeyIdentifier.data)
-        signatureSettings.add_value_not_empty("signingKeyIdentifier", signingKeyIdentifier.data)
 
-        ssoServiceBinding = None
-        if (sso_service_binding is not None):
-            ssoServiceBinding = DataObject()
-            ssoServiceBinding.add_value_string("binding", sso_service_binding)
+        if name_id_default is not None or name_id_supported is not None:
+            nameIdFmt.add_value_string("default", name_id_default)
+            nameIdFmt.add_value_not_empty("supported", name_id_supported)
+
+        aliasSvc = DataObject()
+        aliasSvc.add_value_string("aliasServiceDBType", alias_svc_db_type)
+        aliasSvc.add_value_string("aliasServiceLDAPConnection", alias_svc_ldap_con)
+        aliasSvc.add_value_string("aliasServiceLDAPBaseDN", alias_svc_ldap_base_dn)
 
         configuration = DataObject()
-        configuration.add_value_not_empty("encryptionSettings", encryptionSettings.data)
-        configuration.add_value_not_empty("signatureSettings", signatureSettings.data)
-        configuration.add_value_string("providerId", provider_id)
-        configuration.add_value_string("pointOfContactUrl", point_of_contact_url)
+        configuration.add_value_string("accessPolicy", access_policy)
+        configuration.add_value("artifactLifeTime", artifact_lifetime)
+        configuration.add_value_not_empty("assertionConsumerService", assertion_consume_svc)
+        configuration.add_value_not_empty("assertionSettings", assertionSettings.data)
+        configuration.add_value_not_empty("artifactResolutionService", artifact_resolution_service)
+        configuration.add_value_not_empty("attributeMapping", {} if not attribute_mappings else {"map": attribute_mappings})
         configuration.add_value_string("companyName", company_name)
-        if (ssoServiceBinding is not None):
-            configuration.add_value("singleSignOnService", [ssoServiceBinding.data])
-        if (identityMapping is not None):
-            configuration.add_value("identityMapping", identityMapping.data)
-        configuration.add_value("needConsentToFederate", need_consent_to_federate)
-        configuration.add_value_string("messageIssuerFormat", message_issuer_format)
+        configuration.add_value_not_empty("encryptionSettings", encryptionSettings.data)
+        configuration.add_value_not_empty("identityMapping", identityMapping.data)
+        configuration.add_value_not_empty("extensionMapping", extensionMapping.data)
+        configuration.add_value_not_empty("manageNameIDService", manage_name_id_services)
+        configuration.add_value("messageValidTime", msg_valid_time)
+        configuration.add_value_string("messageIssuerFormat", msg_issuer_fmt)
+        configuration.add_value_string("messageIssuerNameQualifier", msg_issuer_name_qualifier)
+        configuration.add_value_not_empty("nameIDFormat", nameIdFmt.data)
+        configuration.add_value_boolean("needConsentToFederate", consent_to_federate)
+        configuration.add_value_boolean("excludeSessionIndexInSingleLogoutRequest", exclude_session_index_logout_request)
+        configuration.add_value_string("pointOfContactUrl", poc_url)
+        configuration.add_value_string("providerId", provider_id)
+        configuration.add_value("sessionTimeout", session_timeout)
+        configuration.add_value_not_empty("signatureSettings", signatureSettings.data)
+        configuration.add_value_not_empty("singleSignOnService", sso_svc_data)
+        configuration.add_value_not_empty("singleLogoutService", slo_svc_data)
+        configuration.add_value_not_empty("aliasServiceSettings", aliasSvc.data)
 
         data.add_value_not_empty("configuration", configuration.data)
-
         response = self.client.post_json(FEDERATIONS, data.data)
         response.success = response.status_code == 201
 
@@ -514,7 +569,7 @@ class Federations(object):
             validate_authn_req=None, validate_arti_req=None, validate_arti_rsp=None, validate_logout_req=None, 
             validate_logout_rsp=None, validate_name_id_req=None, validate_name_id_rsp=None, sign_alg=None, sign_digest_alg=None, 
             validation_key_store=None, validation_key_alias=None, slo_svc=[], soap_key_store=None, soap_key_alias=None, 
-            soap_client_auth_method=None, soap_client_auth_ba_user=None, soap_client_auth_ba_pasword=None, 
+            soap_client_auth_method=None, soap_client_auth_ba_user=None, soap_client_auth_ba_password=None, 
             soap_client_auth_key_store=None, soap_client_auth_key_alias=None, anon_user_name=None, force_authn_to_federate=None, 
             authn_req_delegate_id=None, authn_req_mr=None, map_unknown_alias=None, sso_svc=[], default_target_url=None):
         """
@@ -832,41 +887,94 @@ class Federations(object):
         return response
 
 
+    def delete_federation(self, federation_id):
+        """
+        Delete a federation configuration.
+
+        Args:
+            federation_id (:obj:`str`): The id of the federation to modify.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        """
+        endpoint = "%s/%s" % (FEDERATIONS, federation_id)
+        response = self.client.delete_json(endpoint)
+        response.success = response.status_code == 204
+        return response
+
+
+    def delete_partner(self, federation_id, partner_id):
+        """
+        Delete a partner configuration from a federation
+
+        Args:
+            federation_id (:obj:`str`): The id of the federation to modify.
+            partner_id (:obj:`str`): The id of the partner to remove.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        """
+        endpoint = "%s/%s/partners/%s" % (FEDERATIONS, federation_id, partner_id)
+        response = self.client.delete_json(endpoint)
+        response.success = response.status_code == 204
+        return response
+
+
 class Federations9040(Federations):
 
-    def create_oidc_rp_federation(self, name=None, redirect_uri_prefix=None,
-            response_types=None, active_delegate_id=None, identity_mapping_rule_reference=None,
-            advanced_configuration_active_delegate=None, advanced_configuration_rule_id=None):
+    def create_oidc_federation(self, name=None, role=None, redirect_uri_prefix=None, response_types_supported=None, 
+            attribute_mappings=[], identity_delegate_id=None, identity_rule_type="JAVASCRIPT", identity_mapping_rule=None, 
+            identity_applies_to=None, identity_auth_type=None, identity_ba_user=None, identity_ba_password=None,
+            identity_client_keystore=None, identity_client_key_alias=None, identity_issuer_uri=None, 
+            identity_message_format=None, identity_ssl_keystore=None, identity_uri=None, adv_delegate_id=None,
+            adv_rule_type="JAVASCRIPT", adv_mapping_rule=None):
+        attributeMapping = DataObject()
+        attributeMapping.add_value_not_empty("map", attribute_mappings)
+
+        advConfig = DataObject()
+        advConfig.add_value_string("activeDelegateId", adv_delegate_id)
+        advConfigProps = DataObject()
+        advConfigProps.add_value_string("ruleType", adv_rule_type)
+        advConfigProps.add_value_string("advanceMappingRuleReference", adv_mapping_rule)
+        advConfig.add_value_not_empty("properties", advConfigProps.data)
+
+        identityMapping = DataObject()
+        identityMapping.add_value_string("activeDelegateId", identity_delegate_id)
+        properties = DataObject()
+        if identity_delegate_id == "default-map":
+            properties.add_value_string("ruleType", identity_rule_type)
+            properties.add_value_string("identityMappingRuleReference", identity_mapping_rule_reference)
+
+        elif identity_delegate_id == "default-http-custom-map":
+            properties.add_value_string("appliesTo", identity_applies_to)
+            properties.add_value_string("authType", identity_auth_type)
+            properties.add_value_string("basicAuthUsername", identity_ba_user)
+            properties.add_value_string("basicAuthPassword", identity_ba_password)
+            properties.add_value_string("clientKeyStore", identity_client_keystore)
+            properties.add_value_string("clientKeyAlias", identity_client_key_alias)
+            properties.add_value_string("issuerUri", identity_issuer_uri)
+            properties.add_value_string("messageFormat", identity_message_format)
+            properties.add_value_string("sslKeyStore", identity_ssl_keystore)
+            properties.add_value_string("uri", identity_uri)
+        identityMapping.add_value_not_empty("properties", properties.data)
+
+        configuration = DataObject()
+        configuration.add_value_not_empty("identityMapping", identityMapping.data)
+        configuration.add_value_not_empty("attributeMapping", attributeMapping.data)
+        configuration.add_value_not_empty("advancedConfiguration", advConfig.data)
+        configuration.add_value_string("redirectUriPrefix", redirect_uri_prefix)
+        configuration.add_value_string("responseTypes", response_types_supported)
 
         data = DataObject()
         data.add_value_string("name", name)
-        data.add_value_string("protocol", "OIDC10")
-        data.add_value_string("role", 'rp')
-
-        attributeMapping = DataObject()
-        
-        identityMapping = DataObject()
-        identityMapping.add_value_string("activeDelegateId", active_delegate_id)
-        properties = DataObject()
-        properties.add_value_string("identityMappingRuleReference", identity_mapping_rule_reference)
-        identityMapping.add_value_not_empty("properties", properties.data)
-
-        advancedConfiguration = DataObject()
-        if advanced_configuration_active_delegate == None : 
-            advancedConfiguration.add_value_string("activeDelegateId", 'skip-advance-map')
-        else:
-            advancedConfiguration.add_value_string("activeDelegateId", advanced_configuration_active_delegate)
-            properties = DataObject()
-            properties.add_value_string("advanceMappingRuleReference", advanced_configuration_rule_id)
-            advancedConfiguration.add_value_not_empty("properties", properties.data)
-
-        configuration = DataObject()
-        configuration.add_value_string("redirectUriPrefix", redirect_uri_prefix)
-        configuration.add_value("responseTypes", response_types)
-        configuration.add_value_not_empty("advanceConfiguration", advancedConfiguration.data)
-        configuration.add_value_not_empty("identityMapping", identityMapping.data)
-        configuration.add_value_not_empty("attributeMapping", attributeMapping.data)
-
+        data.add_value_string("protocol", "OIDC")
+        data.add_value_string("role", role)
         data.add_value_not_empty("configuration", configuration.data)
 
         response = self.client.post_json(FEDERATIONS, data.data)
@@ -874,51 +982,48 @@ class Federations9040(Federations):
 
         return response
 
-    def create_oidc_rp_partner(self, federation_id, name=None, enabled=False, client_id=None, 
-            client_secret=None, metadata_endpoint=None, scope=None,
-            token_endpoint_auth_method=None, perform_userinfo=False,
-            advanced_configuration_active_delegate='skip-advance-map', advanced_configuration_rule_id=None,
-            signing_algorithm=None):
-
+    def create_oidc_rp_partner(self, federation_id, name=None, role="rp", redirect_uri_prefix=None,
+        response_types=[], attribute_mappings=[], identity_delegate_id=None, identity_mapping_rule=None,
+        identity_auth_type=None, identity_ba_user=None, identity_ba_password=None, identity_client_keystore=None, 
+        identity_client_key_alias=None, identity_issuer_uri=None, identity_msg_fmt=None, identity_ssl_keystore=None,
+        identity_uri=None, adv_config_delegate_id=None, adv_config_rule_type="JAVASCRIPT", adv_config_mapping_rule=None):
         data = DataObject()
         data.add_value_string("name", name)
-        data.add_value("enabled", enabled)
-        data.add_value_string("role", 'rp')
+        data.add_value_string("role", role)
 
-        attributeMapping = DataObject()
         identityMapping = DataObject()
+        identityMapping.add_value_string("activeDelegateId", identity_delegate_id)
+        identityProps = DataObject()
+        if identity_mapping_rule:
+            identityProps.add_value_string("identityMappingRuleReference", identity_mapping_rule)
+            identityProps.add_value_string("ruleType", "JAVASCRIPT")
+        else:
+            identityProps.add_value_string("authType", identity_auth_type)
+            identityProps.add_value_string("basicAuthUsername", identity_ba_user)
+            identityProps.add_value_string("basicAuthPassword", identity_ba_password)
+            identityProps.add_value_string("clientKeyStore", identity_client_keystore)
+            identityProps.add_value_string("clientKeyAlias", identity_client_key_alias)
+            identityProps.add_value_string("issuerUri", identity_issuer_uri)
+            identityProps.add_value_string("messageFormat", identity_msg_fmt)
+            identityProps.add_value_string("sslKeyStore", identity_ssl_keystore)
+            identityProps.add_value_string("uri", identity_uri)
+        identityMapping.add_value_not_empty("properties", identityProps.data)
+
+        advConfig = DataObject()
+        advConfProps = DataObject()
+        advConfProps.add_value_string("ruleType", adv_config_rule_type)
+        advConfProps.add_value_string("advanceMappingRuleReference", adv_config_mapping_rule)
+        advConfig.add_value_not_empty("properties", advConfProps.data)
+        advConfig.add_value_string("activeDelegateId", adv_config_delegate_id)
 
         configuration = DataObject()
-
-
-        configuration.add_value_not_empty("clientId", client_id)
-        configuration.add_value_not_empty("signatureAlgorithm", signing_algorithm)
-        configuration.add_value_not_empty("clientSecret", client_secret)
-        configuration.add_value_not_empty("scope", scope)
-        configuration.add_value_not_empty("tokenEndpointAuthMethod", token_endpoint_auth_method)
-        configuration.add_value_not_empty("performUserinfo", perform_userinfo)
-
-        basic = DataObject()
-        basic.add_value_not_empty("activeDelegateId","metadataEndpointUrl")
-
-        basic_properties = DataObject()
-        basic_properties.add_value_not_empty("metadataEndpointUrl", metadata_endpoint)
-        basic.add_value("properties",basic_properties.data)
-        
-        configuration.add_value("scope", scope)
-
+        configuration.add_value_not_empty("advanceConfiguration", advConfig.data)
         configuration.add_value_not_empty("identityMapping", identityMapping.data)
-
-        if advanced_configuration_active_delegate: 
-            advancedConfiguration = DataObject()
-            advancedConfiguration.add_value_string("activeDelegateId", advanced_configuration_active_delegate)
-            if (advanced_configuration_active_delegate != 'skip-advance-map'):
-                properties = DataObject()
-                properties.add_value_string("advanceMappingRuleReference", advanced_configuration_rule_id)
-                advancedConfiguration.add_value_not_empty("properties", properties.data)
-            configuration.add_value_not_empty("advanceConfiguration", advancedConfiguration.data)
-
-        configuration.add_value_not_empty("basicConfiguration", basic.data)
+        attributeMapping = DataObject()
+        attributeMapping.add_value_not_empty("map", attribute_mappings)
+        configuration.add_value_not_empty("attributeMapping", attributeMapping.data)
+        configuration.add_value_string("redirect_uri_prefix", redirect_uri_prefix)
+        configuration.add_value_not_empty("responseTypes", response_types)
 
         data.add_value_not_empty("configuration", configuration.data)
 
@@ -931,10 +1036,25 @@ class Federations9040(Federations):
 
 class Federations10000(Federations9040):
 
-    def create_saml_federation(self, name=None, role=None, template_name=None, active_delegate_id=None, need_consent_to_federate=None,
-            signature_algorithm=None, signing_keystore=None, signing_key_label=None, sso_service_binding=None, message_issuer_format=None,
-            decrypt_keystore=None, decrypt_key_label=None, point_of_contact_url=None, provider_id=None, company_name=None):
-
+    def create_saml_federation(self, name=None, role=None, template_name=None, access_policy=None, artifact_lifetime=None, 
+            assertion_attr_types=[], assertion_session_not_on_or_after=None, assertion_multi_attr_stmt=None, 
+            assertion_valid_before=None, assertion_valid_after=None, artifact_resolution_service=[], attribute_mappings=[], 
+            company_name=None, encrypt_block_alg=None, encrypt_key_transport_alg=None, encrypt_key_alias=None, 
+            encrypt_key_store=None, encrypt_name_id=None, encrypt_assertions=None, encrypt_assertion_attrs=None, 
+            decrypt_key_alias=None, decrypt_key_store=None, identity_delegate_id=None, identity_rule_type='JAVASCRIPT', 
+            identity_rule_id=None, identity_applies_to=None, identity_auth_type=None, identity_ba_user=None, 
+            identity_ba_password=None, identity_client_keystore=None, identity_client_key_alias=None, identity_issuer_uri=None, 
+            identity_msg_fmt=None, identity_ssl_keystore=None, identity_uri=None, ext_delegate_id=None, ext_mapping_rule=None, 
+            manage_name_id_services=[], msg_valid_time=None, msg_issuer_fmt=None, msg_issuer_name_qualifier=None, 
+            name_id_default=None, name_id_supported=[], consent_to_federate=True, exclude_session_index_logout_request=False, 
+            poc_url=None, provider_id=None, session_timeout=None, sign_alg=None, sign_digest_alg=None, sign_valid_key_store=None, 
+            sign_valid_key_alias=None, sign_assertion=None, sign_auth_rsp=None, sign_arti_req=None, sign_arti_rsp=None, 
+            sign_logout_req=None, sign_logout_rsp=None, sign_name_id_req=None, sign_name_id_rsp=None, validate_auth_req=None,
+            validate_assert=None, validate_arti_req=None, validate_arti_rsp=None, validate_logout_req=None, validate_logout_rsp=None,
+            validate_name_id_req=None, validate_name_id_rsp=None, transform_include_namespace=None, sign_include_pubkey=None,
+            sign_include_cert=None, sign_include_issuer=None, sign_include_ski=None, sign_include_subject=None, sign_keystore=None,
+            sign_key_alias=None, sso_svc_data=[], slo_svc_data=[], alias_svc_db_type=None, alias_svc_ldap_con=None,
+            alias_svc_ldap_base_dn=None, assertion_consume_svc=[], authn_req_delegate_id=None, authn_req_mr=None):
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value_string("protocol", "SAML2_0")
@@ -943,53 +1063,145 @@ class Federations10000(Federations9040):
 
         encryptionSettings = DataObject()
         signatureSettings = DataObject()
+        assertionSettings = DataObject()
+        nameIdFmt = DataObject()
 
         identityMapping = None
-        if (active_delegate_id is not None):
+        if (identity_delegate_id is not None):
             identityMapping = DataObject()
-            identityMapping.add_value_string("activeDelegateId", active_delegate_id)
+            identityMapping.add_value_string("activeDelegateId", identity_delegate_id)
+            if (identity_mapping_rule is not None):
+                identityMapping.add_value_not_empty("properties": 
+                        {"identityMappingRuleReference": identity_rule_id,
+                         "ruleType": identity_rule_type})
+            else:
+                identProps = DataObject()
+                identProps.add_value_string("appliesTo", identity_applies_to)
+                identProps.add_value_string("authType", identity_auth_type)
+                identProps.add_value_string("basicAuthUsername", identity_ba_user)
+                identProps.add_value_string("basicAuthPassword", identity_ba_password)
+                identProps.add_value_string("clientKeyStore", identity_client_keystore)
+                identProps.add_value_string("clientKeyAlias", identity_client_key_alias)
+                identProps.add_value_string("issuerUri", identity_issuer_uri)
+                identProps.add_value_string("messageFormat", identity_msg_fmt)
+                identProps.add_value_string("sslKeyStore", identity_ssl_keystore)
+                identProps.add_value_string("uri", identity_uri)
+                identityMapping.add_value_not_empty("properties", identProps.data)
+
+        extensionMapping = None
+        if(ext_delegate_id is not None):
+            extensionMapping = DataObject()
+            extensionMapping.add_value_string("activeDelegateId")
+            if ext_mapping_rule is not None:
+                extensionMapping.add_value("properties": {"extensionMappingRuleReference", ext_mapping_rule})
 
         decryptionKeyIdentifier = DataObject()
         decryptionKeyIdentifier.add_value_string("keystore", decrypt_keystore)
         decryptionKeyIdentifier.add_value_string("label", decrypt_key_label)
+
+        encryptionSettings.add_value_not_empty("decryptionKeyIdentifier", decryptionKeyIdentifier.data)
+        signatureSettings.add_value_not_empty("signingKeyIdentifier", signingKeyIdentifier.data)
+        signatureSettings.add_value_string("signatureAlgorithm", sign_alg)
+        signatureSettings.add_value_string("digestAlgorithm", sign_digest_alg)
+        signOpts = DataObject()
+        signOpts.add_value_boolean("signAssertion", sign_assertion)
+        signOpts.add_value_boolean("signAuthnResponse", sign_authn_rsp)
+        signOpts.add_value_boolean("signArtifactRequest", sign_arti_req)
+        signOpts.add_value_boolean("signArtifactResponse", sign_arti_rsp)
+        signOpts.add_value_boolean("signLogoutRequest", sign_logout_req)
+        signOpts.add_value_boolean("signLogoutResponse", sign_logout_rsp)
+        signOpts.add_value_boolean("signNameIDManagementRequest", sign_name_id_req)
+        signOpts.add_value_boolean("signNameIDManagementResponse", sign_name_id_rsp)
+        signatureSettings.add_value_not_empty("signingOptions", signOpts.data)
+
+        validOpts = DataObject()
+        validOpts.add_value_boolean("validateAuthnRequest", validate_auth_req)
+        validOpts.add_value_boolean("validateAssertion", validate_assert)
+        validOpts.add_value_boolean("validateArtifactRequest", validate_arti_req)
+        validOpts.add_value_boolean("validateArtifactResponse", validate_arti_rsp)
+        validOpts.add_value_boolean("validateLogoutRequest", validate_logout_req)
+        validOpts.add_value_boolean("validateLogoutResponse", validate_logout_rsp)
+        validOpts.add_value_boolean("validateNameIDManagementRequest", validate_name_id_req)
+        validOpts.add_value_boolean("validateNameIDManagementResponse", validate_name_id_rsp)
+        signatureSettings.add_value_not_empty("validationOptions", validOpts.data)
+        if transform_include_namespace is not None:
+            signatureSettings.add_value(
+                "transformAlgorithmElements", {"includeInclusiveNamespaces": transform_include_namespace})
+        keyInfo = DataObject()
+        keyInfo.add_value_boolean("includePublicKey", sign_include_pubkey)
+        keyInfo.add_value_boolean("includeX509CertificateData", sign_include_cert)
+        keyInfo.add_value_boolean("includeX509IssuerDetails", sign_include_issuer)
+        keyInfo.add_value_boolean("includeX509SubjectKeyIdentifier", sign_include_ski)
+        keyInfo.add_value_boolean("includeX509SubjectName", sign_include_subject)
+        keyInfo.add_value_boolean("includeX509SubjectName", sign_include_subject)
+        signatureSettings.add_value_not_empty("keyInfoElements", keyInfo.data)
         signingKeyIdentifier = DataObject()
         signingKeyIdentifier.add_value_string("keystore", signing_keystore)
         signingKeyIdentifier.add_value_string("label", signing_key_label)
 
-        encryptionSettings.add_value_not_empty("decryptionKeyIdentifier", decryptionKeyIdentifier.data)
-        signatureSettings.add_value_not_empty("signingKeyIdentifier", signingKeyIdentifier.data)
 
-        ssoServiceBinding = None
-        if (sso_service_binding is not None):
-            ssoServiceBinding = DataObject()
-            ssoServiceBinding.add_value_string("binding", sso_service_binding)
+        if name_id_default is not None or name_id_supported is not None:
+            nameIdFmt.add_value_string("default", name_id_default)
+            nameIdFmt.add_value_not_empty("supported", name_id_supported)
+
+        aliasSvc = DataObject()
+        aliasSvc.add_value_string("aliasServiceDBType", alias_svc_db_type)
+        aliasSvc.add_value_string("aliasServiceLDAPConnection", alias_svc_ldap_con)
+        aliasSvc.add_value_string("aliasServiceLDAPBaseDN", alias_svc_ldap_base_dn)
 
         configuration = DataObject()
-        configuration.add_value_not_empty("encryptionSettings", encryptionSettings.data)
-        configuration.add_value_not_empty("signatureSettings", signatureSettings.data)
-        configuration.add_value_string("providerId", provider_id)
-        configuration.add_value_string("pointOfContactUrl", point_of_contact_url)
+        configuration.add_value_string("accessPolicy", access_policy)
+        configuration.add_value("artifactLifeTime", artifact_lifetime)
+        configuration.add_value_not_empty("assertionConsumerService", assertion_consume_svc)
+        configuration.add_value_not_empty("assertionSettings", assertionSettings.data)
+        configuration.add_value_not_empty("artifactResolutionService", artifact_resolution_service)
+        configuration.add_value_not_empty("attributeMapping", {} if not attribute_mappings else {"map": attribute_mappings})
         configuration.add_value_string("companyName", company_name)
-        if (ssoServiceBinding is not None):
-            configuration.add_value("singleSignOnService", [ssoServiceBinding.data])
-        if (identityMapping is not None):
-            configuration.add_value("identityMapping", identityMapping.data)
-        configuration.add_value("needConsentToFederate", need_consent_to_federate)
-        configuration.add_value_string("messageIssuerFormat", message_issuer_format)
+        configuration.add_value_not_empty("encryptionSettings", encryptionSettings.data)
+        configuration.add_value_not_empty("identityMapping", identityMapping.data)
+        configuration.add_value_not_empty("extensionMapping", extensionMapping.data)
+        configuration.add_value_not_empty("manageNameIDService", manage_name_id_services)
+        configuration.add_value("messageValidTime", msg_valid_time)
+        configuration.add_value_string("messageIssuerFormat", msg_issuer_fmt)
+        configuration.add_value_string("messageIssuerNameQualifier", msg_issuer_name_qualifier)
+        configuration.add_value_not_empty("nameIDFormat", nameIdFmt.data)
+        configuration.add_value_boolean("needConsentToFederate", consent_to_federate)
+        configuration.add_value_boolean("excludeSessionIndexInSingleLogoutRequest", exclude_session_index_logout_request)
+        configuration.add_value_string("pointOfContactUrl", poc_url)
+        configuration.add_value_string("providerId", provider_id)
+        configuration.add_value("sessionTimeout", session_timeout)
+        configuration.add_value_not_empty("signatureSettings", signatureSettings.data)
+        configuration.add_value_not_empty("singleSignOnService", sso_svc_data)
+        configuration.add_value_not_empty("singleLogoutService", slo_svc_data)
+        configuration.add_value_not_empty("aliasServiceSettings", aliasSvc.data)
 
         data.add_value_not_empty("configuration", configuration.data)
-
         response = self.client.post_json(FEDERATIONS, data.data)
         response.success = response.status_code == 201
 
         return response
 
 
-    def create_saml_partner(self, federation_id, name=None, enabled=False, role=None, template_name=None, acs_binding=None, block_encryption_algorithm=None,
-        encryption_key_transport_algorithm = None, encryption_keystore=None, encryption_key_label=None, signature_digest_algorithm=None, acs=None, single_logout_service=None,
-        acs_default=True, acs_index=0, acs_url=None, attribute_mapping=[], active_delegate_id=None, client_auth_method=None, signature_algorithm=None,
-        validate_logout_request=None,validate_logout_response=None,
-        provider_id=None, signature_validation=None, validate_authn_request=None, validation_keystore=None, validation_key_label=None, mapping_rule=None):
+    def create_saml_partner(self, federation_id, name=None, enabled=False, role=None, template_name=None, access_policy=None,
+            arti_resolution_svc=[], assert_consume_svc=[], assert_valid_before=None, assert_valid_after=None, assert_attr_types=[],
+            assert_session_not_after=None, assert_multi_attr_stmt=None, attr_mapping=[], decrypt_key_store=None, 
+            decrypt_key_alias=None, encrypt_block_alg=None, encrypt_transport_alg=None, encrypt_key_store=None, 
+            encrypt_key_alias=None, encrypt_name_id=None, encrypt_assertion=None, encrypt_assertion_attrs=None,
+            identity_delegate_id=None, identity_rule_type='JAVASCRIPT', identity_mr=None, identity_applies_to=None,
+            identity_auth_type=None, identity_ba_user=None, identity_ba_password=None,
+            identity_client_key_store=None, identity_client_key_alias=None, identity_issuer_uri=None, identity_mgs_fmt=None,
+            identity_ssl_key_store=None, identity_uri=None, ext_delegate_id=None, ext_mr=None, include_fed_id_in_partner_id=None, 
+            logout_req_lifetime=None, manage_name_id_services=[], name_id_default=None, name_id_supported=[],
+            provider_id=None, session_timeout=None, sign_include_pub_key=None, sign_include_cert=None, sign_include_issuer=None, 
+            sign_include_ski=None, sign_include_subject=None, sign_key_store=None, sign_key_alias=None, sign_arti_request=None, 
+            sign_arti_rsp=None, sign_assertion=None, sign_authn_rsp=None, sign_logout_req=None, sign_logout_rsp=None, 
+            sign_name_id_req=None, sign_name_id_rsp=None, transform_include_namespace=None, validate_assertion=None, 
+            validate_authn_req=None, validate_arti_req=None, validate_arti_rsp=None, validate_logout_req=None, 
+            validate_logout_rsp=None, validate_name_id_req=None, validate_name_id_rsp=None, sign_alg=None, sign_digest_alg=None, 
+            validation_key_store=None, validation_key_alias=None, slo_svc=[], soap_key_store=None, soap_key_alias=None, 
+            soap_client_auth_method=None, soap_client_auth_ba_user=None, soap_client_auth_ba_password=None, 
+            soap_client_auth_key_store=None, soap_client_auth_key_alias=None, anon_user_name=None, force_authn_to_federate=None, 
+            authn_req_delegate_id=None, authn_req_mr=None, map_unknown_alias=None, sso_svc=[], default_target_url=None):
         
         data = DataObject()
         data.add_value_string("name", name)
@@ -1001,73 +1213,153 @@ class Federations10000(Federations9040):
         attributeMapping.add_value_not_empty("map", attribute_mapping)
 
         properties = DataObject()
-
+        properties.add_value_string("username", soap_client_auth_ba_user)
+        properties.add_value_string("password", soap_client_auth_ba_password)
+        properties.add_value_string("keystore", soap_client_auth_key_store)
+        properties.add_value_string("label", soap_client_auth_key_alias)
         clientAuth = DataObject()
-        clientAuth.add_value_string("method", client_auth_method)
+        clientAuth.add_value_string("method", soap_client_auth_method)
         clientAuth.add_value_not_empty("properties", properties.data)
 
         serverCertValidation = DataObject()
-        # serverCertValidation.add_value_string("keystore", "")
+        serverCertValidation.add_value_string("keystore", soap_key_store)
+        serverCertValidation.add_value_string("label", soap_key_alias)
 
         soapSettings = DataObject()
         soapSettings.add_value_not_empty("clientAuth", clientAuth.data)
-        if clientAuth.data or serverCertValidation.data:
-            soapSettings.add_value("serverCertValidation", serverCertValidation.data)
+        soapSettings.add_value_not_empty("serverCertValidation", serverCertValidation.data)
 
         properties = DataObject()
-        properties.add_value_string("identityMappingRule", mapping_rule)
-
+        properties.add_value_string("identityMappingRuleReference", identity_mr)
+        properties.add_value_string("appliesTo", identity_applies_to)
+        properties.add_value_string("authType", identity_auth_type)
+        properties.add_value_string("basicAuthUsername", identity_ba_user)
+        properties.add_value_string("basicAuthPassword", identity_ba_password)
+        properties.add_value_string("clientKeyStore", identity_client_key_store)
+        properties.add_value_string("clientKeyAlias", identity_client_key_alias)
+        properties.add_value_string("issuerUri",identity_issuer_uri)
+        properties.add_value_string("messageFormat", identity_mgs_fmt)
+        properties.add_value_string("sslKeyStore", identity_ssl_key_store)
+        properties.add_value_string("uri", identity_uri)
         identityMapping = DataObject()
         identityMapping.add_value_not_empty("properties", properties.data)
         identityMapping.add_value_string("activeDelegateId", active_delegate_id)
 
-        assertionConsumerService = DataObject()
-        assertionConsumerService.add_value_string("binding", acs_binding)
-        assertionConsumerService.add_value("default", acs_default)
-        assertionConsumerService.add_value("index", acs_index)
-        assertionConsumerService.add_value_string("url", acs_url)
-
         encryptionKeyIdentifier = DataObject()
-        encryptionKeyIdentifier.add_value("keystore", encryption_keystore)
-        encryptionKeyIdentifier.add_value("label", encryption_key_label)
+        encryptionKeyIdentifier.add_value("keystore", encrypt_key_store)
+        encryptionKeyIdentifier.add_value("label", encrypt_key_alias)
+
+        decryptKeyIdent = DataObject()
+        decryptKeyIdent.add_value_string("keystore", decrypt_key_store)
+        decryptKeyIdent.add_value_string("label", decrypt_key_alias)
+
+        encryptionOptions = DataObject()
+        encryptionOptions.add_value_string("encryptNameId", encrypt_name_id)
+        encryptionOptions.add_value_string("encryptAssertion", encrypt_assertion_attrs)
+        encryptionOptions.add_value_string("encryptAssertionAttributes", encrypt_assertion)
 
         encryptionSettings = DataObject()
-        encryptionSettings.add_value_not_empty("encryptionKeyIdentifier", encryptionKeyIdentifier.data)
+        encryptionSettings.add_value_not_empty("decryptionKeyIdentifier", decryptKeyIdent.data)
         encryptionSettings.add_value_string("blockEncryptionAlgorithm", block_encryption_algorithm)
         encryptionSettings.add_value_string("encryptionKeyTransportAlgorithm", encryption_key_transport_algorithm)
+        encryptionSettings.add_value_not_empty("encryptionKeyIdentifier", encryptionKeyIdentifier.data)
+        encryptionSettings.add_value_not_empty("encryptionOptions", encryptionOptions.data)
 
         validationKeyIdentifier = DataObject()
         validationKeyIdentifier.add_value("keystore", validation_keystore)
         validationKeyIdentifier.add_value("label", validation_key_label)
 
         validationOptions = DataObject()
-        validationOptions.add_value("validateAuthnRequest", validate_authn_request)
-        validationOptions.add_value("validateLogoutRequest", validate_logout_request)
-        validationOptions.add_value("validateLogoutResponse", validate_logout_response)
+        validationOptions.add_value_boolean("validateAssertion", validate_assert)
+        validationOptions.add_value_boolean("validateAuthnRequest", validate_authn_request)
+        validationOptions.add_value_boolean("validateArtifactRequest", validate_arti_req)
+        validationOptions.add_value_boolean("validateArtifactResponse",validate_arti_rsp)
+        validationOptions.add_value_boolean("validateLogoutRequest", validate_logout_req)
+        validationOptions.add_value_boolean("validateLogoutResponse", validate_logout_rsp)
+        validationOptions.add_value_boolean("validateNameIDManagementRequest", validate_name_id_req)
+        validationOptions.add_value_boolean("validateNameIDManagementResponse", validate_name_id_rsp)
+
+        transformOptions = DataObject()
+        transformOptions.add_value_boolean("includeInclusiveNamespaces", transform_include_namespace)
+
+        keyInfo = DataObject()
+        keyInfo.add_value_boolean("includePublicKey", sign_include_pub_key)
+        keyInfo.add_value_boolean("includeX509CertificateData", sign_include_cert)
+        keyInfo.add_value_boolean("includeX509IssuerDetails", sign_include_issuer)
+        keyInfo.add_value_boolean("includeX509SubjectKeyIdentifier", sign_include_ski)
+        keyInfo.add_value_boolean("includeX509SubjectName", sign_include_subject)
+
+        signingKeyIdentifier = DataObject()
+        signingKeyIdentifier.add_value_string("keystore", sign_key_store)
+        signingKeyIdentifier.add_value_string("label", sign_key_alias)
+
+        signingOptions = DataObject()
+        signingOptions.add_value_boolean("signArtifactRequest", sign_arti_req)
+        signingOptions.add_value_boolean("signArtifactResponse", sign_arti_rsp)
+        signingOptions.add_value_boolean("signAssertion", sign_assertion)
+        signingOptions.add_value_boolean("signAuthnResponse", sign_authn_rsp)
+        signingOptions.add_value_boolean("signLogoutRequest", sign_logout_req)
+        signingOptions.add_value_boolean("signLogoutResponse", sign_logout_rsp)
+        signingOptions.add_value_boolean("signNameIDManagementRequest", sign_name_id_req)
+        signingOptions.add_value_boolean("signNameIDManagementResponse", sign_name_id_rsp)
 
         signatureSettings = DataObject()
-        signatureSettings.add_value_not_empty("validationOptions", validationOptions.data)
-        signatureSettings.add_value_not_empty("validationKeyIdentifier", validationKeyIdentifier.data)
+        signatureSettings.add_value_not_empty("keyInfoElements", keyInfo.data)
+        signatureSettings.add_value_not_empty("signingKeyIdentifier", signingKeyIdentifier.data)
+        signatureSettings.add_value_not_empty("signingOptions", signingOptions.data)
+        signatureSettings.add_value_not_empty("transformAlgorithmElements", transformOptions.data)
         signatureSettings.add_value_string("signatureAlgorithm", signature_algorithm)
         signatureSettings.add_value_string("digestAlgorithm", signature_digest_algorithm)
+        signatureSettings.add_value_not_empty("validationKeyIdentifier", validationKeyIdentifier.data)
+        signatureSettings.add_value_not_empty("validationOptions", validationOptions.data)
+
+        assertionSettings = DataObject()
+        assertionSettings.add_value("assertionValidBefore", assert_valid_before)
+        assertionSettings.add_value_not_empty("assertionAttributeTypes", assert_attr_types)
+        assertionSettings.add_value("sessionNotOnOrAfter", assert_session_not_after)
+        assertionSettings.add_value_boolean("createMultipleAttributeStatements", assert_multi_attr_stmt)
+
+        extensionMapping = DataObject()
+        extProps = DataObject()
+        extProps.add_value_string("extensionMappingRuleReference", ext_mr)
+        extensionMapping.add_value_string("activeDelegateId", ext_delegate_id)
+        extensionMapping.add_value_not_empty("properties", extProps.data)
+
+        nameIdFmt = DataObject()
+        nameIdFmt.add_value_string("default", name_id_default)
+        nameIdFmt.add_value_not_empty("supported", name_id_supported)
+
+        authnReqMapping = DataObject()
+        authnReqProps = DataObject()
+        authnReqProps.add_value_string("authnReqMappingRuleReference", authn_req_mr)
+        authnReqMapping.add_value_string("activeDelegateId", authn_req_delegate_id)
+        authnReqMapping.add_value_not_empty("properties", authnReqProps.data)
 
         configuration = DataObject()
-        configuration.add_value_not_empty("identityMapping", identityMapping.data)
+        configuration.add_value_string("anonymousUserName", anon_user_name)
+        configuration.add_value_string("accessPolicy", access_policy)
+        configuration.add_value_not_empty("artifactResolutionService", arti_resolution_svc)
+        configuration.add_value_not_empty("assertionConsumerService", assert_consume_svc)
+        configuration.add_value_not_empty("assertionSettings", assertionSettings.data)
         configuration.add_value_not_empty("attributeMapping", attributeMapping.data)
-        configuration.add_value_not_empty("assertionConsumerService", [assertionConsumerService.data])
-        configuration.add_value_not_empty("assertionConsumerService", acs)
-        configuration.add_value_not_empty("singleLogoutService", single_logout_service)
-        configuration.add_value_not_empty("signatureSettings", signatureSettings.data)
         configuration.add_value_not_empty("encryptionSettings", encryptionSettings.data)
-        configuration.add_value_not_empty("soapSettings", soapSettings.data)
+        configuration.add_value_boolean("forceAuthnToFederate", force_authn_to_federate)
+        configuration.add_value_not_empty("identityMapping", identityMapping.data)
+        configuration.add_value_not_empty("extensionMapping", extensionMapping.data)
+        configuration.add_value_not_empty("authnReqMapping", authnReqMapping.data)
+        configuration.add_value_boolean("includeFedIdInAliasPartnerId", include_fed_id_in_partner_id)
+        configuration.add_value("logoutRequestLifeTime", logout_req_lifetime)
+        configuration.add_value_not_empty("manageNameIDService", manage_name_id_services)
+        configuration.add_value_boolean("mapUnknownAlias", map_unknown_alias)
+        configuration.add_value_not_empty("nameIDFormat", nameIdFmt.data)
         configuration.add_value_not_empty("providerId", provider_id)
+        configuration.add_value_not_empty("signatureSettings", signatureSettings.data)
+        configuration.add_value_not_empty("singleLogoutService", single_logout_service)
+        configuration.add_value_not_empty("soapSettings", soapSettings.data)
+        configuration.add_value_string("defaultTargetURL", default_target_url)
 
         data.add_value_not_empty("configuration", configuration.data)
-
         endpoint = "%s%s/partners" % (FEDERATIONS, federation_id)
-
-        print(json.dumps(data.data))
-
         response = self.client.post_json(endpoint, data.data)
         response.success = response.status_code == 201
 

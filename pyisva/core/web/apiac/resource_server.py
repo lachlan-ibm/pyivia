@@ -11,16 +11,16 @@ logger = logging.getLogger(__name__)
 
 APIAC = "/wga/apiac"
 
-class Resources(object):
+class ResourceServer(object):
 
     def __init__(self, base_url, username, password):
-        super(Resources, self).__init__()
+        super(ResourceServer, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
 
     def create_server(self, instance, server_hostname=None, junction_point=None, junction_type=None,
             policy_type=None, policy_name=None, authentication_type=None, oauth_introspection_transport=None,
-            oauth_introspection_proxy=None, oauth_introspection_auth_method=None, ouath_introspection_endpoint=None, 
+            oauth_introspection_proxy=None, oauth_introspection_auth_method=None, oauth_introspection_endpoint=None, 
             oauth_introspection_client_id=None, oauth_introspection_client_secret=None, 
             oauth_introspection_client_id_hdr=None, oauth_introspection_token_type_hint=None, 
             oauth_introspection_mapped_id=None, oauth_introspection_external_user=None, 
@@ -30,7 +30,7 @@ class Resources(object):
             stateful_junction=None, http2_junction=None, http2_proxy=None, sni_name=None, preserve_cookie=None, 
             cookie_include_path=None, transparent_path_junction=None, mutual_auth=None, insert_ltpa_cookies=None, 
             insert_session_cookies=None, request_encoding=None, enable_basic_auth=None, key_label=None, 
-            gso_respource_group=None, junction_cookie_javascript_block=None, client_ip_http=None, 
+            gso_resource_group=None, junction_cookie_javascript_block=None, client_ip_http=None, 
             version_two_cookies=None, ltpa_keyfile=None, authz_rules=None, fsso_config_file=None, username=None, 
             password=None, server_uuid=None, server_port=None, virtual_hostname=None, server_dn=None, server_cn=None, 
             local_ip=None, query_contents=None, case_sensitive_url=None, windows_style_url=None, 
@@ -98,7 +98,7 @@ class Resources(object):
             enable_basic_auth (:obj:`str`): Specifies whether to use BA header information to authenticate to back-end server.
             key_label (:obj:`str`): The key label for the client-side certificate that is used when the system 
                         authenticates to the junctioned Web server.
-            gso_respource_group (:obj:`str`): The name of the GSO resource or resource group.
+            gso_resource_group (:obj:`str`): The name of the GSO resource or resource group.
             junction_cookie_javascript_block (:obj:`str`): Controls the junction cookie JavaScript block.
             client_ip_http (:obj:`str`): Specifies whether to insert the IP address of the incoming request into an 
                         HTTP header for transmission to the junctioned Web server.
@@ -144,7 +144,7 @@ class Resources(object):
         data = DataObject()
         data.add_value_string("server_hostname", server_hostname)
         data.add_value_string("junction_point", junction_point)
-        data.add_value_string("juncton_type", junction_type)
+        data.add_value_string("junction_type", junction_type)
         policy = DataObject()
         policy.add_value_string("name", policy_name)
         policy.add_value_string("type", policy_type)
@@ -169,7 +169,7 @@ class Resources(object):
         jwt = DataObject()
         jwt.add_value_string("header_name", jwt_header_name)
         jwt.add_value_string("certificate", jwt_certificate)
-        jwt.add_vaue_not_empty("claims", jwt_claims)
+        jwt.add_value_not_empty("claims", jwt_claims)
         data.add_value_not_empty("jwt", jwt.data)
         data.add_value_string("description", description)
         data.add_value_string("junction_hard_limit", junction_hard_limit)
@@ -226,14 +226,14 @@ class Resources(object):
 
 
     def update_server(self, instance, resource_server, server_type="standard", server_hostname=None, 
-            junction_point=None, junction_type=None, policyi_type=None, policy_name=None, 
-            authenticationi_type=None, authentication_oauth_introspection=None,
+            junction_point=None, junction_type=None, policy_type=None, policy_name=None, 
+            authentication_type=None, authentication_oauth_introspection=None,
             static_response_headers=None, jwt_header_name=None, jwt_certificate=None, jwt_claims=None, description=None,
             junction_hard_limit=None, junction_soft_limit=None, basic_auth_mode=None, tfim_sso=None, 
             remote_http_header=None, stateful_junction=None, http2_junction=None, sni_name=None, 
             preserve_cookie=None, cookie_include_path=None, transparent_path_junction=None, mutual_auth=None,
             insert_ltpa_cookies=None, insert_session_cookies=None, request_encoding=None, enable_basic_auth=None,
-            key_label=None, gso_respource_group=None, junction_cookie_javascript_block=None, client_ip_http=None,
+            key_label=None, gso_resource_group=None, junction_cookie_javascript_block=None, client_ip_http=None,
             version_two_cookies=None, ltpa_keyfile=None, authz_rules=None, fsso_config_file=None, username=None,
             password=None, server_uuid=None, server_port=None, virtual_hostname=None, server_dn=None, server_cn=None,
             local_ip=None, query_contents=None, case_sensitive_url=None, windows_style_url=None,
@@ -242,7 +242,7 @@ class Resources(object):
         data = DataObject()
         data.add_value_string("server_hostname", server_hostname)
         data.add_value_string("junction_point", junction_point)
-        data.add_value_string("juncton_type", junction_type)
+        data.add_value_string("junction_type", junction_type)
         policy = DataObject()
         policy.add_value_string("name", policy_name)
         policy.add_value_string("type", policy_type)
@@ -255,7 +255,7 @@ class Resources(object):
         jwt = DataObject()
         jwt.add_value_string("header_name", jwt_header_name)
         jwt.add_value_string("certificate", jwt_certificate)
-        jwt.add_vaue_not_empty("claims", jwt_claims)
+        jwt.add_value_not_empty("claims", jwt_claims)
         data.add_value_not_empty("jwt", jwt.data)
         data.add_value_string("description", description)
         data.add_value_string("junction_hard_limit", junction_hard_limit)
@@ -336,7 +336,7 @@ class Resources(object):
         return response
 
 
-    def create(self, instance, resource_server, server_type=None, method=None, path=None, 
+    def create_resource(self, instance, resource_server, server_type=None, method=None, path=None, 
             name=None, policy_type=None, policy_name=None, static_response_headers=None, 
             rate_limiting_policy=None, url_aliases=None, documentation_content_type=None, 
             documentation_file=None):
@@ -354,7 +354,7 @@ class Resources(object):
         documentation = DataObject()
         documentation.add_value_string("content_type", documentation_content_type)
         documentation.add_value_string("file", documentation_file)
-        data.add_alue_not_empty("documentation", documentation.data)
+        data.add_value_not_empty("documentation", documentation.data)
         if not server_type:
             server_type = "standard"
         endpoint = APIAC + "/resource/instance/{}/server/{}/resource?server_type={}".format(
@@ -365,7 +365,7 @@ class Resources(object):
         return response
 
 
-    def update(self, instance, resource_server, resource_name=None, server_type="standard", 
+    def update_resource(self, instance, resource_server, resource_name=None, server_type="standard", 
             method=None, path=None, name=None, policy_type=None, policy_name=None, 
             static_response_headers=None, rate_limiting_policy=None, url_aliases=None, 
             documentation_content_type=None, documentation_file=None):
@@ -383,7 +383,7 @@ class Resources(object):
         documentation = DataObject()
         documentation.add_value_string("content_type", documentation_content_type)
         documentation.add_value_string("file", documentation_file)
-        data.add_alue_not_empty("documentation", documentation.data)
+        data.add_value_not_empty("documentation", documentation.data)
 
         endpoint = APIAC + "/resource/instance/{}/server/{}/resource/{}?server_type={}".format(
                 instance, resource_server, resource_name, server_type)
@@ -393,7 +393,7 @@ class Resources(object):
         return response
 
 
-    def get(self, instance=None, resource_server=None, resource_name=None, server_type="standard"):
+    def get_resource(self, instance=None, resource_server=None, resource_name=None, server_type="standard"):
         endpoint = APIAC + "/resource/instance/{}/server/{}/resource/{}?server_type={}".format(
                 instance, resource_server, resource_name, server_type)
         response = self.client.get_json(endpoint)
@@ -401,7 +401,7 @@ class Resources(object):
         return response
 
 
-    def delete(self, instance=None, resource_server=None, resource_name=None, server_type="standard"):
+    def delete_resource(self, instance=None, resource_server=None, resource_name=None, server_type="standard"):
         endpoint = APIAC + "/resource/instance/{}/server/{}/resource/{}?server_type={}".format(
                 instance, resource_server, resource_name, server_type)
         response = self.client.delete_json(endpoint)
@@ -409,7 +409,7 @@ class Resources(object):
         return response
 
 
-    def list(self, instance=None, resource_server=None, server_type="standard"):
+    def list_resources(self, instance=None, resource_server=None, server_type="standard"):
         endpoint = APIAC + "/resource/instance/{}/server/{}/resource?server_type={}".format(
                 instance, resource_server, server_type)
         response = self.client.get_json(endpoint)

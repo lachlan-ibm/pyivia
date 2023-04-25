@@ -19,12 +19,13 @@ class RSA(object):
         self.client = RESTClient(base_url, username, password)
 
 
-    def create(self, server_config_file=None):
+    def create(self, server_config_file=None, server_options_file=None):
         """
         Configure WebSEAL to use a RSA token server for authentication.
 
         Args:
             server_config_file (:obj:`str`): Full path to RSA SecurID toke server configuration file.
+            server_options_file (:obj:`str`, optional): Full path to the server configuration options file to upload.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -35,10 +36,11 @@ class RSA(object):
         response = Response()
         endpoint = RSA_CONFIG + "/server_config"
         try:
-            with open(server_config_file, "r") as server_config:
-                files = {"server_config": server_config}
-                response = self.client.post_file(endpoint, files=files)
-                response.success = response.status_code == 200
+            files = {"server_config": open(server_config_file, "rb")}
+            if server_options_file:
+                files.update({"server_opts_file": open(server_options_file, 'rb')})
+            response = self.client.post_file(endpoint, files=files)
+            response.success = response.status_code == 200
         except IOError as e:
             logger.error(e)
             response.success = False
@@ -70,7 +72,7 @@ class RSA(object):
 
         Args:
             username (:obj:`str`): The username to authenticate as
-            password (:obj:`str`): THe passcode of the user to authenticate with
+            password (:obj:`str`): The passcode of the user to authenticate with
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
