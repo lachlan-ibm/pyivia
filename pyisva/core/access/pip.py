@@ -124,7 +124,7 @@ class PIP(object):
         if sort_by:
             endpoint += '?sortBy={}'.format(sort_by)
         if filter:
-            if endpoint contains '?':
+            if '?' in endpoint:
                 endpoint += '&filter={}'.format(filter)
             else:
                 endpoint += '?filter={}'.format(filter)
