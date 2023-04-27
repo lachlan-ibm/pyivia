@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 class Extensions(object):
 
     def __init__(self, base_url, username, password):
-        super(FileDownloads, self).__init__()
+        super(Extensions, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
 
