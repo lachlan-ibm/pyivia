@@ -19,7 +19,7 @@ class APIAccessControl(object):
         super(APIAccessControl, self).__init__()
         self.cors = CORS(base_url, username, password)
         self.policies = Policies(base_url, username, password)
-        self.resource_server = ResourcesServer(base_url, username, password)
+        self.resource_server = ResourceServer(base_url, username, password)
         self.utilities = Utilities(base_url, username, password)
         self.document_root = DocumentRoot(base_url, username, password)
         self.authz_server = AuthorizationServer(base_url, username, password)
