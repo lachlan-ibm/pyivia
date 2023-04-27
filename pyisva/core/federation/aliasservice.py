@@ -48,8 +48,7 @@ class AliasService(object):
         response.success = response.status_code == 201
         return response
 
-    def update_alias_association(self, id, username=None, federation_id=None, type=None
-            aliases=[]):
+    def update_alias_association(self, id, username=None, federation_id=None, type=None, aliases=[]):
         '''
         Update an existing SAML alias service association.
 
