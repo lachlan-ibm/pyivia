@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 class PIP(object):
 
     def __init__(self, base_url, username, password):
-        super(MappingRules, self).__init__()
+        super(PIP, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
 
