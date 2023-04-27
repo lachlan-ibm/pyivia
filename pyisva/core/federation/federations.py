@@ -441,7 +441,7 @@ class Federations(object):
             identityMapping = DataObject()
             identityMapping.add_value_string("activeDelegateId", identity_delegate_id)
             if (identity_mapping_rule is not None):
-                identityMapping.add_value_not_empty("properties": 
+                identityMapping.add_value_not_empty("properties", 
                         {"identityMappingRuleReference": identity_rule_id,
                          "ruleType": identity_rule_type})
             else:
@@ -463,7 +463,7 @@ class Federations(object):
             extensionMapping = DataObject()
             extensionMapping.add_value_string("activeDelegateId")
             if ext_mapping_rule is not None:
-                extensionMapping.add_value("properties": {"extensionMappingRuleReference", ext_mapping_rule})
+                extensionMapping.add_value("properties", {"extensionMappingRuleReference", ext_mapping_rule})
 
         decryptionKeyIdentifier = DataObject()
         decryptionKeyIdentifier.add_value_string("keystore", decrypt_keystore)
@@ -1071,7 +1071,7 @@ class Federations10000(Federations9040):
             identityMapping = DataObject()
             identityMapping.add_value_string("activeDelegateId", identity_delegate_id)
             if (identity_mapping_rule is not None):
-                identityMapping.add_value_not_empty("properties": 
+                identityMapping.add_value_not_empty("properties", 
                         {"identityMappingRuleReference": identity_rule_id,
                          "ruleType": identity_rule_type})
             else:
@@ -1093,7 +1093,7 @@ class Federations10000(Federations9040):
             extensionMapping = DataObject()
             extensionMapping.add_value_string("activeDelegateId")
             if ext_mapping_rule is not None:
-                extensionMapping.add_value("properties": {"extensionMappingRuleReference", ext_mapping_rule})
+                extensionMapping.add_value("properties", {"extensionMappingRuleReference", ext_mapping_rule})
 
         decryptionKeyIdentifier = DataObject()
         decryptionKeyIdentifier.add_value_string("keystore", decrypt_keystore)
@@ -1230,17 +1230,20 @@ class Federations10000(Federations9040):
         soapSettings.add_value_not_empty("serverCertValidation", serverCertValidation.data)
 
         properties = DataObject()
-        properties.add_value_string("identityMappingRuleReference", identity_mr)
-        properties.add_value_string("appliesTo", identity_applies_to)
-        properties.add_value_string("authType", identity_auth_type)
-        properties.add_value_string("basicAuthUsername", identity_ba_user)
-        properties.add_value_string("basicAuthPassword", identity_ba_password)
-        properties.add_value_string("clientKeyStore", identity_client_key_store)
-        properties.add_value_string("clientKeyAlias", identity_client_key_alias)
-        properties.add_value_string("issuerUri",identity_issuer_uri)
-        properties.add_value_string("messageFormat", identity_mgs_fmt)
-        properties.add_value_string("sslKeyStore", identity_ssl_key_store)
-        properties.add_value_string("uri", identity_uri)
+        if identity_mr != None:
+            properties.add_value_string("identityMappingRuleReference", identity_mr)
+            properties.add_value_string("ruleType", identity_rule_type)
+        else:
+            properties.add_value_string("appliesTo", identity_applies_to)
+            properties.add_value_string("authType", identity_auth_type)
+            properties.add_value_string("basicAuthUsername", identity_ba_user)
+            properties.add_value_string("basicAuthPassword", identity_ba_password)
+            properties.add_value_string("clientKeyStore", identity_client_key_store)
+            properties.add_value_string("clientKeyAlias", identity_client_key_alias)
+            properties.add_value_string("issuerUri",identity_issuer_uri)
+            properties.add_value_string("messageFormat", identity_mgs_fmt)
+            properties.add_value_string("sslKeyStore", identity_ssl_key_store)
+            properties.add_value_string("uri", identity_uri)
         identityMapping = DataObject()
         identityMapping.add_value_not_empty("properties", properties.data)
         identityMapping.add_value_string("activeDelegateId", active_delegate_id)
