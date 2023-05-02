@@ -379,12 +379,10 @@ class ReverseProxy(object):
             the response.json attribute
 
         '''
-        data = {"entries": [[str(entry_name), str(value)]]}
-
+        data = DataObject()
+        data.add_value("entries", [[str(entry_name), str(value)]])
         endpoint = ("%s/%s/configuration/stanza/%s/entry_name"
                     % (REVERSEPROXY, webseal_id, stanza_id))
-        data = DataObject()
-        data.add_value_string("value", value)
         response = self.client.post_json(endpoint, data=data.data)
         response.success = response.status_code == 200
 
