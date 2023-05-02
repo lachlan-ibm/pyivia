@@ -40,7 +40,7 @@ class AdvancedConfig(object):
 
         '''
         parameters = DataObject()
-        parameters.add_value_string("sortBy", sortBy)
+        parameters.add_value_string("sortBy", sort_by)
         parameters.add_value_string("count", count)
         parameters.add_value_string("start", start)
         parameters.add_value_string("filter", filter)
