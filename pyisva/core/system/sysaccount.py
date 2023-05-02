@@ -279,7 +279,7 @@ class SysAccount(object):
 
             Success can be checked by examining the response.success boolean attribute
         """
-        endpoint = SYSACCOUNT_GROUPS + '/self/v1'
+        endpoint = SYSACCOUNT + '/self/v1'
         data = DataObject()
         data.add_value_string('old_password', old_password)
         data.add_value_string('password', password)
