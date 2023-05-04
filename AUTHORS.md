@@ -1,7 +1,8 @@
-PyISAM was originally developed by Benjamin Martin. It is now actively being extended and maintained with the help of various collaborators.
+PyISAM (now called PyISVA) was originally developed by Benjamin Martin. It is now actively being extended and maintained with the help of various collaborators.
 
 ## Moderators
-- Benjamin Martin \<benmarti@au1.ibm.com\>
+- Benjamin Martin
+- Lachlan Gleeson
 
 ## Bug Fixes and Enhancements
 - Charles Wang \<charleswang@au1.ibm.com\>
