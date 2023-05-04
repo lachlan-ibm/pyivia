@@ -36,9 +36,8 @@ export PYTHONPATH="${PYTHONPATH}:${HOME}/repos/pyisva"
 ```
 
 ## From IBM Security Verify Accesss 10.0.0.0 onwards:
-Module has been build into a package that can be installed using pip
+Module has been build into a package Currently hosted on PyPi that can be installed using pip:
 
-Currently hosted on IBM Artifactory, users will need W3Id credentials to download and install
 ```sh
 pip install pyisva
 ```
@@ -57,3 +56,6 @@ pip install pyisva
 ...
 Successfully restarted the default instance.
 ```
+
+## Documentation
+Documentation for using this library can be found on [pyisva GitHub pages](https://lachlan-ibm.github.io/pyisva).
