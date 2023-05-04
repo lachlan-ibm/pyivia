@@ -7,7 +7,7 @@ The analysis and Diagnostics module can be used to gather logs from a Verify Acc
 monitor system health and collect resource usage (CPU, memory, disk, network latency).
 
 
-.. automodule:: pyisva.core.analysisdiagnostics
+.. autoclass:: pyisva.core.analysisdiagnostics.AnalysisDiagnostics
    :members:
 
 

@@ -5,7 +5,7 @@ System Settings
 The System Settings module can be used to update system properties such as SSL databases, date/time
 
 
-.. automodule:: pyisva.core.systemsettings
+.. autoclass:: pyisva.core.systemsettings.SystemSettings
    :members:
 
 
@@ -130,7 +130,7 @@ Static Routes
 
 
 Licensing
-==========
+=========
 
 
 .. autoclass:: pyisva.core.system.licensing.Licensing

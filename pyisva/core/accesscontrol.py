@@ -23,8 +23,7 @@ from .access.fido2config import FIDO2Config, FIDO2Config10050
 from .access.fido2registrations import FIDO2Registrations
 from .access.pip import PIP
 
-
-class AccessControl9020(object):
+class AccessControl(object):
     '''
     Object used to managed Advanced Access Control endpoints. Available modules are:
 
@@ -44,6 +43,8 @@ class AccessControl9020(object):
     :var user_registry: Manage :ref:`user authentication<User Registry>` to the Liberty runtime server.
     :var pip: Manage :ref:`policy information points<PIP>`.
     '''
+
+class AccessControl9020(object):
 
     def __init__(self, base_url, username, password):
         super(AccessControl9020, self).__init__()

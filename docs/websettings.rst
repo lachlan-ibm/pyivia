@@ -10,7 +10,8 @@ WebSEAL (Web Reverse Proxy)
 The Web Settings module can be used to configure the Web Reverse Proxy and associated junctions as well as configure
 integrations with the Runtime Server's user registry and policy server.
 
-.. automodule:: pyisva.core.websettings
+
+.. autoclass:: pyisva.core.websettings.WebSettings
    :members:
 
 
@@ -112,7 +113,7 @@ Rate Limiting
 .. autoclass:: pyisva.core.web.ratelimit.RateLimit
    :members:
 
-Reverse proxy
+Reverse Proxy
 =============
 
 .. autoclass:: pyisva.core.web.reverseproxy.ReverseProxy

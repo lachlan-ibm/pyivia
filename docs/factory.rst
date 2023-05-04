@@ -6,6 +6,7 @@ __________________
 
 pyISVA supports management API from several versions of IBM Security Verify Access:
 
+- IBM Security Verify Access 10.0.6.0
 - IBM Security Verify Access 10.0.5.0
 - IBM Security Verify Access 10.0.4.0
 - IBM Security Verify Access 10.0.3.1

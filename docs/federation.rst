@@ -8,7 +8,7 @@ OIDC and SAML. This module is also used to configure how identity attributes are
 as providing additional sources of information for federated identities.
 
 
-.. automodule:: pyisva.core.federationsettings
+.. autoclass:: pyisva.core.federationsettings.Federation
    :members:
 
 

@@ -6,8 +6,7 @@ Advanced Access Control
 This module is responsible for configuring the Advanced Access Control (AAC) and Risk Based Access (RBA) capabilities
 of IBM Security Verify Access.
 
-
-.. automodule:: pyisva.core.accesscontrol
+.. autoclass:: pyisva.core.accesscontrol.AccessControl
    :members:
 
 

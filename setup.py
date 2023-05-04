@@ -17,7 +17,7 @@ setup(
         'requests>=2.23.0'
     ],
     url='https://github.com/lachlan-ibm/pyisva',
-    zip_safe=False
+    zip_safe=False,
     long_description=long_description,
     long_description_content_type='text/markdown'
 )

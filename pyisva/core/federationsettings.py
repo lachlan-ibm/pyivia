@@ -9,7 +9,7 @@ from .federation.attributesources import AttributeSources
 from .federation.securitytokenservice import SecurityTokenService
 from .federation.aliasservice import AliasService
 
-class Federation9020(object):
+class Federation(object):
     '''
     Object is used to manage the Federations endpoints of a Verify Identity Access applaince
 
@@ -20,6 +20,8 @@ class Federation9020(object):
     :var poc: Create and manage :ref:`Point of Contact<PointOfContact>` profiles.
     :var access_policy: Create and manage :ref:`Access Policy<AccessPolicy>` rules.
     '''
+
+class Federation9020(object):
 
     def __init__(self, base_url, username, password):
         super(Federation9020, self).__init__()
