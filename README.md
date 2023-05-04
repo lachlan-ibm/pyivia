@@ -58,4 +58,4 @@ Successfully restarted the default instance.
 ```
 
 ## Documentation
-Documentation for using this library can be found on [pyisva GitHub pages](https://lachlan-ibm.github.io/pyisva).
+Documentation for using this library can be found on [pyisva GitHub pages](https://lachlan-ibm.github.io/pyisva/index.html).
