@@ -40,7 +40,7 @@ Module has been build into a package that can be installed using pip
 
 Currently hosted on IBM Artifactory, users will need W3Id credentials to download and install
 ```sh
-pip install pyisva --extra-index https://{username}:{password}@eu.artifactory.swg-devops.com/artifactory/api/pypi/sec-iam-isam-devops-team-pypi-local/simple
+pip install pyisva
 ```
 
 ## Usage
