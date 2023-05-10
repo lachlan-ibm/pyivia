@@ -49,7 +49,7 @@ Authentication
    :members:
 
 
-FIDO2 Relying Party
+FIDO2 Configuration
 ===================
 
 
@@ -76,7 +76,7 @@ Mobile Multi-Factor Authentication
 ==================================
 
 
-.. autoclass:: pyisva.core.access.mmfaconfig.MMFAConfig
+.. autoclass:: pyisva.core.access.mmfaconfig.MMFAConfig9021
    :members:
 
 
@@ -84,7 +84,7 @@ Push Notification Providers
 ===========================
 
 
-.. autoclass:: pyisva.core.access.pushnotification.PushNotification
+.. autoclass:: pyisva.core.access.pushnotification.PushNotification9021
    :members:
 
 
