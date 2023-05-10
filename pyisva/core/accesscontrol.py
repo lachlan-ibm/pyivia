@@ -2,7 +2,7 @@
 @copyright: IBM
 """
 
-from .access.accesscontrol import AccessControl
+from .access.accesscontrol import AccessControl as AC9000
 from .access.accesscontrol import AccessControl9030 as AC9030
 from .access.accesscontrol import AccessControl10000 as AC10000
 from .access.advancedconfig import AdvancedConfig
@@ -47,7 +47,7 @@ class AccessControl9020(object):
 
     def __init__(self, base_url, username, password):
         super(AccessControl9020, self).__init__()
-        self.access_control = AccessControl(base_url, username, password)
+        self.access_control = AC9000(base_url, username, password)
         self.advanced_config = AdvancedConfig(base_url, username, password)
         self.api_protection = APIProtection(base_url, username, password)
         self.attributes = Attributes(base_url, username, password)

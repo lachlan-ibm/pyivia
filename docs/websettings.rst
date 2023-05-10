@@ -1,12 +1,7 @@
-WebSEAL Reverse Proxy Settings
-##############################
-The WebSEAL module contains methods to configure reverse proxy instances and the associated identity configuration.
-
 .. _web_settings:
 
-WebSEAL (Web Reverse Proxy)
-***************************
-
+WebSEAL Reverse Proxy Settings
+##############################
 The Web Settings module can be used to configure the Web Reverse Proxy and associated junctions as well as configure
 integrations with the Runtime Server's user registry and policy server.
 
