@@ -101,7 +101,7 @@ class RESTClient(object):
         self._log_request("GET", url, headers)
 
         with requests.get(url=url, headers=headers, verify=False, stream=True) as r:
-            self._log_response(r.status_code, r.headers, r._content)
+            self._log_response(r.status_code, r.headers, b"")
             with open(file_name, 'wb') as f:
                 for chunk in r.iter_content(chunk_size=8192):
                     f.write(chunk)
