@@ -93,6 +93,23 @@ class RESTClient(object):
 
         return response
 
+    def get_file(self, endpoint, file_name=None):
+
+        url = self._base_url + endpoint
+        headers = self._get_headers("application/octet-stream", "application/json")
+
+        self._log_request("GET", url, headers)
+
+        with requests.get(url=url, headers=headers, verify=False, stream=True) as r:
+            self._log_response(r.status_code, r.headers, r._content)
+            with open(file_name, 'wb') as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    f.write(chunk)
+                f.close()
+            response = self._build_response(r)
+            r.close()
+        return response
+
 
     def post(
             self, endpoint, accept_type="*/*", content_type="application/json",
