@@ -43,7 +43,7 @@ class Extensions(object):
         try:
             files = {"extension_support_package": open(ext_file, "rb")}
             endpoint = "{}/inspect".format(EXTENSIONS)
-            response = self.client.post_file(endpoint, files=files)
+            response = self.client.post_file(endpoint, files=files, accept_type="*/*")
             response.success = response.status_code == 200
 
             if response.success == True:
