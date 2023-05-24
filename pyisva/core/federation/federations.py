@@ -926,6 +926,50 @@ class Federations(object):
         return response
 
 
+
+    def export_federation_metadata(self, fed_id=None, metadata_file=None):
+        '''
+        Export a federation's metadata XML file.
+        
+        Args:
+            fed_id (:obj:`str`): The system-assigned federation identifier.
+            metadata_file (:obj:`str`): File name to export metadata to.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute.
+
+        '''
+        endpoint = "{}/{}/metadata".format(FEDERATIONS, fed_id)
+        response = self.client.get_file(endpoint, metadata_file)
+        response.success = response.status_code == 200
+
+        return response
+
+
+    def import_federation_partner(self, fed_id=None, name=None, metadata=None):
+        """
+        Import an XML metadata document as a Federation partner.
+
+        Args:
+            fed_id (:obj:`str`): The system-assigned federation identifier.
+            name: (:obj:`str`): Name of the partner to create.
+            metadata (:obj:`str`): Path to file to import as a federation partner.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute.
+        """
+        parameters = {"name": name}
+        file_dict = {"metadata", open(metadata, "rb")}
+        endpoint = "{}/{}/partners/metadata".format(FEDERATIONS, fed_id)
+        response = self.client.post_file(endpoint, parameters=params, files=file_dict)
+        response.success = response.status_code == 201
+
+        return response
+
 class Federations9040(Federations):
 
     def create_oidc_federation(self, name=None, role=None, redirect_uri_prefix=None, response_types_supported=None, 

@@ -1,9 +1,29 @@
-from setuptools import find_packages, setup
+from setuptools import find_packages, setup, Command
 import os
 
 from pathlib import Path
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
+
+class CleanCommand(Command):
+    """Custom clean command to tidy up the project root."""
+    user_options = []
+    def initialize_options(self):
+        pass
+    def finalize_options(self):
+        pass
+    def run(self):
+        for root, dirs, files in os.walk("./", topdown=False):
+            for name in files:
+                if name.endswith((".pyc", ".tgz", ".whl")):
+                    print("remove {}".format(os.path.join(root, name)))
+                    os.remove(os.path.join(root, name))
+            for name in dirs:
+                if name.endswith((".egg-info", "build", "dist", "__pycache__")):
+                    print("remove {}".format(os.path.join(root, name)))
+                    #os.rmdir(os.path.join(root, name))
+                    os.system('rm -vrf {}'.format(os.path.join(root, name)))
+
 
 setup(
     name='pyisva',
@@ -18,6 +38,9 @@ setup(
     ],
     url='https://github.com/lachlan-ibm/pyisva',
     zip_safe=False,
+    cmdclass={
+        'clean': CleanCommand,
+    },
     long_description=long_description,
     long_description_content_type='text/markdown'
 )

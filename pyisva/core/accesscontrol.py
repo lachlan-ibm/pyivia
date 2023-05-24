@@ -30,7 +30,8 @@ class AccessControl(object):
     :var advanced_config: Manage :ref:`Advanced Configuration` parameters.
     :var api_protection: Create and manage OIDC :ref:`API Protection` definitions and clients.
     :var attributes: Create and manage Risk Based Access :ref:`Attribute <Attributes>` mappings.
-    :var authentication: Create and manage :ref:Authentication` policies and mechanisms.
+    :var authentication: Create and manage :ref:`Authentication` policies and mechanisms.
+    :var fido2_config: Create and manage :ref:`FIDO2 Configuration` including metadata and mediators.
     :var mapping_rules: Create and manage JavaScript :ref:`Mapping Rules` used for customized authentication.
     :var mmfa_config: Configure :ref:`Mobile Multi-Factor Authentication` for Verify Access.
     :var push_notifications: Configure and manage :ref:`Push Notification Providers`.
