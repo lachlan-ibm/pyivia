@@ -53,6 +53,8 @@ class Extensions(object):
                     tpp += [('third_party_package', open(third_party_package, "rb"))]
                 response = self.client.post_file(endpoint, files=tpp, properties=parameters)
                 response.success = response.status_code == 200
+        except Exception:
+            response.success = False
 
         return response
 
