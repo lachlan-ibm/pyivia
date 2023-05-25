@@ -2,7 +2,7 @@
 @copyright: IBM
 """
 
-import logging, json
+import logging
 
 from pyisva.util.model import DataObject, Response
 from pyisva.util.restclient import RESTClient
@@ -50,7 +50,7 @@ class Extensions(object):
                 tpp = []
                 for third_party_package in third_party_packages:
                     tpp += [('third_party_package', open(third_party_package, "rb"))]
-                params = {"config_data": json.dumps(properties)}
+                params = {"config_data": '{}'.format(properties)} # json.dumps escapes things which is bad
                 response = self.client.post_file(endpoint, files=tpp, parameters=params, accept_type="*/*")
                 response.success = response.status_code == 200
         except Exception as e:
