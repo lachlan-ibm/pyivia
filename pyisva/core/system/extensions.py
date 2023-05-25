@@ -57,9 +57,9 @@ class Extensions(object):
                 print("INSTALLING")
                 response = self.client.post_file(endpoint, files=tpp, properties=params)
                 response.success = response.status_code == 200
-        except Exception:
+        except Exception as e:
             response.success = False
-
+            response.data = str(e)
         return response
 
 
