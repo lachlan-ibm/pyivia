@@ -2,7 +2,7 @@
 @copyright: IBM
 """
 
-import logging
+import logging, json
 
 from pyisva.util.model import DataObject, Response
 from pyisva.util.restclient import RESTClient
