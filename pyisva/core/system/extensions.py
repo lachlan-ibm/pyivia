@@ -51,7 +51,7 @@ class Extensions(object):
                 for third_party_package in third_party_packages:
                     tpp += [('third_party_package', open(third_party_package, "rb"))]
                 params = {"config_data": json.dumps(properties)}
-                response = self.client.post_file(endpoint, files=tpp, parameters=params)
+                response = self.client.post_file(endpoint, files=tpp, parameters=params, accept_type="*/*")
                 response.success = response.status_code == 200
         except Exception as e:
             response.success = False
