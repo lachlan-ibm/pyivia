@@ -43,15 +43,19 @@ class Extensions(object):
         try:
             files = {"extension_support_package": open(ext_file, "rb")}
             endpoint = "{}/inspect".format(EXTENSIONS)
+            print("UPLOADING")
             response = self.client.post_file(endpoint, files=files, accept_type="*/*")
             response.success = response.status_code == 200
-
             if response.success == True:
                 endpoint = "{}/activate".format(EXTENSIONS)
                 tpp = []
                 for third_party_package in third_party_packages:
                     tpp += [('third_party_package', open(third_party_package, "rb"))]
-                response = self.client.post_file(endpoint, files=tpp, properties=parameters)
+                print(tpp)
+                params = {"config_data": json.dumps(properties)}
+                print(params)
+                print("INSTALLING")
+                response = self.client.post_file(endpoint, files=tpp, properties=params)
                 response.success = response.status_code == 200
         except Exception:
             response.success = False
