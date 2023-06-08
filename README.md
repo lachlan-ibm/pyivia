@@ -5,6 +5,7 @@ quick and easy way to construct configuration scripts for appliances.
 
 **Supported Versions**
 
+- IBM Security Verify Access 10.0.7.0
 - IBM Security Verify Access 10.0.6.0
 - IBM Security Verify Access 10.0.5.0
 - IBM Security Verify Access 10.0.4.0
