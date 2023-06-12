@@ -24,6 +24,8 @@ from .system.sysaccount import SysAccount
 from .system.managementauthorization import ManagementAuthorization
 from .system.snapshot import Snapshot
 from .system.extensions import Extensions
+from .system.fips import FIPS
+
 
 
 class SystemSettings(object):
@@ -47,6 +49,7 @@ class SystemSettings(object):
     :var ssl_certificates: Create and manage the :ref:`SSL databases<SSL Certificates and Keystores>` used by Verify Access components.
     :var cli_commands: Use the API interface to run :ref:`CLI commands<CLI Commands>`.
     :var cluster: Manage the :ref:`cluster configuration<Cluster>` (including database configuration).
+    :var fips: Manage the :ref:`FIPS` settings for Verify Access appliances.
     '''
 
 class SystemSettings9020(object):
@@ -132,6 +135,7 @@ class SystemSettings10000(SystemSettings9080):
         self.interfaces = Interfaces10000(base_url, username, password)
         self.mgmt_authorization = ManagementAuthorization(base_url, username, password)
         self.snapshot = Snapshot(base_url, username, password)
+        self.fips = FIPS(base_url, username, password)
 
 
 class SystemSettings10010(SystemSettings10000):
@@ -174,3 +178,8 @@ class SystemSettings10060(SystemSettings10050):
 
     def __init__(self, base_url, username, password):
             super(SystemSettings10060, self).__init__(base_url, username, password)
+
+class SystemSettings10070(SystemSettings10060):
+
+    def __init__(self, base_url, username, password):
+            super(SystemSettings10070, self).__init__(base_url, username, password)
