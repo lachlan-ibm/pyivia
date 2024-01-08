@@ -80,6 +80,13 @@ Mobile Multi-Factor Authentication
    :members:
 
 
+Policy Information Points
+==========================
+
+.. autoclass:: pyisva.core.access.pip.PIP
+   :members:
+
+
 Push Notification Providers
 ===========================
 

@@ -106,6 +106,7 @@ class RESTClient(object):
                 for chunk in r.iter_content(chunk_size=8192):
                     f.write(chunk)
                 f.close()
+                r._content = b""
             response = self._build_response(r)
             r.close()
         return response

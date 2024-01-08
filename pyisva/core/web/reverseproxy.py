@@ -338,6 +338,8 @@ class ReverseProxy(object):
         response = self.client.post_json(endpoint)
         response.success = response.status_code == 200
 
+        return response
+
 
     def delete_configuration_stanza(self, webseal_id, stanza_id):
         '''
@@ -358,6 +360,8 @@ class ReverseProxy(object):
 
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 204
+
+        return response
 
 
     def add_configuration_stanza_entry(self, webseal_id, stanza_id, entry_name, value):
