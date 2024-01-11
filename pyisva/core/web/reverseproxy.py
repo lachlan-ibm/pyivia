@@ -850,16 +850,10 @@ class ReverseProxy(object):
 
         return response
 
-class ReverseProxy9040(ReverseProxy):
-
-    def __init__(self, base_url, username, password):
-        super(ReverseProxy, self).__init__()
-        self.client = RESTClient(base_url, username, password)
-
     def configure_api_protection(
             self, webseal_id, hostname=None, port=None,
-            username=None, password=None, reuse_certs=None,reuse_acls=None, api=None,
-            browser=None, junction=None):
+            username=None, password=None, reuse_certs=None, reuse_acls=None, api=None,
+            browser=None, junction=None, auth_register=None, fapi_complaint=None):
         """
         Configure a WebSEAL instance to use the Federated runtime server to support OAuth and OIDC API Protection.
 
@@ -874,24 +868,10 @@ class ReverseProxy9040(ReverseProxy):
             api (`bool`, optional): Should this reverse proxy be configured for API protection. Default is false.
             browser (`bool`, optional): Should this reverse proxy be configured for Browser interaction. Default is false.
             junction (:obj:`str`): Junction point to create.
+            auth_register (`bool`, optional): Will the client registration endpoint require authentication. Default is false.
+            fapi_compliant (`bool`, optional): Configures reverse proxy instance to be FAPI Compliant. Default is false.
         """
-        data = DataObject()
-        data.add_value_string("hostname", hostname)
-        data.add_value_string("username", username)
-        data.add_value_string("password", password)
-        data.add_value("port", port)
-        data.add_value("junction", junction if junction != None else "/mga")
-
-        data.add_value_boolean("reuse_certs", reuse_certs)
-        data.add_value_boolean("reuse_acls", reuse_acls)
-        data.add_value_boolean("api", api)
-        data.add_value_boolean("browser", browser)
-
-        endpoint = "%s/%s/oauth_config" % (REVERSEPROXY, webseal_id)
-
-        response = self.client.post_json(endpoint, data.data)
-        response.success = response.status_code == 204
-        return response
+        raise Exception("Not Yet Implemented")
 
     def configure_mmfa(
             self, webseal_id, lmi_hostname=None, lmi_port=None,
@@ -922,6 +902,61 @@ class ReverseProxy9040(ReverseProxy):
             Success can be checked by examining the response.success boolean attribute
 
         """
+        raise Exception("Not Yet Implemented")
+
+    def configure_verify_gateway(self, webseal_id, mmfa=None, junction=None):
+        """
+        Configure a WebSEAL instance to act as a gateway to am IBM Security Verify tenant.
+
+        Args:
+            webseal_id (:obj:`str`): The name of the WebSEAL instance to act on.
+            mmfa (`bool`): A flag indicating whether the MMFA endpoints should also be mapped.
+            junction (:obj:`str`): AAC junction point to include in the HTTP Transformation rules.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        """
+        raise Exception("Not Yet Implemented")
+
+class ReverseProxy9040(ReverseProxy):
+
+    def __init__(self, base_url, username, password):
+        super(ReverseProxy, self).__init__()
+        self.client = RESTClient(base_url, username, password)
+
+    def configure_api_protection(
+            self, webseal_id, hostname=None, port=None,
+            username=None, password=None, reuse_certs=None, reuse_acls=None, api=None,
+            browser=None, junction=None, auth_register=None, fapi_compliant=None):
+        data = DataObject()
+        data.add_value_string("hostname", hostname)
+        data.add_value_string("username", username)
+        data.add_value_string("password", password)
+        data.add_value("port", port)
+        data.add_value("junction", junction if junction != None else "/mga")
+
+        data.add_value_boolean("reuse_certs", reuse_certs)
+        data.add_value_boolean("reuse_acls", reuse_acls)
+        data.add_value_boolean("api", api)
+        data.add_value_boolean("browser", browser)
+        data.add_value_boolean("auth_register", auth_register)
+        data.add_value_boolean("fapi_compliant", fapi_compliant)
+
+
+        endpoint = "%s/%s/oauth_config" % (REVERSEPROXY, webseal_id)
+
+        response = self.client.post_json(endpoint, data.data)
+        response.success = response.status_code == 204
+        return response
+
+    def configure_mmfa(
+            self, webseal_id, lmi_hostname=None, lmi_port=None,
+            lmi_username=None, lmi_password=None, runtime_hostname=None,
+            runtime_port=None, runtime_username=None, runtime_password=None,
+            reuse_certs=None,reuse_acls=None, reuse_pops=None, channel=None):
         lmi_data = DataObject()
         lmi_data.add_value_string("hostname", lmi_hostname)
         lmi_data.add_value_string("username", lmi_username)
@@ -958,20 +993,6 @@ class ReverseProxy10020(ReverseProxy9040):
 
 
     def configure_verify_gateway(self, webseal_id, mmfa=None, junction=None):
-        """
-        Configure a WebSEAL instance to act as a gateway to am IBM Security Verify tenant.
-
-        Args:
-            webseal_id (:obj:`str`): The name of the WebSEAL instance to act on.
-            mmfa (`bool`): A flag indicating whether the MMFA endpoints should also be mapped.
-            junction (:obj:`str`): AAC junction point to include in the HTTP Transformation rules.
-
-        Returns:
-            :obj:`~requests.Response`: The response from verify access. 
-
-            Success can be checked by examining the response.success boolean attribute
-
-        """
         data = DataObject()
         data.add_value_boolean("mmfa", mmfa)
         data.add_value_string("junction", junction);
@@ -982,5 +1003,3 @@ class ReverseProxy10020(ReverseProxy9040):
         response.success = response.status_code == 204
 
         return response
-
-    ## TODO ## Update wizards with new options FAPI

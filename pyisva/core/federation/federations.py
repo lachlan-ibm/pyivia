@@ -894,8 +894,6 @@ class Federations(object):
 
         endpoint = "%s%s/partners" % (FEDERATIONS, federation_id)
 
-        print(json.dumps(data.data))
-
         response = self.client.post_json(endpoint, data.data)
         response.success = response.status_code == 201
 
@@ -1145,6 +1143,7 @@ class Federations9040(Federations):
         data.add_value_string("role", role)
         data.add_value_string("templateName", template_name)
 
+        configuration = DataObject()
         identityMapping = DataObject()
         identityMapping.add_value_string("activeDelegateId", identity_delegate_id)
         identityProps = DataObject()
@@ -1162,17 +1161,17 @@ class Federations9040(Federations):
             identityProps.add_value_string("sslKeyStore", identity_ssl_keystore)
             identityProps.add_value_string("uri", identity_uri)
         identityMapping.add_value_not_empty("properties", identityProps.data)
+        configuration.add_value_not_empty("identityMapping", identityMapping.data)
 
         advConfig = DataObject()
-        advConfProps = DataObject()
-        advConfProps.add_value_string("ruleType", adv_config_rule_type)
-        advConfProps.add_value_string("advanceMappingRuleReference", adv_config_mapping_rule)
-        advConfig.add_value_not_empty("properties", advConfProps.data)
+        if adv_config_mapping_rule:
+            advConfProps = DataObject()
+            advConfProps.add_value_string("ruleType", adv_config_rule_type)
+            advConfProps.add_value_string("advanceMappingRuleReference", adv_config_mapping_rule)
+            advConfig.add_value_not_empty("properties", advConfProps.data)
         advConfig.add_value_string("activeDelegateId", adv_config_delegate_id)
-
-        configuration = DataObject()
         configuration.add_value_not_empty("advanceConfiguration", advConfig.data)
-        configuration.add_value_not_empty("identityMapping", identityMapping.data)
+
         attributeMapping = DataObject()
         attributeMapping.add_value_not_empty("map", attribute_mappings)
         configuration.add_value_not_empty("attributeMapping", attributeMapping.data)
@@ -1183,12 +1182,14 @@ class Federations9040(Federations):
         basic_config.add_value_string("metadataEndpointUrl", metadata_endpoint)
         basic_config.add_value_string("issuerIdentifier", issuer_uri)
         basic_config.add_value_not_empty("responseTypes", response_types)
-        basic_config.add_value_string("authorizationEndpointUrl", auth_endpoint)
+        basic_config.add_value_string("authorizeEndpointUrl", auth_endpoint)
         basic_config.add_value_string("tokenEndpointUrl", token_endpoint)
         basic_config.add_value_string("userinfoEndpointUrl", user_info_endpoint)
         basic.add_value_not_empty("properties", basic_config.data)
         configuration.add_value_not_empty("basicConfiguration", basic.data)
-
+        
+        configuration.add_value_string("clientId", client_id)
+        configuration.add_value_string("clientSecret", client_secret)
         configuration.add_value_string("signatureAlgorithm", signature_alg)
         configuration.add_value_string("verificationKeystore", verification_keystore)
         configuration.add_value_string("verificationKeyLabel", verification_key_alias)
@@ -1202,9 +1203,7 @@ class Federations9040(Federations):
         configuration.add_value_string("tokenEndpointAuthMethod", token_endpoint_auth)
 
         data.add_value_not_empty("configuration", configuration.data)
-
         endpoint = "%s/%s/partners" % (FEDERATIONS, federation_id)
-
         response = self.client.post_json(endpoint, data.data)
         response.success = response.status_code == 201
 

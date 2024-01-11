@@ -487,7 +487,6 @@ class APIProtection9040(APIProtection):
             oidc.add_value_not_empty("attributeSources", attribute_sources)
             data.add_value("oidc", oidc.data)
         
-        print(data.data)
         response = self.client.post_json(DEFINITIONS, data.data)
         response.success = response.status_code == 201
 
