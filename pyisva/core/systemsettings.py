@@ -121,7 +121,19 @@ class SystemSettings9071(SystemSettings9070):
         super(SystemSettings9071, self).__init__(base_url, username, password)
 
 
-class SystemSettings9080(SystemSettings9071):
+class SystemSettings9072(SystemSettings9071):
+
+    def __init__(self, base_url, username, password):
+            super(SystemSettings9072, self).__init__(base_url, username, password)
+
+
+class SystemSettings9073(SystemSettings9072):
+
+    def __init__(self, base_url, username, password):
+            super(SystemSettings9073, self).__init__(base_url, username, password)
+
+
+class SystemSettings9080(SystemSettings9073):
 
     def __init__(self, base_url, username, password):
         super(SystemSettings9080, self).__init__(base_url, username, password)
@@ -182,4 +194,9 @@ class SystemSettings10060(SystemSettings10050):
 class SystemSettings10070(SystemSettings10060):
 
     def __init__(self, base_url, username, password):
-            super(SystemSettings10070, self).__init__(base_url, username, password)
+        super(SystemSettings10070, self).__init__(base_url, username, password)
+
+class SystemSettings10080(SystemSettings10070):
+
+    def __init__(self, base_url, username, password):
+        super(SystemSettings10080, self).__init__(base_url, username, password)

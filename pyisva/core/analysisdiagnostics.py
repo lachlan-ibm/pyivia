@@ -60,7 +60,19 @@ class AnalysisDiagnostics9071(AnalysisDiagnostics9070):
         super(AnalysisDiagnostics9071, self).__init__(base_url, username, password)
 
 
-class AnalysisDiagnostics9080(AnalysisDiagnostics9071):
+class AnalysisDiagnostics9072(AnalysisDiagnostics9071):
+
+    def __init__(self, base_url, username, password):
+        super(AnalysisDiagnostics9072, self).__init__(base_url, username, password)
+
+
+class AnalysisDiagnostics9073(AnalysisDiagnostics9072):
+
+    def __init__(self, base_url, username, password):
+        super(AnalysisDiagnostics9073, self).__init__(base_url, username, password)
+
+
+class AnalysisDiagnostics9080(AnalysisDiagnostics9073):
 
     def __init__(self, base_url, username, password):
         super(AnalysisDiagnostics9080, self).__init__(base_url, username, password)
@@ -116,3 +128,13 @@ class AnalysisDiagnostics10070(AnalysisDiagnostics10060):
 
     def __init__(self, base_url, username, password):
         super(AnalysisDiagnostics10070, self).__init__(base_url, username, password)
+
+class AnalysisDiagnostics10070(AnalysisDiagnostics10060):
+
+    def __init__(self, base_url, username, password):
+        super(AnalysisDiagnostics10070, self).__init__(base_url, username, password)
+
+class AnalysisDiagnostics10080(AnalysisDiagnostics10070):
+
+    def __init__(self, base_url, username, password):
+        super(AnalysisDiagnostics10080, self).__init__(base_url, username, password)
