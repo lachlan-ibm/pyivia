@@ -116,7 +116,21 @@ class AccessControl9071(AccessControl9070):
         super(AccessControl9071, self).__init__(base_url, username, password)
 
 
-class AccessControl9080(AccessControl9071):
+class AccessControl9072(AccessControl9071):
+
+    def __init__(self, base_url, username, password):
+              super(AccessControl9072, self).__init__(base_url, username, password)
+              self.fido2_config = FIDO2Config(base_url, username, password)
+
+
+class AccessControl9073(AccessControl9072):
+
+    def __init__(self, base_url, username, password):
+              super(AccessControl9073, self).__init__(base_url, username, password)
+              self.fido2_config = FIDO2Config(base_url, username, password)
+
+
+class AccessControl9080(AccessControl9073):
 
     def __init__(self, base_url, username, password):
         super(AccessControl9080, self).__init__(base_url, username, password)
@@ -172,4 +186,10 @@ class AccessControl10060(AccessControl10050):
 class AccessControl10070(AccessControl10060):
 
     def __init__(self, base_url, username, password):
-              super(AccessControl10070, self).__init__(base_url, username, password)
+        super(AccessControl10070, self).__init__(base_url, username, password)
+
+class AccessControl10080(AccessControl10070):
+
+    def __init__(self, base_url, username, password):
+        super(AccessControl10080, self).__init__(base_url, username, password)
+

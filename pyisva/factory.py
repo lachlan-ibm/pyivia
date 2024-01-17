@@ -9,8 +9,10 @@ from pyisva.util.restclient import RESTClient
 
 DEVELOPMENT_VERSION = "IBM Security Access Manager Development"
 VERSIONS = {
-    DEVELOPMENT_VERSION: "10070",
+    DEVELOPMENT_VERSION: "10080",
+    "IBM Security Verify Access 10.0.8.0": "10080",
     "IBM Security Verify Access 10.0.7.0": "10070",
+    "IBM Security Verify Access 10.0.6.0_b1": "10060",
     "IBM Security Verify Access 10.0.6.0": "10060",
     "IBM Security Verify Access 10.0.5.0": "10050",
     "IBM Security Verify Access 10.0.4.0": "10040",
@@ -23,6 +25,8 @@ VERSIONS = {
     "IBM Security Access Manager 10.0.0.0_b1": "10000",
     "IBM Security Access Manager 10.0.0.0": "10000",
     "IBM Security Access Manager 9.0.8.0": "9080",
+    "IBM Security Access Manager 9.0.7.3": "9073",
+    "IBM Security Access Manager 9.0.7.2": "9072",
     "IBM Security Access Manager 9.0.7.1": "9071",
     "IBM Security Access Manager 9.0.7.0": "9070",
     "IBM Security Access Manager 9.0.6.0_b2": "9060",

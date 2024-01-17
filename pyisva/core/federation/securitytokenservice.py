@@ -138,8 +138,8 @@ class SecurityTokenService(object):
                         module contains:
                         - id: The token id of an STS module
                         - mode: The mode the STS module is used in in the chain. Must be one of the supported 
-                        - modes of the STS module
-                        - prefix: The prefix for the chain item.
+                                modes of the STS module
+                        - prefix (optional): The prefix for the chain item.
                         example: ``{"id":"default-map","mode":"map","prefix":"uuid3dbf4c6a-013d-15d5-bb8b-c2665e02a402"}``
 
         Returns:
@@ -153,7 +153,7 @@ class SecurityTokenService(object):
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value_string("description", description)
-        data.add_value("chainItems", modules)
+        data.add_value_not_empty("chainItems", modules)
 
         response = self.client.post_json(STS_TEMPLATES, data.data)
         response.success = response.status_code == 201
@@ -294,18 +294,30 @@ class SecurityTokenService(object):
         data.add_value_string("chainId", template_id)
         data.add_value_string("requestType", request_type)
 
-        data.add_value("appliesTo", {"address": applies_to})
+        applies_to = DataObject()
+        applies_to.add_value_string("address", applies_to_address)
+        applies_to.add_value_string("portTypeNamespace", applies_to_port_type_namespace)
+        applies_to.add_value_string("portTypeName", applies_to_port_type_name)
+        applies_to.add_value_string("serviceNamespace", applies_to_service_namespace)
+        applies_to.add_value_string("serviceName", applies_to_service_name)
+        data.add_value("appliesTo", applies_to.data)
 
-        data.add_value("issuer", {"address": issuer})
+        issuer = DataObject()
+        issuer.add_value_string("address", issuer_address)
+        issuer.add_value_string("portTypeNamespace", issuer_port_type_namespace)
+        issuer.add_value_string("portTypeName", issuer_port_type_name)
+        issuer.add_value_string("serviceNamespace", issuer_service_namespace)
+        issuer.add_value_string("serviceName", issuer_service_name)
+        data.add_value("issuer", issuer.data)
 
         data.add_value_boolean("validateRequests", validate_requests)
         data.add_value_boolean("signResponses", sign_responses)
         data.add_value_boolean("sendValidationConfirmation", send_validation_confirmation)
 
-
-        data.add_value("properties", {
-            "self": properties
-        })
+        properties = DataObject()
+        properties.add_value_not_empty("self", self_properties)
+        properties.add_value_not_empty("partner", partner_properties)
+        data.add_value("properties", properties.data)
 
         response = self.client.post_json(STS_CHAINS, data.data)
         response.success = response.status_code == 201

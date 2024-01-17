@@ -34,9 +34,14 @@ setup(
     license='MIT',
     packages=find_packages(),
     install_requires=[
-        'requests>=2.23.0'
+        'requests'
     ],
-    url='https://github.com/lachlan-ibm/pyisva',
+    project_urls={
+        'Homepage': 'https://github.com/lachlan-ibm/pyisva',
+        'Documentation': 'https://lachlan-ibm.github.io/pyisva',
+        'Source': 'https://github.com/lachlan-ibm/pyisva',
+        'Tracker': 'https://github.com/lachlan-ibm/pyisva/issues'
+    },
     zip_safe=False,
     cmdclass={
         'clean': CleanCommand,
