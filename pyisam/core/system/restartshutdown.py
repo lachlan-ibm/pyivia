@@ -60,10 +60,11 @@ class RestartShutdown(object):
         return response
 
     def _wait_on_lmi(self, last_start, sleep_interval=3):
+        count = 0
         if last_start > 0:
             restart_time = last_start
 
-            while (restart_time <= 0 or restart_time == last_start):
+            while (restart_time <= 0 or restart_time == last_start) and (count < 10):
                 logger.debug(
                     "last_start: %i, restart_time: %i", last_start,
                     restart_time)
@@ -76,6 +77,7 @@ class RestartShutdown(object):
                         restart_time = response.json[0].get("start_time", -1)
                 except:
                     restart_time = -1
+                count += 1 #Wait at most 30 seconds; sleep_interval * 10
 
             time.sleep(sleep_interval)
         else:

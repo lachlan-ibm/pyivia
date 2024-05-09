@@ -51,3 +51,14 @@ class HostsFile(object):
         response.success = response.status_code == 200
 
         return response
+
+
+    def delete_record(self, address, hostname=None):
+        endpoint = "%s/%s" % (HOST_RECORDS, address)
+        if hostname != None:
+            endpoint += "/hostnames/%s" % (hostname)
+
+        response = self.client.delete_json(endpoint)
+        response.success = response.status_code == 200
+
+        return response
