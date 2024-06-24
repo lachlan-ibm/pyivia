@@ -7,9 +7,10 @@ import importlib
 from pyisva.util.restclient import RESTClient
 
 
-DEVELOPMENT_VERSION = "IBM Security Access Manager Development"
+DEVELOPMENT_VERSION = "IBM Security Verify Access Development"
 VERSIONS = {
-    DEVELOPMENT_VERSION: "10080",
+    DEVELOPMENT_VERSION: "11000",
+    "IBM Security Verify Access 11.0.0.0": "11000",
     "IBM Security Verify Access 10.0.8.0": "10080",
     "IBM Security Verify Access 10.0.7.0": "10070",
     "IBM Security Verify Access 10.0.6.0_b1": "10060",
@@ -54,6 +55,11 @@ class Factory(object):
 
     Finally this class has helper methods to determine if the IBM Security Verify Access deployment is an appliance
     or container deployment model.
+
+    This project supports both basic and API token authorization. 
+    If both username and password are provided, the rest client will use Basic
+    authorization, if just a password is supplied, then Bearer authorization
+    is supplied.
     """
 
     def __init__(self, base_url, username, password):

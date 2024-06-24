@@ -19,13 +19,13 @@ class UserMapping(object):
         self.client = RESTClient(base_url, username, password)
 
 
-    def create(self, name=None, content=None):
+    def create(self, name=None, dynurl_config_data=None):
         """
         Create a new user mapping policy file.
 
         Args:
             name (:obj:`str`): The name of the new policy.
-            content (:obj:`str`): The serialised policy contents
+            content (:obj:`str`): The serialized policy contents
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -46,13 +46,13 @@ class UserMapping(object):
         return response
 
 
-    def update(self, _id=None, content=None):
+    def update(self, _id=None, dynurl_config_data=None):
         """
         Update a new user mapping policy file.
 
         Args:
             name (:obj:`str`): The name of the new policy.
-            content (:obj:`str`): The new serialised policy contents
+            content (:obj:`str`): The new serialized policy contents
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -69,12 +69,12 @@ class UserMapping(object):
         return response
 
 
-    def delete(self, _id=None):
+    def delete(self, rule_id=None):
         """
         Delete a user mapping policy file.
 
         Args:
-            _id (:obj:`str`): The id of the policy to be removed
+            rule_id (:obj:`str`): The id of the policy to be removed
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -82,19 +82,19 @@ class UserMapping(object):
             Success can be checked by examining the response.success boolean attribute
 
         """
-        endpoint = USER_MAP_CDAS + "/{}".format(_id)
+        endpoint = USER_MAP_CDAS + "/{}".format(rule_id)
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
 
 
-    def get(self, _id):
+    def get(self, rule_id):
         """
         Get a rate limiting policy.
 
         Args:
-            _id (:obj:`str`): The unique id of the policy to return.
+            rule_id (:obj:`str`): The unique id of the policy to return.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -105,7 +105,7 @@ class UserMapping(object):
             the response.json attribute
 
         """
-        endpoint = USER_MAP_CDAS + "/{}".format(_id)
+        endpoint = USER_MAP_CDAS + "/{}".format(rule_id)
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
         return response
@@ -113,7 +113,7 @@ class UserMapping(object):
 
     def get_template(self):
         """
-        Get the tempalte user mapping policy file.
+        Get the template user mapping policy file.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 

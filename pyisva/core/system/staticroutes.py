@@ -41,7 +41,7 @@ class StaticRoutes(object):
 
             Success can be checked by examining the response.success boolean attribute
 
-            If the request is successful the id of the created mechanism can be acess from the 
+            If the request is successful the id of the created mechanism can be access from the 
             response.id_from_location attribute
         """
         data = DataObject()

@@ -49,6 +49,18 @@ class AuthorizationServer(object):
 
         '''
         data = DataObject()
+        data.add_value_string("inst_name", inst_name)
+        data.add_value_string("hostname", hostname)
+        data.add_value_string("authport",auth_port)
+        data.add_value_string("adminport", admin_port)
+        data.add_value_string("domain", domain)
+        data.add_value_string("admin_id", admin_id)
+        data.add_value_string("admin_pwd", admin_pwd)
+        data.add_value_not_empty("addresses", addresses)
+        data.add_value_string("ssl", ssl)
+        data.add_value_string("ssl_port", ssl_port)
+        data.add_value_string("keyfile", keyfile)
+        data.add_value_string("keyfile_label", keyfile_label)
 
         endpoint = API_AUTHZ_SERVER + "v1"
         response = self.client.post_json(endpoint, data.data)
@@ -57,7 +69,7 @@ class AuthorizationServer(object):
         return response
 
 
-    def update_server(self, inst_name, admin_id=None, admin_pwd=None, operation='renew', force=None):
+    def update_server(self, inst_name, admin_id=None, admin_pwd=None, operation='renew'):
         '''
         Update an API authorization server. This can be used to update the certificate used to communicate with
         the Verify Access policy server.
@@ -76,6 +88,10 @@ class AuthorizationServer(object):
 
         '''
         data = DataObject()
+        data.add_value_string("admin_id", admin_id)
+        data.add_value_string("admin_pwd", admin_pwd)
+        data.add_value_string("operation", operation)
+
         endpoint = API_AUTHZ_SERVER + '{}/v1'.format(inst_name)
         response = self.client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
@@ -103,7 +119,7 @@ class AuthorizationServer(object):
 
         """
         endpoint = API_AUTHZ_SERVER + "{}/v1".format(inst_name)
-        data = dataObject()
+        data = DataObject()
         data.add_value_string("admin_id", admin_id)
         data.add_value_string("admin_pwd", admin_pwd)
         data.add_value_string("operation", operation)
@@ -127,7 +143,7 @@ class AuthorizationServer(object):
             and can be accessed from the ``response.json`` property.
 
         """
-        endpoint = APIAC + "/v1"
+        endpoint = API_AUTHZ_SERVER + "/v1"
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
 
@@ -157,12 +173,13 @@ class AuthorizationServer(object):
         """
         endpoint = API_AUTHZ_SERVER + "{}/configuration/stanza/{}/entry_name/v1".format(instance, stanza)
         data = DataObject()
-        data.add.value("entries", entries)
+        data.add_value_not_empty("entries", entries)
 
         response = self.client.post_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
+
 
     def delete_configuration_stanza_entry(self, instance, stanza=None, entry_id=None, value=None):
         """
@@ -186,6 +203,7 @@ class AuthorizationServer(object):
         response.success = response.status_code == 204
 
         return response
+
 
     def update_configuration_stanza_entry(self, instance, stanza=None, entry_id=None, value=None):
         """
@@ -272,6 +290,7 @@ class AuthorizationServer(object):
 
         """
         endpoint = API_AUTHZ_SERVER + "{}/configuration/stanza/{}/v1".format(instance, stanza)
+        response = self.client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -292,7 +311,7 @@ class AuthorizationServer(object):
             ``response.json`` property.
 
         """
-        endpoint = API_AUTHZ_SERVER· + "{}/configuration/stanza".format(instance)
+        endpoint = API_AUTHZ_SERVER + "{}/configuration/stanza".format(instance)
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
 

@@ -21,7 +21,7 @@ class PasswordStrength(object):
 
     def create(self, name=None, content=None):
         '''
-        Create a Passowrd Strength rule.
+        Create a Password Strength rule.
 
         Args:
             name (:obj:`str`): The name of the rule to be created.
@@ -47,7 +47,7 @@ class PasswordStrength(object):
 
     def update(self, name=None, new_name=None, content=None):
         '''
-        Update a Passowrd Strength rule. This can be used to update a password strength file name or modify the
+        Update a Password Strength rule. This can be used to update a password strength file name or modify the
         contents of a rule.
 
         Args:
@@ -76,7 +76,7 @@ class PasswordStrength(object):
 
     def delete(self, name=None):
         '''
-        Delete a Passowrd Strength rule.
+        Delete a Password Strength rule.
 
         Args:
             name (:obj:`str`): The name of the rule to be removed.
@@ -98,7 +98,7 @@ class PasswordStrength(object):
 
     def get(self, name=None):
         '''
-        Get a Passowrd Strength rule.
+        Get a Password Strength rule.
 
         Args:
             name (:obj:`str`): The name of the rule to be updated.
@@ -136,4 +136,4 @@ class PasswordStrength(object):
         response = self.client.get_json(PASSWORD_STRENGTH)
         response.success = response.status_code == 200
 
-        return repsonse
+        return response

@@ -13,12 +13,12 @@ class Federation(object):
     '''
     Object is used to manage the Federations endpoints of a Verify Access deployment.
 
-    :var federations: Create and manage :ref:`Federation<Federations>` and Partners.
-    :var attribute_sources: Manage :ref:`attributes<AttributeSources>` added to identities in federation flows.
-    :var alias_service: Manage user :ref:`aliases<AliasService>` for federated identity sources.
-    :var sts: Create and manage :ref:`Security Token Service<SecurityTokenService>` chains.
-    :var poc: Create and manage :ref:`Point of Contact<PointOfContact>` profiles.
-    :var access_policy: Create and manage :ref:`Access Policy<AccessPolicy>` rules.
+    :var federations: Create and manage :ref:`Federations<Federations>` and Partners.
+    :var attribute_sources: Manage :ref:`attributes<Attribute Sources>` added to identities in federation flows.
+    :var alias_service: Manage user :ref:`aliases<Alias Service>` for federated identity sources.
+    :var sts: Create and manage :ref:`Security Token Service<Security Token Service (STS)>` chains.
+    :var poc: Create and manage :ref:`Point of Contact<Point of Contact (POC) Profile>` profiles.
+    :var access_policy: Create and manage :ref:`Access Policy<Access Policies>` rules.
     '''
 
 class Federation9020(object):

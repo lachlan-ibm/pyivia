@@ -19,7 +19,7 @@ class ClientCertMapping(object):
         self.client = RESTClient(base_url, username, password)
 
 
-    def create(self, name=None, content=None):
+    def create_rule(self, name=None, content=None):
         '''
         Create a new client certificate mapping
 
@@ -43,12 +43,12 @@ class ClientCertMapping(object):
         return response
 
 
-    def update(self, _id=None, content=None):
+    def update_rule(self, rule_id=None, content=None):
         '''
         Update a client certificate mapping
 
         Args:
-            _id (:obj:`str`): The id of hte certificate mapping rule to update
+            rule_id (:obj:`str`): The id of the certificate mapping rule to update
             content (:obj:`str`): The new XLST rule to be uploaded
 
         Returns:
@@ -58,21 +58,20 @@ class ClientCertMapping(object):
 
         '''
         data = DataObject()
-        data.add_value("content", content)
-        data.add_value_string("id", _id)
-        endpoint = CLIENT_CERT_CDAS + "/{}".format(_id)
+        data.add_value_string("content", content)
+        endpoint = CLIENT_CERT_CDAS + "/{}".format(rule_id)
         response = self.client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
 
 
-    def delete(self, _id=None):
+    def delete_rule(self, rule_id=None):
         '''
         Delete an existing certificate mapping rule
 
         Args:
-            _id (:obj:`str`): The id of the certificate mapping rule to be removed.
+            rule_id (:obj:`str`): The id of the certificate mapping rule to be removed.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -80,19 +79,19 @@ class ClientCertMapping(object):
             Success can be checked by examining the response.success boolean attribute
 
         '''
-        endpoint = CLIENT_CERT_CDAS + "/{}".format(_id)
+        endpoint = CLIENT_CERT_CDAS + "/{}".format(rule_id)
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
 
 
-    def get(self, _id):
+    def get_rule(self, rule_id):
         '''
         Get a configured user certificate mapping.
 
         Args:
-            _id (:obj:`str`): The id of the user certificate mapping to return
+            rule_id (:obj:`str`): The id of the user certificate mapping to return
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -104,15 +103,15 @@ class ClientCertMapping(object):
 
 
         '''
-        endpoint = CLIENT_CERT_CDAS + "/{}".format(_id)
+        endpoint = CLIENT_CERT_CDAS + "/{}".format(rule_id)
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
 
-    def get_template(self, tempalte_id=None):
+    def get_template(self):
         '''
-        Get a template user certificate mapping rule
+        Get the Client Cert CDAS template mapping rule
 
         Args:
             template_id (:obj:`str`): The id of the template rule to return
@@ -126,14 +125,14 @@ class ClientCertMapping(object):
             the response.json attribute
 
         '''
-        endpoit = "/isam/wga_templates/client_cert_cdas_template"
+        endpoint = "/isam/wga_templates/client_cert_cdas_template"
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
 
 
-    def list(self):
+    def list_rules(self):
         '''
         Return a list of all of the configured user certificate mapping rules.
 

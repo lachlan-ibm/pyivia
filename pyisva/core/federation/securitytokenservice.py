@@ -134,13 +134,19 @@ class SecurityTokenService(object):
         Args:
             name (:obj:`str`): A friendly name for the STS Chain Template
             description (:obj:`str`): A description of the STS Chain Template
-            modules (:obj:`list` of :obj:`str`): An array of the modules that make up the STS Chain Template. Each 
-                        module contains:
+            modules (:obj:`list` of :obj:`str`): An array of the modules that make up the STS Chain Template. Each module contains
+
                         - id: The token id of an STS module
-                        - mode: The mode the STS module is used in in the chain. Must be one of the supported 
-                                modes of the STS module
+                        - mode: The mode the STS module is used in in the chain. Must be one of the supported modes of the STS module
                         - prefix (optional): The prefix for the chain item.
-                        example: ``{"id":"default-map","mode":"map","prefix":"uuid3dbf4c6a-013d-15d5-bb8b-c2665e02a402"}``
+
+                    example:: 
+
+                            {
+                                "id":"default-map",
+                                "mode":"map",
+                                "prefix":"uuid3dbf4c6a-013d-15d5-bb8b-c2665e02a402"
+                            }
 
         Returns:
             :obj:`~requests.response`: the response from verify access. 
@@ -293,6 +299,27 @@ class SecurityTokenService(object):
         data.add_value_string("description", description)
         data.add_value_string("chainId", template_id)
         data.add_value_string("requestType", request_type)
+        data.add_value_string("tokenType", token_type)
+        data.add_value_string("xPath", xpath)
+
+        signKey = DataObject()
+        signKey.add_value_string("keyAlias_db", sign_key_store)
+        signKey.add_value_string("keyAlias_cert", sign_key_alias)
+        signKey.add_value_boolean("includeCertificateData", sign_include_cert)
+        signKey.add_value_boolean("includePublicKey", sign_include_pubkey)
+        signKey.add_value_boolean("includeSubjectKeyIdentifier", sign_include_ski)
+        signKey.add_value_boolean("includeIssuerDetails", sign_include_issuer)
+        signKey.add_value_boolean("includeSubjectName", sign_include_subject)
+
+        validKey = DataObject()
+        validKey.add_value_string("keyAlias_db", validation_key_store)
+        validKey.add_value_string("keyAlias_cert", validation_key_alias)
+        validKey.add_value_boolean("includeCertificateData", validation_include_cert)
+        validKey.add_value_boolean("includePublicKey", validation_include_pubkey)
+        validKey.add_value_boolean("includeSubjectKeyIdentifier", validation_include_ski)
+        validKey.add_value_boolean("includeIssuerDetails", validation_include_issuer)
+        validKey.add_value_boolean("includeSubjectName", validation_include_subject)
+
 
         applies_to = DataObject()
         applies_to.add_value_string("address", applies_to_address)
@@ -311,7 +338,9 @@ class SecurityTokenService(object):
         data.add_value("issuer", issuer.data)
 
         data.add_value_boolean("validateRequests", validate_requests)
+        data.add_value_not_empty("validationKey", validKey.data)
         data.add_value_boolean("signResponses", sign_responses)
+        data.add_value_string("signatureKey", signKey.data)
         data.add_value_boolean("sendValidationConfirmation", send_validation_confirmation)
 
         properties = DataObject()
@@ -417,19 +446,54 @@ class SecurityTokenService(object):
         data.add_value_string("description", description)
         data.add_value_string("chainId", template_id)
         data.add_value_string("requestType", request_type)
+        data.add_value_string("tokenType", token_type)
+        data.add_value_string("xPath", xpath)
 
-        data.add_value("appliesTo", {"address": applies_to})
+        signKey = DataObject()
+        signKey.add_value_string("keyAlias_db", sign_key_store)
+        signKey.add_value_string("keyAlias_cert", sign_key_alias)
+        signKey.add_value_boolean("includeCertificateData", sign_include_cert)
+        signKey.add_value_boolean("includePublicKey", sign_include_pubkey)
+        signKey.add_value_boolean("includeSubjectKeyIdentifier", sign_include_ski)
+        signKey.add_value_boolean("includeIssuerDetails", sign_include_issuer)
+        signKey.add_value_boolean("includeSubjectName", sign_include_subject)
 
-        data.add_value("issuer", {"address": issuer})
+        validKey = DataObject()
+        validKey.add_value_string("keyAlias_db", validation_key_store)
+        validKey.add_value_string("keyAlias_cert", validation_key_alias)
+        validKey.add_value_boolean("includeCertificateData", validation_include_cert)
+        validKey.add_value_boolean("includePublicKey", validation_include_pubkey)
+        validKey.add_value_boolean("includeSubjectKeyIdentifier", validation_include_ski)
+        validKey.add_value_boolean("includeIssuerDetails", validation_include_issuer)
+        validKey.add_value_boolean("includeSubjectName", validation_include_subject)
+
+
+        applies_to = DataObject()
+        applies_to.add_value_string("address", applies_to_address)
+        applies_to.add_value_string("portTypeNamespace", applies_to_port_type_namespace)
+        applies_to.add_value_string("portTypeName", applies_to_port_type_name)
+        applies_to.add_value_string("serviceNamespace", applies_to_service_namespace)
+        applies_to.add_value_string("serviceName", applies_to_service_name)
+        data.add_value("appliesTo", applies_to.data)
+
+        issuer = DataObject()
+        issuer.add_value_string("address", issuer_address)
+        issuer.add_value_string("portTypeNamespace", issuer_port_type_namespace)
+        issuer.add_value_string("portTypeName", issuer_port_type_name)
+        issuer.add_value_string("serviceNamespace", issuer_service_namespace)
+        issuer.add_value_string("serviceName", issuer_service_name)
+        data.add_value("issuer", issuer.data)
 
         data.add_value_boolean("validateRequests", validate_requests)
+        data.add_value_not_empty("validationKey", validKey.data)
         data.add_value_boolean("signResponses", sign_responses)
+        data.add_value_string("signatureKey", signKey.data)
         data.add_value_boolean("sendValidationConfirmation", send_validation_confirmation)
 
-
-        data.add_value("properties", {
-            "self": properties
-        })
+        properties = DataObject()
+        properties.add_value_not_empty("self", self_properties)
+        properties.add_value_not_empty("partner", partner_properties)
+        data.add_value("properties", properties.data)
 
         endpoint = "{}/{}".format(STS_CHAINS, chain_id)
         response = self.client.put_json(endpoint, data.data)

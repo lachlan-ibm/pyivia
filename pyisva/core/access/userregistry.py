@@ -167,7 +167,7 @@ class UserRegistry10020(UserRegistry):
 
         '''
         data = DataObject()
-        data.add_value_string("id", group_id)
+        data.add_value_string("id", group)
 
         endpoint = "{}/users/{}/groups/v1".format(USER_REGISTRY, user_id)
         response = self.client.put_json(endpoint, data.data)
@@ -191,7 +191,7 @@ class UserRegistry10020(UserRegistry):
 
         '''
         data = DataObject()
-        data.add_value_string("id", group_id)
+        data.add_value_string("id", group)
 
         endpoint = "{}/users/{}/groups/v1".format(USER_REGISTRY, user_id)
         response = self.client.delete_json(endpoint, data.data)
@@ -217,7 +217,7 @@ class UserRegistry10020(UserRegistry):
 
         '''
         endpoint = "{}/users/{}/v1".format(USER_REGISTRY, user_id)
-        self.client.get_json(endpoint)
+        response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response

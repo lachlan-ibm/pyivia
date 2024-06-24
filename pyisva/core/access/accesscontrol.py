@@ -326,8 +326,8 @@ class AccessControl(object):
         return response
 
 
-    def update_obligation(self, id, name=None, description=None, obligationURI=None,
-                        type="Obligation", parameters=None, properties=None):
+    def update_obligation(self, id, name=None, description=None, obligation_uri=None,
+                        type="Obligation", type_id=None, parameters=None, properties=None):
         '''
         Update an existing obligation for use with RBA
 
@@ -352,10 +352,10 @@ class AccessControl(object):
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value_string("description", description)
-        data.add_value_string("obligationURI", obligationURI)
+        data.add_value_string("obligationURI", obligation_uri)
         data.add_value_string("type", type)
         data.add_value("parameters", parameters)
-        data.add_value_string("typeId", typeId)
+        data.add_value_string("typeId", type_id)
         data.add_value("properties", properties)
 
         response = self.client.post_json(OBLIGATIONS, data.data)

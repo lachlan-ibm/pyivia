@@ -191,7 +191,7 @@ class SSLCertificates(object):
 
     def get_signer(self, kdb_id, label=None):
         """
-        Get a X509 certificate from the lsit of signer certificates.
+        Get a X509 certificate from the list of signer certificates.
 
         Args:
             kdb_id (:obj:`str`): Name of the certificate database.

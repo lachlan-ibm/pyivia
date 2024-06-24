@@ -98,8 +98,18 @@ class PointOfContact(object):
             If the request is successful the id of the created PoC profile can be acess from the 
             response.id_from_location attribute
         """
-        #TODO
-        return
+        configuration = DataObject()
+        configuration.add_value_string("name", name)
+        configuration.add_value_string("description", description)
+        configuration.add_value_not_empty("authenticateCallbacks", authenticate_callbacks)
+        configuration.add_value_not_empty("signInCallbacks", sign_in_callbacks)
+        configuration.add_value_not_empty("localIdCallbacks", local_id_callbacks)
+        configuration.add_value_not_empty("signOutCallbacks", sign_out_callbacks)
+        configuration.add_value_not_empty("authnPolicyCallbacks", authn_policy_callbacks)
+        response = self.client.post_json(POC_PROFILES, configuration.data)
+        response.success = response.status_code == 201
+
+        return response
 
 
     def update_profile(self, poc_id, name=None, description=None, authenticate_callbacks=[], sign_in_callbacks=[], 
@@ -177,8 +187,19 @@ class PointOfContact(object):
             Success can be checked by examining the response.success boolean attribute
 
         """
-        #TODO
-        return
+        configuration = DataObject()
+        configuration.add_value_string("name", name)
+        configuration.add_value_string("description", description)
+        configuration.add_value_not_empty("authenticateCallbacks", authenticate_callbacks)
+        configuration.add_value_not_empty("signInCallbacks", sign_in_callbacks)
+        configuration.add_value_not_empty("localIdCallbacks", local_id_callbacks)
+        configuration.add_value_not_empty("signOutCallbacks", sign_out_callbacks)
+        configuration.add_value_not_empty("authnPolicyCallbacks", authn_policy_callbacks)
+        endpoint = "{}/{}".format(POC_PROFILES, poc_id)
+        response = self.client.put_json(endpoint, configuration.data)
+        response.success = response.status_code == 204
+
+        return response
 
 
     def list_profiles(self):

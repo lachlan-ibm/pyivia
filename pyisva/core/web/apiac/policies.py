@@ -32,13 +32,13 @@ class Policies(object):
 
             Success can be checked by examining the response.success boolean attribute
 
-            If the request is successful the id of the created obligation can be acess from the
+            If the request is successful the id of the created obligation can be accessed from the
             response.id_from_location attribute
 
         '''
         data = DataObject()
         data.add_value_string("name", name)
-        data.add_value_not_empty("group", grups)
+        data.add_value_not_empty("group", groups)
         data.add_value_not_empty("attributes", attributes)
 
         response = self.client.post_json(POLICY, data.data)

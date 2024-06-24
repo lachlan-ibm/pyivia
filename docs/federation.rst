@@ -23,8 +23,14 @@ Federations configuration
 Access Policies
 ===============
 
-
 .. autoclass:: pyisva.core.federation.accesspolicy.AccessPolicy
+   :members:
+
+
+Alias Service
+=============
+
+.. autoclass:: pyisva.core.federation.aliasservice.AliasService
    :members:
 
 

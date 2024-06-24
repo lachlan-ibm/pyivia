@@ -21,7 +21,8 @@ class Extensions(object):
 
     def create_extension(self, ext_file=None, properties={}, third_party_packages=[]):
         '''
-        Create a new extension by installing an extension archive from `IBM App-Xchange<https://exchange.xforce.ibmcloud.com/hub>`_.
+        Create a new extension by installing an extension archive 
+        from `IBM App-Xchange <https://exchange.xforce.ibmcloud.com/hub>`_.
 
         Args:
             ext_file (:obj:`str`): Path to file to upload as extension installer.
@@ -29,8 +30,8 @@ class Extensions(object):
                             required by extension. Properties will change depending on the 
                             extension installed. This data is likely supposed to be a serialized 
                             JSON string.
-            third_party_packages (:obj:`list` of :obj:`str`): List of file paths to be uploaded to the appliance
-                            during extension activation.
+            third_party_packages (:obj:`list` of :obj:`str`): List of file paths to be uploaded to 
+                                                            the appliance during extension activation.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -65,7 +66,8 @@ class Extensions(object):
 
         Args:
             ext_file (:obj:`str`): Path to file to upload as extension installer.
-            properties (:obj:`dict`, optional): Optional set of configuration properties required by extension. Properties will change depending on the extension installed.
+            properties (:obj:`dict`, optional): Optional set of configuration properties required by extension. 
+                                                Properties will change depending on the extension installed.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 

@@ -242,7 +242,7 @@ class APIProtection(object):
             pin_length=None, enforce_single_use_authorization_grant=None, issue_refresh_token=None,
             enforce_single_access_token_per_grant=None, enable_multiple_refresh_tokens_for_fault_tolerance=None,
             pin_policy_enabled=None, grant_types=None, oidc_enabled=False, iss=None, poc=None, lifetime=None, alg=None, 
-            db=None, cert=None, enc_enabled=False, enc_alg=None, enc_enc=None, access_policy_id=None):
+            db=None, cert=None, enc_enabled=False, enc_alg=None, enc_db=None, enc_cert=None, enc_enc=None, access_policy_id=None):
         '''
         Update an OIDC API Protection definition. Definitions can be used to configure one or more clients.
 
@@ -317,11 +317,12 @@ class APIProtection(object):
             oidc.add_value("alg",alg)
             oidc.add_value("db",db)
             oidc.add_value("cert",cert)
+            enc_data = DataObject()
+            enc_data.add_value_boolean("enabled", enc_enabled)
             if enc_enabled:
-                enc_data = DataObject()
-                enc_data.add_value("db",enc_db)
-                enc_data.add_value("cert",enc_cert)
-                oidc.add_value("enc",enc_data.data)
+                enc_data.add_value("alg",enc_alg)
+                enc_data.add_value("enc",enc_enc)
+            oidc.add_value("enc",enc_data.data)
 
             data.add_value("oidc",oidc.data)
 

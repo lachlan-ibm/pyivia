@@ -49,8 +49,43 @@ Configuration (deploy pending changes)
    :members:
 
 
+Container Management
+====================
+.. autoclass:: pyisva.core.system.containermanagement.ContainerManagement
+   :members:
+
+Volumes
+-------
+.. autoclass:: pyisva.core.system.containers.volumes.Volumes
+   :members:
+
+Images
+-------
+.. autoclass:: pyisva.core.system.containers.images.Images
+   :members:
+
+Registry
+--------
+.. autoclass:: pyisva.core.system.containers.registry.Registry
+   :members:
+
+Metadata
+--------
+.. autoclass:: pyisva.core.system.containers.metadata.Metadata
+   :members:
+
+Deployments
+-----------
+.. autoclass:: pyisva.core.system.containers.deployments.Deployments
+   :members:
+
+Health Check
+------------
+.. autoclass:: pyisva.core.system.containers.healthcheck.HealthCheck
+   :members:
+
 Date and Time
-============
+=============
 
 
 .. autoclass:: pyisva.core.system.datetime.DateTime
@@ -94,6 +129,14 @@ Fixpacks
 
 
 .. autoclass:: pyisva.core.system.fixpacks.Fixpacks
+   :members:
+
+
+FIPS
+====
+
+
+.. autoclass:: pyisva.core.system.fips.FIPS
    :members:
 
 
@@ -145,6 +188,14 @@ Management Authorization
    :members:
 
 
+Management Authentication
+=========================
+
+
+.. autoclass:: pyisva.core.system.managementauthentication.ManagementAuthentication
+   :members:
+
+
 Restart and Shutdown
 ====================
 
@@ -174,4 +225,11 @@ System Accounts
 ===============
 
 .. autoclass:: pyisva.core.system.sysaccount.SysAccount
+   :members:
+
+
+Snapshot
+========
+
+.. autoclass:: pyisva.core.system.snapshot.Snapshot
    :members:

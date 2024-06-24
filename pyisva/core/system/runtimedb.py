@@ -51,9 +51,9 @@ class RuntimeDb(object):
         data.add_value_string("hvdb_password", passwd)
         data.add_value_string("hvdb_db_name", db_name)
         data.add_value_string("hvdb_db_type", db_type)
-        if extra_config != None and isinstance(extra_config, dict):
-            for key in extra_config.keys():
-                data.add_value(key, extra_config.get(key))
+        if extra_attrs != None and isinstance(extra_attrs, dict):
+            for key in extra_attrs.keys():
+                data.add_value(key, extra_attrs.get(key))
 
         endpoint = RUNTIME_DB
         response = self.client.post_json(endpoint, data.data)
@@ -65,7 +65,7 @@ class RuntimeDb(object):
         """
         Get the current database configuration.
 
-        Ruturns:
+        Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
             Success can be checked by examining the response.success boolean attribute

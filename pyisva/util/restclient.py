@@ -221,6 +221,9 @@ class RESTClient(object):
             credential_encode = base64.b64encode(credential.encode())
             authorization = "Basic " + str(credential_encode.decode()).rstrip()
             headers["Authorization"] = authorization
+        elif self._password:
+            authorization = "Bearer %s" % (self._password)
+            headers["Authorization"] = authorization
 
         return headers
 
