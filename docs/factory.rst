@@ -41,5 +41,5 @@ the five modules used.
    f = pyisva.factory.Factory("https://verify.access.appliance", "user", "secret")
 
 
-.. automodule:: pyisva.factory
+.. autoclass:: pyisva.factory.Factory
    :members:
