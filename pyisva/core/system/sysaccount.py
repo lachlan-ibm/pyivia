@@ -23,7 +23,7 @@ class SysAccount(object):
 
     def get_users(self):
         """
-        Get a list of all the current managemnt interface user accounts.
+        Get a list of all the current management interface user accounts.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -55,7 +55,7 @@ class SysAccount(object):
             the response.json attribute
         """
         endpoint = SYSACCOUNT_USERS + '/' + user + '/v1'
-        rsponse = self.client.get_json(endpoint)
+        response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -86,7 +86,7 @@ class SysAccount(object):
 
     def create_user(self, user=None, password=None, groups=[]):
         """
-        Create a new managment interface user
+        Create a new management interface user
 
         Args:
             user (:obj:`str`): The name of the new user. The name can contain any ASCII characters but leading 

@@ -32,6 +32,7 @@ class AccessControl(object):
     :var attributes: Create and manage Risk Based Access :ref:`Attribute <Attributes>` mappings.
     :var authentication: Create and manage :ref:`Authentication` policies and mechanisms.
     :var fido2_config: Create and manage :ref:`FIDO2 Configuration` including metadata and mediators.
+    :var fido2_registrations: Manage :ref:`FIDO2 Registrations` for runtime users.
     :var mapping_rules: Create and manage JavaScript :ref:`Mapping Rules` used for customized authentication.
     :var mmfa_config: Configure :ref:`Mobile Multi-Factor Authentication` for Verify Access.
     :var push_notifications: Configure and manage :ref:`Push Notification Providers`.
@@ -39,9 +40,9 @@ class AccessControl(object):
     :var runtime_parameters: Manage :ref:`Runtime Parameters` of the Liberty runtime server.
     :var scim_config: Create and manage :ref:`SCIM<System for Cross-Domain Identity Management (SCIM) Configuration>` attribute mapping.
     :var server_connections: Create :ref:`Server Connections` to external service providers.
-    :var template_files: Create and manage HTML and JSON i:ref:`Template Files`.
+    :var template_files: Create and manage HTML and JSON :ref:`Template Files`.
     :var user_registry: Manage :ref:`user authentication<User Registry>` to the Liberty runtime server.
-    :var pip: Manage :ref:`policy information points<PIP>`.
+    :var pip: Manage :ref:`policy information points<Policy Information Points>`.
     '''
 
 class AccessControl9020(object):

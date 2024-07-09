@@ -20,12 +20,12 @@ class Kerberos(object):
         self.client = RESTClient(base_url, username, password)
 
 
-    def create(self, _id=None, subsection=None, name=None, value=None):
+    def create(self, section_id=None, subsection=None, name=None, value=None):
         '''
         Create a kerberos configuration property or subsection
 
         Args:
-            _id (:obj:`str`): The name of the section/subsection where the new subsection/property will be created
+            section_id (:obj:`str`): The name of the section/subsection where the new subsection/property will be created
             subsection (:obj:`str`, optional): Name of new subsection to create. Required if creating a new subsection
             name (:obj:`str`, optional): Name of new property to add to section/subsection. Required if creating a new property
             value (:obj:`str`, optional): Value of new property to add to section/subsection. Required if creating a new property
@@ -43,18 +43,18 @@ class Kerberos(object):
         data.add_value_not_empty("subsection", subsection)
         data.add_value_string("value", value)
 
-        endpoint = KERBEROS_CONFIG + "/{}".format(_id)
+        endpoint = KERBEROS_CONFIG + "/{}".format(section_id)
         response = self.client.post_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
 
-    def update(self, _id=None, value=None):
+    def update(self, section_id=None, value=None):
         '''
         Update a kerberos configuration property
 
         Args:
-            _id (:obj:`str`): The name of the section/subsection where the property will be updated
+            section_id (:obj:`str`): The name of the section/subsection where the property will be updated
             value (:obj:`str`): Value of new property to add to section/subsection. Required if creating a new property
 
         Returns:
@@ -65,19 +65,19 @@ class Kerberos(object):
         data = DataObject()
         data.add_value_string("value", value)
 
-        endpoint = KERBEROS_CONFIG + "/{}".format(_id)
+        endpoint = KERBEROS_CONFIG + "/{}".format(section_id)
         response = self.client.put_json(endpoint, data.data)
-        response.success = response.stauts_code == 200
+        response.success = response.status_code == 200
 
         return response
 
 
-    def get(self, _id=None):
+    def get(self, section_id=None):
         '''
         Get a kerberos configuration property
 
         Args:
-            _id (:obj:`str`): The name of the section/subsection where the new subsection/property will be created
+            section_id (:obj:`str`): The name of the section/subsection where the new subsection/property will be created.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -85,28 +85,28 @@ class Kerberos(object):
             Success can be checked by examining the response.success boolean attribute
 
             If the request is successful the kerberos property is returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
         '''
-        endpoint = KERBEROS_CONFIG + "/{}".format(_id)
+        endpoint = KERBEROS_CONFIG + "/{}".format(section_id)
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
 
 
-    def delete(self, _id=None):
+    def delete(self, section_id=None):
         '''
         Delete a kerberos configuration property or section
 
         Args:
-            _id (:obj:`str`): The name of the section/property to be removed
+            section_id (:obj:`str`): The name of the section/property to be removed.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
         '''
-        endpoint = KERBEROS_CONFIG = "/{}".format(_id)
+        endpoint = KERBEROS_CONFIG = "/{}".format(section_id)
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 200
 
@@ -155,7 +155,7 @@ class Kerberos(object):
         response = Response()
         
         try:
-            with open(file_path, 'rb') as contents:
+            with open(keytab_file, 'rb') as contents:
                 files = {"keytab_file": contents}
 
                 response = self.client.post_file(KERBEROS_KEYTAB, files=files)
@@ -167,19 +167,19 @@ class Kerberos(object):
         return response
 
 
-    def delete_keytab(self, _id=None):
+    def delete_keytab(self, keytab_id=None):
         '''
         Delete a Kerberos keyfile.
 
         Args:
-            _id (:obj:`str`): The ID of the keytab to be removed.
+            keytab_id (:obj:`str`): The ID of the keytab to be removed.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
             Success can be checked by examining the response.success boolean attribute
         '''
-        endpoint = KERBEROS_KEYTAB + "/{}".format(_id)
+        endpoint = KERBEROS_KEYTAB + "/{}".format(keytab_id)
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 200
 
@@ -230,11 +230,11 @@ class Kerberos(object):
         return response
 
 
-    def verify_keytab(self, _id=None, name=None):
+    def verify_keytab(self, keytab_id=None, name=None):
         data = DataObject()
         data.add_value_string("name", name)
 
-        endpoint = KERBEROS_KEYTAB + "/{}".format(_id)
+        endpoint = KERBEROS_KEYTAB + "/{}".format(keytab_id)
         response = self.client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 

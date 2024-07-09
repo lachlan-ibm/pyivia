@@ -21,7 +21,7 @@ class RateLimit(object):
 
     def create(self, name=None, content=None):
         '''
-        Update an existing JavaScript mappign rule with new contents
+        Update an existing JavaScript mapping rule with new contents
 
         Args:
             name (:obj:`str`): Name of the rate limiting policy to be created.
@@ -43,12 +43,12 @@ class RateLimit(object):
         return response
 
 
-    def update(self, _id=None, content=None):
+    def update(self, rlimit_id=None, content=None):
         """
         Update an existing rate limiting policy with new contents
 
         Args:
-            _id (:obj:`str`): The id of the rule to be updated.
+            rlimit_id (:obj:`str`): The id of the rule to be updated.
             content (:obj:`str`): The new rate limiting policy contents.
 
         Returns:
@@ -59,19 +59,19 @@ class RateLimit(object):
         """
         data = DataObject()
         data.add_value("content", content)
-        endpoint = RATELIMIT + "/{}".format(_id)
+        endpoint = RATELIMIT + "/{}".format(rlimit_id)
         response = self.client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
 
 
-    def delete(self, _id=None):
+    def delete(self, rlimit_id=None):
         '''
         Delete the specified rate limiting policy if it exists.
 
         Args:
-            _id (:obj:`str`): The id of the mapping rule to be removed.
+            rlimit_id (:obj:`str`): The id of the policy to be removed.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access.
@@ -79,19 +79,19 @@ class RateLimit(object):
             Success can be checked by examining the response.success boolean attribute
 
         '''
-        endpoint = RATELIMIT + "/{}".format(_id)
+        endpoint = RATELIMIT + "/{}".format(rlimit_id)
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
 
 
-    def get(self, _id):
+    def get(self, rlimit_id):
         """
         Get a rate limiting policy.
 
         Args:
-            _id (:obj:`str`): The unique id of the policy to return.
+            rlimit_id (:obj:`str`): The unique id of the policy to return.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -102,7 +102,7 @@ class RateLimit(object):
             the response.json attribute
 
         """
-        endpoint = RATELIMIT + "/{}".format(_id)
+        endpoint = RATELIMIT + "/{}".format(rlimit_id)
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
 

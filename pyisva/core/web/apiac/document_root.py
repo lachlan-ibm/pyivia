@@ -136,7 +136,7 @@ class DocumentRoot(object):
 
     def list(self, instance):
         '''
-        Get a list of all of hte files and directorys in the API Access Control document root.
+        Get a list of all of the files and directories in the API Access Control document root.
 
         Args:
             instance (:obj:`str`): The name of the WebSEAL instance being configured.

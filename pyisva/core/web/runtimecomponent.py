@@ -131,7 +131,7 @@ class RuntimeComponent(object):
         Args:
             _id (:obj:`str`): The identifier of the federated LDAP server.
             hostname (:obj:`str`): The hostname or address of the LDAP server.
-            port (:obj:`str`): The port that the LSAP server is listening on.
+            port (:obj:`str`): The port that the LDAP server is listening on.
             bind_dn (:obj:`str`): The Distinguished Name to bind to the LDAP server as to perform admin operations.
             bind_pwd (:obj:`str`): The secret to authenticate as the ``bind_dn`` user.
             ignore_if_down (`bool`, optional): Whether the server will continue to operate using the other configured 
@@ -214,7 +214,7 @@ class RuntimeComponent(object):
         url = RUNTIME_STANZA_FILE_BASE + "/{}/configuration/stanza/{}".format(resource, stanza)
         data = DataObject()
         if entries:
-            data.add_value("entries", entrites)
+            data.add_value_not_empty("entries", entries)
             url += "/entry_name"
 
         response = self.client.post_json(url, data.data)
@@ -246,7 +246,7 @@ class RuntimeComponent(object):
         """
         url = RUNTIME_STANZA_FILE_BASE + "/{}/configuration/stanza/{}/entry_name".format(resource, stanza)
         data = DataObject()
-        data.add_value("entries", entrites)
+        data.add_value_not_empty("entries", entries)
         response = self.client.put_json(url, data.data)
         response.success = response.status_code == 200
 
@@ -312,8 +312,8 @@ class RuntimeComponent10000(RuntimeComponent):
             isam_host (:obj:`str`): The name of the host that hosts the Security Verify Access policy server.
             isam_port (:obj:`str`, optional): The port over which communication with the Security Verify Access policy 
                                 server takes place. If ps_mode is remote, this field is required.
-            clean_ldap (:obj:`str`, optional): Whether any existing data within the LDAP server should be cleaned prior 
-                                to the configuration. Only valid if the user registry is local.
+            clean_ldap (`bool`, optional): Whether any existing data within the LDAP server should be cleaned prior 
+                                to the configuration. Required if the user registry is local.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 

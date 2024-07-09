@@ -55,7 +55,7 @@ class AdminSettings(object):
             max_heap_size (`int`): The minimum heap size, in megabytes, for the JVM.
             session_timeout (`int`): The length of time, in minutes, that a session can remain idle before it is 
                             deleted (valid values: 0 - 720).
-            session_innactive_timeout (`int`): The length of time, in minutes, that a session can remain idle before it 
+            session_inactive_timeout (`int`): The length of time, in minutes, that a session can remain idle before it 
                             is deleted (valid values: -1 to 720).
             http_port (`int`): The TCP port on which the LMI will listen.
             https_port (`int`): The SSL port on which the LMI will listen. A default value of 443 is used.
@@ -114,11 +114,10 @@ class AdminSettings(object):
         data.add_value("minThreads", min_threads)
         data.add_value("maxThreads", max_threads)
         data.add_value("maxPoolSize", max_pool_size)
-        data.add_value_bool("lmiDebuggingEnabled", lmi_debugging_enabled)
-        data.add_value_bool("acceptClientCerts", accept_client_certs)
-        data.add_value_bool(
+        data.add_value_boolean("lmiDebuggingEnabled", lmi_debugging_enabled)
+        data.add_value_boolean("acceptClientCerts", accept_client_certs)
+        data.add_value_boolean(
             "validateClientCertIdentity", validate_client_cert_identity)
-        data.add_value_bool("enableSSLv3", enable_ssl_v3)
         
         response = self.client.put_json(ADMIN_CONFIG, data.data)
         response.success = response.status_code == 200
@@ -127,17 +126,13 @@ class AdminSettings(object):
 
 class AdminSetting10000(AdminSettings):
 
-    def update(
-            self, old_password=None, new_password=None, confirm_password=None,
-            min_heap_size=None, max_heap_size=None, session_timeout=None,
-            http_port=None, https_port=None, min_threads=None, max_threads=None,
-            max_pool_size=None, lmi_debugging_enabled=None,
-            console_log_level=None, accept_client_certs=None,
-            validate_client_cert_identity=None, exclude_csrf_checking=None,
-            enable_ssl_v3=None, sshd_port=None, session_inactivity_timeout=None,
-            max_files=None, max_file_size=None, http_proxy=None, https_proxy=None,
-            login_header=None, login_message=None, sshd_client_alive_interval=None,
-            enabled_server_protocols=None, enabled_tls=None, session_cache_purge=None):
+    def update(self, old_password=None, new_password=None, confirm_password=None, min_heap_size=None, max_heap_size=None, 
+            session_timeout=None, session_inactive_timeout=None, session_cache_purge=None, ba_session_timeout=None, 
+            http_port=None, https_port=None, sshd_port=None, sshd_client_alive=None, swap_size=None, min_threads=None, max_threads=None, max_pool_size=None, 
+            lmi_debugging_enabled=None, console_log_level=None, accept_client_certs=None, validate_client_cert_identity=None, 
+            exclude_csrf_checking=None, enabled_server_protocols=None, enabled_tls=[], log_max_files=None, log_max_size=None,
+            http_proxy=None, https_proxy=None, login_header=None, login_msg=None, access_log_fmt=None, lmi_msg_timeout=None,
+            valid_verify_domains=None):
         data = DataObject()
         data.add_value_string("oldPassword", old_password)
         data.add_value_string("newPassword", new_password)
@@ -152,23 +147,27 @@ class AdminSetting10000(AdminSettings):
         data.add_value("minThreads", min_threads)
         data.add_value("maxThreads", max_threads)
         data.add_value("maxPoolSize", max_pool_size)
-        data.add_value_bool("lmiDebuggingEnabled", lmi_debugging_enabled)
-        data.add_value_bool("acceptClientCerts", accept_client_certs)
-        data.add_value_bool(
+        data.add_value_boolean("lmiDebuggingEnabled", lmi_debugging_enabled)
+        data.add_value_boolean("acceptClientCerts", accept_client_certs)
+        data.add_value_boolean(
             "validateClientCertIdentity", validate_client_cert_identity)
-        data.add_value_bool("enableSSLv3", enable_ssl_v3)
         data.add_value("sshdPort", sshd_port)
-        data.add_value("sessionInactivityTimeout", session_inactivity_timeout)
+        data.add_value("sessionInactivityTimeout", session_inactive_timeout)
+        data.add_value_string("swapFileSize", swap_size)
         data.add_value("sessionCachePurge", session_cache_purge)
-        data.add_value("maxFiles", max_files)
-        data.add_value("maxFileSize", max_file_size)
+        data.add_value("maxFiles", log_max_files)
+        data.add_value("maxFileSize", log_max_size)
         data.add_value_string("httpProxy", http_proxy)
         data.add_value_string("httpsProxy", https_proxy)
         data.add_value_string("loginHeader", login_header)
-        data.add_value_string("loginMessage", login_message)
-        data.add_value("sshdClientAliveInterval", sshd_client_alive_interval)
+        data.add_value_string("loginMessage", login_msg)
+        data.add_value("sshdClientAliveInterval", sshd_client_alive)
         data.add_value_string("enabledServerProtocols", enabled_server_protocols)
         data.add_value_not_empty("enabledTLS", enabled_tls)
+        data.add_value("baSessionTimeout", ba_session_timeout)
+        data.add_value_string("accessLogFormat", access_log_fmt)
+        data.add_value_string("lmiMessageTimeout", lmi_msg_timeout)
+        data.add_value_string("validVerifyDomains", valid_verify_domains)
         
         response = self.client.put_json(ADMIN_CONFIG, data.data)
         response.success = response.status_code == 200

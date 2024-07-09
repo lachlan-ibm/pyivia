@@ -30,7 +30,7 @@ class DSCAdmin(object):
             Success can be checked by examining the response.success boolean attribute
 
             If the request is successful the DSC replicas are returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
 
         """
         response = self.client.get_json(DSC_ADMIN_REPLICAS)
@@ -51,7 +51,7 @@ class DSCAdmin(object):
             Success can be checked by examining the response.success boolean attribute
 
             If the request is successful the DSC replica servers are returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
 
         """
         replica_set = urllib.quote(replica_set, safe='')
@@ -77,7 +77,7 @@ class DSCAdmin(object):
             Success can be checked by examining the response.success boolean attribute
 
             If the request is successful the DSC replica servers are returned as JSON and can be accessed from
-            the response.json attribute
+            the response.json attribute.
 
         """
         parameters = DataObject()
@@ -103,7 +103,7 @@ class DSCAdmin(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
 
         """
         replica_set = urllib.parse.quote(replica_set, safe='')
@@ -126,7 +126,7 @@ class DSCAdmin(object):
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
-            Success can be checked by examining the response.success boolean attribute
+            Success can be checked by examining the response.success boolean attribute.
         """
         replica_set = urllib.parse.quote(replica_set, safe='')
         user_name = urllib.parse.quote(user_name, safe='')

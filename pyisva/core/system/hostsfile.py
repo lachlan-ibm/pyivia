@@ -19,7 +19,7 @@ class HostsFile(object):
         super(HostsFile, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def add_hostname(self, address, hostname=None):
+    def update_record(self, address, hostname=None):
         """
         Add a host file entry.
 
@@ -113,7 +113,7 @@ class HostsFile(object):
         return response
 
 
-    def delete_host_record(self, address=None):
+    def delete_record(self, address=None):
         """
         Delete a host record (address and associated host names)
 

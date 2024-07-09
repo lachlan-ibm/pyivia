@@ -177,7 +177,7 @@ class FIDO2Config(object):
         fidoServerOptions.add_value("attestation", attestation.data)
 
         attestationAndroidSafetyNetOptions = DataObject()
-        attestationAndroidSafetyNetOptions.add_value("attestationMaxAge", attestation_android_safetynet_max_age)
+        attestationAndroidSafetyNetOptions.add_value("attestationMaxAge", attestation_android_safety_net_max_age)
         attestationAndroidSafetyNetOptions.add_value("clockSkew", attestation_android_safetynet_clock_skew)
         fidoServerOptions.add_value("android-safetynet", attestationAndroidSafetyNetOptions.data)
 
@@ -471,6 +471,133 @@ class FIDO2Config(object):
 
         return response
 
+    def create_metadata_service(self, url, retry_interval=None, jws_truststore=None, truststore=None, username=None,
+            password=None, keystore=None, certificate=None, protocol=None, timeout=None, proxy=None, headers=[]):
+        '''
+        Create a FIDO2 Metadata Service connection.
+
+        Args:
+            url (:obj:`str`): The URL used to connect to the metadata service (including the protocol).
+            retry_interval (`int`): When the lifetime of a downloaded metadata has expired and a request to retrieve the new metadata fails, this defines the wait 
+                                    interval (in seconds) before retrying the download. If not specified the default value of 3600 seconds will be used. A value of 
+                                    0 will result in a retry on each attestation validation.
+            jws_truststore (:obj:`str`): The name of the JWS verification truststore. The truststore contains the certificate used to verify the signature of the 
+                                         downloaded metadata blob. If not specified the SSL trust store or the trust store configured in the HTTPClientV2 advanced 
+                                         configuration will be used.
+            truststore (:obj:`str`): The name of the truststore to use. The truststore has a dual purpose. Firstly it is used when making a HTTPS connection to the 
+                                     Metadata Service. Secondly if the ``jws_truststore`` is not specified it must contain the certificate used to verify the signature of 
+                                     the downloaded metadata blob. If not specified and a HTTPS connection is specified, the trust store configured in the HTTPClientV2 
+                                     advanced configuration will be used.
+            username (:obj:`str`): The basic authentication username. If not specified BA will not be used.
+            password (:obj:`str`): The basic authentication password. If not specified BA will not be used.
+            keystore (:obj:`str`): The client keystore. If not specified client certificate authentication will not be used.
+            protocol (:obj:`str`): The SSL protocol to use for the HTTPS connection. Valid values are TLS, TLSv1, TLSv1.1 and TLSv1.2. If not specified the protocol 
+                                   configured in the HTTPClientV2 advanced configuration will be used.
+            timeout (int): The request timeout in seconds. A value of 0 will result in no timeout. If not specified the connect timeout configured in the HTTPClientV2 
+                           advanced configuration will be used.
+            proxy (:obj:`str`): Yes	The URL of the proxy server used to connect to the metadata service (including the protocol).
+            headers (:obj:`list` of :obj:`str`): A list of HTTP headers to be added to the HTTP request when retrieving the metadata from the service.
+
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the created FIDO2 metadata service can be accessed from the 
+            response.id_from_location attribute
+
+        '''
+        raise Exception ("Not yet implemented")
+
+
+    def update_metadata_service(self, mds_id, url=None, retry_interval=None, jws_truststore=None, truststore=None, username=None,
+            password=None, keystore=None, certificate=None, protocol=None, timeout=None, proxy=None, headers=[]):
+        '''
+        Update an existing FIDO2 Metadata Service connection.
+
+        Args:
+            mds_id (:obj:`str`): The Verify Access assigned identifier.
+            url (:obj:`str`): The URL used to connect to the metadata service (including the protocol).
+            retry_interval (`int`): When the lifetime of a downloaded metadata has expired and a request to retrieve the new metadata fails, this defines the wait 
+                                    interval (in seconds) before retrying the download. If not specified the default value of 3600 seconds will be used. A value of 
+                                    0 will result in a retry on each attestation validation.
+            jws_truststore (:obj:`str`): The name of the JWS verification truststore. The truststore contains the certificate used to verify the signature of the 
+                                         downloaded metadata blob. If not specified the SSL trust store or the trust store configured in the HTTPClientV2 advanced 
+                                         configuration will be used.
+            truststore (:obj:`str`): The name of the truststore to use. The truststore has a dual purpose. Firstly it is used when making a HTTPS connection to the 
+                                     Metadata Service. Secondly if the ``jws_truststore`` is not specified it must contain the certificate used to verify the signature of 
+                                     the downloaded metadata blob. If not specified and a HTTPS connection is specified, the trust store configured in the HTTPClientV2 
+                                     advanced configuration will be used.
+            username (:obj:`str`): The basic authentication username. If not specified BA will not be used.
+            password (:obj:`str`): The basic authentication password. If not specified BA will not be used.
+            keystore (:obj:`str`): The client keystore. If not specified client certificate authentication will not be used.
+            protocol (:obj:`str`): The SSL protocol to use for the HTTPS connection. Valid values are TLS, TLSv1, TLSv1.1 and TLSv1.2. If not specified the protocol 
+                                   configured in the HTTPClientV2 advanced configuration will be used.
+            timeout (int): The request timeout in seconds. A value of 0 will result in no timeout. If not specified the connect timeout configured in the HTTPClientV2 
+                           advanced configuration will be used.
+            proxy (:obj:`str`): Yes	The URL of the proxy server used to connect to the metadata service (including the protocol).
+            headers (:obj:`list` of :obj:`str`): A list of HTTP headers to be added to the HTTP request when retrieving the metadata from the service.
+
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
+        raise Exception ("Not yet implemented")
+
+
+    def get_metadata_service(self, mds_id):
+        '''
+        Get a configured metadata service.
+
+        Args:
+            mds_id (:obj:`str`): The Verify Access assigned identifier.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the metadata service is returned as JSON and can be accessed from
+            the response.json attribute.
+        '''
+        raise Exception ("Not yet implemented")
+
+
+    def list_metadata_services(self):
+        '''
+        List the configured metadata services.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the metadata services are returned as JSON and can be accessed from
+            the response.json attribute.        
+        '''
+        raise Exception ("Not yet implemented")
+
+
+    def delete_metadata_service(self, mds_id):
+        '''
+        Delete a configured metadata service.
+
+        Args:
+            mds_id (:obj:`str`): The Verify Access assigned identifier.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
+        raise Exception ("Not yet implemented")
+
+
 class FIDO2Config10050(FIDO2Config):
 
     def __init__(self, base_url, username, password):
@@ -589,7 +716,7 @@ class FIDO2Config10050(FIDO2Config):
         fidoServerOptions.add_value("attestation", attestation.data)
 
         attestationAndroidSafetyNetOptions = DataObject()
-        attestationAndroidSafetyNetOptions.add_value("attestationMaxAge", attestation_android_safetynet_max_age)
+        attestationAndroidSafetyNetOptions.add_value("attestationMaxAge", attestation_android_safety_net_max_age)
         attestationAndroidSafetyNetOptions.add_value("clockSkew", attestation_android_safetynet_clock_skew)
         fidoServerOptions.add_value("android-safetynet", attestationAndroidSafetyNetOptions.data)
 

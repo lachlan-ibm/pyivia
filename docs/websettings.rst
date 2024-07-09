@@ -15,7 +15,8 @@ API Access Control
 
 The API Access Control module is used to configure WebSEAL instances which can be used as API Gateways
 
-.. automodule:: pyisva.core.web.api_access_control
+.. autoclass:: pyisva.core.web.api_access_control.APIAccessControl
+   :members:
 
 
 Authorization Server
@@ -45,7 +46,7 @@ Policies
 Resources
 ---------
 
-.. autoclass:: pyisva.core.web.apiac.resources.Resources
+.. autoclass:: pyisva.core.web.apiac.resource_server.ResourceServer
    :members:
 
 Utilities

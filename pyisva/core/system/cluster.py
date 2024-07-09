@@ -41,7 +41,7 @@ class Cluster(object):
             db_key_store (:obj:`str`): The SSL Key Store which contains the trusted certificate of the Oracle DB 
                             requiring secure connectivity.
             extra_config (:obj:`dict`, optional): External databases require different sets of parameters depending on 
-                            the type of database. Any additional paramters can be added to a dictioanry.
+                            the type of database. Any additional parameters can be added to a dictionary.
                             Examples of ``extra_config`` include:
         .. code-block::
 
@@ -115,7 +115,7 @@ class Cluster(object):
             db_key_store (:obj:`str`): 	The SSL Key Store which contains the trusted certificate for the embedded 
                             Runtime database.
             extra_config (:obj:`dict`, optional): External databases require different sets of parameters depending on 
-                            the type of database. Any additional paramters can be added to a dictioanry.
+                            the type of database. Any additional parameters can be added to a dictionary.
                             Examples of ``extra_config`` include:
         .. code-block::
 
@@ -266,7 +266,7 @@ class Cluster(object):
         """
         Get the current cluster configuration.
 
-        Ruturns:
+        Returns:
             :obj:`~requests.Response`: The response from verify access. 
 
             Success can be checked by examining the response.success boolean attribute

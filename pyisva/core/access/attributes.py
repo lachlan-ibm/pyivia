@@ -163,7 +163,7 @@ class Attributes(object):
         return response
 
     
-    def get_attribute(self, id):
+    def get_attribute(self, attribute_id):
         '''
         Get a specific configured attribute.
 

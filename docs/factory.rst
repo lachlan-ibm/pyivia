@@ -6,6 +6,8 @@ __________________
 
 pyISVA supports management API from several versions of IBM Security Verify Access:
 
+- IBM Security Verify Access 10.0.8.0
+- IBM Security Verify Access 10.0.7.0
 - IBM Security Verify Access 10.0.6.0
 - IBM Security Verify Access 10.0.5.0
 - IBM Security Verify Access 10.0.4.0
@@ -39,5 +41,5 @@ the five modules used.
    f = pyisva.factory.Factory("https://verify.access.appliance", "user", "secret")
 
 
-.. automodule:: pyisva.factory
+.. autoclass:: pyisva.factory.Factory
    :members:

@@ -20,8 +20,8 @@ class Interfaces(object):
         super(Interfaces, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def create_address(self, interface_label, address=None, mask_or_prefix=None, enabled=True, allow_management=False, 
-            broadcast_address=None, override_subnet_checking=False):
+    def create_address(self, interface_label, address=None, mask_or_prefix=None, enabled=True, 
+            allow_management=False, broadcast_address=None, override_subnet_checking=False):
         """
         Add a new address to an existing interface.
         
@@ -74,12 +74,21 @@ class Interfaces(object):
         return response
 
     def list_interfaces(self):
+        """
+        List all known interface properties.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the interfaces are returned as JSON and can be accessed from
+            the response.json attribute
+        """
         response = self.client.get_json(NET_INTERFACES)
         response.success = response.status_code == 200
 
         return response
-
-class Interfaces10000(Interfaces):
 
 
     def create_interface(self, name=None, comment=None, label=None, enabled=True, vlan_id=None, ipv4={}, ipv6={}):
@@ -95,8 +104,9 @@ class Interfaces10000(Interfaces):
             ipv4 (:obj:`dict`): ipv4 configuration of the interface
             ipv6 (:obj:`dict`): ipv6 configuration of the interface
 
-        Example Request:
-            ``{
+        Example Request::
+
+            {
                 "name"    : "Demo",
                 "objType" : "interface",
                 "label"   : "1.1",
@@ -126,7 +136,7 @@ class Interfaces10000(Interfaces):
                   },
                   "addresses" : []
                 }
-            }``
+            }
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -137,25 +147,7 @@ class Interfaces10000(Interfaces):
             the response.json attribute
 
         """
-        return
-
-
-    def delete_interface(self, uuid):
-        """
-        Delete a VLAN interface configuration
-
-        Args:
-            uuid (:obj:`str`): Unique id of the interface to delete.
-
-        Returns:
-            :obj:`~requests.Response`: The response from verify access. 
-
-            Success can be checked by examining the response.success boolean attribute
-        """
-        endpoint = "{}/{}".format(NET_INTERFACES, uuid)
-        response = self.client.delete_json(endpoint)
-        response.success = response.status_code == 204
-        return response
+        raise RuntimeError("Not implemented")
 
 
     def update_interface(self, uuid, name=None, comment=None, enabled=True, vlan_id=0, bonding_mode=None,
@@ -179,10 +171,10 @@ class Interfaces10000(Interfaces):
             ipv4_address (:obj:`str`): static address configuration details. 
             ipv4_mask_or_prefix (:obj:`str`): subnet mask or prefix. e.g. "255.255.255.0", "24".
             ipv4_broadcast_address (:obj:`str`): broadcast address on the subnet.
-            ipv4_allow_management (`bool`): true to allow management access on this address.
-            ipv4_dhcp_default_route (`bool`): true if the dhcp configuration should specify a default route.
+            ipv4_allow_management (`boolean`): true to allow management access on this address.
+            ipv4_dhcp_default_route (`boolean`): true if the dhcp configuration should specify a default route.
             ipv4_dhcp_route_metric (`int`): optional default route metric if providesDefaultRoute is true. 
-            ipv4_override_subnet_checking (`bool`): true to indicate that the check for overlapping subnets should not be executed. 
+            ipv4_override_subnet_checking (`boolean`): true to indicate that the check for overlapping subnets should not be executed. 
                             The default value of false is used if this data is not supplied. 
             ipv6_address (:obj:`str`): IPv6 address value.
             ipv6_prefix_length (:obj:`str`): prefix length in range "1".."128".
@@ -198,24 +190,75 @@ class Interfaces10000(Interfaces):
             If the request is successful the updated interface is returned as JSON and can be accessed from
             the response.json attribute
         """
+        raise RuntimeError("Not implemented")
+
+    def delete_interface(self, uuid):
+        """
+        Delete a VLAN interface configuration
+
+        Args:
+            uuid (:obj:`str`): Unique id of the interface to delete.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
+        raise RuntimeError("Not implemented")
+
+class Interfaces10000(Interfaces):
+
+
+    def create_interface(self, name=None, comment=None, label=None, enabled=True, vlan_id=None, ipv4={}, ipv6={}):
+        data = DataObject()
+        data.add_value_string("name", name)
+        data.add_value_string("comment", comment)
+        data.add_value_string("label", label)
+        data.add_value_boolean("enabled", enabled)
+        data.add_value_string("vlanId", vlan_id)
+        data.add_value_not_empty("ipv4", ipv4)
+        data.add_value_not_empty("ipv6", ipv6)
+
+        response = self.client.post_json(NET_INTERFACES, data.data)
+        response.success = response.status_code == 200
+
+        return response
+
+
+    def delete_interface(self, uuid):
+        endpoint = "{}/{}".format(NET_INTERFACES, uuid)
+        response = self.client.delete_json(endpoint)
+        response.success = response.status_code == 204
+        return response
+
+
+    def update_interface(self, uuid, name="", comment="", enabled=True, vlan_id=None, bonding_mode="none",
+            bonded_to=None, ipv4_address=None, ipv4_uuid=None, ipv4_mask_or_prefix=None,
+            ipv4_broadcast_address=None, ipv4_allow_management=False, ipv4_enabled=True, ipv4_dhcp_enabled=True, 
+            ipv4_dhcp_allow_management=False, ipv4_dhcp_default_route=False, ipv4_dhcp_route_metric=0,
+            ipv4_override_subnet_checking=False, ipv6_address=None, ipv6_prefix_length=None, 
+            ipv6_allow_management=False, ipv6_enabled=False, ipv6_dhcp_enabled=False, ipv6_dhcp_allow_management=False):
         data = DataObject()
         ipv4 = DataObject()
         if ipv4_address:
             ipv4_address_data = DataObject()
+            ipv4_address_data.add_value_string("uuid", ipv4_uuid)
             ipv4_address_data.add_value_string("address", ipv4_address)
             ipv4_address_data.add_value_string(
-                "maskOrPrefix", ipv4_mask_or_prefix)
+                    "maskOrPrefix", ipv4_mask_or_prefix)
+            ipv4_address_data.add_value_string("objType", "ipv4Address")
             ipv4_address_data.add_value_string(
                     "broadcastAddress", ipv4_broadcast_address)
             ipv4_address_data.add_value_boolean("enabled", ipv4_enabled)
             ipv4_address_data.add_value_boolean("allowManagement", ipv4_allow_management)
-            ipv4.add_value("addresses", [ipv4_address_data.data])
+            ipv4.add_value_not_empty("addresses", [ipv4_address_data.data])
         
         ipv4_dhcp_data = DataObject()
         ipv4_dhcp_data.add_value_boolean("enabled", ipv4_dhcp_enabled)
         ipv4_dhcp_data.add_value_boolean("allowManagement", ipv4_dhcp_allow_management)
         ipv4_dhcp_data.add_value_boolean("providesDefaultRoute", ipv4_dhcp_default_route)
-        ipv4_dhcp_data.add_value_string("routeMetric", ipv4_dhcp_route_metric)
+        if ipv4_dhcp_route_metric != None:
+            ipv4_dhcp_data.add_value_string("routeMetric", ipv4_dhcp_route_metric)
         ipv4.add_value_not_empty("dhcp", ipv4_dhcp_data.data)
         ipv4.add_value_boolean("overrideSubnetChecking", ipv4_override_subnet_checking)
         data.add_value_not_empty("ipv4", ipv4.data)
@@ -228,7 +271,7 @@ class Interfaces10000(Interfaces):
             ipv6_address_data.add_value_boolean("allowManagement", ipv6_allow_management)
             ipv6_address_data.add_value_boolean("enabled", ipv6_enabled)
             ipv6.add_value("addresses", [ipv6_address_data.data])
-        
+
         ipv6_dhcp_data = DataObject()
         ipv6_dhcp_data.add_value_boolean("enabled", ipv6_dhcp_enabled)
         ipv6_dhcp_data.add_value_boolean("allowManagement", ipv6_dhcp_allow_management)
@@ -236,7 +279,7 @@ class Interfaces10000(Interfaces):
         data.add_value_not_empty("ipv6", ipv6.data)
         data.add_value_string('name', name)
         data.add_value_string('comment', comment)
-        data.add_value('enabled', enabled)
+        data.add_value_boolean('enabled', enabled)
         data.add_value_string('vlanId', vlan_id)
         data.add_value_string('bondingMode', bonding_mode)
         data.add_value_string('bondedTo', bonded_to)
