@@ -632,7 +632,7 @@ class ReverseProxy(object):
         data.add_value("http_port", http_port)
         data.add_value("proxy_port", proxy_port)
         data.add_value("remote_http_header", remote_http_header)
-
+        logger.debug("Junction config: {}".format(data.data))
         endpoint = "%s/%s/junctions" % (REVERSEPROXY, str(webseal_id))
 
         response = self.client.post_json(endpoint, data.data)

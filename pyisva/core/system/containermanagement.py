@@ -34,3 +34,4 @@ class ContainerManagement(object):
         self.registry = Registry(base_url, username, password)
         self.deployments = Deployments(base_url, username, password)
         self.metadata = Metadata(base_url, username, password)
+        self.healthcheck = HealthCheck(base_url, username, password)

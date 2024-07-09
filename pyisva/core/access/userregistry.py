@@ -259,7 +259,7 @@ class UserRegistry10020(UserRegistry):
             response.JSON attribute.
 
         '''
-        endpoint = "{}/users/v1".format(USER_REGISTRY)
+        endpoint = "{}/groups/v1".format(USER_REGISTRY)
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
 
@@ -279,7 +279,7 @@ class UserRegistry10020(UserRegistry):
             response.JSON attribute.
 
         '''
-        endpoint = "{}/groups/v1".format(USER_REGISTRY)
+        endpoint = "{}/users/v1".format(USER_REGISTRY)
         response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
 

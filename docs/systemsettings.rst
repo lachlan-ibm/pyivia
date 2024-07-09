@@ -135,8 +135,13 @@ Fixpacks
 FIPS
 ====
 
-
 .. autoclass:: pyisva.core.system.fips.FIPS
+   :members:
+
+General Networking
+==================
+
+.. autoclass:: pyisva.core.system.general.General
    :members:
 
 

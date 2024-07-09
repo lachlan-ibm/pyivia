@@ -42,7 +42,7 @@ class AccessControl(object):
     :var server_connections: Create :ref:`Server Connections` to external service providers.
     :var template_files: Create and manage HTML and JSON :ref:`Template Files`.
     :var user_registry: Manage :ref:`user authentication<User Registry>` to the Liberty runtime server.
-    :var pip: Manage :ref:`policy information points<PIP>`.
+    :var pip: Manage :ref:`policy information points<Policy Information Points>`.
     '''
 
 class AccessControl9020(object):

@@ -43,7 +43,7 @@ class ResourceServer(object):
             instance (:obj:`str`): Name of WebSEAL Reverse Proxy instance being configured.
             server_hostname (:obj:`str`): The DNS host name or IP address of the target back-end server.
             junction_point (:obj:`str`): Name of the location in the Reverse Proxy namespace where the root of the 
-                        back-end application server namespace is mounted.
+                                        back-end application server namespace is mounted.
             junction_type (:obj:`str`): Type of junction.
             policy_type (:obj:`str`): The type of the policy.
             policy_name (:obj:`str`): The name of the custom policy if the type is custom.
@@ -51,61 +51,76 @@ class ResourceServer(object):
             oauth_introspection_transport (:obj:`str`): The transport type.
             oauth_introspection_proxy (:obj:`str`): The proxy, if any, used to reach the introspection endpoint.
             oauth_introspection_auth_method (:obj:`str`): The method for passing the authentication data to the 
-                        introspection endpoint.
+                                                          introspection endpoint.
             oauth_introspection_endpoint (:obj:`str`): This is the introspection endpoint which will be called to handle 
-                        the token introspection.
+                                                       the token introspection.
             oauth_introspection_client_id (:obj:`str`): The client identifier which is used for OAuth introspection 
-                        authentication.
+                                                        authentication.
             oauth_introspection_client_secret (:obj:`str`): The client secret which is used for OAuth introspection 
-                        authentication.
+                                                            authentication.
             oauth_introspection_client_id_hdr (:obj:`str`): The name of the HTTP header which contains the client 
-                        identifier which is used to authenticate to the introspection endpoint.
+                                                            identifier which is used to authenticate to the introspection 
+                                                            endpoint.
             oauth_introspection_token_type_hint (:obj:`str`): A hint about the type of the token submitted for introspection.
             oauth_introspection_mapped_id (:obj:`str`): A formatted string which is used to construct the Verify Access 
-                        principal name from elements of the introspection response. 
+                                                        principal name from elements of the introspection response. 
             oauth_introspection_external_user (bool): A boolean which is used to indicate whether the mapped identity 
-                        should correspond to a known Verify Access identity or not.
+                                                      should correspond to a known Verify Access identity or not.
             oauth_introspection_response_attributes (:obj:`list` of :obj:`dict`): A list of rules indicating which parts 
-                        of the json response should be added to the credential. 
-                        eg: ``{"pos":1,"action":"put","attribute":"givenName"}``
+                                                                                  of the json response should be added to 
+                                                                                  the credential. eg::
+
+                                                                                            {
+                                                                                                 "pos":1,
+                                                                                                 "action":"put",
+                                                                                                 "attribute":"givenName"
+                                                                                            }
+
             static_response_headers (:obj:`list` of :obj:`dict`): A list of header names and values that should be 
-                        added to the HTTP response. eg: ``{"name":"HeaderName","value":"HeaderValue"}``
+                                                                  added to the HTTP response. eg:: 
+
+                                                                                            {
+                                                                                                "name":"HeaderName",
+                                                                                                "value":"HeaderValue"
+                                                                                            }
+
             jwt_header_name (:obj:`str`): The name of the HTTP header that will contain the JWT.
             jwt_certificate (:obj:`str`): The label of the personal certificate that will sign the JWT.
             jwt_claims (:obj:`list` of :obj:`dict`): The list of claims to add to the JWT.
             description (:obj:`str`, optional): An optional description for this junction.
             junction_hard_limit (:obj:`str`): Defines the hard limit percentage for consumption of worker threads. 
-                        Valid value is an integer from "0" to "100".
+                                              Valid value is an integer from "0" to "100".
             junction_soft_limit (:obj:`str`): Defines the soft limit percentage for consumption of worker threads.
             basic_auth_mode (:obj:`str`): Defines how the Reverse Proxy server passes client identity information in 
-                        HTTP basic authentication (BA) headers to the back-end server. 
+                                          HTTP basic authentication (BA) headers to the back-end server. 
             tfim_sso (:obj:`str`): Enables IBM Security Federated Identity Manager single sign-on.
             remote_http_header (:obj:`str`): Controls the insertion of Security Verify Access specific client identity 
-                        information in HTTP headers across the junction.
+                                             information in HTTP headers across the junction.
             stateful_junction (:obj:`str`): Specifies whether the junction supports stateful applications.
             http2_junction (:obj:`str`): Specifies whether the junction supports the HTTP/2 protocol.
             http2_proxy (:obj:`str`): Specifies whether the junction proxy support the HTTP/2 protocol.
             sni_name (:obj:`str`): The server name indicator (SNI) to send to TLS junction servers.
             preserve_cookie (:obj:`str`): Specifies whether modifications of the names of non-domain cookies are to be made.
             cookie_include_path (:obj:`str`): Specifies whether script generated server-relative URLs are included in 
-                        cookies for junction identification.
+                                              cookies for junction identification.
             transparent_path_junction (:obj:`str`): Specifies whether a transparent path junction is created.
             mutual_auth (:obj:`str`): Specifies whether to enforce mutual authentication between a front-end Reverse 
-                        Proxy server and a back-end Reverse Proxy server over SSL.
+                                      Proxy server and a back-end Reverse Proxy server over SSL.
             insert_ltpa_cookies (:obj:`str`): Controls whether LTPA cookies are passed to the junctioned Web server.
             insert_session_cookies (:obj:`str`): Controls whether to send the session cookie to the junctioned Web server.
             request_encoding (:obj:`str`): Specifies the encoding to use when the system generates HTTP headers for junctions.
             enable_basic_auth (:obj:`str`): Specifies whether to use BA header information to authenticate to back-end server.
             key_label (:obj:`str`): The key label for the client-side certificate that is used when the system 
-                        authenticates to the junctioned Web server.
+                                    authenticates to the junctioned Web server.
             gso_resource_group (:obj:`str`): The name of the GSO resource or resource group.
             junction_cookie_javascript_block (:obj:`str`): Controls the junction cookie JavaScript block.
             client_ip_http (:obj:`str`): Specifies whether to insert the IP address of the incoming request into an 
-                        HTTP header for transmission to the junctioned Web server.
+                                         HTTP header for transmission to the junctioned Web server.
             version_two_cookies (:obj:`str`): Specifies whether LTPA version 2 cookies (LtpaToken2) are used.
             ltpa_keyfile (:obj:`str`): Location of the key file that is used to encrypt the LTPA cookie data.
             authz_rules (:obj:`str`): Specifies whether to allow denied requests and failure reason information from 
-                        authorization rules to be sent in the Boolean Rule header (AM_AZN_FAILURE) across the junction.
+                                      authorization rules to be sent in the Boolean Rule header (AM_AZN_FAILURE) across 
+                                      the junction.
             fsso_config_file (:obj:`str`): The name of the configuration file that is used for forms based single sign-on.
             username (:obj:`str`): The Reverse Proxy user name.
             password (:obj:`str`): The Reverse Proxy password.
@@ -113,12 +128,11 @@ class ResourceServer(object):
             server_port (int): TCP port of the back-end third-party server.
             virtual_hostname (:obj:`str`): Virtual host name that is used for the junctioned Web server.
             server_dn (:obj:`str`): Specifies the distinguished name of the junctioned Web server.
-            server_cn (:obj:`str`): Specifies the common name, orAPI Access Control resource server.
- subject alternative name, of the junctioned Web server.
+            server_cn (:obj:`str`): Specifies the common name, or subject alternative name, of the junctioned Web server.
             local_ip (:obj:`str`): Specifies the local IP address that the Reverse Proxy uses when the system 
-                        communicates with the target back-end server. 
+                                   communicates with the target back-end server. 
             query_contents (:obj:`str`): Provides the Reverse Proxy with the correct name of the query_contents program 
-                        file and where to find the file.
+                                         file and where to find the file.
             case_sensitive_url (:obj:`str`): Specifies whether the Reverse Proxy server treats URLs as case sensitive.
             windows_style_url (:obj:`str`): Specifies whether Windows style URLs are supported.
             ltpa_keyfile_password (:obj:`str`): Password for the key file that is used to encrypt LTPA cookie data.
@@ -127,14 +141,14 @@ class ResourceServer(object):
             proxy_hostname (:obj:`str`): The DNS host name or IP address of the proxy server.
             proxy_port (int): The TCP port of the proxy server.
             sms_environment (:obj:`str`): Only applicable for virtual junctions. Specifies the replica set that sessions 
-                        on the virtual junction are managed under.
+                                          on the virtual junction are managed under.
             vhost_label (:obj:`str`): Only applicable for virtual junctions. Causes a second virtual junction to share 
-                        the protected object space with the initial virtual junction.
+                                      the protected object space with the initial virtual junction.
             force (:obj:`str`): Specifies whether to overwrite an existing junction of the same name.
-            delegation_support (:obj:`str`):  Indicates single sign-on from a front-end Reverse Proxy server to a 
-                        back-end Reverse Proxy server.
+            delegation_support (:obj:`str`): Indicates single sign-on from a front-end Reverse Proxy server to a 
+                                             back-end Reverse Proxy server.
             scripting_support (:obj:`str`): Supplies junction identification in a cookie to handle script-generated 
-                        server-relative URLs.
+                                            server-relative URLs.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 

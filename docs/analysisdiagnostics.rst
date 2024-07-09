@@ -16,3 +16,10 @@ Application Logs
 
 .. autoclass:: pyisva.core.analysis.applicationlog.ApplicationLog
    :members:
+
+
+Remote Syslog
+=============
+
+.. autoclass:: pyisva.core.analysis.remotesyslog.RemoteSyslog
+   :members:

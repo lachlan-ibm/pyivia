@@ -312,8 +312,8 @@ class RuntimeComponent10000(RuntimeComponent):
             isam_host (:obj:`str`): The name of the host that hosts the Security Verify Access policy server.
             isam_port (:obj:`str`, optional): The port over which communication with the Security Verify Access policy 
                                 server takes place. If ps_mode is remote, this field is required.
-            clean_ldap (:obj:`str`, optional): Whether any existing data within the LDAP server should be cleaned prior 
-                                to the configuration. Only valid if the user registry is local.
+            clean_ldap (`bool`, optional): Whether any existing data within the LDAP server should be cleaned prior 
+                                to the configuration. Required if the user registry is local.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 

@@ -20,8 +20,8 @@ class Interfaces(object):
         super(Interfaces, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def create_address(self, interface_label, address=None, mask_or_prefix=None, enabled=True, allow_management=False, 
-            broadcast_address=None, override_subnet_checking=False):
+    def create_address(self, interface_label, address=None, mask_or_prefix=None, enabled=True, 
+            allow_management=False, broadcast_address=None, override_subnet_checking=False):
         """
         Add a new address to an existing interface.
         
@@ -232,30 +232,33 @@ class Interfaces10000(Interfaces):
         return response
 
 
-    def update_interface(self, uuid, name=None, comment=None, enabled=True, vlan_id=0, bonding_mode=None,
-            bonded_to=None, ipv4_address=None, ipv4_mask_or_prefix=None, ipv4_broadcast_address=None,
-            ipv4_allow_management=False, ipv4_enabled=True, ipv4_dhcp_enabled=True, 
+    def update_interface(self, uuid, name="", comment="", enabled=True, vlan_id=None, bonding_mode="none",
+            bonded_to=None, ipv4_address=None, ipv4_uuid=None, ipv4_mask_or_prefix=None,
+            ipv4_broadcast_address=None, ipv4_allow_management=False, ipv4_enabled=True, ipv4_dhcp_enabled=True, 
             ipv4_dhcp_allow_management=False, ipv4_dhcp_default_route=False, ipv4_dhcp_route_metric=0,
             ipv4_override_subnet_checking=False, ipv6_address=None, ipv6_prefix_length=None, 
-            ipv6_allow_management=None, ipv6_enabled=None, ipv6_dhcp_enabled=False, ipv6_dhcp_allow_management=False):
+            ipv6_allow_management=False, ipv6_enabled=False, ipv6_dhcp_enabled=False, ipv6_dhcp_allow_management=False):
         data = DataObject()
         ipv4 = DataObject()
         if ipv4_address:
             ipv4_address_data = DataObject()
+            ipv4_address_data.add_value_string("uuid", ipv4_uuid)
             ipv4_address_data.add_value_string("address", ipv4_address)
             ipv4_address_data.add_value_string(
-                "maskOrPrefix", ipv4_mask_or_prefix)
+                    "maskOrPrefix", ipv4_mask_or_prefix)
+            ipv4_address_data.add_value_string("objType", "ipv4Address")
             ipv4_address_data.add_value_string(
                     "broadcastAddress", ipv4_broadcast_address)
             ipv4_address_data.add_value_boolean("enabled", ipv4_enabled)
             ipv4_address_data.add_value_boolean("allowManagement", ipv4_allow_management)
-            ipv4.add_value("addresses", [ipv4_address_data.data])
+            ipv4.add_value_not_empty("addresses", [ipv4_address_data.data])
         
         ipv4_dhcp_data = DataObject()
         ipv4_dhcp_data.add_value_boolean("enabled", ipv4_dhcp_enabled)
         ipv4_dhcp_data.add_value_boolean("allowManagement", ipv4_dhcp_allow_management)
         ipv4_dhcp_data.add_value_boolean("providesDefaultRoute", ipv4_dhcp_default_route)
-        ipv4_dhcp_data.add_value_string("routeMetric", ipv4_dhcp_route_metric)
+        if ipv4_dhcp_route_metric != None:
+            ipv4_dhcp_data.add_value_string("routeMetric", ipv4_dhcp_route_metric)
         ipv4.add_value_not_empty("dhcp", ipv4_dhcp_data.data)
         ipv4.add_value_boolean("overrideSubnetChecking", ipv4_override_subnet_checking)
         data.add_value_not_empty("ipv4", ipv4.data)
@@ -268,7 +271,7 @@ class Interfaces10000(Interfaces):
             ipv6_address_data.add_value_boolean("allowManagement", ipv6_allow_management)
             ipv6_address_data.add_value_boolean("enabled", ipv6_enabled)
             ipv6.add_value("addresses", [ipv6_address_data.data])
-        
+
         ipv6_dhcp_data = DataObject()
         ipv6_dhcp_data.add_value_boolean("enabled", ipv6_dhcp_enabled)
         ipv6_dhcp_data.add_value_boolean("allowManagement", ipv6_dhcp_allow_management)
@@ -276,7 +279,7 @@ class Interfaces10000(Interfaces):
         data.add_value_not_empty("ipv6", ipv6.data)
         data.add_value_string('name', name)
         data.add_value_string('comment', comment)
-        data.add_value('enabled', enabled)
+        data.add_value_boolean('enabled', enabled)
         data.add_value_string('vlanId', vlan_id)
         data.add_value_string('bondingMode', bonding_mode)
         data.add_value_string('bondedTo', bonded_to)
