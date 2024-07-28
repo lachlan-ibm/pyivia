@@ -144,7 +144,7 @@ class Factory(object):
 
     def set_password(self, password):
         '''
-        Update the password used to auhenticate to Verify Access administrator endpoints
+        Update the password used to authenticate to Verify Access administrator endpoints
         '''
         self._password = password
 
