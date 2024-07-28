@@ -24,7 +24,7 @@ class FileDownloads(object):
 
         Args:
             file_path (:obj:`str`): The relative path of the file to be retrieved. To get the contents of a directory
-                            include the traling '/'
+                            include the trailing '/'
             recursive (:obj:`str`, optional): Return the contents of sub-directories as well. Valid values are 'yes'
                             and 'no'.
         Returns:
@@ -41,7 +41,7 @@ class FileDownloads(object):
         if file_path.ends_with('/'):
             if recursive:
                 endpoint += "?recursive={}".format(recursive)
-            response = self.client.get_json(endpoint, parameters.data)
+            response = self.client.get_json(endpoint)
         else:
             response = self.client.get(endpoint)
         response.success = response.status_code == 200
@@ -54,8 +54,8 @@ class FileDownloads(object):
         Get the contents of a directory from the hosted files of a Verify Access appliance.
 
         Args:
-            path (:obj:`str`): The direcotry whcih contains the files to be downloaded.
-            recursive (bool, optional): Return files in sub-direcotories of the path specified. Default is False.
+            path (:obj:`str`): The directory which contains the files to be downloaded.
+            recursive (bool, optional): Return files in sub-directories of the path specified. Default is False.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 

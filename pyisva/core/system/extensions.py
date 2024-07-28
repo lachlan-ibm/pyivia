@@ -2,7 +2,7 @@
 @copyright: IBM
 """
 
-import logging
+import logging, json
 
 from pyisva.util.model import DataObject, Response
 from pyisva.util.restclient import RESTClient
@@ -19,13 +19,19 @@ class Extensions(object):
         self.client = RESTClient(base_url, username, password)
 
 
-    def create_extension(self, ext_file=None, properties={}):
+    def create_extension(self, ext_file=None, properties={}, third_party_packages=[]):
         '''
-        Create a new extension by installing an extension archive from IBM App-Xchange.
+        Create a new extension by installing an extension archive 
+        from `IBM App-Xchange <https://exchange.xforce.ibmcloud.com/hub>`_.
 
         Args:
             ext_file (:obj:`str`): Path to file to upload as extension installer.
-            properties (:obj:`dict`, optional): Optional set of configuration properties required by extension. Properties will change depending on the extension installed.
+            properties (:obj:`dict`, optional): Optional set of configuration properties 
+                            required by extension. Properties will change depending on the 
+                            extension installed. This data is likely supposed to be a serialized 
+                            JSON string.
+            third_party_packages (:obj:`list` of :obj:`str`): List of file paths to be uploaded to 
+                                                            the appliance during extension activation.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -33,10 +39,24 @@ class Extensions(object):
             Success can be checked by examining the response.success boolean attribute
 
         '''
-        files = {"extension_support_package": open(ext_file, "rb")}
-        response = self.client.post_file(EXTENSIONS, files=files, parameters=properties)
-        response.success = response.status_code == 200
-
+        response = Response()
+        response.success = False
+        try:
+            files = {"extension_support_package": open(ext_file, "rb")}
+            endpoint = "{}/inspect".format(EXTENSIONS)
+            response = self.client.post_file(endpoint, files=files, accept_type="*/*")
+            response.success = response.status_code == 200
+            if response.success == True:
+                endpoint = "{}/activate".format(EXTENSIONS)
+                tpp = []
+                for third_party_package in third_party_packages:
+                    tpp += [('third_party_package', open(third_party_package, "rb"))]
+                params = {"config_data": json.dumps(properties).replace(", ", ",").replace(": ", ":")}
+                response = self.client.post_file(endpoint, files=tpp, data=params, accept_type="*/*")
+                response.success = response.status_code == 200
+        except Exception as e:
+            response.success = False
+            response.data = str(e)
         return response
 
 
@@ -46,7 +66,8 @@ class Extensions(object):
 
         Args:
             ext_file (:obj:`str`): Path to file to upload as extension installer.
-            properties (:obj:`dict`, optional): Optional set of configuration properties required by extension. Properties will change depending on the extension installed.
+            properties (:obj:`dict`, optional): Optional set of configuration properties required by extension. 
+                                                Properties will change depending on the extension installed.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 

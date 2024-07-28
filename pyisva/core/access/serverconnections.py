@@ -481,7 +481,7 @@ class ServerConnections(object):
         manager.add_value_string("maxIdleTime", connection_max_idle)
         manager.add_value_string("maxPoolSize", connection_max_pool_size)
         manager.add_value_string("minPoolSize", connection_min_pool_size)
-        manager.add_value_string("numConnectionsPerThreadLocal", connection_per_thread_local)
+        manager.add_value_string("numConnectionsPerThreadLocal", connection_per_local_thread)
         manager.add_value_string("purgePolicy", connection_purge_policy)
         manager.add_value_string("reapTime", connection_reap_time)
 

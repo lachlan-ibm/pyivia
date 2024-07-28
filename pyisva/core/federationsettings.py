@@ -13,12 +13,12 @@ class Federation(object):
     '''
     Object is used to manage the Federations endpoints of a Verify Access deployment.
 
-    :var federations: Create and manage :ref:`Federation<Federations>` and Partners.
-    :var attribute_sources: Manage :ref:`attributes<AttributeSources>` added to identities in federation flows.
-    :var alias_service: Manage user :ref:`aliases<AliasService>` for federated identity sources.
-    :var sts: Create and manage :ref:`Security Token Service<SecurityTokenService>` chains.
-    :var poc: Create and manage :ref:`Point of Contact<PointOfContact>` profiles.
-    :var access_policy: Create and manage :ref:`Access Policy<AccessPolicy>` rules.
+    :var federations: Create and manage :ref:`Federations<Federations>` and Partners.
+    :var attribute_sources: Manage :ref:`attributes<Attribute Sources>` added to identities in federation flows.
+    :var alias_service: Manage user :ref:`aliases<Alias Service>` for federated identity sources.
+    :var sts: Create and manage :ref:`Security Token Service<Security Token Service (STS)>` chains.
+    :var poc: Create and manage :ref:`Point of Contact<Point of Contact (POC) Profile>` profiles.
+    :var access_policy: Create and manage :ref:`Access Policy<Access Policies>` rules.
     '''
 
 class Federation9020(object):
@@ -74,7 +74,19 @@ class Federation9071(Federation9070):
         super(Federation9071, self).__init__(base_url, username, password)
 
 
-class Federation9080(Federation9071):
+class Federation9072(Federation9071):
+
+    def __init__(self, base_url, username, password):
+        super(Federation9072, self).__init__(base_url, username, password)
+
+
+class Federation9073(Federation9072):
+
+    def __init__(self, base_url, username, password):
+        super(Federation9073, self).__init__(base_url, username, password)
+
+
+class Federation9080(Federation9073):
 
     def __init__(self, base_url, username, password):
         super(Federation9080, self).__init__(base_url, username, password)
@@ -126,3 +138,18 @@ class Federation10060(Federation10050):
 
     def __init__(self, base_url, username, password):
             super(Federation10060, self).__init__(base_url, username, password)
+
+class Federation10070(Federation10060):
+
+    def __init__(self, base_url, username, password):
+        super(Federation10070, self).__init__(base_url, username, password)
+
+class Federation10080(Federation10070):
+
+    def __init__(self, base_url, username, password):
+        super(Federation10080, self).__init__(base_url, username, password)
+
+class Federation11000(Federation10080):
+
+    def __init__(self, base_url, username, password):
+        super(Federation11000, self).__init__(base_url, username, password)

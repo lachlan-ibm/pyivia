@@ -20,7 +20,21 @@ class Utilities(object):
         self.client = RESTClient(base_url, username, password)
 
 
-    def store_crednetial(self, admin_id=None, admin_pwd=None, admin_domain=None):
+    def store_credential(self, admin_id=None, admin_pwd=None, admin_domain=None):
+        '''
+        Cache a admin Verify Access administrator credential.
+
+        Args:
+            admin_id (:obj:`str`): The Verify Access administrator username.
+            admin_pwd (:obj:`str`): The Verify Access administrator password.
+            admin_domain (:obj:`str`): The Verify Access domain. If not specified the default value of "Default" will be used.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
         data = DataObject()
         data.add_value_string("admin_id", admin_id)
         data.add_value_string("admin_pwd", admin_pwd)
@@ -33,6 +47,15 @@ class Utilities(object):
 
 
     def delete_credential(self):
+        '''
+        Delete the cached Verify Access administrator credential.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
         response = self.client.delete_json(CREDENTIALS)
         response.success = response.status_code == 200
 
@@ -40,6 +63,18 @@ class Utilities(object):
 
 
     def get_credential(self):
+        '''
+        Retrieve the stored Verify Access credentials.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the list of credentials is returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         response = self.client.get_json(CREDENTIALS)
         response.success = response.status_code == 200
 
@@ -47,6 +82,18 @@ class Utilities(object):
 
 
     def list_groups(self):
+        '''
+        Retrieve a list of all Verify Access groups.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the list of groups is returned as JSON and can be accessed from
+            the response.json attribute
+
+        '''
         response = self.client.get_json(GROUPS)
         response.success = response.status_code == 200
 

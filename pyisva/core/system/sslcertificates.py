@@ -191,7 +191,7 @@ class SSLCertificates(object):
 
     def get_signer(self, kdb_id, label=None):
         """
-        Get a X509 certificate from the lsit of signer certificates.
+        Get a X509 certificate from the list of signer certificates.
 
         Args:
             kdb_id (:obj:`str`): Name of the certificate database.
@@ -288,6 +288,29 @@ class SSLCertificates(object):
             raise NotImplementedError
 
         response = self.client.post_json(endpoint, data.data)
+        response.success = response.status_code == 200
+
+        return response
+
+
+    def import_database(self, kdb_file=None, sth_file=None):
+        '''
+        Import a SSL database.
+
+        Args:
+            kdb_file (:obj:`str`): Path to KDB file to import. This file should either be in KDB or PKCS#12 format.
+            sth_file (:obj:`str`): Path to the corresponding stash file for the SSL database.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the id of the SSL database is returned as JSON and can be accessed from
+            the response.json attribute
+        '''
+        files = {"kdb": open(kdb_file, 'rb'), "stash": open(sth_file, 'rb')}
+        response = self.client.post_file(SSL_CERTIFICATES, files=files)
         response.success = response.status_code == 200
 
         return response

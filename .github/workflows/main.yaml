@@ -23,15 +23,20 @@ jobs:
       run: |
         pip install -r dev-requirements.txt
 
-    # Build the doc 
     - name: Build the project
       run: |
         sphinx-build docs html
         #TODO build and push to pypi
+        python -m build
 
+    - name: Publish python module
+      run: |
+        python -m build
+        twine upload --verbose dist/* -u $PYPI_API_USER -p $PYPI_API_KEY
+      if: github.ref == 'refs/head/stable'
 
     # Push the HTML to github-pages
-    - name: Deploy
+    - name: Publish generated GitHub pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         publish_branch: gh-pages

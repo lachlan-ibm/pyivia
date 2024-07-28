@@ -48,8 +48,8 @@ class CORS(object):
         data.add_value_boolean("allow_credentials", allow_credentials)
         data.add_value_not_empty("exposed_headers", exposed_headers)
         data.add_value_boolean("handle_preflight", handle_preflight)
-        data.add_value_not_empty("alowed_methods", allowed_methods)
-        data.add_value_not_empty("alowed_headers", allowed_headers)
+        data.add_value_not_empty("allowed_methods", allowed_methods)
+        data.add_value_not_empty("allowed_headers", allowed_headers)
         data.add_value("max_age", max_age)
 
         response = self.client.put_json(CORS_POLICY, data.data)
@@ -87,8 +87,8 @@ class CORS(object):
         data.add_value_boolean("allow_credentials", allow_credentials)
         data.add_value_not_empty("exposed_headers", exposed_headers)
         data.add_value_boolean("handle_preflight", handle_preflight)
-        data.add_value_not_empty("alowed_methods", allowed_methods)
-        data.add_value_not_empty("alowed_headers", allowed_headers)
+        data.add_value_not_empty("allowed_methods", allowed_methods)
+        data.add_value_not_empty("allowed_headers", allowed_headers)
         data.add_value("max_age", max_age)
 
         endpoint = CORS_POLICY + "/{}".format(name)

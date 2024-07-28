@@ -2,7 +2,7 @@
 @copyright: IBM
 """
 
-from .access.accesscontrol import AccessControl
+from .access.accesscontrol import AccessControl as AC9000
 from .access.accesscontrol import AccessControl9030 as AC9030
 from .access.accesscontrol import AccessControl10000 as AC10000
 from .access.advancedconfig import AdvancedConfig
@@ -30,7 +30,9 @@ class AccessControl(object):
     :var advanced_config: Manage :ref:`Advanced Configuration` parameters.
     :var api_protection: Create and manage OIDC :ref:`API Protection` definitions and clients.
     :var attributes: Create and manage Risk Based Access :ref:`Attribute <Attributes>` mappings.
-    :var authentication: Create and manage :ref:Authentication` policies and mechanisms.
+    :var authentication: Create and manage :ref:`Authentication` policies and mechanisms.
+    :var fido2_config: Create and manage :ref:`FIDO2 Configuration` including metadata and mediators.
+    :var fido2_registrations: Manage :ref:`FIDO2 Registrations` for runtime users.
     :var mapping_rules: Create and manage JavaScript :ref:`Mapping Rules` used for customized authentication.
     :var mmfa_config: Configure :ref:`Mobile Multi-Factor Authentication` for Verify Access.
     :var push_notifications: Configure and manage :ref:`Push Notification Providers`.
@@ -38,16 +40,16 @@ class AccessControl(object):
     :var runtime_parameters: Manage :ref:`Runtime Parameters` of the Liberty runtime server.
     :var scim_config: Create and manage :ref:`SCIM<System for Cross-Domain Identity Management (SCIM) Configuration>` attribute mapping.
     :var server_connections: Create :ref:`Server Connections` to external service providers.
-    :var template_files: Create and manage HTML and JSON i:ref:`Template Files`.
+    :var template_files: Create and manage HTML and JSON :ref:`Template Files`.
     :var user_registry: Manage :ref:`user authentication<User Registry>` to the Liberty runtime server.
-    :var pip: Manage :ref:`policy information points<PIP>`.
+    :var pip: Manage :ref:`policy information points<Policy Information Points>`.
     '''
 
 class AccessControl9020(object):
 
     def __init__(self, base_url, username, password):
         super(AccessControl9020, self).__init__()
-        self.access_control = AccessControl(base_url, username, password)
+        self.access_control = AC9000(base_url, username, password)
         self.advanced_config = AdvancedConfig(base_url, username, password)
         self.api_protection = APIProtection(base_url, username, password)
         self.attributes = Attributes(base_url, username, password)
@@ -115,7 +117,21 @@ class AccessControl9071(AccessControl9070):
         super(AccessControl9071, self).__init__(base_url, username, password)
 
 
-class AccessControl9080(AccessControl9071):
+class AccessControl9072(AccessControl9071):
+
+    def __init__(self, base_url, username, password):
+              super(AccessControl9072, self).__init__(base_url, username, password)
+              self.fido2_config = FIDO2Config(base_url, username, password)
+
+
+class AccessControl9073(AccessControl9072):
+
+    def __init__(self, base_url, username, password):
+              super(AccessControl9073, self).__init__(base_url, username, password)
+              self.fido2_config = FIDO2Config(base_url, username, password)
+
+
+class AccessControl9080(AccessControl9073):
 
     def __init__(self, base_url, username, password):
         super(AccessControl9080, self).__init__(base_url, username, password)
@@ -167,3 +183,18 @@ class AccessControl10060(AccessControl10050):
 
     def __init__(self, base_url, username, password):
         super(AccessControl10060, self).__init__(base_url, username, password)
+
+class AccessControl10070(AccessControl10060):
+
+    def __init__(self, base_url, username, password):
+        super(AccessControl10070, self).__init__(base_url, username, password)
+
+class AccessControl10080(AccessControl10070):
+
+    def __init__(self, base_url, username, password):
+        super(AccessControl10080, self).__init__(base_url, username, password)
+
+class AccessControl11000(AccessControl10080):
+
+    def __init__(self, base_url, username, password):
+        super(AccessControl11000, self).__init__(base_url, username, password)

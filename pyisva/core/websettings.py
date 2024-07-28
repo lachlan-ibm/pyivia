@@ -157,3 +157,18 @@ class WebSettings10060(WebSettings10050):
 
     def __init__(self, base_url, username, password):
         super(WebSettings10060, self).__init__(base_url, username, password)
+
+class WebSettings10070(WebSettings10060):
+
+    def __init__(self, base_url, username, password):
+        super(WebSettings10070, self).__init__(base_url, username, password)
+
+class WebSettings10080(WebSettings10070):
+
+    def __init__(self, base_url, username, password):
+        super(WebSettings10080, self).__init__(base_url, username, password)
+
+class WebSettings11000(WebSettings10080):
+
+    def __init__(self, base_url, username, password):
+        super(WebSettings11000, self).__init__(base_url, username, password)

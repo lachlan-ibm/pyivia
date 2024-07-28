@@ -6,6 +6,8 @@ __________________
 
 pyISVA supports management API from several versions of IBM Security Verify Access:
 
+- IBM Security Verify Access 10.0.8.0
+- IBM Security Verify Access 10.0.7.0
 - IBM Security Verify Access 10.0.6.0
 - IBM Security Verify Access 10.0.5.0
 - IBM Security Verify Access 10.0.4.0
@@ -38,6 +40,15 @@ the five modules used.
    import pyisva
    f = pyisva.factory.Factory("https://verify.access.appliance", "user", "secret")
 
+Verifying TLS to Verify Access Management Interface
+____________________________________________________
 
-.. automodule:: pyisva.factory
+By default, connections to verify access local management interface do not verify the x509 certificate with 
+python's CA truststore. to verify connections, the ``PYISVA_VERIFY_TLS_LMI`` environment variable can be used. 
+If ``PYISVA_VERIFY_TLS_LMI=true`` then the default CA certificate store is used to verify TLS connections 
+to a Verify Access management interface.
+
+Consult python or operating system documentation for steps to add certificates to this store.
+
+.. autoclass:: pyisva.factory.Factory
    :members:

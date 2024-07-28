@@ -55,10 +55,11 @@ class AdvancedConfig(object):
         '''
         Update an AAC advanced configuration property.
 
-        Args;
+        Args:
             id (:obj:`str`): The id of the property to be updated.
             value (:obj:`str`): The new value of the configuration property.
-            sensitive (bool): Flag to indicate if value should be obfuscated from logs/audit records.
+            sensitive (`bool`, optional): Flag to indicate if value should be 
+                                          obfuscated from logs/audit records. Default is ``false``.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 

@@ -242,7 +242,7 @@ class APIProtection(object):
             pin_length=None, enforce_single_use_authorization_grant=None, issue_refresh_token=None,
             enforce_single_access_token_per_grant=None, enable_multiple_refresh_tokens_for_fault_tolerance=None,
             pin_policy_enabled=None, grant_types=None, oidc_enabled=False, iss=None, poc=None, lifetime=None, alg=None, 
-            db=None, cert=None, enc_enabled=False, enc_alg=None, enc_enc=None, access_policy_id=None):
+            db=None, cert=None, enc_enabled=False, enc_alg=None, enc_db=None, enc_cert=None, enc_enc=None, access_policy_id=None):
         '''
         Update an OIDC API Protection definition. Definitions can be used to configure one or more clients.
 
@@ -317,11 +317,12 @@ class APIProtection(object):
             oidc.add_value("alg",alg)
             oidc.add_value("db",db)
             oidc.add_value("cert",cert)
+            enc_data = DataObject()
+            enc_data.add_value_boolean("enabled", enc_enabled)
             if enc_enabled:
-                enc_data = DataObject()
-                enc_data.add_value("db",enc_db)
-                enc_data.add_value("cert",enc_cert)
-                oidc.add_value("enc",enc_data.data)
+                enc_data.add_value("alg",enc_alg)
+                enc_data.add_value("enc",enc_enc)
+            oidc.add_value("enc",enc_data.data)
 
             data.add_value("oidc",oidc.data)
 
@@ -398,7 +399,7 @@ class APIProtection9040(APIProtection):
             issue_refresh_token=None, enforce_single_access_token_per_grant=None,
             enable_multiple_refresh_tokens_for_fault_tolerance=None, pin_policy_enabled=None, grant_types=None, oidc_enabled=False,
             iss=None, poc=None, lifetime=None, alg=None, db=None, cert=None, enc_enabled=False, enc_alg=None, enc_enc=None, 
-            access_policy_id=None, attribute_sources=None):
+            access_policy_id=None, attribute_sources=[]):
         '''
         Create an OIDC API Protection definition. Definitions can be used to configure one or more clients.
 
@@ -429,6 +430,7 @@ class APIProtection9040(APIProtection):
             enc_enabled (bool): Is encryption enabled for this definition.
             enc_alg (:obj:`str`): The key agreement algorithm for encryption.
             enc_enc (:obj:`str`): The encryption algorithm.
+            access_policy_id (:obj:`str`, optional): The id of access policy assigned to this definition.
             attribute_sources (:obj:`list` of :obj:`dict`): Array of configured attribute sources to use in id_token generation and userinfo requests.
 
         Returns:
@@ -442,6 +444,7 @@ class APIProtection9040(APIProtection):
         '''
         data = DataObject()
         data.add_value_string("name", name)
+        data.add_value_string("accessPolicyId", access_policy_id)
         data.add_value_string("description", description)
         data.add_value_string("tcmBehavior", tcm_behavior)
         data.add_value_string("tokenCharSet", token_char_set)
@@ -482,10 +485,9 @@ class APIProtection9040(APIProtection):
                 enc_data.add_value("alg",enc_alg)
                 enc_data.add_value("enc",enc_enc)
                 oidc.add_value("enc",enc_data.data)
-
-            data.add_value("oidc",oidc.data)
-        data.add_value("attributeSources", attribute_sources)
-
+            oidc.add_value_not_empty("attributeSources", attribute_sources)
+            data.add_value("oidc", oidc.data)
+        
         response = self.client.post_json(DEFINITIONS, data.data)
         response.success = response.status_code == 201
 

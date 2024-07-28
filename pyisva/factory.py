@@ -7,9 +7,13 @@ import importlib
 from pyisva.util.restclient import RESTClient
 
 
-DEVELOPMENT_VERSION = "IBM Security Access Manager Development"
+DEVELOPMENT_VERSION = "IBM Security Verify Access Development"
 VERSIONS = {
-    DEVELOPMENT_VERSION: "10050",
+    DEVELOPMENT_VERSION: "11000",
+    "IBM Security Verify Access 11.0.0.0": "11000",
+    "IBM Security Verify Access 10.0.8.0": "10080",
+    "IBM Security Verify Access 10.0.7.0": "10070",
+    "IBM Security Verify Access 10.0.6.0_b1": "10060",
     "IBM Security Verify Access 10.0.6.0": "10060",
     "IBM Security Verify Access 10.0.5.0": "10050",
     "IBM Security Verify Access 10.0.4.0": "10040",
@@ -22,6 +26,8 @@ VERSIONS = {
     "IBM Security Access Manager 10.0.0.0_b1": "10000",
     "IBM Security Access Manager 10.0.0.0": "10000",
     "IBM Security Access Manager 9.0.8.0": "9080",
+    "IBM Security Access Manager 9.0.7.3": "9073",
+    "IBM Security Access Manager 9.0.7.2": "9072",
     "IBM Security Access Manager 9.0.7.1": "9071",
     "IBM Security Access Manager 9.0.7.0": "9070",
     "IBM Security Access Manager 9.0.6.0_b2": "9060",
@@ -49,6 +55,11 @@ class Factory(object):
 
     Finally this class has helper methods to determine if the IBM Security Verify Access deployment is an appliance
     or container deployment model.
+
+    This project supports both basic and API token authorization. 
+    If both username and password are provided, the rest client will use Basic
+    authorization, if just a password is supplied, then Bearer authorization
+    is supplied.
     """
 
     def __init__(self, base_url, username, password):
@@ -133,7 +144,7 @@ class Factory(object):
 
     def set_password(self, password):
         '''
-        Update the password used to auhenticate to Verify Access administrator endpoints
+        Update the password used to authenticate to Verify Access administrator endpoints
         '''
         self._password = password
 

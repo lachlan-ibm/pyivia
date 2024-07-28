@@ -21,7 +21,7 @@ class DateTime(object):
 
     def update(self, enable_ntp=True, ntp_servers=None, time_zone=None, date_time="0000-00-00 00:00:00"):
         """
-        Update the date/time settings of an applaince.
+        Update the date/time settings of an appliance.
 
         Args:
             enable_ntp (`bool`): Should NTP be enabled.

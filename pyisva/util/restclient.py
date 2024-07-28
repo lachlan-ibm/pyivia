@@ -8,6 +8,7 @@ import json
 import logging
 import requests
 import time
+import os
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 from .model import Response
@@ -20,7 +21,10 @@ class RESTClient(object):
 
     def __init__(self, base_url, username=None, password=None):
         super(RESTClient, self).__init__()
-        requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+        self._verify = str(os.environ.get("PYISVA_VERIFY_TLS_LMI", False)).lower() \
+                in ["true", "yes", "t", "1", "on"]
+        if self._verify == False:
+            requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
         self._base_url = base_url
         self._username = username
         self._password = password
@@ -31,7 +35,7 @@ class RESTClient(object):
 
         self._log_request("DELETE", url, headers)
 
-        r = requests.delete(url=url, headers=headers, params=None, verify=False)
+        r = requests.delete(url=url, headers=headers, params=None, verify=self._verify)
 
         self._log_response(r.status_code, r.headers, r.content)
 
@@ -52,7 +56,7 @@ class RESTClient(object):
         self._log_request("GET", url, headers)
 
         r = requests.get(
-            url=url, params=parameters, headers=headers, verify=False)
+            url=url, params=parameters, headers=headers, verify=self._verify)
 
         self._log_response(r.status_code, r.headers, r._content)
 
@@ -78,7 +82,7 @@ class RESTClient(object):
             try:
                 self._log_request("GET", url, None)
 
-                r = requests.get(url=url, verify=False, timeout=1)
+                r = requests.get(url=url, verify=self._verify, timeout=1)
 
                 self._log_response(r.status_code, r.headers, r.content)
 
@@ -93,6 +97,24 @@ class RESTClient(object):
 
         return response
 
+    def get_file(self, endpoint, file_name=None):
+
+        url = self._base_url + endpoint
+        headers = self._get_headers("application/octet-stream", "application/json")
+
+        self._log_request("GET", url, headers)
+
+        with requests.get(url=url, headers=headers, verify=self._verify, stream=True) as r:
+            self._log_response(r.status_code, r.headers, b"")
+            with open(file_name, 'wb') as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    f.write(chunk)
+                f.close()
+                r._content = b""
+            response = self._build_response(r)
+            r.close()
+        return response
+
 
     def post(
             self, endpoint, accept_type="*/*", content_type="application/json",
@@ -103,8 +125,7 @@ class RESTClient(object):
         self._log_request("POST", url, headers)
 
         r = requests.post(
-            url=url, headers=headers, params=parameters, data=data,
-            verify=False)
+            url=url, headers=headers, params=parameters, data=data, verify=self._verify)
 
         self._log_response(r.status_code, r.headers, r.content)
 
@@ -121,7 +142,7 @@ class RESTClient(object):
         self._log_request("POST", url, headers)
 
         r = requests.post(
-            url=url, headers=headers, data=data, files=files, params=parameters, verify=False)
+            url=url, headers=headers, data=data, files=files, params=parameters, verify=self._verify)
 
         self._log_response(r.status_code, r.headers, r.content)
 
@@ -143,7 +164,7 @@ class RESTClient(object):
         self._log_request("PUT", url, headers)
 
         r = requests.put(
-            url=url, headers=headers, params=None, data=data, verify=False)
+            url=url, headers=headers, params=None, data=data, verify=self._verify)
 
         self._log_response(r.status_code, r.headers, r.content)
 
@@ -164,7 +185,7 @@ class RESTClient(object):
         self._log_request("PUT", url, headers)
 
         r = requests.put(
-            url=url, headers=headers, data=data, files=files, params=parameters, verify=False)
+            url=url, headers=headers, data=data, files=files, params=parameters, verify=self._verify)
 
         self._log_response(r.status_code, r.headers, r.content)
 
@@ -202,6 +223,9 @@ class RESTClient(object):
             credential = "%s:%s" % (self._username, self._password)
             credential_encode = base64.b64encode(credential.encode())
             authorization = "Basic " + str(credential_encode.decode()).rstrip()
+            headers["Authorization"] = authorization
+        elif self._password:
+            authorization = "Bearer %s" % (self._password)
             headers["Authorization"] = authorization
 
         return headers

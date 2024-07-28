@@ -181,7 +181,7 @@ class ReverseProxy(object):
             self, webseal_id, lmi_hostname=None, lmi_port=None,
             lmi_username=None, lmi_password=None, runtime_hostname=None,
             runtime_port=None, runtime_username=None, runtime_password=None,
-            reuse_certs=None,reuse_acls=None):
+            reuse_certs=None,reuse_acls=None, reuse_pops=None):
         """
         Configure a WebSEAL instance to use the Federated runtime server for Mobile Multi-Factor Authentication.
 
@@ -196,7 +196,8 @@ class ReverseProxy(object):
             runtime_username (:obj:`str`): The username used to authenticate with the runtime service.
             runtime_password (:obj:`str`): The password used to authenticate with the runtime service.
             reuse_certs (`bool`, optional): Should WebSEAL try to import the SSL certificate of the runtime service.
-            reuse_acls (`bool`, optional): Should WebSEAL reuse ACLS with the same name.
+            reuse_acls (`bool`, optional): Should WebSEAL reuse ACLs with the same name.
+            reuse_pops (`bool`, optional): Should WebSEAL reuse POPs with the same name.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -318,10 +319,10 @@ class ReverseProxy(object):
 
     def add_configuration_stanza(self, webseal_id, stanza_id):
         '''
-         Add a configuration stanza with the RESTful web service
+        Add a configuration stanza with the RESTful web service
 
-         Args:
-            webseal_id (:obj:`str`): Name of the WebSEAL instance to act on, which is a unique name that identifies the instance
+        Args:
+            webseal_id (:obj:`str`): Name of the WebSEAL instance to act on, which is a unique name that identifies the instance.
             stanza_id (:obj:`str`): The name of the resource stanza entry.
 
         Returns:
@@ -337,6 +338,8 @@ class ReverseProxy(object):
                     % (REVERSEPROXY, webseal_id, stanza_id))
         response = self.client.post_json(endpoint)
         response.success = response.status_code == 200
+
+        return response
 
 
     def delete_configuration_stanza(self, webseal_id, stanza_id):
@@ -358,6 +361,8 @@ class ReverseProxy(object):
 
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 204
+
+        return response
 
 
     def add_configuration_stanza_entry(self, webseal_id, stanza_id, entry_name, value):
@@ -543,7 +548,7 @@ class ReverseProxy(object):
                                     communicates with the target back-end server.
             query_contents (:obj:`str`, optional): Provides the Reverse Proxy with the correct name of the query_contents 
                                                     program file and where to find the file.
-            case_sensitive_url (:obj:`str`, optioanl): Specifies whether the Reverse Proxy server treats URLs as case sensitive.
+            case_sensitive_url (:obj:`str`, optional): Specifies whether the Reverse Proxy server treats URLs as case sensitive.
             windows_style_url (:obj:`str`, optional): Specifies whether Windows style URLs are supported.
             ltpa_keyfile_password (:obj:`str`, optional): Password for the key file that is used to encrypt LTPA cookie data.
             proxy_hostname (:obj:`str`, optional): The DNS host name or IP address of the proxy server.
@@ -627,7 +632,7 @@ class ReverseProxy(object):
         data.add_value("http_port", http_port)
         data.add_value("proxy_port", proxy_port)
         data.add_value("remote_http_header", remote_http_header)
-
+        logger.debug("Junction config: {}".format(data.data))
         endpoint = "%s/%s/junctions" % (REVERSEPROXY, str(webseal_id))
 
         response = self.client.post_json(endpoint, data.data)
@@ -786,109 +791,6 @@ class ReverseProxy(object):
 
         return response
 
-
-    def import_junction_mapping_file(self, file_path):
-        '''
-        Import a junction mapping configuration file.
-
-        Args:
-            file_path (:obj:`str`): File to be imported as a new jumction mapping configuration file.
-
-        Returns:
-            :obj:`~requests.Response`: The response from verify access. 
-
-            Success can be checked by examining the response.success boolean attribute
-
-            If the request is successful the id of the JMT file is returned as JSON and can be accessed from
-            the response.json attribute
-
-        '''
-        response = Response()
-
-        try:
-            with open(file_path, 'rb') as contents:
-                jmt_config_file = {"jmt_config_file": contents}
-
-                response = self.client.post_file(JMT_CONFIG, files=jmt_config_file)
-                response.success = response.status_code == 200
-        except IOError as e:
-            logger.error(e)
-            response.success = False
-
-        return response
-
-    def update_junction_mapping_file(self, file_id, jmt_config_data):
-        '''
-        Update a junction mapping configuration file.
-
-        Args:
-            file_id (:obj:`str`): Name of the junction mapping rule to be replaced
-            jmt_config_data (:obj:`str`): Serialized contents of the new junction mapping configuration
-
-        Returns:
-            :obj:`~requests.Response`: The response from verify access. 
-
-            Success can be checked by examining the response.success boolean attribute
-
-            If the request is successful the id of the JMT file is returned as JSON and can be accessed from
-            the response.json attribute
-
-        '''
-        data = DataObject()
-        data.add_value_string("id", file_id)
-        data.add_value_string("jmt_config_data", jmt_config_data)
-
-        endpoint = ("%s/%s"
-                    % (JMT_CONFIG, file_id))
-
-        response = self.client.put_json(endpoint, data.data)
-        response.success = response.status_code == 200
-
-        return response
-
-class ReverseProxy9040(ReverseProxy):
-
-    def __init__(self, base_url, username, password):
-        super(ReverseProxy, self).__init__()
-        self.client = RESTClient(base_url, username, password)
-
-    def configure_api_protection(
-            self, webseal_id, hostname=None, port=None,
-            username=None, password=None, reuse_certs=None,reuse_acls=None, api=None,
-            browser=None, junction=None):
-        """
-        Configure a WebSEAL instance to use the Federated runtime server to support OAuth and OIDC API Protection.
-
-        Args:
-            webseal_id (:obj:`str`): The name of the WebSEAL instance to act on.
-            hostname (:obj:`str`): The hostname of the runtime service.
-            port (:obj:`str`): The port of the runtime service.
-            username (:obj:`str`): The username used to authenticate with the runtime service.
-            password (:obj:`str`): The password used to authenticate with the runtime service.
-            reuse_certs (`bool`, optional): Should WebSEAL try to import the SSL certificate of the runtime service.
-            reuse_acls (`bool`, optional): Should WebSEAL reuse ACLS with the same name.
-            api (`bool`, optional): Should this reverse proxy be configured for API protection. Default is false.
-            browser (`bool`, optional): Should this reverse proxy be configured for Browser interaction. Default is false.
-            junction (:obj:`str`): Junction point to create.
-        """
-        data = DataObject()
-        data.add_value_string("hostname", hostname)
-        data.add_value_string("username", username)
-        data.add_value_string("password", password)
-        data.add_value("port", port)
-        data.add_value("junction", junction if junction != None else "/mga")
-
-        data.add_value_boolean("reuse_certs", reuse_certs)
-        data.add_value_boolean("reuse_acls", reuse_acls)
-        data.add_value_boolean("api", api)
-        data.add_value_boolean("browser", browser)
-
-        endpoint = "%s/%s/oauth_config" % (REVERSEPROXY, webseal_id)
-
-        response = self.client.post_json(endpoint, data.data)
-        response.success = response.status_code == 204
-        return response
-
     def configure_mmfa(
             self, webseal_id, lmi_hostname=None, lmi_port=None,
             lmi_username=None, lmi_password=None, runtime_hostname=None,
@@ -909,8 +811,8 @@ class ReverseProxy9040(ReverseProxy):
             runtime_password (:obj:`str`): The password used to authenticate with the runtime service.
             reuse_certs (`bool`, optional): Should WebSEAL try to import the SSL certificate of the runtime service.
             reuse_acls (`bool`, optional): Should WebSEAL reuse ACLS with the same name.
-            reuse_pops (`bool`: optional):
-            channel (:ibj:`str`): Supports multi channel configuration, absence configures single channel. Valid channel values: browser, mobile.
+            reuse_pops (`bool`, optional): Should WebSEAL reuse POPs with the same name.
+            channel (:obj:`str`): Supports multi channel configuration, absence configures single channel. Valid channel values: browser, mobile.
 
         Returns:
             :obj:`~requests.Response`: The response from verify access. 
@@ -918,6 +820,36 @@ class ReverseProxy9040(ReverseProxy):
             Success can be checked by examining the response.success boolean attribute
 
         """
+        raise Exception("Not Yet Implemented")
+
+    def configure_verify_gateway(self, webseal_id, mmfa=None, junction=None):
+        """
+        Configure a WebSEAL instance to act as a gateway to am IBM Security Verify tenant.
+
+        Args:
+            webseal_id (:obj:`str`): The name of the WebSEAL instance to act on.
+            mmfa (`bool`): A flag indicating whether the MMFA endpoints should also be mapped.
+            junction (:obj:`str`): AAC junction point to include in the HTTP Transformation rules.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        """
+        raise Exception("Not Yet Implemented")
+
+class ReverseProxy9040(ReverseProxy):
+
+    def __init__(self, base_url, username, password):
+        super(ReverseProxy, self).__init__()
+        self.client = RESTClient(base_url, username, password)
+
+    def configure_mmfa(
+            self, webseal_id, lmi_hostname=None, lmi_port=None,
+            lmi_username=None, lmi_password=None, runtime_hostname=None,
+            runtime_port=None, runtime_username=None, runtime_password=None,
+            reuse_certs=None,reuse_acls=None, reuse_pops=None, channel=None):
         lmi_data = DataObject()
         lmi_data.add_value_string("hostname", lmi_hostname)
         lmi_data.add_value_string("username", lmi_username)
@@ -954,20 +886,6 @@ class ReverseProxy10020(ReverseProxy9040):
 
 
     def configure_verify_gateway(self, webseal_id, mmfa=None, junction=None):
-        """
-        Configure a WebSEAL instance to act as a gateway to am IBM Security Verify tenant.
-
-        Args:
-            webseal_id (:obj:`str`): The name of the WebSEAL instance to act on.
-            mmfa (`bool`): A flag indicating whether the MMFA endpoints should also be mapped.
-            junction (:obj:`str`): AAC junction point to include in the HTTP Transformation rules.
-
-        Returns:
-            :obj:`~requests.Response`: The response from verify access. 
-
-            Success can be checked by examining the response.success boolean attribute
-
-        """
         data = DataObject()
         data.add_value_boolean("mmfa", mmfa)
         data.add_value_string("junction", junction);
@@ -978,5 +896,3 @@ class ReverseProxy10020(ReverseProxy9040):
         response.success = response.status_code == 204
 
         return response
-
-    ## TODO ## Update wizards with new options FAPI
