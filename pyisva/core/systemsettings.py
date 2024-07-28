@@ -57,7 +57,7 @@ class SystemSettings(object):
     :var fips: Manage the :ref:`fips <FIPS>` settings for Verify Access appliances.
     :var mgmt_authentication: Manage the :ref:`authentication <Management Authentication>` to the management interface.
     :var mgmt_authorization: Manage :ref:`authorization <Management Authorization>` to the management interface.
-    :var container_management: Manage :ref:`containers <Container Management>` deployed to a Verify Access appliance.
+    :var container_mgmt: Manage :ref:`containers <Container Management>` deployed to a Verify Access appliance.
 
     '''
 
@@ -206,7 +206,7 @@ class SystemSettings10070(SystemSettings10060):
 
     def __init__(self, base_url, username, password):
         super(SystemSettings10070, self).__init__(base_url, username, password)
-        self.container_management = ContainerManagement(base_url, username, password)
+        self.container_mgmt = ContainerManagement(base_url, username, password)
 
 class SystemSettings10080(SystemSettings10070):
 
