@@ -30,8 +30,8 @@ class AccessControl9020(object):
     api_protection: Create and manage OIDC definitions and clients
     attributes: Craete and mange CBA attribute mappings
     authentication: Create and manage AAC Policies/Mechanisms
-    file_downloads: Download file hosted on Verify Access
-    mmfa_config: Configure Mobile Multi-Factor Authentication for Verify Access
+    file_downloads: Download file hosted on Verify Identity Access
+    mmfa_config: Configure Mobile Multi-Factor Authentication for Verify Identity Access
     push_notifications: Configure and manage push notification providers
     risk_profiles: Create and manage CBA risk profiles
     runtime_parameters: Manage parameters of the Liberty runtime server
