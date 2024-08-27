@@ -10,7 +10,7 @@ from .federation.securitytokenservice import SecurityTokenService
 
 class Federation9020(object):
     '''
-    Object is used to manage the Federations endpoints of a Verify Access applaince
+    Object is used to manage the Federations endpoints of a Verify Identity Access applaince
 
     federations: Create and mnanage Federation and Partners
     attribute_sources: Manage attributes added to identities in federation flows
