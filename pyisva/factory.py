@@ -7,9 +7,10 @@ import importlib
 from pyisva.util.restclient import RESTClient
 
 
-DEVELOPMENT_VERSION = "IBM Security Verify Access Development"
+DEVELOPMENT_VERSION = "IBM Verify Identity Access Development"
 VERSIONS = {
     DEVELOPMENT_VERSION: "11000",
+    "IBM Verify Identity Access 11.0.0.0": "11000",
     "IBM Security Verify Access 11.0.0.0": "11000",
     "IBM Security Verify Access 10.0.8.0": "10080",
     "IBM Security Verify Access 10.0.7.0": "10070",
@@ -144,7 +145,7 @@ class Factory(object):
 
     def set_password(self, password):
         '''
-        Update the password used to auhenticate to Verify Access administrator endpoints
+        Update the password used to authenticate to Verify Access administrator endpoints
         '''
         self._password = password
 
