@@ -6,11 +6,11 @@ with a Verify Access Deployment; applying and deploying configuration.
 
 Installation
 ------------
-You can install ``pyisva`` with ``pip``:
+You can install ``pyivia`` with ``pip``:
 
 .. code-block:: bash
 
-   $ pip install pyisva
+   $ pip install pyivia
 
 
 Architecture

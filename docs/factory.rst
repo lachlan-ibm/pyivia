@@ -31,14 +31,14 @@ _____
 This module uses the firmware management API to return the version string from Verify Access and return the
 appropriate version implementation of the management API.
 
-A user should not attempt to instantiate the versioned classes, instead the ``pyisva.factory`` module should be
+A user should not attempt to instantiate the versioned classes, instead the ``pyivia.factory`` module should be
 used to create a ``pyisava.factory.Factory`` object which is capable of returning version specific implementation of
 the five modules used.
 
 .. code-block:: python
 
-   import pyisva
-   f = pyisva.factory.Factory("https://verify.access.appliance", "user", "secret")
+   import pyivia
+   f = pyivia.factory.Factory("https://verify.access.appliance", "user", "secret")
 
 Verifying TLS to Verify Access Management Interface
 ____________________________________________________
@@ -50,5 +50,5 @@ to a Verify Access management interface.
 
 Consult python or operating system documentation for steps to add certificates to this store.
 
-.. autoclass:: pyisva.factory.Factory
+.. autoclass:: pyivia.factory.Factory
    :members:
