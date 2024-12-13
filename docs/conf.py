@@ -20,8 +20,8 @@ sys.path.insert(0, os.path.abspath('..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'pyISVA'
-copyright = '2022, Lachlan Gleeson'
+project = 'pyIVIA'
+copyright = '2022, Lachlan Gleeson, IBM'
 author = 'Lachlan Gleeson'
 
 # The full version, including alpha/beta/rc tags

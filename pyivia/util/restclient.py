@@ -21,7 +21,7 @@ class RESTClient(object):
 
     def __init__(self, base_url, username=None, password=None):
         super(RESTClient, self).__init__()
-        self._verify = str(os.environ.get("PYISVA_VERIFY_TLS_LMI", False)).lower() \
+        self._verify = str(os.environ.get("PYIVIA_VERIFY_TLS_LMI", False)).lower() \
                 in ["true", "yes", "t", "1", "on"]
         if self._verify == False:
             requests.packages.urllib3.disable_warnings(InsecureRequestWarning)

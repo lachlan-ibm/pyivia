@@ -1,11 +1,12 @@
-pyISVA API Version Factory
+pyIVIA API Version Factory
 ==========================
 
 Supported Versions
 __________________
 
-pyISVA supports management API from several versions of IBM Security Verify Access:
+pyIVIA supports management API from several versions of IBM Verify Identity Access:
 
+- IBM Verify Identity Access 11.0.0.0
 - IBM Security Verify Access 10.0.8.0
 - IBM Security Verify Access 10.0.7.0
 - IBM Security Verify Access 10.0.6.0
@@ -28,7 +29,7 @@ pyISVA supports management API from several versions of IBM Security Verify Acce
 Usage
 _____
 
-This module uses the firmware management API to return the version string from Verify Access and return the
+This module uses the firmware management API to return the version string from Verify Identity Access and return the
 appropriate version implementation of the management API.
 
 A user should not attempt to instantiate the versioned classes, instead the ``pyivia.factory`` module should be
@@ -38,15 +39,15 @@ the five modules used.
 .. code-block:: python
 
    import pyivia
-   f = pyivia.factory.Factory("https://verify.access.appliance", "user", "secret")
+   f = pyivia.factory.Factory("https://verify.identity.access.appliance", "user", "secret")
 
-Verifying TLS to Verify Access Management Interface
+Verifying TLS to Verify Identity Access Management Interface
 ____________________________________________________
 
 By default, connections to verify access local management interface do not verify the x509 certificate with 
-python's CA truststore. to verify connections, the ``PYISVA_VERIFY_TLS_LMI`` environment variable can be used. 
-If ``PYISVA_VERIFY_TLS_LMI=true`` then the default CA certificate store is used to verify TLS connections 
-to a Verify Access management interface.
+python's CA truststore. to verify connections, the ``PYIVIA_VERIFY_TLS_LMI`` environment variable can be used. 
+If ``PYIVIA_VERIFY_TLS_LMI=true`` then the default CA certificate store is used to verify TLS connections 
+to a Verify Identity Access management interface.
 
 Consult python or operating system documentation for steps to add certificates to this store.
 

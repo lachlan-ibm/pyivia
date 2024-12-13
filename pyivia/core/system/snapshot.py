@@ -19,7 +19,7 @@ class Snapshot(object):
     def upload(self, snapshot):
         '''
         Upload the given file to an appliance as a configuration snapshot.
-        File should follow the naming convention ``isva_<version>.<snapshot id>.snapshot``
+        File should follow the naming convention ``ivia_<version>.<snapshot id>.snapshot``
 
         Args:
             snapshot (:obj:`str`): Path to file to be imported as configuration snapshot file.
@@ -48,7 +48,7 @@ class Snapshot(object):
 
         Args:
             snapshot_id (:obj:`str`): The id of the snapshot to be downloaded. Id should 
-                                    follow the naming convention ``isva_<version>.<snapshot id>.snapshot``
+                                    follow the naming convention ``ivia_<version>.<snapshot id>.snapshot``
             snapshot (:obj:`str`): Path to file to be imported as configuration snapshot file.
 
         Returns:

@@ -1,6 +1,6 @@
-# PyISVA
+# PyIVIA
 
-PyISVA is a Python library that wraps the IBM Verify Identity Access RESTful Web services to provide a
+PyIVIA is a Python library that wraps the IBM Verify Identity Access RESTful Web services to provide a
 quick and easy way to construct configuration scripts for appliances.
 
 **Supported Versions**

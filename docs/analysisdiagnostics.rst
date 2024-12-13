@@ -3,7 +3,7 @@
 
 Analysis and Diagnostics
 ########################
-The analysis and Diagnostics module can be used to gather logs from a Verify Access deployment as well as 
+The analysis and Diagnostics module can be used to gather logs from a Verify Identity Access deployment as well as 
 monitor system health and collect resource usage (CPU, memory, disk, network latency).
 
 
