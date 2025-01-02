@@ -1,10 +1,11 @@
-# PyISVA
+# PyIVIA
 
-PyISVA is a Python library that wraps the IBM Security Verify Access RESTful Web services to provide a
+PyIVIA is a Python library that wraps the IBM Verify Identity Access RESTful Web services to provide a
 quick and easy way to construct configuration scripts for appliances.
 
 **Supported Versions**
 
+- IBM Verify Identity Access 11.0.0.0
 - IBM Security Verify Access 10.0.8.0
 - IBM Security Verify Access 10.0.7.0
 - IBM Security Verify Access 10.0.6.0
@@ -28,24 +29,24 @@ quick and easy way to construct configuration scripts for appliances.
 
 ## Installation
 
-For Linux/macOS: if you clone the library to `~/repos/pyisva`, add this to `~/.profile`:
+For Linux/macOS: if you clone the library to `~/repos/pyivia`, add this to `~/.profile`:
 ```sh
-# add pyisva library to Python's search path
-export PYTHONPATH="${PYTHONPATH}:${HOME}/repos/pyisva"
+# add pyivia library to Python's search path
+export PYTHONPATH="${PYTHONPATH}:${HOME}/repos/pyivia"
 ```
 
 ## From IBM Security Verify Access 10.0.0.0 onwards:
 Module has been build into a package Currently hosted on PyPi that can be installed using pip:
 
 ```sh
-pip install pyisva
+pip install pyivia
 ```
 
 ## Usage
 
 ```python
->>> import pyisva
->>> factory = pyisva.Factory("https://isam.mmfa.ibm.com", "admin", "Passw0rd")
+>>> import pyivia
+>>> factory = pyivia.Factory("https://isam.mmfa.ibm.com", "admin", "Passw0rd")
 >>> web = factory.get_web_settings()
 >>> resp = web.reverse_proxy.restart_instance("default")
 >>> if resp.success:
@@ -57,4 +58,4 @@ Successfully restarted the default instance.
 ```
 
 ## Documentation
-Documentation for using this library can be found on [pyisva GitHub pages](https://lachlan-ibm.github.io/pyisva/index.html).
+Documentation for using this library can be found on [pyivia GitHub pages](https://lachlan-ibm.github.io/pyivia/index.html).

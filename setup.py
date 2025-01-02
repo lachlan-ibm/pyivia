@@ -19,16 +19,16 @@ class CleanCommand(Command):
                     print("remove {}".format(os.path.join(root, name)))
                     os.remove(os.path.join(root, name))
             for name in dirs:
-                if name.endswith((".egg-info", "build", "dist", "__pycache__")):
+                if name.endswith((".egg-info", "build", "dist", "__pycache__", "html")):
                     print("remove {}".format(os.path.join(root, name)))
                     #os.rmdir(os.path.join(root, name))
                     os.system('rm -vrf {}'.format(os.path.join(root, name)))
 
 
 setup(
-    name='pyisva',
+    name='pyivia',
     version='0.2.%s' % os.environ.get('TRAVIS_BUILD_NUMBER', 0),
-    description='Python API for IBM Security Verify Access',
+    description='Python API for IBM Verify Identity Access',
     author='Lachlan Gleeson',
     author_email='lgleeson@au1.ibm.com',
     license='MIT',
@@ -37,10 +37,10 @@ setup(
         'requests'
     ],
     project_urls={
-        'Homepage': 'https://github.com/lachlan-ibm/pyisva',
-        'Documentation': 'https://lachlan-ibm.github.io/pyisva',
-        'Source': 'https://github.com/lachlan-ibm/pyisva',
-        'Tracker': 'https://github.com/lachlan-ibm/pyisva/issues'
+        'Homepage': 'https://github.com/lachlan-ibm/pyivia',
+        'Documentation': 'https://lachlan-ibm.github.io/pyivia',
+        'Source': 'https://github.com/lachlan-ibm/pyivia',
+        'Tracker': 'https://github.com/lachlan-ibm/pyivia/issues'
     },
     zip_safe=False,
     cmdclass={
