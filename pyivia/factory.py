@@ -9,7 +9,8 @@ from pyivia.util.restclient import RESTClient
 
 DEVELOPMENT_VERSION = "IBM Verify Identity Access Development"
 VERSIONS = {
-    DEVELOPMENT_VERSION: "11000",
+    DEVELOPMENT_VERSION: "11010",
+    "IBM Verify Identity Access 11.0.1.0": "11010",
     "IBM Verify Identity Access 11.0.0.0": "11000",
     "IBM Security Verify Access 11.0.0.0": "11000",
     "IBM Security Verify Access 10.0.8.0": "10080",
