@@ -4,9 +4,9 @@
 Advanced Access Control
 #######################
 This module is responsible for configuring the Advanced Access Control (AAC) and Risk Based Access (RBA) capabilities
-of IBM Security Verify Access.
+of IBM Verify Identity Access.
 
-.. autoclass:: pyisva.core.accesscontrol.AccessControl
+.. autoclass:: pyivia.core.accesscontrol.AccessControl
    :members:
 
 
@@ -14,7 +14,7 @@ Access Control
 ==============
 
 
-.. autoclass:: pyisva.core.access.accesscontrol.AccessControl
+.. autoclass:: pyivia.core.access.accesscontrol.AccessControl
    :members:
 
 
@@ -22,7 +22,7 @@ Advanced Configuration
 ======================
 
 
-.. autoclass:: pyisva.core.access.advancedconfig.AdvancedConfig
+.. autoclass:: pyivia.core.access.advancedconfig.AdvancedConfig
    :members:
 
 
@@ -30,14 +30,14 @@ API Protection
 ==============
 
 
-.. autoclass:: pyisva.core.access.apiprotection.APIProtection
+.. autoclass:: pyivia.core.access.apiprotection.APIProtection
    :members:
 
 
 Attributes
 ==========
 
-.. autoclass:: pyisva.core.access.attributes.Attributes
+.. autoclass:: pyivia.core.access.attributes.Attributes
    :members:
 
 
@@ -45,7 +45,7 @@ Authentication
 ==============
 
 
-.. autoclass:: pyisva.core.access.authentication.Authentication
+.. autoclass:: pyivia.core.access.authentication.Authentication
    :members:
 
 
@@ -53,7 +53,7 @@ FIDO2 Configuration
 ===================
 
 
-.. autoclass:: pyisva.core.access.fido2config.FIDO2Config
+.. autoclass:: pyivia.core.access.fido2config.FIDO2Config
    :members:
 
 
@@ -61,14 +61,14 @@ FIDO2 Registrations
 ===================
 
 
-.. autoclass:: pyisva.core.access.fido2registrations.FIDO2Registrations
+.. autoclass:: pyivia.core.access.fido2registrations.FIDO2Registrations
    :members:
 
 Mapping Rules
 =============
 
 
-.. autoclass:: pyisva.core.access.mappingrules.MappingRules
+.. autoclass:: pyivia.core.access.mappingrules.MappingRules
    :members:
 
 
@@ -76,14 +76,14 @@ Mobile Multi-Factor Authentication
 ==================================
 
 
-.. autoclass:: pyisva.core.access.mmfaconfig.MMFAConfig9021
+.. autoclass:: pyivia.core.access.mmfaconfig.MMFAConfig9021
    :members:
 
 
 Policy Information Points
 ==========================
 
-.. autoclass:: pyisva.core.access.pip.PIP
+.. autoclass:: pyivia.core.access.pip.PIP
    :members:
 
 
@@ -91,7 +91,7 @@ Push Notification Providers
 ===========================
 
 
-.. autoclass:: pyisva.core.access.pushnotification.PushNotification9021
+.. autoclass:: pyivia.core.access.pushnotification.PushNotification9021
    :members:
 
 
@@ -99,7 +99,7 @@ Risk Profiles
 =============
 
 
-.. autoclass:: pyisva.core.access.riskprofiles.RiskProfiles
+.. autoclass:: pyivia.core.access.riskprofiles.RiskProfiles
    :members:
 
 
@@ -107,7 +107,7 @@ Runtime Parameters
 ==================
 
 
-.. autoclass:: pyisva.core.access.runtimeparameters.RuntimeParameters
+.. autoclass:: pyivia.core.access.runtimeparameters.RuntimeParameters
    :members:
 
 
@@ -115,7 +115,7 @@ System for Cross-Domain Identity Management (SCIM) Configuration
 ================================================================
 
 
-.. autoclass:: pyisva.core.access.scimconfig.SCIMConfig
+.. autoclass:: pyivia.core.access.scimconfig.SCIMConfig
    :members:
 
 
@@ -123,7 +123,7 @@ Server Connections
 ==================
 
 
-.. autoclass:: pyisva.core.access.serverconnections.ServerConnections
+.. autoclass:: pyivia.core.access.serverconnections.ServerConnections
    :members:
 
 
@@ -131,7 +131,7 @@ Template Files
 ==============
 
 
-.. autoclass:: pyisva.core.access.templatefiles.TemplateFiles
+.. autoclass:: pyivia.core.access.templatefiles.TemplateFiles
    :members:
 
 
@@ -139,5 +139,5 @@ User Registry
 =============
 
 
-.. autoclass:: pyisva.core.access.userregistry.UserRegistry
+.. autoclass:: pyivia.core.access.userregistry.UserRegistry
    :members:

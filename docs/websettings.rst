@@ -6,7 +6,7 @@ The Web Settings module can be used to configure the Web Reverse Proxy and assoc
 integrations with the Runtime Server's user registry and policy server.
 
 
-.. autoclass:: pyisva.core.websettings.WebSettings
+.. autoclass:: pyivia.core.websettings.WebSettings
    :members:
 
 
@@ -15,126 +15,126 @@ API Access Control
 
 The API Access Control module is used to configure WebSEAL instances which can be used as API Gateways
 
-.. autoclass:: pyisva.core.web.api_access_control.APIAccessControl
+.. autoclass:: pyivia.core.web.api_access_control.APIAccessControl
    :members:
 
 
 Authorization Server
 --------------------
 
-.. autoclass:: pyisva.core.web.apiac.authorization_server.AuthorizationServer
+.. autoclass:: pyivia.core.web.apiac.authorization_server.AuthorizationServer
    :members:
 
 Cross Origin Remote Scripting
 -----------------------------
 
-.. autoclass:: pyisva.core.web.apiac.cors.CORS
+.. autoclass:: pyivia.core.web.apiac.cors.CORS
    :members:
 
 Document Root
 -------------
 
-.. autoclass:: pyisva.core.web.apiac.document_root.DocumentRoot
+.. autoclass:: pyivia.core.web.apiac.document_root.DocumentRoot
     :members:
 
 Policies
 --------
 
-.. autoclass:: pyisva.core.web.apiac.policies.Policies
+.. autoclass:: pyivia.core.web.apiac.policies.Policies
    :members:
 
 Resources
 ---------
 
-.. autoclass:: pyisva.core.web.apiac.resource_server.ResourceServer
+.. autoclass:: pyivia.core.web.apiac.resource_server.ResourceServer
    :members:
 
 Utilities
 ---------
 
-.. autoclass:: pyisva.core.web.apiac.utilities.Utilities
+.. autoclass:: pyivia.core.web.apiac.utilities.Utilities
    :members:
 
 Client Certificate Mapping
 ==========================
 
-.. autoclass:: pyisva.core.web.clientcertmapping.ClientCertMapping
+.. autoclass:: pyivia.core.web.clientcertmapping.ClientCertMapping
    :members:
 
 Distributed Session Cache
 =========================
 
-.. autoclass:: pyisva.core.web.dscadmin.DSCAdmin
+.. autoclass:: pyivia.core.web.dscadmin.DSCAdmin
    :members:
 
 Form Single Sign-On
 ===================
 
-.. autoclass:: pyisva.core.web.fsso.FSSO
+.. autoclass:: pyivia.core.web.fsso.FSSO
    :members:
 
 HTTP Transformations
 ====================
 
-.. autoclass:: pyisva.core.web.httptransform.HTTPTransform
+.. autoclass:: pyivia.core.web.httptransform.HTTPTransform
    :members:
 
 Junction Mapping
 ================
 
-.. autoclass:: pyisva.core.web.junctionmapping.JunctionMapping
+.. autoclass:: pyivia.core.web.junctionmapping.JunctionMapping
    :members:
 
 Kerberos
 ========
 
-.. autoclass:: pyisva.core.web.kerberos.Kerberos
+.. autoclass:: pyivia.core.web.kerberos.Kerberos
    :members:
 
 Password Strength Rules
 =======================
 
-.. autoclass:: pyisva.core.web.passwordstrength.PasswordStrength
+.. autoclass:: pyivia.core.web.passwordstrength.PasswordStrength
    :members:
 
 Policy Administration
 =====================
 
-.. autoclass:: pyisva.core.web.policyadmin.PolicyAdmin
+.. autoclass:: pyivia.core.web.policyadmin.PolicyAdmin
    :members:
 
 Rate Limiting
 =============
 
-.. autoclass:: pyisva.core.web.ratelimit.RateLimit
+.. autoclass:: pyivia.core.web.ratelimit.RateLimit
    :members:
 
 Reverse Proxy
 =============
 
-.. autoclass:: pyisva.core.web.reverseproxy.ReverseProxy
+.. autoclass:: pyivia.core.web.reverseproxy.ReverseProxy
    :members:
 
 RSA Security Token
 ==================
 
-.. autoclass:: pyisva.core.web.rsa.RSA
+.. autoclass:: pyivia.core.web.rsa.RSA
    :members:
 
 Runtime Component
 =================
 
-.. autoclass:: pyisva.core.web.runtimecomponent.RuntimeComponent
+.. autoclass:: pyivia.core.web.runtimecomponent.RuntimeComponent
    :members:
 
 URL Mapping
 ===========
 
-.. autoclass:: pyisva.core.web.urlmapping.URLMapping
+.. autoclass:: pyivia.core.web.urlmapping.URLMapping
    :members:
 
 User Mapping
 ============
 
-.. autoclass:: pyisva.core.web.usermapping.UserMapping
+.. autoclass:: pyivia.core.web.usermapping.UserMapping
    :members:
