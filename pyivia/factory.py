@@ -13,6 +13,7 @@ VERSIONS = {
     "IBM Verify Identity Access 11.0.1.0": "11010",
     "IBM Verify Identity Access 11.0.0.0": "11000",
     "IBM Security Verify Access 11.0.0.0": "11000",
+    "IBM Security Verify Access 10.0.9.0": "11000",
     "IBM Security Verify Access 10.0.8.0": "10080",
     "IBM Security Verify Access 10.0.7.0": "10070",
     "IBM Security Verify Access 10.0.6.0_b1": "10060",
