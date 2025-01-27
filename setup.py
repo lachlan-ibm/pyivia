@@ -27,7 +27,7 @@ class CleanCommand(Command):
 
 setup(
     name='pyivia',
-    version='0.2.%s' % os.environ.get('TRAVIS_BUILD_NUMBER', 0),
+    version='0.2.%s' % os.environ.get('GITHUB_RUN_NUMBER', 0),
     description='Python API for IBM Verify Identity Access',
     author='Lachlan Gleeson',
     author_email='lgleeson@au1.ibm.com',
