@@ -23,7 +23,7 @@ class AccessControl(object):
         self.client = RESTClient(base_url, username, password)
 
     def create_policy(self, name=None, description=None, dialect="urn:oasis:names:tc:xacml:2.0:policy:schema:os", 
-                    policy=None, attributes_required=False):
+                    policy=None):
         '''
         Create an AAC Access Policy. 
 
@@ -32,9 +32,6 @@ class AccessControl(object):
             description (:obj:`str`, optional): Description of policy to be created
             dialect (:obj:`str`, optional): Format of policy XML. Only "urn:oasis:names:tc:xacml:2.0:policy:schema:os" is supported
             policy (:obj:`str`, optional): XML of policy steps.
-            attributes_required (`bool`): True if the values for any attributes specified in the policy 
-                                          must be present in the incoming request. False if the attribute 
-                                          values may optionally be present.
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
@@ -50,7 +47,6 @@ class AccessControl(object):
         data.add_value_string("description", description)
         data.add_value_string("dialect", dialect)
         data.add_value_string("policy", policy)
-        data.add_value_boolean("attributesRequired", attributes_required)
         data.add_value_boolean("predefined", False)
 
         response = self.client.post_json(POLICIES, data.data)
