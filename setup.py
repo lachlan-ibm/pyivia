@@ -24,10 +24,13 @@ class CleanCommand(Command):
                     #os.rmdir(os.path.join(root, name))
                     os.system('rm -vrf {}'.format(os.path.join(root, name)))
 
+BUILD_ID = os.environ.get('TRAVIS_BUILD_NUMBER', 0)
+if BUILD_ID == 0:
+    BUILD_ID = os.environ.get('GITHUB_RUN_NUMBER', 0)
 
 setup(
     name='pyivia',
-    version='0.2.%s' % os.environ.get('GITHUB_RUN_NUMBER', 0),
+    version='0.2.%s' % BUILD_ID,
     description='Python API for IBM Verify Identity Access',
     author='Lachlan Gleeson',
     author_email='lgleeson@au1.ibm.com',
