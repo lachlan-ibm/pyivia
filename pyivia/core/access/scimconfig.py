@@ -95,8 +95,8 @@ class SCIMConfig(object):
         return response
 
 
-    def update_config(self, admin_group="adminGroup", enable_header_authentication=True, enable_authz_filter=True,
-            max_user_responses=None):
+    def update_general_config(self, admin_group="adminGroup", enable_header_authentication=True, enable_authz_filter=True,
+            max_user_responses=None, attribute_modes=[]):
         '''
         Update the general configuration settings of the SCIM profile.
 
@@ -119,6 +119,7 @@ class SCIMConfig(object):
         data.add_value_string("enable_header_authentication", enable_header_authentication)
         data.add_value_string("enable_authz_filter", enable_authz_filter)
         data.add_value("max_user_responses", max_user_responses)
+        data.add_value_not_empty("attribute_modes", attribute_modes)
 
         response = self.client.put_json(SCIM_CONFIGURATION_GENERAL, data.data)
         response.success = response.status_code == 200

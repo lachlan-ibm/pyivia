@@ -32,7 +32,9 @@ class AccessControl(object):
             description (:obj:`str`, optional): Description of policy to be created
             dialect (:obj:`str`, optional): Format of policy XML. Only "urn:oasis:names:tc:xacml:2.0:policy:schema:os" is supported
             policy (:obj:`str`, optional): XML of policy steps.
-            attributes_required (:obj:`list` of :obj:`str`, optional): Additional attribute mappings used by the policy
+            attributes_required (`bool`): True if the values for any attributes specified in the policy 
+                                          must be present in the incoming request. False if the attribute 
+                                          values may optionally be present.
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
