@@ -2,7 +2,7 @@
 @copyright: IBM
 """
 
-import logging
+import logging, os
 
 from pyivia.util.model import DataObject, Response
 from pyivia.util.restclient import RESTClient
@@ -184,7 +184,7 @@ class TemplateFiles(object):
 
         try:
             with open(file_path, 'rb') as template:
-                files = {"file": template}
+                files = {os.path.basename(file_path): template}
 
                 endpoint = ("%s/%s/%s" % (TEMPLATE_FILES, path, file_name))
 

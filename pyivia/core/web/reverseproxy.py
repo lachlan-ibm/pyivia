@@ -2,7 +2,7 @@
 @copyright: IBM
 """
 
-import logging
+import logging, os
 
 from pyivia.util.model import DataObject, Response
 from pyivia.util.restclient import RESTClient
@@ -714,8 +714,8 @@ class ReverseProxy(object):
 
         try:
             with open(file_path, 'rb') as pages:
-                files = {"file": pages}
-
+                #This should allow requests to detect application/zip content-type
+                files = {os.path.basename(file_path): pages} 
                 response = self.client.post_file(endpoint, files=files)
                 response.success = response.status_code == 200
         except IOError as e:
