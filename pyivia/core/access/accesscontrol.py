@@ -12,6 +12,7 @@ POLICIES = "/iam/access/v8/policies"
 POLICY_ATTACHMENTS = "/iam/access/v8/policyattachments"
 POLICY_ATTACHMENTS_PDADMIN = "/iam/access/v8/policyattachments/pdadmin"
 OBLIGATIONS = "/iam/access/v8/obligations"
+POLICY_SETS = '/iam/access/v8/policysets/'
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +33,8 @@ class AccessControl(object):
             description (:obj:`str`, optional): Description of policy to be created
             dialect (:obj:`str`, optional): Format of policy XML. Only "urn:oasis:names:tc:xacml:2.0:policy:schema:os" is supported
             policy (:obj:`str`, optional): XML of policy steps.
-            attributes_required (:obj:`list` of :obj:`str`, optional): Additional attribute mappings used by the policy
+            attributes_required (`bool`): True if all attributes msut be present in the request before
+                                        the policy can be evaluated.
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
@@ -48,8 +50,8 @@ class AccessControl(object):
         data.add_value_string("description", description)
         data.add_value_string("dialect", dialect)
         data.add_value_string("policy", policy)
-        data.add_value_boolean("attributesRequired", attributes_required)
         data.add_value_boolean("predefined", False)
+        data.add_value_boolean("attributesrequired", attributes_required)
 
         response = self.client.post_json(POLICIES, data.data)
         response.success = response.status_code == 201
@@ -100,6 +102,166 @@ class AccessControl(object):
 
         response = self.client.get_json(POLICIES, parameters.data)
         response.success = response.status_code == 200
+
+        return response
+
+
+    def create_policy_set(self, name, description, predefined=False, policies=[], policy_combining_alg="denyOverrides"):
+        '''
+        Create an AAC Access Policy Set. 
+
+        Args:
+            name (:obj:`str`): Name of policy set to be created.
+            description (:obj:`str`, optional): Description of policy set to be created
+            predefined (`bool`, optional): False to indicate the policy set is custom defined.
+            policies (:obj:`str`, optional): An array of policy IDs which belong to this policy set. The 
+                                           order that the policies appear in this list is used when the 
+                                           ``policy_combining_alg`` is set to "firstApplicable".
+            policy_combining_alg (:obj:`str`, optional): Defines the combined action for the policies in 
+                                                        the set. "firstApplicable" to indicate that the 
+                                                        policy set will return the result of the first 
+                                                        policy in the set that returns permit or deny, 
+                                                        "denyOverrides" to indicate that the policy set 
+                                                        should deny access if any policy in the set returns 
+                                                        a response of deny , or "permitOverrides" to 
+                                                        indicate that the policy set should permit access 
+                                                        if any policy in the set returns a response of 
+                                                        permit. Default is "denyOverrides". 
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify identity access. 
+
+            Success can be checked by examining the response.success boolean attribute.
+
+            If the request is successful the id of the created policy set can be access from the 
+            response.id_from_location attribute.
+
+        '''
+        parameters = DataObject()
+        parameters.add_value_string("name", name)
+        parameters.add_value_string("description", description)
+        parameters.add_value_boolean("predefined", predefined)
+        parameters.add_value("policies", policies)
+        parameters.add_value_string("policyCombiningAlgorithm", policy_combining_alg)
+
+        response = self.client.post_json(POLICY_SETS, parameters.data)
+        response.success = response.status_code == 200
+
+        return response
+
+
+    def update_policy_set(self, set_id, name, description, predefined=False, policies=[], 
+                          policy_combining_alg="denyOverrides"):
+        '''
+        Create an AAC Access Policy Set. 
+
+        Args:
+            name (:obj:`str`): Name of policy set to be created.
+            description (:obj:`str`, optional): Description of policy set to be created
+            predefined (`bool`, optional): False to indicate the policy set is custom defined.
+            policies (:obj:`str`, optional): An array of policy IDs which belong to this policy set. The 
+                                           order that the policies appear in this list is used when the 
+                                           ``policy_combining_alg`` is set to "firstApplicable".
+            policy_combining_alg (:obj:`str`, optional): Defines the combined action for the policies in 
+                                                        the set. "firstApplicable" to indicate that the 
+                                                        policy set will return the result of the first 
+                                                        policy in the set that returns permit or deny, 
+                                                        "denyOverrides" to indicate that the policy set 
+                                                        should deny access if any policy in the set returns 
+                                                        a response of deny , or "permitOverrides" to 
+                                                        indicate that the policy set should permit access 
+                                                        if any policy in the set returns a response of 
+                                                        permit. Default is "denyOverrides". 
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify identity access. 
+
+            Success can be checked by examining the response.success boolean attribute.
+
+            If the request is successful the id of the created policy set can be access from the 
+            response.id_from_location attribute.
+
+        '''
+        parameters = DataObject()
+        parameters.add_value_string("name", name)
+        parameters.add_value_string("description", description)
+        parameters.add_value_boolean("predefined", predefined)
+        parameters.add_value("policies", policies)
+        parameters.add_value_string("policyCombiningAlgorithm", policy_combining_alg)
+
+        endpoint ='{}/{}'.format(POLICY_SETS, set_id)
+        response = self.client.post_json(endpoint, parameters.data)
+        response.success = response.status_code == 204
+
+        return response
+
+
+    def get_policy_set(self, set_id):
+        '''
+        Get a configured AAC Access Policies Set.
+
+        Args:
+            set_id (:obj:`str`, optional): Verify Identity Access assigned id for the policy set.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify identity access. 
+
+            Success can be checked by examining the response.success boolean attribute.
+
+            If the request is successful the policy set is returned as JSON and can be accessed from
+            the response.json attribute.
+
+        '''
+        endpoint = '{}/{}'.format(POLICY_SETS, set_id)
+        response = self.client.get_json(POLICY_SETS)
+        response.success = response.status_code == 200
+
+        return response
+
+
+    def list_policy_sets(self, sort_by=None, filter=None):
+        '''
+        List all of the configured AAC Access Policies Sets.
+
+        Args:
+            sort_by (:obj:`str`, optional): Optional sorting of returned policies
+            filter (:obj:`str`, optional): Optional filter for returned policies
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify identity access. 
+
+            Success can be checked by examining the response.success boolean attribute.
+
+            If the request is successful the policy sets are returned as JSON and can be accessed from
+            the response.json attribute.
+
+        '''
+        parameters = DataObject()
+        parameters.add_value_string("sortBy", sort_by)
+        parameters.add_value_string("filter", filter)
+
+        response = self.client.get_json(POLICY_SETS, parameters.data)
+        response.success = response.status_code == 200
+
+        return response
+
+
+    def delete_policy_set(self, set_id):
+        '''
+        Delete a configured AAC Access Policies Set.
+
+        Args:
+            set_id (:obj:`str`): Verify Identity Access assigned id for the policy set.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify identity access. 
+
+            Success can be checked by examining the response.success boolean attribute.
+
+        '''
+        enndpoint = '{}/{}'.format(POLICY_SETS, set_id)
+        response = self.client.delete_json(endpoint)
+        response.success = response.status_code == 204
 
         return response
 
