@@ -691,15 +691,12 @@ class ReverseProxy(object):
         return response
 
 
-    def import_management_root_files(self, webseal_id, tld, file_path):
+    def import_management_root_files(self, webseal_id, file_path):
         '''
         Import a zip file into the management root of a WebSEAL reverse proxy instance. File path should be an absolute URL
 
         Args:
             webseal_id (:obj:`str`): The Reverse Proxy instance name.
-            tld: (:obj:`str`): The directory to import files to. This should begin with one of the 
-                                top-level directories. The top-level directory must be one of ``management``, 
-                                ``errors``, ``pkmspublic``, ``oauth``, ``snippets``, or ``junction-root``.
             file_path (:obj:`str`): Zip file to be imported to the management root.
 
         Returns:
@@ -713,12 +710,12 @@ class ReverseProxy(object):
         '''
         response = Response()
 
-        endpoint = ("%s/%s/management_root/%s" % (REVERSEPROXY, webseal_id, tld))
+        endpoint = ("%s/%s/management_root/" % (REVERSEPROXY, webseal_id))
 
         try:
             with open(file_path, 'rb') as pages:
                 #This should allow requests to detect application/zip content-type
-                files = {os.path.basename(file_path): pages} 
+                files = {'file': pages} 
                 response = self.client.post_file(endpoint, files=files)
                 response.success = response.status_code == 200
         except IOError as e:

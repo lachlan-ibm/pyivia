@@ -19,7 +19,7 @@ class SSLCertificates(object):
         super(SSLCertificates, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def import_personal(self, kdb_id, file_path, password=None):
+    def import_personal(self, kdb_id, file_path, password=None, label=None):
         """
         Import a personal certificate (private key & X509 certificate) into a SSL database
 
@@ -40,6 +40,7 @@ class SSLCertificates(object):
                 data = DataObject()
                 data.add_value_string("operation", "import")
                 data.add_value_string("password", password)
+                data.add_value_string("label", label)
 
                 files = {"cert": certificate}
 
