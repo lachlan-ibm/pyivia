@@ -143,7 +143,7 @@ class FIDO2Config(object):
         return response
 
 
-    def update_relying_party(self, id, name=None, rp_id=None, origins=None, metadata_set=None, metadata_soft_fail=True,
+    def update_relying_party(self, id, name=None, rp_id=None, origins=None, metadata_set=[], metadata_soft_fail=True,
             mediator_mapping_rule_id=None, attestation_statement_types=None, attestation_statement_formats=None,
             attestation_public_key_algorithms=None, attestation_android_safety_net_max_age=None,
             attestation_android_safetynet_clock_skew=None, attestation_android_safetynet_cts_match=None,
@@ -188,7 +188,7 @@ class FIDO2Config(object):
 
         fidoServerOptions = DataObject()
         fidoServerOptions.add_value_not_empty("origins", origins)
-        fidoServerOptions.add_value_not_empty("metadataSet", metadata_set)
+        fidoServerOptions.add_value("metadataSet", metadata_set)
         fidoServerOptions.add_value("metadataServices", metadata_services)
         fidoServerOptions.add_value_boolean("metadataSoftFail", metadata_soft_fail)
         fidoServerOptions.add_value_string("mediatorMappingRuleId", mediator_mapping_rule_id)
@@ -750,8 +750,8 @@ class FIDO2Config10050(FIDO2Config):
 
         fidoServerOptions = DataObject()
         fidoServerOptions.add_value_not_empty("origins", origins)
-        fidoServerOptions.add_value_not_empty("metadataSet", metadata_set)
-        fidoServerOptions.add_value_not_empty("metadataServices", metadata_services)
+        fidoServerOptions.add_value("metadataSet", metadata_set)
+        fidoServerOptions.add_value("metadataServices", metadata_services)
         fidoServerOptions.add_value_boolean("metadataSoftFail", metadata_soft_fail)
         fidoServerOptions.add_value_string("mediatorMappingRuleId", mediator_mapping_rule_id)
 
