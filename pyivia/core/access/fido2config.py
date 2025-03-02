@@ -109,9 +109,9 @@ class FIDO2Config(object):
         data = DataObject()
         data.add_value("name", name)
         data.add_value("rpId", rp_id)
-        data.add_value("timeout", timeout)
 
         fidoServerOptions = DataObject()
+        fidoServerOptions.add_value("timeout", timeout)
         fidoServerOptions.add_value_not_empty("origins", origins)
         fidoServerOptions.add_value("metadataSet", metadata_set)
         fidoServerOptions.add_value("metadataServices", metadata_services)
@@ -184,9 +184,9 @@ class FIDO2Config(object):
         data.add_value_string("id", id)
         data.add_value_string("name", name)
         data.add_value_string("rpId", rp_id)
-        data.add_value("timeout", timeout)
 
         fidoServerOptions = DataObject()
+        fidoServerOptions.add_value("timeout", timeout)
         fidoServerOptions.add_value_not_empty("origins", origins)
         fidoServerOptions.add_value("metadataSet", metadata_set)
         fidoServerOptions.add_value("metadataServices", metadata_services)
@@ -672,9 +672,9 @@ class FIDO2Config10050(FIDO2Config):
         data = DataObject()
         data.add_value("name", name)
         data.add_value("rpId", rp_id)
-        data.add_value("timeout", timeout)
 
         fidoServerOptions = DataObject()
+        fidoServerOptions.add_value("timeout", timeout)
         fidoServerOptions.add_value_not_empty("origins", origins)
         fidoServerOptions.add_value("metadataSet", metadata_set)
         fidoServerOptions.add_value("metadataServices", metadata_services)
@@ -746,9 +746,9 @@ class FIDO2Config10050(FIDO2Config):
         data.add_value_string("id", id)
         data.add_value_string("name", name)
         data.add_value_string("rpId", rp_id)
-        data.add_value("timeout", timeout)
 
         fidoServerOptions = DataObject()
+        fidoServerOptions.add_value("timeout", timeout)
         fidoServerOptions.add_value_not_empty("origins", origins)
         fidoServerOptions.add_value("metadataSet", metadata_set)
         fidoServerOptions.add_value("metadataServices", metadata_services)
