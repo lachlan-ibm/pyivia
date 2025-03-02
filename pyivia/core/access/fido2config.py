@@ -146,7 +146,9 @@ class FIDO2Config(object):
     def update_relying_party(self, id, name=None, rp_id=None, origins=None, metadata_set=None, metadata_soft_fail=True,
             mediator_mapping_rule_id=None, attestation_statement_types=None, attestation_statement_formats=None,
             attestation_public_key_algorithms=None, attestation_android_safety_net_max_age=None,
-            attestation_android_safetynet_clock_skew=None, relying_party_impersonation_group=None):
+            attestation_android_safetynet_clock_skew=None, attestation_android_safetynet_cts_match=None,
+            relying_party_impersonation_group=None, compound_all_valid=None, timeout=None,
+            metadata_services=[]):
         '''
         Update a FIDO2 relying party.
 
@@ -163,7 +165,14 @@ class FIDO2Config(object):
             attestation_public_key_algorithms (:obj:`list` of :obj:`str`): List of supported cryptographic signing algorithms.
             attestation_android_safetynet_max_age (int): Length of time that an "android-safetynet" attestation is valid for.
             attestation_android_safetynet_clock_skew (int): Clock skew allowed for "android-safetynet" attestations.
+            attestation_android_safetynet_cts_match (int): Enforce the Android Safetynet CTS Profile Match flag.
             relying_party_impersonation_group (:obj:`str`): Group which permits users to perform FIDO flows on behalf of another user.
+            compound_all_valid (`bool`, optional): True if all attestation statements in a compound attestatation must
+                                                    be valid to successfully register a given authenticator. Only
+                                                    valid if ``compound`` is included in ``attestation_statement_formats``.
+            timeout (`int`, optional): Lenght of time a user has to complete a FIDO2/WebAuthn ceremony. 
+                                        Default value is 300 seconds (5 mins).
+            metadata_services (:obj:`list` of :obj:`str`): List of MDS id's to included as metadata providers.
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
@@ -175,10 +184,12 @@ class FIDO2Config(object):
         data.add_value_string("id", id)
         data.add_value_string("name", name)
         data.add_value_string("rpId", rp_id)
+        data.add_value("timeout", timeout)
 
         fidoServerOptions = DataObject()
         fidoServerOptions.add_value_not_empty("origins", origins)
         fidoServerOptions.add_value_not_empty("metadataSet", metadata_set)
+        fidoServerOptions.add_value("metadataServices", metadata_services)
         fidoServerOptions.add_value_boolean("metadataSoftFail", metadata_soft_fail)
         fidoServerOptions.add_value_string("mediatorMappingRuleId", mediator_mapping_rule_id)
 
@@ -187,11 +198,13 @@ class FIDO2Config(object):
         attestation.add_value_not_empty("statementFormats", attestation_statement_formats)
         attestation.add_value_not_empty("publicKeyAlgorithms", attestation_public_key_algorithms)
         attestation.add_value_not_empty("publicKeyAlgorithms", attestation_public_key_algorithms)
+        attestation.add_value_boolean("compoundAttestationAllValid", compound_all_valid)
         fidoServerOptions.add_value("attestation", attestation.data)
 
         attestationAndroidSafetyNetOptions = DataObject()
         attestationAndroidSafetyNetOptions.add_value("attestationMaxAge", attestation_android_safety_net_max_age)
         attestationAndroidSafetyNetOptions.add_value("clockSkew", attestation_android_safetynet_clock_skew)
+        attestationAndroidSafetyNetOptions.add_value("ctsProfileMatch", attestation_android_safetynet_cts_match)
         fidoServerOptions.add_value("android-safetynet", attestationAndroidSafetyNetOptions.data)
 
         data.add_value("fidoServerOptions", fidoServerOptions.data)
@@ -616,10 +629,11 @@ class FIDO2Config10050(FIDO2Config):
     def __init__(self, base_url, username, password):
         super(FIDO2Config10050, self).__init__(base_url, username, password)
 
-    def create_relying_party(self, name=None, rp_id=None, origins=None, metadata_set=None, metadata_soft_fail=True,
+    def create_relying_party(self, name=None, rp_id=None, origins=None, metadata_set=[], metadata_soft_fail=True,
             mediator_mapping_rule_id=None, attestation_statement_types=None, attestation_statement_formats=None,
             attestation_public_key_algorithms=None, attestation_android_safetynet_max_age=None,
-            attestation_android_safetynet_clock_skew=None, relying_party_impersonation_group=None, metadata_services=None):
+            attestation_android_safetynet_clock_skew=None, attestation_android_safetynet_cts_match=None,
+            relying_party_impersonation_group=None, compound_all_valid=None, timeout=None, metadata_services=[]):
         '''
         Create a FIDO2 relying party.
 
@@ -636,8 +650,15 @@ class FIDO2Config10050(FIDO2Config):
             attestation_public_key_algorithms (:obj:`list` of :obj:`str`): List of supported cryptographic signing algorithms.
             attestation_android_safetynet_max_age (int): Length of time that an "android-safetynet" attestation is valid for.
             attestation_android_safetynet_clock_skew (int): Clock skew allowed for "android-safetynet" attestations.
+            attestation_android_safetynet_cts_match (int): Enforce the Android Safetynet CTS Profile Match flag.
             relying_party_impersonation_group (:obj:`str`, optional): Group which permits users to perform FIDO flows on behalf of another user.
             metadata_services (:obj:`list` of :obj:`str`): A list of FIDO2 Metadata service ID's that this FIDO2 Relying Party will use to retrieve metadata used for attestation validation. Can be empty to indicate no metadata service will be used.
+            compound_all_valid (`bool`, optional): True if all attestation statements in a compound attestatation must
+                                                    be valid to successfully register a given authenticator. Only
+                                                    valid if ``compound`` is included in ``attestation_statement_formats``.
+            timeout (`int`, optional): Lenght of time a user has to complete a FIDO2/WebAuthn ceremony. 
+                                        Default value is 300 seconds (5 mins).
+
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
@@ -651,10 +672,12 @@ class FIDO2Config10050(FIDO2Config):
         data = DataObject()
         data.add_value("name", name)
         data.add_value("rpId", rp_id)
+        data.add_value("timeout", timeout)
 
         fidoServerOptions = DataObject()
         fidoServerOptions.add_value_not_empty("origins", origins)
-        fidoServerOptions.add_value_not_empty("metadataSet", metadata_set)
+        fidoServerOptions.add_value("metadataSet", metadata_set)
+        fidoServerOptions.add_value("metadataServices", metadata_services)
         fidoServerOptions.add_value_boolean("metadataSoftFail", metadata_soft_fail)
         fidoServerOptions.add_value_string("mediatorMappingRuleId", mediator_mapping_rule_id)
 
@@ -662,11 +685,13 @@ class FIDO2Config10050(FIDO2Config):
         attestation.add_value_not_empty("statementTypes", attestation_statement_types)
         attestation.add_value_not_empty("statementFormats", attestation_statement_formats)
         attestation.add_value_not_empty("publicKeyAlgorithms", attestation_public_key_algorithms)
+        attestation.add_value_boolean("compoundAttestationAllValid", compound_all_valid)
         fidoServerOptions.add_value_not_empty("attestation", attestation.data)
 
         attestationAndroidSafetyNetOptions = DataObject()
         attestationAndroidSafetyNetOptions.add_value("attestationMaxAge", attestation_android_safetynet_max_age)
         attestationAndroidSafetyNetOptions.add_value("clockSkew", attestation_android_safetynet_clock_skew)
+        attestationAndroidSafetyNetOptions.add_value("ctsProfileMatch", attestation_android_safetynet_cts_match)
         fidoServerOptions.add_value_not_empty("android-safetynet", attestationAndroidSafetyNetOptions.data)
 
         data.add_value("fidoServerOptions", fidoServerOptions.data)
@@ -681,10 +706,11 @@ class FIDO2Config10050(FIDO2Config):
         return response
 
 
-    def update_relying_party(self, id, name=None, rp_id=None, origins=None, metadata_set=None, metadata_soft_fail=True,
+    def update_relying_party(self, id, name=None, rp_id=None, origins=None, metadata_set=[], metadata_soft_fail=True,
             mediator_mapping_rule_id=None, attestation_statement_types=None, attestation_statement_formats=None,
             attestation_public_key_algorithms=None, attestation_android_safety_net_max_age=None,
-            attestation_android_safetynet_clock_skew=None, relying_party_impersonation_group=None, metadata_services=None):
+            attestation_android_safetynet_clock_skew=None, attestation_android_safetynet_cts_match=None,
+            relying_party_impersonation_group=None, compound_all_valid=None, timeout=None, metadata_services=[]):
         '''
         Update a FIDO2 relying party.
 
@@ -701,8 +727,14 @@ class FIDO2Config10050(FIDO2Config):
             attestation_public_key_algorithms (:obj:`list` of :obj:`str`): List of supported cryptographic signing algorithms.
             attestation_android_safetynet_max_age (int): Length of time that an "android-safetynet" attestation is valid for.
             attestation_android_safetynet_clock_skew (int): Clock skew allowed for "android-safetynet" attestations.
+            attestation_android_safetynet_cts_match (int): Enforce the Android Safetynet CTS Profile Match flag.
             relying_party_impersonation_group (:obj:`str`): Group which permits users to perform FIDO flows on behalf of another user.
             metadata_services (:obj:`list` of :obj:`str`): A list of FIDO2 Metadata service ID's that this FIDO2 Relying Party will use to retrieve metadata used for attestation validation. Can be empty to indicate no metadata service will be used.
+            compound_all_valid (`bool`, optional): True if all attestation statements in a compound attestatation must
+                                                    be valid to successfully register a given authenticator. Only
+                                                    valid if ``compound`` is included in ``attestation_statement_formats``.
+            timeout (`int`, optional): Lenght of time a user has to complete a FIDO2/WebAuthn ceremony. 
+                                        Default value is 300 seconds (5 mins).
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
@@ -714,6 +746,7 @@ class FIDO2Config10050(FIDO2Config):
         data.add_value_string("id", id)
         data.add_value_string("name", name)
         data.add_value_string("rpId", rp_id)
+        data.add_value("timeout", timeout)
 
         fidoServerOptions = DataObject()
         fidoServerOptions.add_value_not_empty("origins", origins)
@@ -727,11 +760,13 @@ class FIDO2Config10050(FIDO2Config):
         attestation.add_value_not_empty("statementFormats", attestation_statement_formats)
         attestation.add_value_not_empty("publicKeyAlgorithms", attestation_public_key_algorithms)
         attestation.add_value_not_empty("publicKeyAlgorithms", attestation_public_key_algorithms)
+        attestation.add_value_boolean("compoundAttestationAllValid", compound_all_valid)
         fidoServerOptions.add_value("attestation", attestation.data)
 
         attestationAndroidSafetyNetOptions = DataObject()
         attestationAndroidSafetyNetOptions.add_value("attestationMaxAge", attestation_android_safety_net_max_age)
         attestationAndroidSafetyNetOptions.add_value("clockSkew", attestation_android_safetynet_clock_skew)
+        attestationAndroidSafetyNetOptions.add_value("ctsProfileMatch", attestation_android_safetynet_cts_match)
         fidoServerOptions.add_value("android-safetynet", attestationAndroidSafetyNetOptions.data)
 
         data.add_value("fidoServerOptions", fidoServerOptions.data)
