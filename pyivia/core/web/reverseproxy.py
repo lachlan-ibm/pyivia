@@ -711,12 +711,11 @@ class ReverseProxy(object):
         response = Response()
 
         endpoint = ("%s/%s/management_root/" % (REVERSEPROXY, webseal_id))
-
         try:
-            with open(file_path, 'rb') as pages:
+            with open(file_path, 'rb') as f:
                 #This should allow requests to detect application/zip content-type
-                files = {'file': pages} 
-                response = self.client.post_file(endpoint, files=files)
+                fd = {'file': f}
+                response = self.client.post_file(endpoint, files=fd, data=None)
                 response.success = response.status_code == 200
         except IOError as e:
             logger.error(e)
