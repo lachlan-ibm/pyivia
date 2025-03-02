@@ -2,7 +2,6 @@
 @copyright: IBM
 """
 
-import logging
 
 from pyivia.util.model import DataObject
 from pyivia.util.restclient import RESTClient
@@ -13,8 +12,6 @@ RUNTIME_COMPONENT = "/isam/runtime_components"
 UNCONFIGURE_RUNTIME_COMPONENT = RUNTIME_COMPONENT + "/RTE"
 FEDERATED_DIRECTORIES = RUNTIME_COMPONENT + "/federated_directories"
 RUNTIME_STANZA_FILE_BASE = "/isam/runtime"
-
-logger = logging.getLogger(__name__)
 
 
 class RuntimeComponent(object):
@@ -341,7 +338,6 @@ class RuntimeComponent10000(RuntimeComponent):
         data.add_value("ldap_port", ldap_port)
         data.add_value("isam_port", isam_port)
 
-        logger.info(data.data)
         response = self.client.post_json(RUNTIME_COMPONENT, data.data)
 
         response.success = response.status_code == 200

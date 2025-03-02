@@ -128,7 +128,7 @@ class FIDO2Config(object):
         attestationAndroidSafetyNetOptions = DataObject()
         attestationAndroidSafetyNetOptions.add_value("attestationMaxAge", attestation_android_safetynet_max_age)
         attestationAndroidSafetyNetOptions.add_value("clockSkew", attestation_android_safetynet_clock_skew)
-        attestationAndroidSafetyNetOptions.add_value("ctsProfileMatch", attestation_android_safetynet_cts_match)
+        attestationAndroidSafetyNetOptions.add_value_boolean("ctsProfileMatch", attestation_android_safetynet_cts_match)
         fidoServerOptions.add_value_not_empty("android-safetynet", attestationAndroidSafetyNetOptions.data)
 
         data.add_value("fidoServerOptions", fidoServerOptions.data)
@@ -204,7 +204,7 @@ class FIDO2Config(object):
         attestationAndroidSafetyNetOptions = DataObject()
         attestationAndroidSafetyNetOptions.add_value("attestationMaxAge", attestation_android_safety_net_max_age)
         attestationAndroidSafetyNetOptions.add_value("clockSkew", attestation_android_safetynet_clock_skew)
-        attestationAndroidSafetyNetOptions.add_value("ctsProfileMatch", attestation_android_safetynet_cts_match)
+        attestationAndroidSafetyNetOptions.add_value_boolean("ctsProfileMatch", attestation_android_safetynet_cts_match)
         fidoServerOptions.add_value("android-safetynet", attestationAndroidSafetyNetOptions.data)
 
         data.add_value("fidoServerOptions", fidoServerOptions.data)
@@ -691,7 +691,7 @@ class FIDO2Config10050(FIDO2Config):
         attestationAndroidSafetyNetOptions = DataObject()
         attestationAndroidSafetyNetOptions.add_value("attestationMaxAge", attestation_android_safetynet_max_age)
         attestationAndroidSafetyNetOptions.add_value("clockSkew", attestation_android_safetynet_clock_skew)
-        attestationAndroidSafetyNetOptions.add_value("ctsProfileMatch", attestation_android_safetynet_cts_match)
+        attestationAndroidSafetyNetOptions.add_value_boolean("ctsProfileMatch", attestation_android_safetynet_cts_match)
         fidoServerOptions.add_value_not_empty("android-safetynet", attestationAndroidSafetyNetOptions.data)
 
         data.add_value("fidoServerOptions", fidoServerOptions.data)
@@ -700,6 +700,7 @@ class FIDO2Config10050(FIDO2Config):
         relyingPartyOptions.add_value("impersonationGroup", relying_party_impersonation_group)
         data.add_value("relyingPartyOptions", relyingPartyOptions.data)
 
+        logger.debug(data.data)
         response = self.client.post_json(FIDO2_RELYING_PARTIES, data.data)
         response.success = response.status_code == 201
 
@@ -766,7 +767,7 @@ class FIDO2Config10050(FIDO2Config):
         attestationAndroidSafetyNetOptions = DataObject()
         attestationAndroidSafetyNetOptions.add_value("attestationMaxAge", attestation_android_safety_net_max_age)
         attestationAndroidSafetyNetOptions.add_value("clockSkew", attestation_android_safetynet_clock_skew)
-        attestationAndroidSafetyNetOptions.add_value("ctsProfileMatch", attestation_android_safetynet_cts_match)
+        attestationAndroidSafetyNetOptions.add_value_boolean("ctsProfileMatch", attestation_android_safetynet_cts_match)
         fidoServerOptions.add_value("android-safetynet", attestationAndroidSafetyNetOptions.data)
 
         data.add_value("fidoServerOptions", fidoServerOptions.data)
