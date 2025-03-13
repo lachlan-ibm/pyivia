@@ -140,7 +140,6 @@ class RESTClient(object):
         headers = self._get_headers(accept_type)
 
         self._log_request("POST", url, headers)
-        print("files: {}".format(files))
 
         r = requests.post(
             url=url, headers=headers, data=data, files=files, params=parameters, verify=self._verify)
