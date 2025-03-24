@@ -360,7 +360,7 @@ class ReverseProxy(object):
                     % (REVERSEPROXY, webseal_id, stanza_id))
 
         response = self.client.delete_json(endpoint)
-        response.success = response.status_code == 204
+        response.success = response.status_code == 200
 
         return response
 
@@ -417,7 +417,7 @@ class ReverseProxy(object):
             endpoint = "%s/value/%s" % (endpoint, value)
 
         response = self.client.delete_json(endpoint)
-        response.success = response.status_code == 204
+        response.success = response.status_code == 200
 
         return response
 

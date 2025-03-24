@@ -9,6 +9,7 @@ from pyivia.util.restclient import RESTClient
 
 
 CAPABILITIES = "/isam/capabilities"
+TRIAL = "/trial"
 
 logger = logging.getLogger(__name__)
 
@@ -110,6 +111,36 @@ class Licensing(object):
 
                 response = self.client.post_file(
                     endpoint, data=data.data, files=files)
+                response.success = response.status_code == 200
+        except IOError as e:
+            logger.error(e)
+            response.success = False
+
+        return response
+
+    def trial_activation(self, file_path):
+        """
+        Import a license certificate issued by https://isva-trial.verify.ibm.com/
+
+        Typically licenses are valid for 90 days.
+
+        Args:
+            file_path (:obj:`str`): Absolute path to file containing the PEM encoded license certificate.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify identity access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the active module is returned as HTML encoded JSON and can be 
+            accessed from the response.data attribute
+        """
+        response = Response()
+
+        try:
+            with open(file_path, 'rb') as cer:
+                files = {"trial": cer}
+                response = self.client.post_file(TRIAL, accept_type='text/html', files=files)
                 response.success = response.status_code == 200
         except IOError as e:
             logger.error(e)
