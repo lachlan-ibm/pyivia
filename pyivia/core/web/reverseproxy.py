@@ -360,7 +360,7 @@ class ReverseProxy(object):
                     % (REVERSEPROXY, webseal_id, stanza_id))
 
         response = self.client.delete_json(endpoint)
-        response.success = response.status_code == 204
+        response.success = response.status_code == 200
 
         return response
 
@@ -417,7 +417,7 @@ class ReverseProxy(object):
             endpoint = "%s/value/%s" % (endpoint, value)
 
         response = self.client.delete_json(endpoint)
-        response.success = response.status_code == 204
+        response.success = response.status_code == 200
 
         return response
 
@@ -691,15 +691,12 @@ class ReverseProxy(object):
         return response
 
 
-    def import_management_root_files(self, webseal_id, tld, file_path):
+    def import_management_root_files(self, webseal_id, file_path):
         '''
         Import a zip file into the management root of a WebSEAL reverse proxy instance. File path should be an absolute URL
 
         Args:
             webseal_id (:obj:`str`): The Reverse Proxy instance name.
-            tld: (:obj:`str`): The directory to import files to. This should begin with one of the 
-                                top-level directories. The top-level directory must be one of ``management``, 
-                                ``errors``, ``pkmspublic``, ``oauth``, ``snippets``, or ``junction-root``.
             file_path (:obj:`str`): Zip file to be imported to the management root.
 
         Returns:
@@ -713,13 +710,12 @@ class ReverseProxy(object):
         '''
         response = Response()
 
-        endpoint = ("%s/%s/management_root/%s" % (REVERSEPROXY, webseal_id, tld))
-
+        endpoint = ("%s/%s/management_root/" % (REVERSEPROXY, webseal_id))
         try:
-            with open(file_path, 'rb') as pages:
+            with open(file_path, 'rb') as f:
                 #This should allow requests to detect application/zip content-type
-                files = {os.path.basename(file_path): pages} 
-                response = self.client.post_file(endpoint, files=files)
+                fd = {'file': f}
+                response = self.client.post_file(endpoint, files=fd, data=None)
                 response.success = response.status_code == 200
         except IOError as e:
             logger.error(e)
