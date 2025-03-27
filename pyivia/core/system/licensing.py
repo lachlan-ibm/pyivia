@@ -3,6 +3,7 @@
 """
 
 import logging
+import os
 
 from pyivia.util.model import DataObject, Response
 from pyivia.util.restclient import RESTClient
