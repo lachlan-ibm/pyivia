@@ -139,7 +139,7 @@ class Licensing(object):
 
         try:
             with open(file_path, 'rb') as cer:
-                files = {"trial": cer}
+                files = {"trial": (os.path.basename(file_path), cer, "application/octet-stream")}
                 response = self.client.post_file(TRIAL, accept_type='text/html', files=files)
                 response.success = response.status_code == 200
         except IOError as e:
