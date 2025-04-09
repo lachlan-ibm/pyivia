@@ -33,7 +33,7 @@ class RESTClient(object):
 
         r = requests.delete(url=url, headers=headers, params=None, verify=False)
 
-        self._log_response(r.status_code, r.headers)
+        self._log_response(r.status_code, r.headers, r.content)
 
         response = self._build_response(r)
         r.close()
@@ -54,7 +54,7 @@ class RESTClient(object):
         r = requests.get(
             url=url, params=parameters, headers=headers, verify=False)
 
-        self._log_response(r.status_code, r.headers)
+        self._log_response(r.status_code, r.headers, r.content)
 
         response = self._build_response(r)
         r.close()
@@ -80,7 +80,7 @@ class RESTClient(object):
 
                 r = requests.get(url=url, verify=False, timeout=1)
 
-                self._log_response(r.status_code, r.headers)
+                self._log_response(r.status_code, r.headers, r.content)
 
                 response = self._build_response(r)
                 r.close()
@@ -105,7 +105,7 @@ class RESTClient(object):
             url=url, headers=headers, params=parameters, data=data,
             verify=False)
 
-        self._log_response(r.status_code, r.headers)
+        self._log_response(r.status_code, r.headers, r.content)
 
         response = self._build_response(r)
         r.close()
@@ -122,7 +122,7 @@ class RESTClient(object):
         r = requests.post(
             url=url, headers=headers, data=data, files=files, verify=False)
 
-        self._log_response(r.status_code, r.headers)
+        self._log_response(r.status_code, r.headersr.content)
 
         response = self._build_response(r)
         r.close()
@@ -144,7 +144,7 @@ class RESTClient(object):
         r = requests.put(
             url=url, headers=headers, params=None, data=data, verify=False)
 
-        self._log_response(r.status_code, r.headers)
+        self._log_response(r.status_code, r.headers, r.content)
 
         response = self._build_response(r)
         r.close()
@@ -193,5 +193,5 @@ class RESTClient(object):
 
         logger.debug("Request: %s %s headers=%s", method, url, safe_headers)
 
-    def _log_response(self, status_code, headers):
-        logger.debug("Response: %i headers=%s", status_code, headers)
+    def _log_response(self, status_code, headers, content):
+        logger.debug("Response: %i headers=%s\nContent: %s", status_code, headers, content)

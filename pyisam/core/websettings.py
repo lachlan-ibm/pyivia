@@ -5,7 +5,7 @@
 from .web.dscadmin import DSCAdmin
 from .web.policyadmin import PolicyAdmin
 from .web.reverseproxy import ReverseProxy, ReverseProxy9040, ReverseProxy10020
-from .web.runtimecomponent import RuntimeComponent
+from .web.runtimecomponent import RuntimeComponent, RuntimeComponent10000
 
 
 class WebSettings9020(object):
@@ -91,6 +91,7 @@ class WebSettings10000(WebSettings9080):
 
     def __init__(self, base_url, username, password):
             super(WebSettings10000, self).__init__(base_url, username, password)
+            self.runtime_component = RuntimeComponent10000(base_url, username, password)
 
 
 class WebSettings10010(WebSettings10000):

@@ -2,7 +2,7 @@
 @copyright: IBM
 """
 
-from .federation.federations import Federations, Federations9040
+from .federation.federations import Federations, Federations9040, Federations10000
 from .federation.pointofcontact import PointOfContact
 from .federation.accesspolicy import AccessPolicy
 from .federation.attributesources import AttributeSources

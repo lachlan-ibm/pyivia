@@ -122,7 +122,7 @@ class ServerConnections(object):
         return response
 
     def create_ci(
-            self, name=None, description=None, locked=None
+            self, name=None, description=None, locked=None,
             connection_host_name=None, connection_client_id=None,
             connection_client_secret=None, connection_ssl_truststore=None):
         connection_data = DataObject()

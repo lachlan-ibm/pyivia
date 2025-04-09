@@ -46,3 +46,26 @@ class StaticRoutes(object):
         response.success = response.status_code == 200
 
         return response
+
+class StaticRoutes10000(StaticRoutes):
+
+    def update_route(self, uuid, enabled=None, address=None, mask_or_prefix=None,
+            gateway=None, interface_uuid=None, metric=0, comment=None, table=None):
+
+        data = DataObject()
+        data.add_value_string("address", address)
+        data.add_value_string("maskOrPrefix", mask_or_prefix)
+        data.add_value("enabled", enabled)
+        data.add_value("metric", metric)
+        data.add_value_string("gateway", gateway)
+        data.add_value_string("interfaceUUID", interface_uuid)
+        data.add_value_string("metric", metric)
+        data.add_value_string("comment", comment)
+        data.add_value_string("table", table)
+
+        url = ROUTES + '/' + uuid
+
+        response = self.client.put_json(url, data.data)
+        response.success = response.status_code == 200
+
+        return response

@@ -348,7 +348,7 @@ class Federations9040(Federations):
 
         return response
 
-def Federations10000(Federations9040):
+class Federations10000(Federations9040):
 
     def create_saml_federation(self, name=None, role=None, template_name=None, active_delegate_id=None, need_consent_to_federate=None,
             signature_algorithm=None, signing_keystore=None, signing_key_label=None, sso_service_binding=None,message_issuer_format=None,
