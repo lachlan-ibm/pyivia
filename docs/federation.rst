@@ -8,7 +8,7 @@ OIDC and SAML. This module is also used to configure how identity attributes are
 as providing additional sources of information for federated identities.
 
 
-.. autoclass:: pyisva.core.federationsettings.Federation
+.. autoclass:: pyivia.core.federationsettings.Federation
    :members:
 
 
@@ -16,15 +16,21 @@ Federations configuration
 =========================
 
 
-.. autoclass:: pyisva.core.federation.federations.Federations
+.. autoclass:: pyivia.core.federation.federations.Federations
    :members:
 
 
 Access Policies
 ===============
 
+.. autoclass:: pyivia.core.federation.accesspolicy.AccessPolicy
+   :members:
 
-.. autoclass:: pyisva.core.federation.accesspolicy.AccessPolicy
+
+Alias Service
+=============
+
+.. autoclass:: pyivia.core.federation.aliasservice.AliasService
    :members:
 
 
@@ -32,7 +38,7 @@ Attribute Sources
 =================
 
 
-.. autoclass:: pyisva.core.federation.attributesources.AttributeSources
+.. autoclass:: pyivia.core.federation.attributesources.AttributeSources
    :members:
 
 
@@ -40,7 +46,7 @@ Point of Contact (POC) Profile
 ==============================
 
 
-.. autoclass:: pyisva.core.federation.pointofcontact.PointOfContact
+.. autoclass:: pyivia.core.federation.pointofcontact.PointOfContact
     :members:
 
 
@@ -48,5 +54,5 @@ Security Token Service (STS)
 ============================
 
 
-.. autoclass:: pyisva.core.federation.securitytokenservice.SecurityTokenService
+.. autoclass:: pyivia.core.federation.securitytokenservice.SecurityTokenService
    :members:
