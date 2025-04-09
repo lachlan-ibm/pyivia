@@ -48,13 +48,14 @@ class AttributeSources(object):
         return response
 
 
-    def update_attribute_source(self, attribute_name=None, attribute_new_name=None, attribute_type=None, attribute_value=True, properties=None):
+    def update_attribute_source(self, attribute_id, attribute_name=None, attribute_type=None, 
+                                attribute_value=True, properties=None):
         """
         Update an existing attribute source
 
         Args:
-            attribute_name (:obj:`str`): The name of the attribute.
-            attribute_new_name (:obj:`str`, optional): The new name of the attribute.
+            attribute_id (:obj:`str`): The verify identity access assigned id of the attribute.
+            attribute_name (:obj:`str`): The updated name of the attribute.
             attribute_type (:obj:`str`): The type of the attribute source. Valid types are: credential, value, ldap.
             attribute_value (:obj:`str`): The value of the source attribute.
             properties (:obj:`list` of :obj:`str`): The properties associated with an attribute source.
@@ -75,7 +76,7 @@ class AttributeSources(object):
         data.add_value_string("value", attribute_value)
         data.add_value("properties", properties)
 
-        endpoint = "%s/%s" % (ATTRIBUTE_SOURCES, attribute_name)
+        endpoint = "%s/%s" % (ATTRIBUTE_SOURCES, attribute_id)
         response = self.client.post_json(ATTRIBUTE_SOURCES, data.data)
         response.success = response.status_code == 204
         return response
