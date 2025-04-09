@@ -9,12 +9,6 @@ from pathlib import Path
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 
-<<<<<<< HEAD
-setup(
-    name='pyisva',
-    version='0.2.%s' % os.environ.get('TRAVIS_BUILD_NUMBER', 0),
-    description='Python API for IBM Security Verify Access',
-=======
 class CleanCommand(Command):
     """Custom clean command to tidy up the project root."""
     user_options = []
@@ -42,20 +36,14 @@ setup(
     name='pyivia',
     version='0.2.%s' % BUILD_ID,
     description='Python API for IBM Verify Identity Access',
->>>>>>> development
     author='Lachlan Gleeson',
     author_email='lgleeson@au1.ibm.com',
     license='MIT',
     packages=find_packages(),
     install_requires=[
-<<<<<<< HEAD
         'requests>=2.23.0'
     ],
     url='https://github.com/lachlan-ibm/pyisva',
-    zip_safe=False,
-=======
-        'requests'
-    ],
     project_urls={
         'Homepage': 'https://github.com/lachlan-ibm/pyivia',
         'Documentation': 'https://lachlan-ibm.github.io/pyivia',
@@ -66,7 +54,6 @@ setup(
     cmdclass={
         'clean': CleanCommand,
     },
->>>>>>> development
     long_description=long_description,
     long_description_content_type='text/markdown'
 )
