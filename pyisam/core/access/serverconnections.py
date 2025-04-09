@@ -14,6 +14,7 @@ SERVER_CONNECTION_ISAM_RUNTIME = "/mga/server_connections/isamruntime"
 SERVER_CONNECTION_WEB_SERVICE = "/mga/server_connections/ws"
 SERVER_CONNECTION_SMTP = "/mga/server_connections/smtp"
 SERVER_CONNECTION_CI = "/mga/server_connections/ci"
+SERVER_CONNECTION_JDBC = "/mga/server_connections/jdbc"
 
 
 logger = logging.getLogger(__name__)
@@ -121,7 +122,7 @@ class ServerConnections(object):
         return response
 
     def create_ci(
-            self, name=None, description=None,
+            self, name=None, description=None, locked=None
             connection_host_name=None, connection_client_id=None,
             connection_client_secret=None, connection_ssl_truststore=None):
         connection_data = DataObject()
@@ -140,6 +141,7 @@ class ServerConnections(object):
         data.add_value_string("name", name)
         data.add_value_string("description", description)
         data.add_value_string("type", "ci")
+        data.add_value_string("locked", locked)
         data.add_value_not_empty("connection", connection_data.data)
 
         endpoint = SERVER_CONNECTION_CI + "/v1"
@@ -208,6 +210,71 @@ class ServerConnections(object):
         response.success = response.status_code == 200
 
         return response
+
+    def create_jdbc(self, name=None, description=None, locked=None, database_type=None, connection_jndi=None,
+            connection_host_name=None, connection_port=None, connection_ssl=None, connection_user=None,
+            connection_password=None, connection_type=None, connection_service_name=None, 
+            connection_dataabse_name=None, connection_aged_timeout=None, connection_connection_timeout=None, 
+            connection_per_thread=None, connection_max_idle=None, connection_max_pool_size=None, 
+            connection_min_pool_size=None, connection_per_local_thread=None, connection_purge_policy=None,
+            connection_reap_time=None):
+        data = DataObject()
+        data.add_value_string("name", name)
+        data.add_value_string("description", description)
+        data.add_value_string("locked", locked)
+        data.add_value_string("type", database_type)
+        data.add_value_string("jndiId", connection_jndi)
+
+        connection_data = DataObject()
+        connection_data.add_value_string("serverName", connection_host_name)
+        connection_data.add_value_string("portNumber", connection_port)
+        connection_data.add_value_string("ssl", connection_ssl)
+        connection_data.add_value_string("user", connection_user)
+        connection_data.add_value_string("password", connection_password)
+        connection_data.add_value_string("type", connection_type)
+        connection_data.add_value_string("serviceName", connection_service_name)
+        connection_data.add_value_string("databaseName", connection_database_name)
+
+        data.add_value_string("connection", connection_data.data)
+
+        manager = DataObject()
+        manager.add_value_string("agedTimeout", connection_aged_timeout)
+        manager.add_value_string("connectionTimeout", connection_connection_timeout)
+        manager.add_value_string("maxConnectionsPerThread", connection_per_thread)
+        manager.add_value_string("maxIdleTime", connection_max_idle)
+        manager.add_value_string("maxPoolSize", connection_max_pool_size)
+        manager.add_value_string("minPoolSize", connection_min_pool_size)
+        manager.add_value_string("numConnectionsPerThreadLocal", connection_per_thread_local)
+        manager.add_value_string("purgePolicy", connection_purge_policy)
+        manager.add_value_string("reapTime", connection_reap_time)
+
+        data.add_value_string("connectionManager", manager.data)
+
+        endpoint = SERVER_CONNECTION_JDBC + "/v1"
+        
+        response = self.client.post_json(endpoint, data.data)
+        response.success = response.status_code == 201
+
+        return response
+
+
+    def delete_jdbc(self, uuid):
+        endpoint = "%s/%s/v1" % (SERVER_CONNECTION_JDBC, uuid)
+
+        response = self.client.delete_json(endpoint)
+        response.success = response.status_code == 204
+
+        return response
+
+
+    def list_jdbc(self):
+        endpoint = SERVER_CONNECTION_JDBC + "/v1"
+
+        response = self.client.get_json(endpoint)
+        response.success = response.status_code == 200
+
+        return response
+
 
     def list_all(self):
         endpoint = SERVER_CONNECTION_ROOT + "/v1"

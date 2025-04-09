@@ -20,20 +20,22 @@ class MappingRules(object):
         super(MappingRules, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def create_rule(self, file_name=None, rule_name=None, category=None):
+    def create_rule(self, file_name=None, rule_name=None, category=None, content=None):
         response = Response()
         try:
-            with open(file_name, 'rb') as content:
-                data = DataObject()
-                data.add_value_string("fileName", ("%s_%s.js" % (category, rule_name)))
-                data.add_value_string("category", category)
-                data.add_value_string("name", rule_name)
-                data.add_value_string("content", content.read().decode('utf-8'))
+            data = DataObject()
+            data.add_value_string("fileName", ("%s_%s.js" % (category, rule_name)))
+            data.add_value_string("category", category)
+            data.add_value_string("name", rule_name)
+            if content == None:
+                with open(file_name, 'rb') as content:
+                    data.add_value_string("content", content.read().decode('utf-8'))
+            else:
+                data.add_value_string("content", content)
+            endpoint = MAPPING_RULES
 
-                endpoint = MAPPING_RULES
-
-                response = self.client.post_json(endpoint, data.data)
-                response.success = response.status_code == 201
+            response = self.client.post_json(endpoint, data.data)
+            response.success = response.status_code == 201
 
         except IOError as e:
             logger.error(e)

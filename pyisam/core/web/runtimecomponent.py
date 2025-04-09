@@ -10,6 +10,7 @@ from pyisam.util.restclient import RESTClient
 
 EMBEDDED_LDAP_PASSWORD = "/isam/embedded_ldap/change_pwd/v1"
 RUNTIME_COMPONENT = "/isam/runtime_components"
+UNCONFIGURE_RUNTIME_COMPONENT = RUNTIME_COMPONENT + "/RTE"
 
 logger = logging.getLogger(__name__)
 
@@ -66,6 +67,21 @@ class RuntimeComponent(object):
         data.add_value_string("password", password)
 
         response = self.client.post_json(EMBEDDED_LDAP_PASSWORD, data.data)
+        response.success = response.status_code == 200
+
+        return response
+
+
+    def unconfigure(self, operation="unconfigure", ldap_dn=None, ldap_pwd=None, clean=False, force=False):
+        data = DataObject()
+        data.add_value_string("operation", operation)
+        data.add_value_string("ldap_dn", ldap_dn)
+        data.add_value_string("ldap_pwd", ldap_pwd)
+        data.add_value_string("clean", clean)
+        data.add_value_string("force", force)
+
+        response = self.client.post_json(UNCONFIGURE_RUNTIME_COMPONENT, data.data)
+
         response.success = response.status_code == 200
 
         return response

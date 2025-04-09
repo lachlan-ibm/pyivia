@@ -87,18 +87,15 @@ class Authentication(object):
 
     def create_policy(
             self, name=None, policy=None, uri=None, description=None,
-            dialect="urn:ibm:security:authentication:policy:1.0:schema", 
-            id=None, user_last_modified=None, last_modified=None, date_created=None):
+            dialect="urn:ibm:security:authentication:policy:1.0:schema",
+            enabled=None):
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value_string("policy", policy)
         data.add_value_string("uri", uri)
         data.add_value_string("description", description)
         data.add_value_string("dialect", dialect)
-        data.add_value_string("id", id)
-        data.add_value_string("userlastmodified", user_last_modified)
-        data.add_value_string("lastmodified", last_modified)
-        data.add_value_string("datecreated", date_created)
+        data.add_value_string("enabled", enabled)
 
         response = self.client.post_json(AUTHENTICATION_POLICIES, data.data)
         response.success = response.status_code == 201
@@ -131,7 +128,7 @@ class Authentication(object):
             self, id, name=None, policy=None, uri=None, description=None,
             dialect="urn:ibm:security:authentication:policy:1.0:schema",
             user_last_modified=None, last_modified=None,
-            date_created=None, predefined=None):
+            date_created=None, predefined=None, enabled=None):
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value_string("policy", policy)
@@ -139,6 +136,7 @@ class Authentication(object):
         data.add_value_string("description", description)
         data.add_value_string("dialect", dialect)
         data.add_value_string("id", id)
+        data.add_value_string("enabled", enabled)
         data.add_value_string("userlastmodified", user_last_modified)
         data.add_value_string("lastmodified", last_modified)
         data.add_value_string("datecreated", date_created)

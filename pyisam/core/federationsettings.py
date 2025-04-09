@@ -90,6 +90,9 @@ class Federation10000(Federation9080):
 
     def __init__(self, base_url, username, password):
             super(Federation10000, self).__init__(base_url, username, password)
+            self.federations = Federations10000(base_url, username, password)
+            self.poc = PointOfContact(base_url, username, password)
+            self.access_policy = AccessPolicy(base_url, username, password)
 
 
 class Federation10010(Federation10000):
