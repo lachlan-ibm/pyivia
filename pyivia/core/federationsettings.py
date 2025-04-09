@@ -11,16 +11,6 @@ from .federation.aliasservice import AliasService
 
 class Federation(object):
     '''
-<<<<<<<< HEAD:pyisva/core/federationsettings.py
-    Object is used to manage the Federations endpoints of a Verify Identity Access applaince
-
-    :var federations: Create and manage :ref:`Federation<Federations>` and Partners.
-    :var attribute_sources: Manage :ref:`attributes<AttributeSources>` added to identities in federation flows.
-    :var alias_service: Manage user :ref:`aliases<AliasService>` for federated identity sources.
-    :var sts: Create and manage :ref:`Security Token Service<SecurityTokenService>` chains.
-    :var poc: Create and manage :ref:`Point of Contact<PointOfContact>` profiles.
-    :var access_policy: Create and manage :ref:`Access Policy<AccessPolicy>` rules.
-========
     Object is used to manage the Federations endpoints of a Verify Access deployment.
 
     :var federations: Create and manage :ref:`Federations<Federations>` and Partners.
@@ -29,7 +19,6 @@ class Federation(object):
     :var sts: Create and manage :ref:`Security Token Service<Security Token Service (STS)>` chains.
     :var poc: Create and manage :ref:`Point of Contact<Point of Contact (POC) Profile>` profiles.
     :var access_policy: Create and manage :ref:`Access Policy<Access Policies>` rules.
->>>>>>>> development:pyivia/core/federationsettings.py
     '''
 
 class Federation9020(object):
@@ -106,25 +95,16 @@ class Federation9080(Federation9073):
 class Federation10000(Federation9080):
 
     def __init__(self, base_url, username, password):
-<<<<<<<< HEAD:pyisva/core/federationsettings.py
-            super(Federation10000, self).__init__(base_url, username, password)
-            self.federations = Federations10000(base_url, username, password)
-            self.poc = PointOfContact(base_url, username, password)
-            self.access_policy = AccessPolicy(base_url, username, password)
-========
         super(Federation10000, self).__init__(base_url, username, password)
         self.federations = Federations10000(base_url, username, password)
->>>>>>>> development:pyivia/core/federationsettings.py
+        self.poc = PointOfContact(base_url, username, password)
+        self.access_policy = AccessPolicy(base_url, username, password)
 
 
 class Federation10010(Federation10000):
 
     def __init__(self, base_url, username, password):
         super(Federation10010, self).__init__(base_url, username, password)
-<<<<<<<< HEAD:pyisva/core/federationsettings.py
-========
- 
->>>>>>>> development:pyivia/core/federationsettings.py
 
 class Federation10020(Federation10010):
 
@@ -154,10 +134,6 @@ class Federation10050(Federation10040):
 
     def __init__(self, base_url, username, password):
         super(Federation10050, self).__init__(base_url, username, password)
-<<<<<<<< HEAD:pyisva/core/federationsettings.py
-
-========
->>>>>>>> development:pyivia/core/federationsettings.py
 
 class Federation10060(Federation10050):
 
@@ -172,26 +148,14 @@ class Federation10070(Federation10060):
 class Federation10080(Federation10070):
 
     def __init__(self, base_url, username, password):
-<<<<<<<< HEAD:pyisva/core/federationsettings.py
-            super(Federation10080, self).__init__(base_url, username, password)
-========
         super(Federation10080, self).__init__(base_url, username, password)
->>>>>>>> development:pyivia/core/federationsettings.py
 
 class Federation11000(Federation10080):
 
     def __init__(self, base_url, username, password):
-<<<<<<<< HEAD:pyisva/core/federationsettings.py
-            super(Federation11000, self).__init__(base_url, username, password)
-========
         super(Federation11000, self).__init__(base_url, username, password)
->>>>>>>> development:pyivia/core/federationsettings.py
 
 class Federation11010(Federation11000):
 
     def __init__(self, base_url, username, password):
-<<<<<<<< HEAD:pyisva/core/federationsettings.py
-            super(Federation11010, self).__init__(base_url, username, password)
-========
         super(Federation11010, self).__init__(base_url, username, password)
->>>>>>>> development:pyivia/core/federationsettings.py

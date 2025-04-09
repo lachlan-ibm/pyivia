@@ -4,11 +4,7 @@
 
 import importlib
 
-<<<<<<<< HEAD:pyisva/factory.py
-from pyisva.util.restclient import RESTClient
-========
 from pyivia.util.restclient import RESTClient
->>>>>>>> development:pyivia/factory.py
 
 
 DEVELOPMENT_VERSION = "IBM Verify Identity Access Development"
@@ -60,10 +56,6 @@ class Factory(object):
     The factory has getter methods for the three modules: WebSEAL, Advanced Access Control; and Federation. It also 
     getter methods for the system and diagnostics API.
 
-<<<<<<<< HEAD:pyisva/factory.py
-    Finally this class has helper methods to determine if the IBM Security Verify Access deployment is an appliance
-    or container deployment model.
-========
     Finally this class has helper methods to determine if the IBM Verify Identity Access deployment is an appliance
     or container deployment model.
 
@@ -71,7 +63,6 @@ class Factory(object):
     If both username and password are provided, the rest client will use Basic
     authorization, if just a password is supplied, then Bearer authorization
     is supplied.
->>>>>>>> development:pyivia/factory.py
     """
 
     def __init__(self, base_url, username, password):
@@ -93,11 +84,7 @@ class Factory(object):
             versioned :ref:`federation` object.
         '''
         class_name = "Federation" + self._get_version()
-<<<<<<<< HEAD:pyisva/factory.py
-        module_name = "pyisva.core.federationsettings"
-========
         module_name = "pyivia.core.federationsettings"
->>>>>>>> development:pyivia/factory.py
         return self._class_loader(module_name, class_name)
 
     def get_access_control(self):
@@ -108,11 +95,7 @@ class Factory(object):
             versioned :ref:`access_control` object.
         '''
         class_name = "AccessControl" + self._get_version()
-<<<<<<<< HEAD:pyisva/factory.py
-        module_name = "pyisva.core.accesscontrol"
-========
         module_name = "pyivia.core.accesscontrol"
->>>>>>>> development:pyivia/factory.py
         return self._class_loader(module_name, class_name)
 
     def get_analysis_diagnostics(self):
@@ -123,11 +106,7 @@ class Factory(object):
             versioned :ref:`analysis_diagnostics` object.
         '''
         class_name = "AnalysisDiagnostics" + self._get_version()
-<<<<<<<< HEAD:pyisva/factory.py
-        module_name = "pyisva.core.analysisdiagnostics"
-========
         module_name = "pyivia.core.analysisdiagnostics"
->>>>>>>> development:pyivia/factory.py
         return self._class_loader(module_name, class_name)
 
     def get_system_settings(self):
@@ -138,11 +117,7 @@ class Factory(object):
             versioned :ref:`system_settings` object.
         '''
         class_name = "SystemSettings" + self._get_version()
-<<<<<<<< HEAD:pyisva/factory.py
-        module_name = "pyisva.core.systemsettings"
-========
         module_name = "pyivia.core.systemsettings"
->>>>>>>> development:pyivia/factory.py
         return self._class_loader(module_name, class_name)
 
     def get_version(self):
@@ -159,11 +134,7 @@ class Factory(object):
         versioned :ref:`web_settings` object.
         '''
         class_name = "WebSettings" + self._get_version()
-<<<<<<<< HEAD:pyisva/factory.py
-        module_name = "pyisva.core.websettings"
-========
         module_name = "pyivia.core.websettings"
->>>>>>>> development:pyivia/factory.py
         return self._class_loader(module_name, class_name)
 
     def get_deployment_utility(self):
@@ -171,20 +142,12 @@ class Factory(object):
         Return manager of Web Reverse Proxy endpoints
         '''
         class_name = "WebSettings" + self._get_version()
-<<<<<<<< HEAD:pyisva/factory.py
-        module_name = "pyisva.core.websettings"
-========
         module_name = "pyivia.core.websettings"
->>>>>>>> development:pyivia/factory.py
         return self._class_loader(module_name, class_name)
 
     def set_password(self, password):
         '''
-<<<<<<<< HEAD:pyisva/factory.py
-        Update the password used to auhenticate to Verify Identity Access administrator endpoints
-========
         Update the password used to authenticate to Verify Identity Access administrator endpoints
->>>>>>>> development:pyivia/factory.py
         '''
         self._password = password
 
