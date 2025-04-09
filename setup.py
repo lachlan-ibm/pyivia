@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-from setuptools import find_packages, setup
-=======
 from setuptools import find_packages, setup, Command
->>>>>>> development
 import os
 
 from pathlib import Path
