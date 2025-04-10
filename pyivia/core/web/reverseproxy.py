@@ -847,7 +847,7 @@ class ReverseProxy9040(ReverseProxy):
     def configure_api_protection(
             self, webseal_id, hostname=None, port=None,
             username=None, password=None, reuse_certs=None,reuse_acls=None, api=None,
-            browser=None, junction=None):
+            browser=None, junction=None, auth_register=None, fapi_compliant=None):
         """
         Configure a WebSEAL instance to use the Federated runtime server to support OAuth and OIDC API Protection.
 
@@ -862,6 +862,8 @@ class ReverseProxy9040(ReverseProxy):
             api (`bool`, optional): Should this reverse proxy be configured for API protection. Default is false.
             browser (`bool`, optional): Should this reverse proxy be configured for Browser interaction. Default is false.
             junction (:obj:`str`): Junction point to create.
+            auth_register (`bool`, optional): Will the client registration endpoint require authentication. Default is false.
+            fapi_compliant (`bool`, optional): Configures reverse proxy instance to be FAPI Compliant. Default is false.
         """
         data = DataObject()
         data.add_value_string("hostname", hostname)
@@ -874,6 +876,8 @@ class ReverseProxy9040(ReverseProxy):
         data.add_value_boolean("reuse_acls", reuse_acls)
         data.add_value_boolean("api", api)
         data.add_value_boolean("browser", browser)
+        data.add_value_boolean("auth_register", auth_register)
+        data.add_value_boolean("fapi_compliant", fapi_compliant)
 
         endpoint = "%s/%s/oauth_config" % (REVERSEPROXY, webseal_id)
 
