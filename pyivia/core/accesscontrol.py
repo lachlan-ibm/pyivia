@@ -30,13 +30,9 @@ class AccessControl(object):
     :var advanced_config: Manage :ref:`Advanced Configuration` parameters.
     :var api_protection: Create and manage OIDC :ref:`API Protection` definitions and clients.
     :var attributes: Create and manage Risk Based Access :ref:`Attribute <Attributes>` mappings.
-<<<<<<<< HEAD:pyisva/core/accesscontrol.py
-    :var authentication: Create and manage :ref:Authentication` policies and mechanisms.
-========
     :var authentication: Create and manage :ref:`Authentication` policies and mechanisms.
     :var fido2_config: Create and manage :ref:`FIDO2 Configuration` including metadata and mediators.
     :var fido2_registrations: Manage :ref:`FIDO2 Registrations` for runtime users.
->>>>>>>> development:pyivia/core/accesscontrol.py
     :var mapping_rules: Create and manage JavaScript :ref:`Mapping Rules` used for customized authentication.
     :var mmfa_config: Configure :ref:`Mobile Multi-Factor Authentication` for Verify Access.
     :var push_notifications: Configure and manage :ref:`Push Notification Providers`.
@@ -44,15 +40,9 @@ class AccessControl(object):
     :var runtime_parameters: Manage :ref:`Runtime Parameters` of the Liberty runtime server.
     :var scim_config: Create and manage :ref:`SCIM<System for Cross-Domain Identity Management (SCIM) Configuration>` attribute mapping.
     :var server_connections: Create :ref:`Server Connections` to external service providers.
-<<<<<<<< HEAD:pyisva/core/accesscontrol.py
-    :var template_files: Create and manage HTML and JSON i:ref:`Template Files`.
-    :var user_registry: Manage :ref:`user authentication<User Registry>` to the Liberty runtime server.
-    :var pip: Manage :ref:`policy information points<PIP>`.
-========
     :var template_files: Create and manage HTML and JSON :ref:`Template Files`.
     :var user_registry: Manage :ref:`user authentication<User Registry>` to the Liberty runtime server.
     :var pip: Manage :ref:`policy information points<Policy Information Points>`.
->>>>>>>> development:pyivia/core/accesscontrol.py
     '''
 
 class AccessControl9020(object):
@@ -163,13 +153,8 @@ class AccessControl10010(AccessControl10000):
 class AccessControl10020(AccessControl10010):
 
     def __init__(self, base_url, username, password):
-<<<<<<<< HEAD:pyisva/core/accesscontrol.py
-              super(AccessControl10020, self).__init__(base_url, username, password)
-              self.user_registry = UserRegistry10020(base_url, username, password)
-========
         super(AccessControl10020, self).__init__(base_url, username, password)
         self.user_registry = UserRegistry10020(base_url, username, password)
->>>>>>>> development:pyivia/core/accesscontrol.py
 
 
 class AccessControl10030(AccessControl10020):
@@ -207,26 +192,14 @@ class AccessControl10070(AccessControl10060):
 class AccessControl10080(AccessControl10070):
 
     def __init__(self, base_url, username, password):
-<<<<<<<< HEAD:pyisva/core/accesscontrol.py
-              super(AccessControl10080, self).__init__(base_url, username, password)
-========
         super(AccessControl10080, self).__init__(base_url, username, password)
->>>>>>>> development:pyivia/core/accesscontrol.py
 
 class AccessControl11000(AccessControl10080):
 
     def __init__(self, base_url, username, password):
-<<<<<<<< HEAD:pyisva/core/accesscontrol.py
-              super(AccessControl11000, self).__init__(base_url, username, password)
-========
         super(AccessControl11000, self).__init__(base_url, username, password)
->>>>>>>> development:pyivia/core/accesscontrol.py
 
 class AccessControl11010(AccessControl11000):
 
     def __init__(self, base_url, username, password):
-<<<<<<<< HEAD:pyisva/core/accesscontrol.py
-              super(AccessControl11010, self).__init__(base_url, username, password)
-========
         super(AccessControl11010, self).__init__(base_url, username, password)
->>>>>>>> development:pyivia/core/accesscontrol.py

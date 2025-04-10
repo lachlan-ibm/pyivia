@@ -4,13 +4,8 @@
 
 import logging
 
-<<<<<<<< HEAD:pyisva/core/analysis/applicationlog.py
-from pyisva.util.model import DataObject
-from pyisva.util.restclient import RESTClient
-========
 from pyivia.util.model import DataObject
 from pyivia.util.restclient import RESTClient
->>>>>>>> development:pyivia/core/analysis/applicationlog.py
 
 APPLICATION_LOGS = "/isam/application_logs"
 
@@ -31,11 +26,7 @@ class ApplicationLog(object):
             path (:obj:`str`): The relative path of the file to be retrieved.
 
         Returns:
-<<<<<<<< HEAD:pyisva/core/analysis/applicationlog.py
-            :obj:`~requests.Response`: The response from verify access. 
-========
             :obj:`~requests.Response`: The response from verify identity access. 
->>>>>>>> development:pyivia/core/analysis/applicationlog.py
 
             Success can be checked by examining the response.success boolean attribute
 
@@ -61,11 +52,7 @@ class ApplicationLog(object):
             paths (:obj:`list` of :obj:`str`): The list of files to be removed.
 
         Returns:
-<<<<<<<< HEAD:pyisva/core/analysis/applicationlog.py
-            :obj:`~requests.Response`: The response from verify access. 
-========
             :obj:`~requests.Response`: The response from verify identity access. 
->>>>>>>> development:pyivia/core/analysis/applicationlog.py
 
             Success can be checked by examining the response.success boolean attribute
         """
@@ -92,11 +79,7 @@ class ApplicationLog(object):
             paths (:obj:`list` of :obj:`str`): The list of files to clear.
 
         Returns:
-<<<<<<<< HEAD:pyisva/core/analysis/applicationlog.py
-            :obj:`~requests.Response`: The response from verify access. 
-========
             :obj:`~requests.Response`: The response from verify identity access. 
->>>>>>>> development:pyivia/core/analysis/applicationlog.py
 
             Success can be checked by examining the response.success boolean attribute
         """

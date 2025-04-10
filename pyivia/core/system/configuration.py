@@ -4,11 +4,7 @@
 
 import logging
 
-<<<<<<<< HEAD:pyisva/core/system/configuration.py
-from pyisva.util.restclient import RESTClient
-========
 from pyivia.util.restclient import RESTClient
->>>>>>>> development:pyivia/core/system/configuration.py
 from .restartshutdown import RestartShutdown
 
 
@@ -34,11 +30,7 @@ class Configuration(object):
 
 
         Returns:
-<<<<<<<< HEAD:pyisva/core/system/configuration.py
-            :obj:`~requests.Response`: The response from verify access. 
-========
             :obj:`~requests.Response`: The response from verify identity access. 
->>>>>>>> development:pyivia/core/system/configuration.py
 
             Success can be checked by examining the response.success boolean attribute
 
@@ -60,11 +52,7 @@ class Configuration(object):
         Revert the current set of pending changes.
 
         Returns:
-<<<<<<<< HEAD:pyisva/core/system/configuration.py
-            :obj:`~requests.Response`: The response from verify access. 
-========
             :obj:`~requests.Response`: The response from verify identity access. 
->>>>>>>> development:pyivia/core/system/configuration.py
 
             Success can be checked by examining the response.success boolean attribute
         """
@@ -78,11 +66,7 @@ class Configuration(object):
         Get a list of the pending changes for the configured username.
 
         Returns:
-<<<<<<<< HEAD:pyisva/core/system/configuration.py
-            :obj:`~requests.Response`: The response from verify access. 
-========
             :obj:`~requests.Response`: The response from verify identity access. 
->>>>>>>> development:pyivia/core/system/configuration.py
 
             Success can be checked by examining the response.success boolean attribute
 

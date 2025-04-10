@@ -5,13 +5,8 @@
 import logging
 import urllib
 
-<<<<<<<< HEAD:pyisva/core/web/dscadmin.py
-from pyisva.util.model import DataObject
-from pyisva.util.restclient import RESTClient
-========
 from pyivia.util.model import DataObject
 from pyivia.util.restclient import RESTClient
->>>>>>>> development:pyivia/core/web/dscadmin.py
 
 
 DSC_ADMIN_REPLICAS = "/isam/dsc/admin/replicas"
@@ -30,20 +25,12 @@ class DSCAdmin(object):
         List the replica sets in the DSC server.
 
         Returns:
-<<<<<<<< HEAD:pyisva/core/web/dscadmin.py
-            :obj:`~requests.Response`: The response from verify access. 
-========
             :obj:`~requests.Response`: The response from verify identity access. 
->>>>>>>> development:pyivia/core/web/dscadmin.py
 
             Success can be checked by examining the response.success boolean attribute
 
             If the request is successful the DSC replicas are returned as JSON and can be accessed from
-<<<<<<<< HEAD:pyisva/core/web/dscadmin.py
-            the response.json attribute
-========
             the response.json attribute.
->>>>>>>> development:pyivia/core/web/dscadmin.py
 
         """
         response = self.client.get_json(DSC_ADMIN_REPLICAS)
@@ -59,20 +46,12 @@ class DSCAdmin(object):
             replica_set (:obj:`str`): The replica set to list servers for
 
         Returns:
-<<<<<<<< HEAD:pyisva/core/web/dscadmin.py
-            :obj:`~requests.Response`: The response from verify access. 
-========
             :obj:`~requests.Response`: The response from verify identity access. 
->>>>>>>> development:pyivia/core/web/dscadmin.py
 
             Success can be checked by examining the response.success boolean attribute
 
             If the request is successful the DSC replica servers are returned as JSON and can be accessed from
-<<<<<<<< HEAD:pyisva/core/web/dscadmin.py
-            the response.json attribute
-========
             the response.json attribute.
->>>>>>>> development:pyivia/core/web/dscadmin.py
 
         """
         replica_set = urllib.quote(replica_set, safe='')
@@ -93,20 +72,12 @@ class DSCAdmin(object):
             max_results (:obj:`str`): Maximum number of sessions to return.
 
         Returns:
-<<<<<<<< HEAD:pyisva/core/web/dscadmin.py
-            :obj:`~requests.Response`: The response from verify access. 
-========
             :obj:`~requests.Response`: The response from verify identity access. 
->>>>>>>> development:pyivia/core/web/dscadmin.py
 
             Success can be checked by examining the response.success boolean attribute
 
             If the request is successful the DSC replica servers are returned as JSON and can be accessed from
-<<<<<<<< HEAD:pyisva/core/web/dscadmin.py
-            the response.json attribute
-========
             the response.json attribute.
->>>>>>>> development:pyivia/core/web/dscadmin.py
 
         """
         parameters = DataObject()
@@ -130,15 +101,9 @@ class DSCAdmin(object):
             session (:obj:`str`): The session identifier
 
         Returns:
-<<<<<<<< HEAD:pyisva/core/web/dscadmin.py
-            :obj:`~requests.Response`: The response from verify access. 
-
-            Success can be checked by examining the response.success boolean attribute
-========
             :obj:`~requests.Response`: The response from verify identity access. 
 
             Success can be checked by examining the response.success boolean attribute.
->>>>>>>> development:pyivia/core/web/dscadmin.py
 
         """
         replica_set = urllib.parse.quote(replica_set, safe='')
@@ -159,15 +124,9 @@ class DSCAdmin(object):
             user_name (:obj:`str`): The user who's session's should be invalidated.
 
         Returns:
-<<<<<<<< HEAD:pyisva/core/web/dscadmin.py
-            :obj:`~requests.Response`: The response from verify access. 
-
-            Success can be checked by examining the response.success boolean attribute
-========
             :obj:`~requests.Response`: The response from verify identity access. 
 
             Success can be checked by examining the response.success boolean attribute.
->>>>>>>> development:pyivia/core/web/dscadmin.py
         """
         replica_set = urllib.parse.quote(replica_set, safe='')
         user_name = urllib.parse.quote(user_name, safe='')

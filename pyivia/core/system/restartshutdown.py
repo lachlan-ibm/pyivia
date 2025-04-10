@@ -5,13 +5,8 @@
 import logging
 import time
 
-<<<<<<<< HEAD:pyisva/core/system/restartshutdown.py
-from pyisva.util.model import DataObject, Response
-from pyisva.util.restclient import RESTClient
-========
 from pyivia.util.model import DataObject, Response
 from pyivia.util.restclient import RESTClient
->>>>>>>> development:pyivia/core/system/restartshutdown.py
 
 
 LMI = "/lmi"
@@ -35,11 +30,7 @@ class RestartShutdown(object):
         Get the current status of the management interface.
 
         Returns:
-<<<<<<<< HEAD:pyisva/core/system/restartshutdown.py
-            :obj:`~requests.Response`: The response from verify access. 
-========
             :obj:`~requests.Response`: The response from verify identity access. 
->>>>>>>> development:pyivia/core/system/restartshutdown.py
 
             Success can be checked by examining the response.success boolean attribute
 
@@ -57,11 +48,7 @@ class RestartShutdown(object):
         Get the status of the federated runtime server.
 
         Returns:
-<<<<<<<< HEAD:pyisva/core/system/restartshutdown.py
-            :obj:`~requests.Response`: The response from verify access. 
-========
             :obj:`~requests.Response`: The response from verify identity access. 
->>>>>>>> development:pyivia/core/system/restartshutdown.py
 
             Success can be checked by examining the response.success boolean attribute
 
@@ -79,11 +66,7 @@ class RestartShutdown(object):
         Restart the management interface.
 
         Returns:
-<<<<<<<< HEAD:pyisva/core/system/restartshutdown.py
-            :obj:`~requests.Response`: The response from verify access. 
-========
             :obj:`~requests.Response`: The response from verify identity access. 
->>>>>>>> development:pyivia/core/system/restartshutdown.py
 
             Success can be checked by examining the response.success boolean attribute
         """
@@ -188,11 +171,7 @@ class RestartShutdown(object):
         Restart the federated runtime server
 
         Returns:
-<<<<<<<< HEAD:pyisva/core/system/restartshutdown.py
-            :obj:`~requests.Response`: The response from verify access. 
-========
             :obj:`~requests.Response`: The response from verify identity access. 
->>>>>>>> development:pyivia/core/system/restartshutdown.py
 
             Success can be checked by examining the response.success boolean attribute
         """
