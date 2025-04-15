@@ -340,7 +340,7 @@ class SecurityTokenService(object):
         data.add_value_boolean("validateRequests", validate_requests)
         data.add_value_not_empty("validationKey", validKey.data)
         data.add_value_boolean("signResponses", sign_responses)
-        data.add_value_string("signatureKey", signKey.data)
+        data.add_value_not_empty("signatureKey", signKey.data)
         data.add_value_boolean("sendValidationConfirmation", send_validation_confirmation)
 
         properties = DataObject()
