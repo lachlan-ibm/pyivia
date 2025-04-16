@@ -10,7 +10,7 @@ from pyivia.util.model import DataObject
 from pyivia.util.restclient import RESTClient
 from pyivia.util.model import Response
 
-FEDERATIONS = "/iam/access/v8/federations/"
+FEDERATIONS = "/iam/access/v8/federations"
 
 logger = logging.getLogger(__name__)
 
@@ -1010,7 +1010,7 @@ class Federations(object):
 
         data.add_value_not_empty("configuration", configuration.data)
 
-        endpoint = "%s%s/partners" % (FEDERATIONS, federation_id)
+        endpoint = "%s/%s/partners" % (FEDERATIONS, federation_id)
 
         response = self.client.post_json(endpoint, data.data)
         response.success = response.status_code == 201
@@ -1155,7 +1155,7 @@ class Federations(object):
             Success can be checked by examining the response.success boolean attribute.
 
         '''
-        endpoint = "{}{}/metadata".format(FEDERATIONS, fed_id)
+        endpoint = "{}/{}/metadata".format(FEDERATIONS, fed_id)
         response = self.client.get_file(endpoint, metadata_file)
         response.success = response.status_code == 200
 
@@ -1182,7 +1182,7 @@ class Federations(object):
             data = DataObject()
             data.add_value_string("name", name)
             file_dict = {"metadata": metadata_file}
-            endpoint = "{}{}/partners/metadata".format(FEDERATIONS, fed_id)
+            endpoint = "{}/{}/partners/metadata".format(FEDERATIONS, fed_id)
             response = self.client.post_file(endpoint, data=data.data, files=file_dict)
             response.success = response.status_code == 201
 
@@ -1695,7 +1695,7 @@ class Federations10000(Federations9040):
 
         logger.debug("Partner properties: {}".format(data.data))
 
-        endpoint = "%s%s/partners" % (FEDERATIONS, federation_id)
+        endpoint = "%s/%s/partners" % (FEDERATIONS, federation_id)
         response = self.client.post_json(endpoint, data.data)
         response.success = response.status_code == 201
 
