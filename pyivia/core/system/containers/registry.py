@@ -25,7 +25,7 @@ class Registry(object):
         self.client = RESTClient(base_url, username, password)
 
     def create(self, host=None, username=None, secret=None, proxy_host=None, proxy_port=None,
-               proxy_user=None, proxy_pass=None, proxy_schema=None):
+               proxy_user=None, proxy_pass=None, proxy_schema=None, ca=None):
         '''
         Create a credential for a user and container registry.
 
@@ -38,6 +38,7 @@ class Registry(object):
             proxy_user (:obj:`str`, optional): The user to authenticate to the proxy with.
             proxy_pass (:obj:`str`, optional): The password to authenticate to the proxy with. Must be provided if proxy_user is set.
             proxy_schema (:obj:`str`, optional): The TCP schema to use. The default is ``http``.
+            ca (:obj:`str`, optional): A X509 Certificate Authority (CA) bundle file to use when verifying connections to this registry.
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
@@ -56,6 +57,9 @@ class Registry(object):
         data.add_value_string("proxy_user", proxy_user)
         data.add_value_string("proxy_pass", proxy_pass)
         data.add_value_string("proxy_schema", proxy_schema)
+        if ca:
+            with open(ca, 'r') as f:
+                data.add_value_string("ca", f.read())
 
         response = self.client.post_json(REGISTRY, data.data)
         response.success = response.status_code == 201
