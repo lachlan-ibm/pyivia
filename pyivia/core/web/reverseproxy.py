@@ -233,7 +233,8 @@ class ReverseProxy(object):
 
 
     def configure_fed(self,webseal_id,federation_id=None,reuse_certs=False,reuse_acls=False,
-        runtime_hostname=None,runtime_port=None,runtime_username=None,runtime_password=None):
+        runtime_hostname=None,runtime_port=None,runtime_username=None,runtime_password=None,
+        runtime_type=None,runtime_load_cert=None,runtime_enable_mtls=None):
         '''
         Configure a WebSEAL instance to use the Federated runtime server to perform STS functions for federated identity
         partners.
@@ -249,6 +250,10 @@ class ReverseProxy(object):
             runtime_port (:obj:`str`): The port of the runtime server. Must be the SSL port.
             runtime_username (:obj:`str`): The username used to authenticate with the runtime server.
             runtime_password (:obj:`str`): The password used to authenticate with the runtime server.
+            runtime_type (:obj:`str`, optional): The type of runtime server, "local" or "remote". Default is "local".
+            runtime_load_cert (:obj:`str`, optional): Control if th X.509 certificate should be read from the runtime 
+                                                    server's https endpoint. Default is "on".
+            runtime_enable_mtls (`bool`, optional): Control if the runtime server should use mutual TLS authentication.
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
@@ -266,6 +271,7 @@ class ReverseProxy(object):
         runtime_data.add_value_string("port", runtime_port)
         runtime_data.add_value_string("username", runtime_username)
         runtime_data.add_value_string("password", runtime_password)
+
 
         data.add_value_not_empty("runtime", runtime_data.data)
 
@@ -932,6 +938,32 @@ class ReverseProxy10020(ReverseProxy9040):
         data.add_value_string("junction", junction);
 
         endpoint = "{}/{}/verify_gateway_config".format(REVERSEPROXY, webseal_id)
+
+        response = self.client.post_json(endpoint, data.data)
+        response.success = response.status_code == 204
+
+        return response
+
+    def configure_fed(self,webseal_id,federation_id=None,reuse_certs=False,reuse_acls=False,
+        runtime_hostname=None,runtime_port=None,runtime_username=None,runtime_password=None,
+        runtime_type=None,runtime_load_cert=None,runtime_enable_mtls=None):
+        data = DataObject()
+        data.add_value_string("federation_id", federation_id)
+        data.add_value("reuse_certs", reuse_certs)
+        data.add_value("reuse_acls", reuse_acls)
+
+        runtime_data = DataObject()
+        runtime_data.add_value_string("runtime_type", runtime_type)
+        runtime_data.add_value_string("hostname", runtime_hostname)
+        runtime_data.add_value_string("port", runtime_port)
+        runtime_data.add_value_string("username", runtime_username)
+        runtime_data.add_value_string("password", runtime_password)
+        runtime_data.add_value_string("load_certificate", runtime_load_cert)
+        runtime_data.add_value_boolean("enable_mtls", runtime_enable_mtls)
+
+        data.add_value_not_empty("runtime", runtime_data.data)
+
+        endpoint = "%s/%s/fed_config" % (REVERSEPROXY, webseal_id)
 
         response = self.client.post_json(endpoint, data.data)
         response.success = response.status_code == 204
