@@ -444,7 +444,6 @@ class APIProtection9040(APIProtection):
         '''
         data = DataObject()
         data.add_value_string("name", name)
-        data.add_value_string("accessPolicyId", access_policy_id)
         data.add_value_string("description", description)
         data.add_value_string("tcmBehavior", tcm_behavior)
         data.add_value_string("tokenCharSet", token_char_set)
