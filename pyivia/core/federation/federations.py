@@ -1502,6 +1502,7 @@ class Federations10000(Federations9040):
         configuration.add_value_not_empty("aliasServiceSettings", aliasSvc.data)
 
         data.add_value_not_empty("configuration", configuration.data)
+        logger.debug("Federation properties: {}".format(data.data))
         response = self.client.post_json(FEDERATIONS, data.data)
         response.success = response.status_code == 201
 
