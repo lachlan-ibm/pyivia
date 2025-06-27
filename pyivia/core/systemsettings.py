@@ -223,3 +223,9 @@ class SystemSettings11010(SystemSettings11000):
     def __init__(self, base_url, username, password):
         super(SystemSettings11010, self).__init__(base_url, username, password)
         self.admin_settings = AdminSetting11010(base_url, username, password)
+
+class SystemSettings11020(SystemSettings11010):
+
+    def __init__(self, base_url, username, password):
+        super(SystemSettings11020, self).__init__(base_url, username, password)
+        self.admin_settings = AdminSetting11010(base_url, username, password)
