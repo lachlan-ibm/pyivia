@@ -116,6 +116,9 @@ class RestartShutdown(object):
             time.sleep(sleep_interval)
         else:
             logger.error("Invalid last start time: %i", last_start)
+        logger.debug("Wait for lmi to stabilize")
+        time.sleep(sleep_interval)
+
 
     def restart_appliance(self):
         last_start = -1
