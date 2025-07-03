@@ -5,6 +5,7 @@ PyISAM (now called PyIVIA) was originally developed by Benjamin Martin. It is no
 - Lachlan Gleeson
 
 ## Bug Fixes and Enhancements
+- Ben Straubinger \<bstraubi@au1.ibm.com\>
 - Charles Wang \<charleswang@au1.ibm.com\>
 - Jasmine Smith \<jasmsmit@au1.ibm.com\>
 - Peter Calvert \<pcalvert@us.ibm.com\>
