@@ -591,7 +591,7 @@ class AccessControl10000(AccessControl9030):
 
 
     def configure_resource(self, server=None, resource_uri=None, policy_combining_algorithm=None, 
-                        policies=None, cache=None):
+                        policies=None, type="reverse_proxy", cache=None):
         '''
         Create a new resource in the policy server which can be attached to an authentication policy.
 
@@ -600,6 +600,7 @@ class AccessControl10000(AccessControl9030):
             resource_uri (:obj:`str`): URI of resource to be created.
             policy_combining_algorithm (:obj:`str`): Algorithm to use: "denyOverrides" or "permitOverrides".
             policies (:obj:`list` of :obj:`str`): List of policies, policy sets or API protection clients.
+            type (:obj:`str`, optional): Resource type to be created. Default is "reverse_proxy".
             cache (`int`, optional): 0 to disable the cache for this resource, -1 to cache the decision for 
                                     the lifetime of the session or any number greater than 1 to set a 
                                     specific timeout (in seconds) for the cached decision. If not specified 
@@ -617,6 +618,7 @@ class AccessControl10000(AccessControl9030):
         data.add_value_string(
             "policyCombiningAlgorithm", policy_combining_algorithm)
         data.add_value("policies", policies)
+        data.add_value_string("type", type)
         data.add_value("cache", cache)
 
         response = self.client.post_json(POLICY_ATTACHMENTS, data.data)
