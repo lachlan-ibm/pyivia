@@ -30,10 +30,11 @@ jobs:
         #TODO build and push to pypi
 
 
-    # Push the HTML to github-pages
-    - name: Deploy
+    # Build the module
+    - name: Build module
         python -m build
 
+    # Push the module to pypi
     - name: Publish python module
       run: |
         python -m build
