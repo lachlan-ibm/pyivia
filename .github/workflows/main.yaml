@@ -24,14 +24,12 @@ jobs:
         pip install -r dev-requirements.txt
 
     # Build the doc 
-    - name: Build the project
+    - name: Build the html
       run: |
         sphinx-build docs html
-        #TODO build and push to pypi
-
 
     # Build the module
-    - name: Build module
+    - name: Build python module
         python -m build
 
     # Push the module to pypi
