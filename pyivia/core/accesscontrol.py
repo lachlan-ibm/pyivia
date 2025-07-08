@@ -6,7 +6,7 @@ from .access.accesscontrol import AccessControl as AC9000
 from .access.accesscontrol import AccessControl9030 as AC9030
 from .access.accesscontrol import AccessControl10000 as AC10000
 from .access.advancedconfig import AdvancedConfig
-from .access.apiprotection import APIProtection, APIProtection9040
+from .access.apiprotection import APIProtection, APIProtection9040, APIProtection10030
 from .access.attributes import Attributes
 from .access.authentication import Authentication, Authentication9021
 from .access.mmfaconfig import MMFAConfig, MMFAConfig9021
@@ -161,6 +161,8 @@ class AccessControl10030(AccessControl10020):
 
     def __init__(self, base_url, username, password):
         super(AccessControl10030, self).__init__(base_url, username, password)
+        self.api_protection = APIProtection10030(base_url, username, password)
+
 
 class AccessControl10031(AccessControl10030):
 
@@ -208,4 +210,3 @@ class AccessControl11020(AccessControl11010):
 
     def __init__(self, base_url, username, password):
         super(AccessControl11020, self).__init__(base_url, username, password)
-

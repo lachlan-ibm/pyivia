@@ -233,7 +233,8 @@ class ReverseProxy(object):
 
 
     def configure_fed(self,webseal_id,federation_id=None,reuse_certs=False,reuse_acls=False,
-        runtime_hostname=None,runtime_port=None,runtime_username=None,runtime_password=None):
+        runtime_hostname=None,runtime_port=None,runtime_username=None,runtime_password=None,
+        runtime_type=None,runtime_load_cert=None,runtime_enable_mtls=None):
         '''
         Configure a WebSEAL instance to use the Federated runtime server to perform STS functions for federated identity
         partners.
@@ -249,6 +250,10 @@ class ReverseProxy(object):
             runtime_port (:obj:`str`): The port of the runtime server. Must be the SSL port.
             runtime_username (:obj:`str`): The username used to authenticate with the runtime server.
             runtime_password (:obj:`str`): The password used to authenticate with the runtime server.
+            runtime_type (:obj:`str`, optional): The type of runtime server, "local" or "remote". Default is "local".
+            runtime_load_cert (:obj:`str`, optional): Control if th X.509 certificate should be read from the runtime 
+                                                    server's https endpoint. Default is "on".
+            runtime_enable_mtls (`bool`, optional): Control if the runtime server should use mutual TLS authentication.
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
@@ -266,6 +271,7 @@ class ReverseProxy(object):
         runtime_data.add_value_string("port", runtime_port)
         runtime_data.add_value_string("username", runtime_username)
         runtime_data.add_value_string("password", runtime_password)
+
 
         data.add_value_not_empty("runtime", runtime_data.data)
 
@@ -844,6 +850,48 @@ class ReverseProxy9040(ReverseProxy):
         super(ReverseProxy, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
+    def configure_api_protection(
+            self, webseal_id, hostname=None, port=None,
+            username=None, password=None, reuse_certs=None,reuse_acls=None, api=None,
+            browser=None, junction=None, auth_register=None, fapi_compliant=None):
+        """
+        Configure a WebSEAL instance to use the Federated runtime server to support OAuth and OIDC API Protection.
+
+        Args:
+            webseal_id (:obj:`str`): The name of the WebSEAL instance to act on.
+            hostname (:obj:`str`): The hostname of the runtime service.
+            port (:obj:`str`): The port of the runtime service.
+            username (:obj:`str`): The username used to authenticate with the runtime service.
+            password (:obj:`str`): The password used to authenticate with the runtime service.
+            reuse_certs (`bool`, optional): Should WebSEAL try to import the SSL certificate of the runtime service.
+            reuse_acls (`bool`, optional): Should WebSEAL reuse ACLS with the same name.
+            api (`bool`, optional): Should this reverse proxy be configured for API protection. Default is false.
+            browser (`bool`, optional): Should this reverse proxy be configured for Browser interaction. Default is false.
+            junction (:obj:`str`): Junction point to create.
+            auth_register (`bool`, optional): Will the client registration endpoint require authentication. Default is false.
+            fapi_compliant (`bool`, optional): Configures reverse proxy instance to be FAPI Compliant. Default is false.
+        """
+        data = DataObject()
+        data.add_value_string("hostname", hostname)
+        data.add_value_string("username", username)
+        data.add_value_string("password", password)
+        data.add_value("port", port)
+        data.add_value("junction", junction if junction != None else "/mga")
+
+        data.add_value_boolean("reuse_certs", reuse_certs)
+        data.add_value_boolean("reuse_acls", reuse_acls)
+        data.add_value_boolean("api", api)
+        data.add_value_boolean("browser", browser)
+        data.add_value_boolean("auth_register", auth_register)
+        data.add_value_boolean("fapi_compliant", fapi_compliant)
+
+        endpoint = "%s/%s/oauth_config" % (REVERSEPROXY, webseal_id)
+
+        response = self.client.post_json(endpoint, data.data)
+        response.success = response.status_code == 204
+        return response
+
+
     def configure_mmfa(
             self, webseal_id, lmi_hostname=None, lmi_port=None,
             lmi_username=None, lmi_password=None, runtime_hostname=None,
@@ -890,6 +938,32 @@ class ReverseProxy10020(ReverseProxy9040):
         data.add_value_string("junction", junction);
 
         endpoint = "{}/{}/verify_gateway_config".format(REVERSEPROXY, webseal_id)
+
+        response = self.client.post_json(endpoint, data.data)
+        response.success = response.status_code == 204
+
+        return response
+
+    def configure_fed(self,webseal_id,federation_id=None,reuse_certs=False,reuse_acls=False,
+        runtime_hostname=None,runtime_port=None,runtime_username=None,runtime_password=None,
+        runtime_type=None,runtime_load_cert=None,runtime_enable_mtls=None):
+        data = DataObject()
+        data.add_value_string("federation_id", federation_id)
+        data.add_value("reuse_certs", reuse_certs)
+        data.add_value("reuse_acls", reuse_acls)
+
+        runtime_data = DataObject()
+        runtime_data.add_value_string("runtime_type", runtime_type)
+        runtime_data.add_value_string("hostname", runtime_hostname)
+        runtime_data.add_value_string("port", runtime_port)
+        runtime_data.add_value_string("username", runtime_username)
+        runtime_data.add_value_string("password", runtime_password)
+        runtime_data.add_value_string("load_certificate", runtime_load_cert)
+        runtime_data.add_value_boolean("enable_mtls", runtime_enable_mtls)
+
+        data.add_value_not_empty("runtime", runtime_data.data)
+
+        endpoint = "%s/%s/fed_config" % (REVERSEPROXY, webseal_id)
 
         response = self.client.post_json(endpoint, data.data)
         response.success = response.status_code == 204

@@ -27,8 +27,8 @@ EOF
 ) &
 SERVER_PID="$!"
 python <<EOF
-import pyisva
-f = pyisva.Factory("http://localhost:8000", "user", "password")
+import pyivia
+f = pyivia.Factory("http://localhost:8000", "user", "password")
 EOF
 kill $SERVER_PID
 exit 0

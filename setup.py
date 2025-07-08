@@ -37,8 +37,9 @@ setup(
     license='MIT',
     packages=find_packages(),
     install_requires=[
-        'requests'
+        'requests>=2.23.0'
     ],
+    url='https://github.com/lachlan-ibm/pyivia',
     project_urls={
         'Homepage': 'https://github.com/lachlan-ibm/pyivia',
         'Documentation': 'https://lachlan-ibm.github.io/pyivia',

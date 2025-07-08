@@ -238,4 +238,4 @@ class RESTClient(object):
         logger.debug("Request: %s %s headers=%s", method, url, safe_headers)
 
     def _log_response(self, status_code, headers, content):
-        logger.debug("Response: %i headers=%s content=%s", status_code, headers, content)
+        logger.debug("Response: %i headers=%s %s", status_code, headers, content)

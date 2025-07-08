@@ -10,7 +10,7 @@ from pyivia.util.restclient import RESTClient
 
 
 LMI = "/lmi"
-LMI_RESTART = "/restarts/restart_server"
+LMI_RESTART = "/core/restarts/restart_server"
 APPLIANCE_RESTART = "/diagnostics/restart_shutdown/reboot"
 RUNTIME = "/mga/runtime_profile/v1"
 RUNTIME_RESTART = "/mga/runtime_profile/local/v1"
@@ -77,7 +77,9 @@ class RestartShutdown(object):
             last_start = response.json[0].get("start_time", -1)
 
         if last_start > 0:
-            response = self.client.post_json(LMI_RESTART)
+            data = DataObject()
+            data.add_value_boolean("restart", True)
+            response = self.client.post_json(LMI_RESTART, data.data)
             response.success = (response.status_code == 200
                 and response.json.get("restart", False) == True)
 
@@ -92,10 +94,11 @@ class RestartShutdown(object):
 
 
     def _wait_on_lmi(self, last_start, sleep_interval=3):
+        count = 0
         if last_start > 0:
             restart_time = last_start
 
-            while (restart_time <= 0 or restart_time == last_start):
+            while (restart_time <= 0 or restart_time == last_start) and (count < 10):
                 logger.debug(
                     "last_start: %i, restart_time: %i", last_start,
                     restart_time)
@@ -108,10 +111,14 @@ class RestartShutdown(object):
                         restart_time = response.json[0].get("start_time", -1)
                 except:
                     restart_time = -1
+                count += 1 #Wait at most 30 seconds; sleep_interval * 10
 
             time.sleep(sleep_interval)
         else:
             logger.error("Invalid last start time: %i", last_start)
+        logger.debug("Wait for lmi to stabilize")
+        time.sleep(sleep_interval)
+
 
     def restart_appliance(self):
         last_start = -1

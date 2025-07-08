@@ -23,12 +23,16 @@ jobs:
       run: |
         pip install -r dev-requirements.txt
 
-    - name: Build the project
+    # Build the doc 
+    - name: Build the html
       run: |
         sphinx-build docs html
-        #TODO build and push to pypi
+
+    # Build the module
+    - name: Build python module
         python -m build
 
+    # Push the module to pypi
     - name: Publish python module
       run: |
         python -m build
@@ -47,3 +51,4 @@ jobs:
         publish_dir: html/
         force_orphan: true
       if: github.ref == 'refs/heads/stable'
+

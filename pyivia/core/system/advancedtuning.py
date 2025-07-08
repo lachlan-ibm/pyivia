@@ -67,7 +67,7 @@ class AdvancedTuning(object):
         data.add_value_string("value", value)
         data.add_value_string("comment", comment)
 
-        response = self.client.put_json(ADVANCED_PARAMETERS+"/"+id, data.data)
+        response = self.client.put_json(ADVANCED_PARAMETERS+"/"+atp_id, data.data)
 
         response.success = response.status_code == 200
 

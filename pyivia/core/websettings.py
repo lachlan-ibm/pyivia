@@ -182,4 +182,3 @@ class WebSettings11020(WebSettings11010):
 
     def __init__(self, base_url, username, password):
         super(WebSettings11020, self).__init__(base_url, username, password)
-
