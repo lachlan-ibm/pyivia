@@ -10,12 +10,14 @@ import requests
 import time
 import os
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
+from requests.packages.urllib3.util import Retry
+from requests import Session
+from requests.adapters import HTTPAdapter
 
 from .model import Response
 
 
 logger = logging.getLogger(__name__)
-
 
 class RESTClient(object):
 
@@ -35,7 +37,9 @@ class RESTClient(object):
 
         self._log_request("DELETE", url, headers)
 
-        r = requests.delete(url=url, headers=headers, params=None, verify=self._verify)
+        s = self._create_session()
+
+        r = s.delete(url=url, headers=headers, params=None, verify=self._verify)
 
         self._log_response(r.status_code, r.headers, r.content)
 
@@ -55,7 +59,9 @@ class RESTClient(object):
 
         self._log_request("GET", url, headers)
 
-        r = requests.get(
+        s = self._create_session()
+
+        r = s.get(
             url=url, params=parameters, headers=headers, verify=self._verify)
 
         self._log_response(r.status_code, r.headers, r._content)
@@ -124,7 +130,9 @@ class RESTClient(object):
 
         self._log_request("POST", url, headers)
 
-        r = requests.post(
+        s = self._create_session()
+
+        r = s.post(
             url=url, headers=headers, params=parameters, data=data, verify=self._verify)
 
         self._log_response(r.status_code, r.headers, r.content)
@@ -141,7 +149,9 @@ class RESTClient(object):
 
         self._log_request("POST", url, headers)
 
-        r = requests.post(
+        s = self._create_session()
+
+        r = s.post(
             url=url, headers=headers, data=data, files=files, params=parameters, verify=self._verify)
 
         self._log_response(r.status_code, r.headers, r.content)
@@ -163,7 +173,9 @@ class RESTClient(object):
 
         self._log_request("PUT", url, headers)
 
-        r = requests.put(
+        s = self._create_session()
+
+        r = s.put(
             url=url, headers=headers, params=None, data=data, verify=self._verify)
 
         self._log_response(r.status_code, r.headers, r.content)
@@ -184,7 +196,9 @@ class RESTClient(object):
 
         self._log_request("PUT", url, headers)
 
-        r = requests.put(
+        s = self._create_session()
+
+        r = s.put(
             url=url, headers=headers, data=data, files=files, params=parameters, verify=self._verify)
 
         self._log_response(r.status_code, r.headers, r.content)
@@ -239,3 +253,15 @@ class RESTClient(object):
 
     def _log_response(self, status_code, headers, content):
         logger.debug("Response: %i headers=%s %s", status_code, headers, content)
+
+    def _create_session(self):
+        s = Session()
+        retries = Retry(
+            total=5,
+            backoff_factor=0.1,
+            status_forcelist=[500, 502, 503, 504],
+            allowed_methods={'DELETE','POST','PUT'},
+        )
+        s.mount('https://', HTTPAdapter(max_retries=retries))
+
+        return s
