@@ -30,6 +30,7 @@ jobs:
 
     # Build the module
     - name: Build python module
+      run: |
         python -m build
 
     # Push the module to pypi
