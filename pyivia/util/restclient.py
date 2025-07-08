@@ -70,6 +70,10 @@ class RESTClient(object):
         r.close()
 
         return response
+    
+    def get_json_wait(self, endpoint, parameters=None):
+        return self.get_wait(
+            endpoint, accept_type="application/json", parameters=parameters)
 
     def get_json(self, endpoint, parameters=None):
         return self.get(
