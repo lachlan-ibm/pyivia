@@ -73,13 +73,13 @@ class Configuration(object):
             If the request is successful the pending changes are returned as JSON and can be accessed from
             the response.json attribute
         """
-        response = self.client.get_json_wait(PENDING_CHANGES)
+        response = self.client.get_json(PENDING_CHANGES)
         response.success = response.status_code == 200
 
         return response
 
     def _deploy_pending_changes(self):
-        response = self.client.get_json_wait(PENDING_CHANGES_DEPLOY)
+        response = self.client.get_json(PENDING_CHANGES_DEPLOY)
         response.success = (response.status_code == 200
             and response.json.get("result", -1) == 0)
 
