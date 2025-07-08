@@ -47,7 +47,7 @@ pip install pyivia
 ## Usage
 
 ```python
-pyivia
+>>> import pyivia
 >>> factory = pyivia.Factory("https://isam.mmfa.ibm.com", "admin", "Passw0rd")
 >>> web = factory.get_web_settings()
 >>> resp = web.reverse_proxy.restart_instance("default")
