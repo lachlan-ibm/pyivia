@@ -40,7 +40,7 @@ class HTTPTransform(object):
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value_string("template", template)
-        data.add_value_string("contents", contents)
+        data.add_value_string("content", contents)
 
         response = self.client.post_json(HTTP_TRANSFORM, data.data)
         response.success = response.status_code == 200

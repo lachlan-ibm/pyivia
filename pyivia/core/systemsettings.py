@@ -7,6 +7,7 @@ from .system.advancedtuning import AdvancedTuning
 from .system.configuration import Configuration
 from .system.datetime import DateTime
 from .system.dns import DNS
+from .system.dsc import DSC
 from .system.filedownloads import FileDownloads
 from .system.firststeps import FirstSteps
 from .system.hostsfile import HostsFile
@@ -85,6 +86,7 @@ class SystemSettings9020(object):
         self.sysaccount = SysAccount(base_url, username, password)
         self.runtime_db = RuntimeDb(base_url, username, password)
         self.cluster = Cluster(base_url, username, password)
+        self.dsc = DSC(base_url, username, password)
 
 
 class SystemSettings9021(SystemSettings9020):
