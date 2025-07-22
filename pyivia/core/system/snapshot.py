@@ -122,7 +122,7 @@ class Snapshot(object):
             the response.json attribute
 
         '''
-        response = self.client.delete_json(SNAPSHOT)
-        response.success = response.status_code == 204
+        response = self.client.get_json(SNAPSHOT)
+        response.success = response.status_code == 200
 
         return response
