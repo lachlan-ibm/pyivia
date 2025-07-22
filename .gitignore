@@ -9,6 +9,7 @@ html/*
 build
 dist
 pyisva.egg-info
+pyivia.egg-info
 .viminfo
 .cache
 .local
