@@ -164,12 +164,15 @@ def print_signature(signature):
 
 
 
-def run_command(object, method, signature, remaining_params):
+def run_command(object, method, signature, cmd_string, remaining_params):
     r"""
     Run a command and print the result
     """
     if len(remaining_params) > 0 and remaining_params[-1] == "-?":
+        print(cmd_string)
         print_signature(signature)
+        if method.__doc__ is not None:
+            print(method.__doc__)
     else:
         try:
             bound_args = parse_args(object, signature, remaining_params)
@@ -246,7 +249,7 @@ for idx,cmd in enumerate(args.command):
                 else:
                     current_obj = func(current_obj)
             else:
-                run_command(current_obj, func, sig, args.command[idx+1:])
+                run_command(current_obj, func, sig, " ".join(args.command[0:idx+1]), args.command[idx+1:])
                 ran_cmd = True
                 break
 
