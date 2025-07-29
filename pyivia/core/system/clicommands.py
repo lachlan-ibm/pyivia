@@ -21,7 +21,7 @@ class CLICommands(object):
 
     def run(self, command=None,input_array=None):
         """
-        Run a pdadmin command.
+        Run a CLI command.
 
         Args:
             command (:obj:`str`):The CLI command to run. The different levels of the command are separated by "/".
