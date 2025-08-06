@@ -30,7 +30,10 @@ class RESTClient(object):
         self._verify = str(os.environ.get("PYIVIA_VERIFY_TLS_LMI", False)).lower() \
                 in ["true", "yes", "t", "1", "on"]
         if self._verify == False:
-            requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+            try:
+                requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+            except Exception:
+                urllib3.disable_warnings(InsecureRequestWarning)
         self._base_url = base_url
         self._username = username
         self._password = password
