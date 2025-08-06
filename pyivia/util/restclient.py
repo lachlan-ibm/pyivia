@@ -9,8 +9,12 @@ import logging
 import requests
 import time
 import os
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
-from requests.packages.urllib3.util import Retry
+try:
+    from requests.packages.urllib3.exceptions import InsecureRequestWarning
+    from requests.packages.urllib3.util import Retry
+except Exception:
+    from urllib3.exceptions import InsecureRequestWarning
+    from urllib3.util import Retry
 from requests import Session
 from requests.adapters import HTTPAdapter
 
