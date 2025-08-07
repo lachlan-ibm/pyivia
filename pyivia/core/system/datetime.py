@@ -47,3 +47,20 @@ class DateTime(object):
         response.success = response.status_code == 200
 
         return response
+
+    def get(self):
+        """
+        Get the current date/time settings of an appliance.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify identity access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the date/time configuration is returned as JSON and can be accessed from
+            the response.json attribute
+        """
+        response = self.client.get_json(TIME_CONFIG)
+        response.success = response.status_code == 200
+
+        return response

@@ -13,3 +13,4 @@ PyISAM (now called PyIVIA) was originally developed by Benjamin Martin. It is no
 - Alex Jansons \<alexjans@au1.ibm.com\>
 - Jared Page \<jaredpa@au1.ibm.com\>
 - Leo Farrell \<lfarrell@au1.ibm.com\>
+- Peter Cogill \<pcogill@au1.ibm.com\>
