@@ -7,6 +7,8 @@ import json
 
 class DataObject(object):
 
+    data : dict = {}
+
     def __init__(self):
         super(DataObject, self).__init__()
         self.data = {}
@@ -19,7 +21,7 @@ class DataObject(object):
             self.data[key] = value
 
     def add_value_boolean(self, key, value):
-        if value == None:
+        if value is None:
             return
         if value is True:
             self.data[key] = True
@@ -51,6 +53,7 @@ class Response(object):
 
     def decode_json(self):
         try:
-            self.json = json.loads(self.data)
+            if self.data is not None:
+                self.json = json.loads(self.data)
         except Exception as e:
             self.json = None

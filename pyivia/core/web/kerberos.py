@@ -6,7 +6,7 @@ import logging
 import urllib
 
 from pyivia.util.model import DataObject, Response
-from pyivia.util.restclient import RESTClient
+from pyivia.util.restclient import RESTClient, RESTResponse
 
 logger = logging.getLogger(__name__)
 
@@ -152,7 +152,10 @@ class Kerberos(object):
             If the request is successful the mapping keytab file id is returned as JSON and can be accessed from
             the response.json attribute
         '''
-        response = Response()
+        response = RESTResponse()
+        if keytab_file is None:
+            response.success = False
+            return response
         
         try:
             with open(keytab_file, 'rb') as contents:

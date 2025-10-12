@@ -2,11 +2,14 @@
 @copyright: IBM
 """
 
+from typing import Never
+
+
 import logging
 import uuid
 
 from pyivia.util.model import DataObject
-from pyivia.util.restclient import RESTClient
+from pyivia.util.restclient import RESTClient, RESTResponse
 
 
 ROUTES = "/net/routes"
@@ -78,7 +81,7 @@ class StaticRoutes(object):
         return response
 
     def update_route(self, uuid, enabled=None, address=None, mask_or_prefix=None, gateway=None, interface_uuid=None, 
-            metric=0, r_comment=None, table=None):
+            metric=0, comment=None, table=None) -> RESTResponse:
         """
         Update a networking route configuration.
 
@@ -107,7 +110,7 @@ class StaticRoutes(object):
 class StaticRoutes10000(StaticRoutes):
 
     def update_route(self, uuid, enabled=None, address=None, mask_or_prefix=None, gateway=None, interface_uuid=None, 
-            metric=0, comment=None, table=None):
+            metric=0, comment=None, table=None) -> RESTResponse:
         """
         Update a networking route configuration.
 

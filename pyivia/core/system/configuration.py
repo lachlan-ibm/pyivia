@@ -3,6 +3,9 @@
 """
 
 import logging
+import re
+
+from requests import get
 
 from pyivia.util.restclient import RESTClient
 from .restartshutdown import RestartShutdown
@@ -39,7 +42,7 @@ class Configuration(object):
         """
         response = self.get_pending_changes()
 
-        if response.success:
+        if response.success and response.json:
             if response.json.get("changes", []):
                 response = self._deploy_pending_changes()
             else:
@@ -80,8 +83,12 @@ class Configuration(object):
 
     def _deploy_pending_changes(self):
         response = self.client.get_json(PENDING_CHANGES_DEPLOY)
-        response.success = (response.status_code == 200
-            and response.json.get("result", -1) == 0)
+        if response.json:
+            response.success = (response.status_code == 200 and
+                                    response.json.get("result", -1) == 0)
+        else:
+            response.success = False
+            return response
 
         if response.success:
             status = response.json.get("status")

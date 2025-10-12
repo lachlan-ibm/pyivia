@@ -212,8 +212,8 @@ class SCIMConfig9050(SCIMConfig):
         super(SCIMConfig, self).__init__()
         self.client = RESTClient(base_url, username, password)
         
-    def update_isam_user(self, ldap_connection=None, isam_domain=None, connection_type=None,
-            update_native_users=None):
+    def update_isam_user(self, ldap_connection=None, isam_domain=None, update_native_users=None,
+            connection_type=None):
         '''
         Update SCIM user mappings for basic and full Verify Identity Access users.
 

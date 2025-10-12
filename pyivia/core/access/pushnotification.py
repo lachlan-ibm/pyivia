@@ -235,7 +235,7 @@ class PushNotification9021(PushNotification):
         data.add_value_not_empty("provider", provider.data)
 
         endpoint = PUSH_NOTIFICATION + '/{}'.format(pnr_id)
-        response = self.client.pout_json(endpoint, data.data)
+        response = self.client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response

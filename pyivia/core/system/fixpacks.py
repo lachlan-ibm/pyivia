@@ -5,7 +5,7 @@
 import logging
 
 from pyivia.util.model import DataObject, Response
-from pyivia.util.restclient import RESTClient
+from pyivia.util.restclient import RESTClient, RESTResponse
 
 
 FIXPACKS = "/fixpacks"
@@ -19,7 +19,7 @@ class Fixpacks(object):
         super(Fixpacks, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def install_fixpack(self, file_path):
+    def install_fixpack(self, file_path) -> RESTResponse:
         """
         Install a signed fixpack.
 
@@ -31,7 +31,7 @@ class Fixpacks(object):
 
             Success can be checked by examining the response.success boolean attribute
         """
-        response = Response()
+        response = RESTResponse()
 
         try:
             with open(file_path, 'rb') as fixpack:

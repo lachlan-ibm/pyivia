@@ -3,7 +3,7 @@
 """
 
 import logging
-import urllib
+import urllib.parse
 
 from pyivia.util.model import DataObject
 from pyivia.util.restclient import RESTClient
@@ -54,7 +54,7 @@ class DSCAdmin(object):
             the response.json attribute.
 
         """
-        replica_set = urllib.quote(replica_set, safe='')
+        replica_set = urllib.parse.quote(replica_set, safe='')
         endpoint = "%s/%s/servers" % (DSC_ADMIN_REPLICAS, replica_set)
 
         response = self.client.get_json(endpoint)

@@ -5,7 +5,7 @@
 import logging
 
 from pyivia.util.model import DataObject, Response
-from pyivia.util.restclient import RESTClient
+from pyivia.util.restclient import RESTClient, RESTResponse
 
 REMOTE_SYS_LOGS = "/isam/rsyslog_forwarder"
 
@@ -119,7 +119,7 @@ class RemoteSyslog(object):
 
         servers = self.list().json
         if servers == None or not isinstance(servers, list):
-            response = Response()
+            response = RESTResponse()
             response.success= False
             return response
         idx = -1
