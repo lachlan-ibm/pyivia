@@ -4,13 +4,10 @@
 
 import base64
 import copy
-import json
 import logging
-import requests
 import time
 import os
 import urllib3
-from typing import Any
 from urllib3.exceptions import InsecureRequestWarning
 from urllib3.util import Retry
 from requests import Session
