@@ -1,7 +1,7 @@
 import logging
 
-from pyivia.util.model import DataObject, Response
-from pyivia.util.restclient import RESTClient, RESTResponse
+from pyivia.util.model import Response
+from pyivia.util.restclient import RESTClient
 
 
 logger = logging.getLogger(__name__)
@@ -30,7 +30,7 @@ class Snapshot(object):
             Success can be checked by examining the response.success boolean attribute
 
         '''
-        response = RESTResponse()
+        response = Response()
         response.success = False
         try:
             files = {"filename": open(snapshot, 'rb')}
@@ -57,7 +57,7 @@ class Snapshot(object):
             Success can be checked by examining the response.success boolean attribute
 
         '''
-        response = RESTResponse()
+        response = Response()
         response.success = False
         try:
             endpoint = "{}/{}".format(SNAPSHOT, snapshot_id)

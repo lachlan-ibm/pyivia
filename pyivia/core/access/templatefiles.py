@@ -5,7 +5,7 @@
 import logging, os
 
 from pyivia.util.model import DataObject, Response
-from pyivia.util.restclient import RESTClient, RESTResponse
+from pyivia.util.restclient import RESTClient
 
 
 TEMPLATE_FILES = "/mga/template_files"
@@ -180,7 +180,7 @@ class TemplateFiles(object):
             the response.json attribute.
 
         '''
-        response = RESTResponse()
+        response = Response()
 
         try:
             with open(file_path, 'rb') as template:
@@ -214,7 +214,7 @@ class TemplateFiles(object):
             the response.json attribute.
 
         '''
-        response = RESTResponse()
+        response = Response()
 
         try:
             with open(file_path, 'rb') as templates:

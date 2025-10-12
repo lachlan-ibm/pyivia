@@ -8,8 +8,8 @@ from typing import Never
 import logging
 import uuid
 
-from pyivia.util.model import DataObject
-from pyivia.util.restclient import RESTClient, RESTResponse
+from pyivia.util.model import DataObject, Response
+from pyivia.util.restclient import RESTClient
 
 
 NET_INTERFACES = "/net/ifaces"
@@ -24,7 +24,7 @@ class Interfaces(object):
         self.client = RESTClient(base_url, username, password)
 
     def create_address(self, interface_label, address=None, mask_or_prefix=None, enabled=True, 
-            allow_management=False, broadcast_address=None, override_subnet_checking=False) -> RESTResponse:
+            allow_management=False, broadcast_address=None, override_subnet_checking=False) -> Response:
         """
         Add a new address to an existing interface.
         
@@ -76,7 +76,7 @@ class Interfaces(object):
 
         return response
 
-    def list_interfaces(self) -> RESTResponse:
+    def list_interfaces(self) -> Response:
         """
         List all known interface properties.
 
@@ -94,7 +94,7 @@ class Interfaces(object):
         return response
 
 
-    def create_interface(self, name=None, comment=None, label=None, enabled=True, vlan_id=None, ipv4={}, ipv6={}) -> RESTResponse:
+    def create_interface(self, name=None, comment=None, label=None, enabled=True, vlan_id=None, ipv4={}, ipv6={}) -> Response:
         """
         Create a new network interface
 
@@ -158,7 +158,7 @@ class Interfaces(object):
             ipv4_allow_management=False, ipv4_enabled=True, ipv4_dhcp_enabled=True, 
             ipv4_dhcp_allow_management=False, ipv4_dhcp_default_route=False, ipv4_dhcp_route_metric=0,
             ipv4_override_subnet_checking=False, ipv6_address=None, ipv6_prefix_length=None, 
-            ipv6_allow_management=False, ipv6_enabled=False, ipv6_dhcp_enabled=False, ipv6_dhcp_allow_management=False) -> RESTResponse:
+            ipv6_allow_management=False, ipv6_enabled=False, ipv6_dhcp_enabled=False, ipv6_dhcp_allow_management=False) -> Response:
         """
         Update the configuration of an existing interface
 
@@ -195,7 +195,7 @@ class Interfaces(object):
         """
         raise RuntimeError("Not implemented")
 
-    def delete_interface(self, uuid) -> RESTResponse:
+    def delete_interface(self, uuid) -> Response:
         """
         Delete a VLAN interface configuration
 
@@ -212,7 +212,7 @@ class Interfaces(object):
 class Interfaces10000(Interfaces):
 
 
-    def create_interface(self, name=None, comment=None, label=None, enabled=True, vlan_id=None, ipv4={}, ipv6={}) -> RESTResponse:
+    def create_interface(self, name=None, comment=None, label=None, enabled=True, vlan_id=None, ipv4={}, ipv6={}) -> Response:
         data = DataObject()
         data.add_value_string("name", name)
         data.add_value_string("comment", comment)
@@ -228,7 +228,7 @@ class Interfaces10000(Interfaces):
         return response
 
 
-    def delete_interface(self, uuid) -> RESTResponse:
+    def delete_interface(self, uuid) -> Response:
         endpoint = "{}/{}".format(NET_INTERFACES, uuid)
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 204
@@ -240,7 +240,7 @@ class Interfaces10000(Interfaces):
             ipv4_broadcast_address=None, ipv4_allow_management=False, ipv4_enabled=True, ipv4_dhcp_enabled=True, 
             ipv4_dhcp_allow_management=False, ipv4_dhcp_default_route=False, ipv4_dhcp_route_metric=0,
             ipv4_override_subnet_checking=False, ipv6_address=None, ipv6_prefix_length=None, 
-            ipv6_allow_management=False, ipv6_enabled=False, ipv6_dhcp_enabled=False, ipv6_dhcp_allow_management=False) -> RESTResponse:
+            ipv6_allow_management=False, ipv6_enabled=False, ipv6_dhcp_enabled=False, ipv6_dhcp_allow_management=False) -> Response:
         data = DataObject()
         ipv4 = DataObject()
         if ipv4_address:

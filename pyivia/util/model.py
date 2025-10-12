@@ -3,6 +3,7 @@
 """
 
 import json
+from typing import Any
 
 
 class DataObject(object):
@@ -41,12 +42,17 @@ class DataObject(object):
 
 class Response(object):
 
+    id_from_location: str | None = None
+    success: bool = False
+    data: Any | None = None
+
+
     def __init__(self):
         super(Response, self).__init__()
         self.data = None
         self.json = None
         self.status_code = None
-        self.success = None
+        self.success = False
 
     def __str__(self):
         return "<Response [%s, %s]>" % (self.success, self.status_code)

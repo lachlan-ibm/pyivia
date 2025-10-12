@@ -4,8 +4,8 @@
 
 import logging
 
-from pyivia.util.model import DataObject
-from pyivia.util.restclient import RESTClient, RESTResponse
+from pyivia.util.model import DataObject, Response
+from pyivia.util.restclient import RESTClient
 
 
 ADMIN_CONFIG = "/core/admin_cfg"
@@ -42,7 +42,7 @@ class AdminSettings(object):
             lmi_debugging_enabled=None, console_log_level=None, accept_client_certs=None, validate_client_cert_identity=None, 
             exclude_csrf_checking=None, enabled_server_protocols=None, enabled_tls=[], log_max_files=None, log_max_size=None,
             http_proxy=None, https_proxy=None, login_header=None, login_msg=None, access_log_fmt=None, lmi_msg_timeout=None,
-            valid_verify_domains=None, audit_enabled=None, audit_json=None, audit_verbose=None) -> RESTResponse:
+            valid_verify_domains=None, audit_enabled=None, audit_json=None, audit_verbose=None) -> Response:
         """
         Update the administrator settings.
 
@@ -188,7 +188,7 @@ class AdminSetting11010(AdminSettings):
             lmi_debugging_enabled=None, console_log_level=None, accept_client_certs=None, validate_client_cert_identity=None, 
             exclude_csrf_checking=None, enabled_server_protocols=None, enabled_tls=[], log_max_files=None, log_max_size=None,
             http_proxy=None, https_proxy=None, login_header=None, login_msg=None, access_log_fmt=None, lmi_msg_timeout=None,
-            valid_verify_domains=None, audit_enabled=None, audit_json=None, audit_verbose=None) -> RESTResponse:
+            valid_verify_domains=None, audit_enabled=None, audit_json=None, audit_verbose=None) -> Response:
         data = DataObject()
         data.add_value_string("oldPassword", old_password)
         data.add_value_string("newPassword", new_password)

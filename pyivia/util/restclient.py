@@ -18,14 +18,6 @@ from requests.adapters import HTTPAdapter
 
 from .model import Response
 
-
-class RESTResponse(Response):
-
-    id_from_location: str | None = None
-    success: bool = False
-    data: Any | None = None
-
-
 logger = logging.getLogger(__name__)
 
 class RESTClient(object):
@@ -207,7 +199,7 @@ class RESTClient(object):
         return response
 
     def _build_response(self, request_response):
-        response = RESTResponse()
+        response = Response()
         try:
             response.data = request_response.content.decode()
         except (UnicodeDecodeError, AttributeError):

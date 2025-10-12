@@ -6,7 +6,7 @@
 import logging
 
 from pyivia.util.model import DataObject, Response
-from pyivia.util.restclient import RESTClient, RESTResponse
+from pyivia.util.restclient import RESTClient
 
 
 CLUSTER_CONFIG = "/isam/cluster/v2"
@@ -23,7 +23,7 @@ class Cluster(object):
 
 
     def set_config_db(self, embedded=None, db_type=None, port=None, host=None, secure=True, user=None, passwd=None, 
-            db_name=None, db_key_store=None, extra_config={}) -> RESTResponse:
+            db_name=None, db_key_store=None, extra_config={}) -> Response:
         """
 
         Set the Configuration Database connection.
@@ -101,7 +101,7 @@ class Cluster(object):
 
 
     def set_runtime_db(self, embedded=None, db_type=None, port=None, host=None, secure=True, user=None, passwd=None,
-            db_name=None, db_key_store=None, extra_config={}) -> RESTResponse:
+            db_name=None, db_key_store=None, extra_config={}) -> Response:
         """
         Set the High Volume Database connection
 
@@ -180,7 +180,7 @@ class Cluster(object):
             dsc_connection_idle_timeout=None, hvdb_embedded=None, hvdb_max_size=None, hvdb_db_type=None, 
             hvdb_address=None, hvdb_port=None, hvdb_user=None, hvdb_password=None, hvdb_db_name=None, hvdb_db_secure=None,
             cfgdb_embedded=None, cfgdb_db_type=None, cfgdb_address=None, cfgdb_port=None, cfgdb_user=None, cfgdb_password=None,
-            cfgdb_db_name=None, cfgdb_db_secure=None, first_port=None, cfgdb_fs=None, extra_config={}) -> RESTResponse:
+            cfgdb_db_name=None, cfgdb_db_secure=None, first_port=None, cfgdb_fs=None, extra_config={}) -> Response:
         """
         Update the cluster configuration.
 
@@ -270,7 +270,7 @@ class Cluster(object):
         return response
 
 
-    def get(self) -> RESTResponse:
+    def get(self) -> Response:
         """
         Get the current cluster configuration.
 

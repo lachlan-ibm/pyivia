@@ -6,7 +6,7 @@ import logging
 import os
 
 from pyivia.util.model import DataObject, Response
-from pyivia.util.restclient import RESTClient, RESTResponse
+from pyivia.util.restclient import RESTClient
 
 
 CAPABILITIES = "/isam/capabilities"
@@ -99,7 +99,7 @@ class Licensing(object):
             If the request is successful the active module is returned as JSON and can be accessed from
             the response.json attribute
         """
-        response = RESTResponse()
+        response = Response()
 
         try:
             with open(file_path, 'rb') as code:
@@ -136,7 +136,7 @@ class Licensing(object):
             If the request is successful the active module is returned as HTML encoded JSON and can be 
             accessed from the response.data attribute
         """
-        response = RESTResponse()
+        response = Response()
 
         try:
             with open(file_path, 'rb') as cer:

@@ -5,7 +5,7 @@
 import logging
 
 from pyivia.util.model import DataObject, Response
-from pyivia.util.restclient import RESTClient, RESTResponse
+from pyivia.util.restclient import RESTClient
 
 
 SSL_CERTIFICATES = "/isam/ssl_certificates"
@@ -33,7 +33,7 @@ class SSLCertificates(object):
 
             Success can be checked by examining the response.success boolean attribute
         """
-        response = RESTResponse()
+        response = Response()
 
         try:
             with open(file_path, 'rb') as certificate:
@@ -69,7 +69,7 @@ class SSLCertificates(object):
 
             Success can be checked by examining the response.success boolean attribute
         """
-        response = RESTResponse()
+        response = Response()
 
         try:
             with open(file_path, 'rb') as certificate:
@@ -311,7 +311,7 @@ class SSLCertificates(object):
             the response.json attribute
         '''
         if not kdb_file or not sth_file:
-            resposne = RESTResponse()
+            resposne = Response()
             resposne.success = False
             resposne.data = {"error":"Both kdb_file and sth_file must be provided"}
             return resposne

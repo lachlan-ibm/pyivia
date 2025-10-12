@@ -4,10 +4,9 @@
 
 import ntpath
 import logging
-from typing import Never
 
 from pyivia.util.model import DataObject, Response
-from pyivia.util.restclient import RESTClient, RESTResponse
+from pyivia.util.restclient import RESTClient
 
 
 FIDO2_RELYING_PARTIES="/iam/access/v8/fido2/relying-parties"
@@ -301,7 +300,7 @@ class FIDO2Config(object):
             response.id_from_location attribute.
 
         '''
-        response = RESTResponse()
+        response = Response()
         if not filename:
             setattr(response, 'status_code', 404)
             setattr(response, 'content', 'No volume specified')
@@ -340,7 +339,7 @@ class FIDO2Config(object):
             Success can be checked by examining the response.success boolean attribute.
 
         '''
-        response = RESTResponse()
+        response = Response()
         if not filename:
             setattr(response, 'status_code', 404)
             setattr(response, 'content', 'No volume specified')
@@ -399,7 +398,7 @@ class FIDO2Config(object):
             response.id_from_location attribute.
 
         '''
-        response = RESTResponse()
+        response = Response()
         if not filename:
             setattr(response, 'status_code', 404)
             setattr(response, 'content', 'No volume specified')
@@ -438,7 +437,7 @@ class FIDO2Config(object):
             Success can be checked by examining the response.success boolean attribute.
 
         '''
-        response = RESTResponse()
+        response = Response()
         if not filename:
             setattr(response, 'status_code', 404)
             setattr(response, 'content', 'No volume specified')
@@ -523,7 +522,7 @@ class FIDO2Config(object):
         return response
 
     def create_metadata_service(self, url, retry_interval=None, jws_truststore=None, truststore=None, username=None,
-            password=None, keystore=None, certificate=None, protocol=None, timeout=None, proxy=None, headers=[]) -> RESTResponse:
+            password=None, keystore=None, certificate=None, protocol=None, timeout=None, proxy=None, headers=[]) -> Response:
         '''
         Create a FIDO2 Metadata Service connection.
 
@@ -563,7 +562,7 @@ class FIDO2Config(object):
 
 
     def update_metadata_service(self, mds_id, url=None, retry_interval=None, jws_truststore=None, truststore=None, username=None,
-            password=None, keystore=None, certificate=None, protocol=None, timeout=None, proxy=None, headers=[]) -> RESTResponse:
+            password=None, keystore=None, certificate=None, protocol=None, timeout=None, proxy=None, headers=[]) -> Response:
         '''
         Update an existing FIDO2 Metadata Service connection.
 
@@ -600,7 +599,7 @@ class FIDO2Config(object):
         raise Exception ("Not yet implemented")
 
 
-    def get_metadata_service(self, mds_id) -> RESTResponse:
+    def get_metadata_service(self, mds_id) -> Response:
         '''
         Get a configured metadata service.
 
@@ -618,7 +617,7 @@ class FIDO2Config(object):
         raise Exception ("Not yet implemented")
 
 
-    def list_metadata_services(self) -> RESTResponse:
+    def list_metadata_services(self) -> Response:
         '''
         List the configured metadata services.
 
@@ -633,7 +632,7 @@ class FIDO2Config(object):
         raise Exception ("Not yet implemented")
 
 
-    def delete_metadata_service(self, mds_id) -> RESTResponse:
+    def delete_metadata_service(self, mds_id) -> Response:
         '''
         Delete a configured metadata service.
 
@@ -866,7 +865,7 @@ class FIDO2Config10050(FIDO2Config):
 
 
     def update_metadata_service(self, mds_id, url=None, retry_interval=None, jws_truststore=None, truststore=None, username=None,
-            password=None, keystore=None, certificate=None, protocol=None, timeout=None, proxy=None, headers=[]) -> RESTResponse:
+            password=None, keystore=None, certificate=None, protocol=None, timeout=None, proxy=None, headers=[]) -> Response:
         '''
         Update an existing FIDO2 Metadata Service connection.
 
@@ -921,7 +920,7 @@ class FIDO2Config10050(FIDO2Config):
         return response
 
 
-    def get_metadata_service(self, mds_id) -> RESTResponse:
+    def get_metadata_service(self, mds_id) -> Response:
         '''
         Get a configured metadata service.
 
@@ -943,7 +942,7 @@ class FIDO2Config10050(FIDO2Config):
         return response
 
 
-    def list_metadata_services(self) -> RESTResponse:
+    def list_metadata_services(self) -> Response:
         '''
         List the configured metadata services.
 
@@ -961,7 +960,7 @@ class FIDO2Config10050(FIDO2Config):
         return response
 
 
-    def delete_metadata_service(self, mds_id) -> RESTResponse:
+    def delete_metadata_service(self, mds_id) -> Response:
         '''
         Delete a configured metadata service.
 

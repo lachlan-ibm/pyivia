@@ -6,8 +6,8 @@
 import logging
 from requests import Response
 
-from pyivia.util.model import DataObject
-from pyivia.util.restclient import RESTClient, RESTResponse
+from pyivia.util.model import DataObject, Response
+from pyivia.util.restclient import RESTClient
 
 
 VOLUMES = "/isam/container_ext/volumes"
@@ -62,7 +62,7 @@ class Volumes(object):
             Success can be checked by examining the response.success boolean attribute
         '''
         if not exported_volume:
-            r = RESTResponse()
+            r = Response()
             setattr(r, 'status_code', 404)
             setattr(r, 'content', 'No volume specified')
             setattr(r, 'success', False)
@@ -92,7 +92,7 @@ class Volumes(object):
         endpoint = "{}/{}".format(VOLUMES, volume_id)
 
         if not volume:
-            r = RESTResponse()
+            r = Response()
             setattr(r, 'status_code', 404)
             setattr(r, 'content', 'No volume specified')
             setattr(r, 'success', False)

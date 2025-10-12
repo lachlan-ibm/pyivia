@@ -3,12 +3,9 @@
 """
 
 import logging
-from typing import Never
-import uuid
-import json
 
-from pyivia.util.model import DataObject
-from pyivia.util.restclient import RESTClient, RESTResponse
+from pyivia.util.model import DataObject, Response
+from pyivia.util.restclient import RESTClient
 from pyivia.util.model import Response
 
 FEDERATIONS = "/iam/access/v8/federations"
@@ -240,7 +237,7 @@ class Federations(object):
         identity_delegate_id=None, identity_mapping_rule=None, identity_auth_type=None, identity_ba_user=None, 
         identity_ba_password=None, identity_client_keystore=None, identity_client_key_alias=None, identity_issuer_uri=None, 
         identity_msg_fmt=None, identity_ssl_keystore=None, identity_uri=None, adv_config_delegate_id=None, 
-        adv_config_rule_type="JAVASCRIPT", adv_config_mapping_rule=None) -> RESTResponse:
+        adv_config_rule_type="JAVASCRIPT", adv_config_mapping_rule=None) -> Response:
         """
         Add a partner configuration to an ODIC SP Federation.
 
@@ -699,7 +696,7 @@ class Federations(object):
             soap_client_auth_method=None, soap_client_auth_ba_user=None, soap_client_auth_ba_password=None, 
             soap_client_auth_key_store=None, soap_client_auth_key_alias=None, anon_user_name=None, force_authn_to_federate=None, 
             authn_req_delegate_id=None, authn_req_mr=None, map_unknown_alias=None, sso_svc=[], default_target_url=None,
-            key_selection_criteria='default') -> RESTResponse:
+            key_selection_criteria='default') -> Response:
         """
         Create a SAML 2.0 IDP or SP Partner
 
@@ -1179,7 +1176,7 @@ class Federations(object):
 
             Success can be checked by examining the response.success boolean attribute.
         """
-        response = RESTResponse()
+        response = Response()
         response.success = False
         with open(metadata, "rb") as metadata_file:
             data = DataObject()
@@ -1256,7 +1253,7 @@ class Federations9040(Federations):
         identity_delegate_id=None, identity_mapping_rule=None, identity_auth_type=None, identity_ba_user=None, 
         identity_ba_password=None, identity_client_keystore=None, identity_client_key_alias=None, identity_issuer_uri=None, 
         identity_msg_fmt=None, identity_ssl_keystore=None, identity_uri=None, adv_config_delegate_id=None, 
-        adv_config_rule_type="JAVASCRIPT", adv_config_mapping_rule=None) -> RESTResponse:
+        adv_config_rule_type="JAVASCRIPT", adv_config_mapping_rule=None) -> Response:
 
         data = DataObject()
         data.add_value_string("name", name)
@@ -1531,7 +1528,7 @@ class Federations10000(Federations9040):
             soap_client_auth_method=None, soap_client_auth_ba_user=None, soap_client_auth_ba_password=None, 
             soap_client_auth_key_store=None, soap_client_auth_key_alias=None, anon_user_name=None, force_authn_to_federate=None, 
             authn_req_delegate_id=None, authn_req_mr=None, map_unknown_alias=None, sso_svc=[], default_target_url=None,
-            key_selection_criteria='default') -> RESTResponse:
+            key_selection_criteria='default') -> Response:
         
         data = DataObject()
         data.add_value_string("name", name)

@@ -5,8 +5,8 @@
 import logging
 import urllib
 
-from pyivia.util.model import DataObject
-from pyivia.util.restclient import RESTClient, RESTResponse
+from pyivia.util.model import DataObject, Response
+from pyivia.util.restclient import RESTClient
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +33,7 @@ class RSA(object):
             Success can be checked by examining the response.success boolean attribute
 
         """
-        response = RESTResponse()
+        response = Response()
         if not server_config_file or not server_options_file:
             response.success = False
             return response

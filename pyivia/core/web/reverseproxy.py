@@ -3,10 +3,9 @@
 """
 
 import logging
-from typing import Never
 
 from pyivia.util.model import DataObject, Response
-from pyivia.util.restclient import RESTClient, RESTResponse
+from pyivia.util.restclient import RESTClient
 import urllib.parse
 
 
@@ -716,7 +715,7 @@ class ReverseProxy(object):
             the response.json attribute
 
         '''
-        response = RESTResponse()
+        response = Response()
 
         endpoint = ("%s/%s/management_root/" % (REVERSEPROXY, webseal_id))
         try:
@@ -782,7 +781,7 @@ class ReverseProxy(object):
             the response.json attribute
 
         '''
-        response = RESTResponse()
+        response = Response()
 
         endpoint = ("%s/%s/management_root/%s" % (REVERSEPROXY, webseal_id, page_id))
 
@@ -798,7 +797,7 @@ class ReverseProxy(object):
 
         return response
 
-    def configure_verify_gateway(self, webseal_id, mmfa=None, junction=None) -> RESTResponse:
+    def configure_verify_gateway(self, webseal_id, mmfa=None, junction=None) -> Response:
         """
         Configure a WebSEAL instance to act as a gateway to an IBM Verify Identity tenant.
 
@@ -903,7 +902,7 @@ class ReverseProxy10020(ReverseProxy9040):
         self.client = RESTClient(base_url, username, password)
 
 
-    def configure_verify_gateway(self, webseal_id, mmfa=None, junction=None) -> RESTResponse:
+    def configure_verify_gateway(self, webseal_id, mmfa=None, junction=None) -> Response:
         data = DataObject()
         data.add_value_boolean("mmfa", mmfa)
         data.add_value_string("junction", junction);
