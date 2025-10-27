@@ -547,7 +547,6 @@ class Federations(object):
 
         identityMapping = DataObject()
         if (identity_delegate_id is not None):
-            identityMapping = DataObject()
             identityMapping.add_value_string("activeDelegateId", identity_delegate_id)
             if (identity_rule_id is not None):
                 identityMapping.add_value_not_empty("properties", 
