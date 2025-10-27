@@ -32,7 +32,7 @@ class CLICommands(object):
 
             Success can be checked by examining the response.success boolean attribute
 
-            If the request is successful the obligations are returned as JSON and can be accessed from
+            If the request is successful the command output is returned as JSON and can be accessed from
             the response.json attribute
         """
         data = DataObject()

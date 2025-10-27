@@ -3,7 +3,6 @@
 """
 
 import logging
-import urllib
 
 from pyivia.util.model import DataObject, Response
 from pyivia.util.restclient import RESTClient
@@ -153,6 +152,9 @@ class Kerberos(object):
             the response.json attribute
         '''
         response = Response()
+        if keytab_file is None:
+            response.success = False
+            return response
         
         try:
             with open(keytab_file, 'rb') as contents:

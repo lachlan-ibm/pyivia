@@ -3,9 +3,12 @@
 """
 
 import json
+from typing import Any
 
 
 class DataObject(object):
+
+    data : dict = {}
 
     def __init__(self):
         super(DataObject, self).__init__()
@@ -19,7 +22,7 @@ class DataObject(object):
             self.data[key] = value
 
     def add_value_boolean(self, key, value):
-        if value == None:
+        if value is None:
             return
         if value is True:
             self.data[key] = True
@@ -39,18 +42,24 @@ class DataObject(object):
 
 class Response(object):
 
+    id_from_location: str | None = None
+    success: bool = False
+    data: Any | None = None
+
+
     def __init__(self):
         super(Response, self).__init__()
         self.data = None
         self.json = None
         self.status_code = None
-        self.success = None
+        self.success = False
 
     def __str__(self):
         return "<Response [%s, %s]>" % (self.success, self.status_code)
 
     def decode_json(self):
         try:
-            self.json = json.loads(self.data)
+            if self.data is not None:
+                self.json = json.loads(self.data)
         except Exception as e:
             self.json = None

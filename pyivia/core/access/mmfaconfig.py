@@ -57,12 +57,12 @@ class MMFAConfig9021(MMFAConfig):
         super(MMFAConfig9021, self).__init__(base_url, username, password)
 
 
-    def update(self, client_id=None, hostname=None, junction=None, port=None,
+    def update(self, client_id=None, hostname=None, junction=None, options=None, port=None,
             details_url=None, enrollment_endpoint=None,
             hotp_shared_secret_endpoint=None, totp_shared_secret_endpoint=None,
             token_endpoint=None, authntrxn_endpoint=None,
             mobile_endpoint_prefix=None, qrlogin_endpoint=None,
-            discovery_mechanisms=[], options=None):
+            discovery_mechanisms=[],):
         '''
         Update the mobile multi-factor authentication (MMFA) configuration.
 

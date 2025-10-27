@@ -34,6 +34,10 @@ class RSA(object):
 
         """
         response = Response()
+        if not server_config_file or not server_options_file:
+            response.success = False
+            return response
+
         endpoint = RSA_CONFIG + "/server_config"
         try:
             files = {"server_config": open(server_config_file, "rb")}

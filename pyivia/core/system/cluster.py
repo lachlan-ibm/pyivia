@@ -23,7 +23,7 @@ class Cluster(object):
 
 
     def set_config_db(self, embedded=None, db_type=None, port=None, host=None, secure=True, user=None, passwd=None, 
-            db_name=None, db_key_store=None, extra_config={}):
+            db_name=None, db_key_store=None, extra_config={}) -> Response:
         """
 
         Set the Configuration Database connection.
@@ -46,7 +46,8 @@ class Cluster(object):
         .. code-block::
 
             DB2
-                {"cfgdb_db_alt": true,
+                {
+                 "cfgdb_db_alt": true,
                  "cfgdb_db2_alt_address": "db2-bak.isam.ibm.com",
                  "cfgdb_db2_alt_port": "50009"
                 }
@@ -56,7 +57,8 @@ class Cluster(object):
 
 
             Postgresql
-                {"cfgdb_failover_servers": [
+                {
+                 "cfgdb_failover_servers": [
                      {"address":"secondary.pg.ibm.com",
                       "port":5432
                       "order":1
@@ -74,8 +76,9 @@ class Cluster(object):
             Success can be checked by examining the response.success boolean attribute
         """
         data = DataObject()
-        get_response = self.get_cluster()
-        data.data = get_response.json
+        current = self.get()
+        if current.success == True and current.json:
+            data.data = current.json
         data.add_value_boolean("cfgdb_embedded", embedded)
         data.add_value_string("cfgdb_address", host)
         data.add_value_string("cfgdb_port", port)
@@ -98,7 +101,7 @@ class Cluster(object):
 
 
     def set_runtime_db(self, embedded=None, db_type=None, port=None, host=None, secure=True, user=None, passwd=None,
-            db_name=None, db_key_store=None, extra_config={}):
+            db_name=None, db_key_store=None, extra_config={}) -> Response:
         """
         Set the High Volume Database connection
 
@@ -148,8 +151,9 @@ class Cluster(object):
             Success can be checked by examining the response.success boolean attribute
         """
         data = DataObject()
-        get_response = self.get_cluster()
-        data.data = get_response.json
+        current = self.get()
+        if current.success == True and current.json:
+            data.data = current.json
         data.add_value_boolean("hvdb_embedded", embedded)
         data.add_value_string("hvdb_address", host)
         data.add_value_string("hvdb_port", port)
@@ -176,7 +180,7 @@ class Cluster(object):
             dsc_connection_idle_timeout=None, hvdb_embedded=None, hvdb_max_size=None, hvdb_db_type=None, 
             hvdb_address=None, hvdb_port=None, hvdb_user=None, hvdb_password=None, hvdb_db_name=None, hvdb_db_secure=None,
             cfgdb_embedded=None, cfgdb_db_type=None, cfgdb_address=None, cfgdb_port=None, cfgdb_user=None, cfgdb_password=None,
-            cfgdb_db_name=None, cfgdb_db_secure=None, first_port=None, cfgdb_fs=None, extra_config={}):
+            cfgdb_db_name=None, cfgdb_db_secure=None, first_port=None, cfgdb_fs=None, extra_config={}) -> Response:
         """
         Update the cluster configuration.
 
@@ -227,8 +231,9 @@ class Cluster(object):
             Success can be checked by examining the response.success boolean attribute
         """
         data = DataObject()
-        get_response = self.get_cluster()
-        data.data = get_response.json
+        current = self.get()
+        if current.success and current.json:
+            data.data = current.json
         data.add_value_string("primary_master", primary_master)
         data.add_value_boolean("dsc_external_clients", dsc_external_clients)
         data.add_value("dsc_port", dsc_port)
@@ -260,9 +265,12 @@ class Cluster(object):
         if extra_config != None and isinstance(extra_config, dict):
             for key in extra_config.keys():
                 data.add_value(key, extra_config.get(key))
+        response = self.client.put_json(CLUSTER_CONFIG, data.data)
+        response.success = response.status_code == 204
+        return response
 
 
-    def get_cluster(self):
+    def get(self) -> Response:
         """
         Get the current cluster configuration.
 

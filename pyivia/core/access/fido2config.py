@@ -301,6 +301,12 @@ class FIDO2Config(object):
 
         '''
         response = Response()
+        if not filename:
+            setattr(response, 'status_code', 404)
+            setattr(response, 'content', 'No volume specified')
+            setattr(response, 'success', False)
+            return response
+
         try:
             with open(filename, 'rb') as content:
                 data = DataObject()
@@ -334,6 +340,12 @@ class FIDO2Config(object):
 
         '''
         response = Response()
+        if not filename:
+            setattr(response, 'status_code', 404)
+            setattr(response, 'content', 'No volume specified')
+            setattr(response, 'success', False)
+            return response
+
         try:
             with open(filename, 'rb') as content:
                 files = {"file": content}
@@ -387,6 +399,12 @@ class FIDO2Config(object):
 
         '''
         response = Response()
+        if not filename:
+            setattr(response, 'status_code', 404)
+            setattr(response, 'content', 'No volume specified')
+            setattr(response, 'success', False)
+            return response
+
         try:
             with open(filename, 'rb') as content:
                 data = DataObject()
@@ -420,6 +438,12 @@ class FIDO2Config(object):
 
         '''
         response = Response()
+        if not filename:
+            setattr(response, 'status_code', 404)
+            setattr(response, 'content', 'No volume specified')
+            setattr(response, 'success', False)
+            return response
+
         try:
             with open(filename, 'rb') as content:
                 data = DataObject()
@@ -453,7 +477,7 @@ class FIDO2Config(object):
 
         '''
         endpoint = ("%s/%s" % (FIDO2_MEDIATOR, mediator_id))
-        response = self.get_json(endpoint)
+        response = self.client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -492,13 +516,13 @@ class FIDO2Config(object):
 
         '''
         endpoint = ("%s/%s" % (FIDO2_MEDIATOR, mediator_id))
-        response = self.delete_json(endpoint)
+        response = self.client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
 
     def create_metadata_service(self, url, retry_interval=None, jws_truststore=None, truststore=None, username=None,
-            password=None, keystore=None, certificate=None, protocol=None, timeout=None, proxy=None, headers=[]):
+            password=None, keystore=None, certificate=None, protocol=None, timeout=None, proxy=None, headers=[]) -> Response:
         '''
         Create a FIDO2 Metadata Service connection.
 
@@ -538,7 +562,7 @@ class FIDO2Config(object):
 
 
     def update_metadata_service(self, mds_id, url=None, retry_interval=None, jws_truststore=None, truststore=None, username=None,
-            password=None, keystore=None, certificate=None, protocol=None, timeout=None, proxy=None, headers=[]):
+            password=None, keystore=None, certificate=None, protocol=None, timeout=None, proxy=None, headers=[]) -> Response:
         '''
         Update an existing FIDO2 Metadata Service connection.
 
@@ -575,7 +599,7 @@ class FIDO2Config(object):
         raise Exception ("Not yet implemented")
 
 
-    def get_metadata_service(self, mds_id):
+    def get_metadata_service(self, mds_id) -> Response:
         '''
         Get a configured metadata service.
 
@@ -593,7 +617,7 @@ class FIDO2Config(object):
         raise Exception ("Not yet implemented")
 
 
-    def list_metadata_services(self):
+    def list_metadata_services(self) -> Response:
         '''
         List the configured metadata services.
 
@@ -608,7 +632,7 @@ class FIDO2Config(object):
         raise Exception ("Not yet implemented")
 
 
-    def delete_metadata_service(self, mds_id):
+    def delete_metadata_service(self, mds_id) -> Response:
         '''
         Delete a configured metadata service.
 
@@ -841,7 +865,7 @@ class FIDO2Config10050(FIDO2Config):
 
 
     def update_metadata_service(self, mds_id, url=None, retry_interval=None, jws_truststore=None, truststore=None, username=None,
-            password=None, keystore=None, certificate=None, protocol=None, timeout=None, proxy=None, headers=[]):
+            password=None, keystore=None, certificate=None, protocol=None, timeout=None, proxy=None, headers=[]) -> Response:
         '''
         Update an existing FIDO2 Metadata Service connection.
 
@@ -896,7 +920,7 @@ class FIDO2Config10050(FIDO2Config):
         return response
 
 
-    def get_metadata_service(self, mds_id):
+    def get_metadata_service(self, mds_id) -> Response:
         '''
         Get a configured metadata service.
 
@@ -918,7 +942,7 @@ class FIDO2Config10050(FIDO2Config):
         return response
 
 
-    def list_metadata_services(self):
+    def list_metadata_services(self) -> Response:
         '''
         List the configured metadata services.
 
@@ -936,7 +960,7 @@ class FIDO2Config10050(FIDO2Config):
         return response
 
 
-    def delete_metadata_service(self, mds_id):
+    def delete_metadata_service(self, mds_id) -> Response:
         '''
         Delete a configured metadata service.
 

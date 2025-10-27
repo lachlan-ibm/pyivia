@@ -4,22 +4,16 @@
 
 import base64
 import copy
-import json
 import logging
-import requests
 import time
 import os
-try:
-    from requests.packages.urllib3.exceptions import InsecureRequestWarning
-    from requests.packages.urllib3.util import Retry
-except Exception:
-    from urllib3.exceptions import InsecureRequestWarning
-    from urllib3.util import Retry
+import urllib3
+from urllib3.exceptions import InsecureRequestWarning
+from urllib3.util import Retry
 from requests import Session
 from requests.adapters import HTTPAdapter
 
 from .model import Response
-
 
 logger = logging.getLogger(__name__)
 
@@ -30,21 +24,19 @@ class RESTClient(object):
         self._verify = str(os.environ.get("PYIVIA_VERIFY_TLS_LMI", False)).lower() \
                 in ["true", "yes", "t", "1", "on"]
         if self._verify == False:
-            try:
-                requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-            except Exception:
-                urllib3.disable_warnings(InsecureRequestWarning)
+            # Disable SSL warnings
+            urllib3.disable_warnings(InsecureRequestWarning)
         self._base_url = base_url
         self._username = username
         self._password = password
 
-    def delete(self, endpoint, accept_type="*/*"):
+    def delete(self, endpoint, accept_type="*/*", data=None):
         url = self._base_url + endpoint
         headers = self._get_headers(accept_type)
 
         self._log_request("DELETE", url, headers)
 
-        r = self._create_session().delete(url=url, headers=headers, params=None, verify=self._verify)
+        r = self._create_session().delete(url=url, headers=headers, data=data, verify=self._verify)
 
         self._log_response(r.status_code, r.headers, r.content)
 
@@ -53,8 +45,8 @@ class RESTClient(object):
 
         return response
 
-    def delete_json(self, endpoint):
-        return self.delete(endpoint, accept_type="application/json")
+    def delete_json(self, endpoint, data=None):
+        return self.delete(endpoint, accept_type="application/json", data=data)
 
     def get(
             self, endpoint, accept_type="*/*", content_type="application/json",
@@ -106,7 +98,7 @@ class RESTClient(object):
 
         return response
 
-    def get_file(self, endpoint, file_name=None):
+    def get_file(self, endpoint, file_name='None'):
 
         url = self._base_url + endpoint
         headers = self._get_headers("application/octet-stream", "application/json")
@@ -144,7 +136,7 @@ class RESTClient(object):
         return response
 
     def post_file(
-            self, endpoint, accept_type="application/json", data="", files={}, parameters=None):
+            self, endpoint, accept_type="application/json", data={}, files={}, parameters=None):
         url = self._base_url + endpoint
         headers = self._get_headers(accept_type)
 
@@ -160,9 +152,9 @@ class RESTClient(object):
 
         return response
 
-    def post_json(self, endpoint, data=""):
+    def post_json(self, endpoint, data={}):
         return self.post(
-            endpoint, accept_type="application/json", data=json.dumps(data))
+            endpoint, accept_type="application/json", data=data)
 
     def put(
             self, endpoint, accept_type="*/*", content_type="application/json",
@@ -182,9 +174,9 @@ class RESTClient(object):
 
         return response
 
-    def put_json(self, endpoint, data=""):
+    def put_json(self, endpoint, data={}):
         return self.put(
-            endpoint, accept_type="application/json", data=json.dumps(data))
+            endpoint, accept_type="application/json", data=data)
 
     def put_file(
             self, endpoint, accept_type="application/json", data="", files={}, parameters=None):
@@ -216,7 +208,6 @@ class RESTClient(object):
         location = request_response.headers.get("Location", "").lower()
         if location:
             response.id_from_location = location.split('/')[-1]
-
         return response
 
     def _get_headers(self, accept_type=None, content_type=None):

@@ -37,7 +37,10 @@ class ManagementAuthorization(object):
         data.add_value_boolean("enforcing", enforce)
         endpoint = MANAGEMENT_AUTHORIZATION + '/config/v1'
         response = self.client.put_json(endpoint, data.data)
-        response.success = True if response.json.get('enforcing') == enforce and response.status_code == 200 else False
+        response.success = True if response.status_code == 200 \
+                and response.json \
+                and response.json.get('enforcing') == enforce \
+                    else False
 
         return response
 

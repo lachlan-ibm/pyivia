@@ -173,14 +173,14 @@ class Factory(object):
         client = RESTClient(self._base_url, self._username, self._password)
 
         response = client.get_json("/core/sys/versions")
-        if response.status_code == 200:
+        if response.status_code == 200 and isinstance(response.json, dict):
             self._version          = "{0} {1}".format(response.json.get("product_description"), response.json.get("firmware_version"))
             self._deployment_model = response.json.get("deployment_model")
         elif response.status_code == 403:
             raise AuthenticationError("Authentication failed.")
         else:
             response = client.get_json("/firmware_settings")
-            if response.status_code == 200:
+            if response.status_code == 200 and isinstance(response.json, dict):
                 for entry in response.json:
                     if entry.get("active", False):
                         if entry.get("name", "").endswith("_nonproduction_dev"):
@@ -195,6 +195,6 @@ class Factory(object):
 
     def _get_version(self):
         if self._version in VERSIONS:
-            return VERSIONS.get(self._version)
+            return str(VERSIONS.get(self._version))
         else:
-            raise Exception(self._version + " is not supported.")
+            raise Exception(str(self._version) + " is not supported.")

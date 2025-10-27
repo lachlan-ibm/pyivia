@@ -70,8 +70,7 @@ class AttributeSources(object):
 
         """
         data = DataObject()
-        name = attribute_new_name if attribute_new_name != None else attribute_name
-        data.add_value_string("name", name)
+        data.add_value_string("name", attribute_name)
         data.add_value_string("type", attribute_type)
         data.add_value_string("value", attribute_value)
         data.add_value("properties", properties)

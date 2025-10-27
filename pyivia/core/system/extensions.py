@@ -4,7 +4,7 @@
 
 import logging, json
 
-from pyivia.util.model import DataObject, Response
+from pyivia.util.model import Response
 from pyivia.util.restclient import RESTClient
 
 EXTENSIONS = "/extensions"
@@ -19,7 +19,7 @@ class Extensions(object):
         self.client = RESTClient(base_url, username, password)
 
 
-    def create_extension(self, ext_file=None, properties={}, third_party_packages=[]):
+    def create_extension(self, ext_file=None, properties={}, third_party_packages=[]) -> Response:
         '''
         Create a new extension by installing an extension archive 
         from `IBM App-Xchange <https://exchange.xforce.ibmcloud.com/hub>`_.
@@ -41,6 +41,8 @@ class Extensions(object):
         '''
         response = Response()
         response.success = False
+        if not ext_file:
+            return response
         try:
             files = {"extension_support_package": open(ext_file, "rb")}
             endpoint = "{}/inspect".format(EXTENSIONS)

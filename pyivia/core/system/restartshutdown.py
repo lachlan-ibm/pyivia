@@ -56,7 +56,10 @@ class RestartShutdown(object):
             the response.json attribute
         """
         response = self.client.get_json(RUNTIME)
-        response.success = response.status_code == 200 and response.json.get('return_code') == 0
+        response.success = True if response.status_code == 200 \
+                and response.json \
+                and response.json.get('return_code') == 0 \
+                    else False
 
         return response
 
@@ -73,15 +76,17 @@ class RestartShutdown(object):
         last_start = -1
 
         response = self.get_lmi_status()
-        if response.success:
+        if response.success and response.json:
             last_start = response.json[0].get("start_time", -1)
 
         if last_start > 0:
             data = DataObject()
             data.add_value_boolean("restart", True)
             response = self.client.post_json(LMI_RESTART, data.data)
-            response.success = (response.status_code == 200
-                and response.json.get("restart", False) == True)
+            response.success = True if response.status_code == 200 \
+                    and response.json \
+                    and response.json.get("restart", False) == True \
+                        else False
 
             if response.success:
                 logger.info("Waiting for LMI to restart...")
@@ -107,7 +112,7 @@ class RestartShutdown(object):
                 try:
                     response = self.get_lmi_status()
 
-                    if response.success:
+                    if response.success and response.json:
                         restart_time = response.json[0].get("start_time", -1)
                 except:
                     restart_time = -1
@@ -124,13 +129,15 @@ class RestartShutdown(object):
         last_start = -1
 
         response = self.get_lmi_status()
-        if response.success:
+        if response.success and response.json:
             last_start = response.json[0].get("start_time", -1)
 
         if last_start > 0:
             response = self.client.post_json(APPLIANCE_RESTART)
-            response.success = (response.status_code == 200
-                and response.json.get("status", False) == True)
+            response.success = True if response.status_code == 200 \
+                    and response.json \
+                    and response.json.get("status", False) == True \
+                        else False
 
             if response.success:
                 logger.info("Waiting for LMI to restart...")
@@ -154,7 +161,7 @@ class RestartShutdown(object):
 
                 try:
                     response = self.get_runtime_status()
-                    if response.success:
+                    if response.success and response.json:
                         restart_time = response.json.get("last_start", -1)
 
                 except:
@@ -181,7 +188,7 @@ class RestartShutdown(object):
         last_start = -1
 
         response = self.get_runtime_status()
-        if response.success:
+        if response.success and response.json:
             last_start = response.json.get("last_start", -1)
 
         if last_start >= 0:
