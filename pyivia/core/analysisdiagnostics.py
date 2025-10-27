@@ -3,7 +3,7 @@
 """
 
 from .analysis.applicationlog import ApplicationLog
-from .analysis.remotesyslog import RemoteSyslog
+from .analysis.remotesyslog import RemoteSyslog, RemoteSyslog11020
 
 class AnalysisDiagnostics(object):
     '''
@@ -151,3 +151,5 @@ class AnalysisDiagnostics11020(AnalysisDiagnostics11010):
 
     def __init__(self, base_url, username, password):
         super(AnalysisDiagnostics11020, self).__init__(base_url, username, password)
+
+        self.remote_syslog = RemoteSyslog11020(base_url, username, password)
