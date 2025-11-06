@@ -3,6 +3,7 @@
 """
 
 import importlib
+import re
 
 from pyivia.util.restclient import RESTClient
 
@@ -193,8 +194,42 @@ class Factory(object):
         if not self._version:
             raise Exception("Failed to retrieve the ISAM firmware version.")
 
+    def __fuzzy_match_minor_version(self):
+        # If no exact match, try matching first three version digits
+        # Extract version number from the full version string
+        # Format: "Product Name X.Y.Z.W" -> extract "X.Y.Z"
+        if not self._version:
+            return None
+
+        version_match = re.search(r'(\d+\.\d+\.\d+)\.\d+', self._version)
+        if version_match:
+            # Get the first three digits (e.g., "11.0.1" from "11.0.1.1")
+            base_version = version_match.group(1)
+            
+            # Search for a matching version in VERSIONS that starts with base_version
+            for version_key in VERSIONS:
+                # Extract version number from the key
+                key_version_match = re.search(r'(\d+\.\d+\.\d+)', version_key)
+                if key_version_match:
+                    key_base_version = key_version_match.group(1)
+                    # Check if the base versions match and the product name matches
+                    if key_base_version == base_version:
+                        # Extract product name from both versions
+                        version_product = self._version.rsplit(' ', 1)[0] if ' ' in self._version else ''
+                        key_product = version_key.rsplit(' ', 1)[0] if ' ' in version_key else ''
+                        
+                        if version_product == key_product:
+                            return version_key
+        return None
+
     def _get_version(self):
+        # First try exact match
         if self._version in VERSIONS:
             return str(VERSIONS.get(self._version))
-        else:
-            raise Exception(str(self._version) + " is not supported.")
+        
+        # Try fuzzy match on first three version digits
+        matched_version = self.__fuzzy_match_minor_version()
+        if matched_version:
+            return str(VERSIONS.get(matched_version))
+        
+        raise Exception(str(self._version) + " is not supported.")

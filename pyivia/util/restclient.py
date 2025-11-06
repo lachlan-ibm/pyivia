@@ -8,6 +8,7 @@ import logging
 import time
 import os
 import urllib3
+import json
 from urllib3.exceptions import InsecureRequestWarning
 from urllib3.util import Retry
 from requests import Session
@@ -46,7 +47,7 @@ class RESTClient(object):
         return response
 
     def delete_json(self, endpoint, data=None):
-        return self.delete(endpoint, accept_type="application/json", data=data)
+        return self.delete(endpoint, accept_type="application/json", data=json.dumps(data))
 
     def get(
             self, endpoint, accept_type="*/*", content_type="application/json",
@@ -154,7 +155,7 @@ class RESTClient(object):
 
     def post_json(self, endpoint, data={}):
         return self.post(
-            endpoint, accept_type="application/json", data=data)
+            endpoint, accept_type="application/json", data=json.dumps(data))
 
     def put(
             self, endpoint, accept_type="*/*", content_type="application/json",
@@ -176,7 +177,7 @@ class RESTClient(object):
 
     def put_json(self, endpoint, data={}):
         return self.put(
-            endpoint, accept_type="application/json", data=data)
+            endpoint, accept_type="application/json", data=json.dumps(data))
 
     def put_file(
             self, endpoint, accept_type="application/json", data="", files={}, parameters=None):
