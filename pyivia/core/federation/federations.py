@@ -3,10 +3,8 @@
 """
 
 import logging
-import uuid
-import json
 
-from pyivia.util.model import DataObject
+from pyivia.util.model import DataObject, Response
 from pyivia.util.restclient import RESTClient
 from pyivia.util.model import Response
 
@@ -20,7 +18,7 @@ class Federations(object):
         super(Federations, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def create_oidc_federation(self, name=None, role=None, redirect_uri_prefix=None, response_types_supported=None, 
+    def create_oidc_federation(self, name=None, role=None, template_name=None, redirect_uri_prefix=None, response_types_supported=None, 
             attribute_mappings=[], identity_delegate_id=None, identity_rule_type="JAVASCRIPT", identity_mapping_rule=None, 
             identity_applies_to=None, identity_auth_type=None, identity_ba_user=None, identity_ba_password=None,
             identity_client_keystore=None, identity_client_key_alias=None, identity_issuer_uri=None, 
@@ -32,6 +30,7 @@ class Federations(object):
         Args:
             name (:obj:`str`): 	A meaningful name to identify this federation.
             role (:obj:`str`): The role of a federation, valid values are "ip", "sp", "op" and "rp".
+            template_name (:obj:`str`): The name of the template to use for this federation.
             redirect_uri_prefix (:obj:`str`): The reverse proxy address to prepend to the redirect URI sent to the provider to 
                                               communicate with this instance.
             response_types_supported (:obj:`str`): List of response types which determine the flow to be executed. Valid values 
@@ -230,7 +229,7 @@ class Federations(object):
         return response
     
 
-    def create_oidc_rp_partner(self, federation_id, name=None, role="rp", template_name=None, client_id=None,
+    def create_oidc_rp_partner(self, federation_id, name=None, enabled=None, role="rp", template_name=None, client_id=None,
         client_secret=None, basic_delegate_id=None, metadata_endpoint=None, issuer_uri=None, response_types=[],
         auth_endpoint=None, token_endpoint=None, user_info_endpoint=None, signature_alg=None, verification_keystore=None,
         verification_key_alias=None, jwks_url=None, key_mgmt_alg=None, content_encrypt_alg=None, decryption_keystore=None,
@@ -238,7 +237,7 @@ class Federations(object):
         identity_delegate_id=None, identity_mapping_rule=None, identity_auth_type=None, identity_ba_user=None, 
         identity_ba_password=None, identity_client_keystore=None, identity_client_key_alias=None, identity_issuer_uri=None, 
         identity_msg_fmt=None, identity_ssl_keystore=None, identity_uri=None, adv_config_delegate_id=None, 
-        adv_config_rule_type="JAVASCRIPT", adv_config_mapping_rule=None):
+        adv_config_rule_type="JAVASCRIPT", adv_config_mapping_rule=None) -> Response:
         """
         Add a partner configuration to an ODIC SP Federation.
 
@@ -546,9 +545,8 @@ class Federations(object):
 
         nameIdFmt = DataObject()
 
-        identityMapping = None
+        identityMapping = DataObject()
         if (identity_delegate_id is not None):
-            identityMapping = DataObject()
             identityMapping.add_value_string("activeDelegateId", identity_delegate_id)
             if (identity_rule_id is not None):
                 identityMapping.add_value_not_empty("properties", 
@@ -570,7 +568,7 @@ class Federations(object):
 
         extensionMapping = DataObject()
         if(ext_delegate_id is not None):
-            extensionMapping.add_value_string("activeDelegateId")
+            extensionMapping.add_value_string("activeDelegateId", ext_delegate_id)
             if ext_mapping_rule is not None:
                 extensionMapping.add_value("properties", {"extensionMappingRuleReference", ext_delegate_id})
 
@@ -690,13 +688,14 @@ class Federations(object):
             provider_id=None, session_timeout=None, sign_include_pub_key=None, sign_include_cert=None, sign_include_issuer=None, 
             sign_include_ski=None, sign_include_subject=None, sign_key_store=None, sign_key_alias=None, sign_arti_request=None, 
             sign_arti_rsp=None, sign_assertion=None, sign_authn_rsp=None, sign_logout_req=None, sign_logout_rsp=None, 
-            sign_name_id_req=None, sign_name_id_rsp=None, key_selection_criteria=None, transform_include_namespace=None, 
+            sign_name_id_req=None, sign_name_id_rsp=None, transform_include_namespace=None, 
             validate_assertion=None, validate_authn_req=None, validate_arti_req=None, validate_arti_rsp=None, validate_logout_req=None, 
             validate_logout_rsp=None, validate_name_id_req=None, validate_name_id_rsp=None, sign_alg=None, sign_digest_alg=None, 
             validation_key_store=None, validation_key_alias=None, slo_svc=[], soap_key_store=None, soap_key_alias=None, 
             soap_client_auth_method=None, soap_client_auth_ba_user=None, soap_client_auth_ba_password=None, 
             soap_client_auth_key_store=None, soap_client_auth_key_alias=None, anon_user_name=None, force_authn_to_federate=None, 
-            authn_req_delegate_id=None, authn_req_mr=None, map_unknown_alias=None, sso_svc=[], default_target_url=None):
+            authn_req_delegate_id=None, authn_req_mr=None, map_unknown_alias=None, sso_svc=[], default_target_url=None,
+            key_selection_criteria='default') -> Response:
         """
         Create a SAML 2.0 IDP or SP Partner
 
@@ -1141,7 +1140,7 @@ class Federations(object):
 
 
 
-    def export_federation_metadata(self, fed_id=None, metadata_file=None):
+    def export_federation_metadata(self, fed_id=None, metadata_file='None'):
         '''
         Export a federation's metadata XML file.
         
@@ -1162,7 +1161,7 @@ class Federations(object):
         return response
 
 
-    def import_federation_partner(self, fed_id=None, name=None, metadata=None):
+    def import_federation_partner(self, fed_id=None, name=None, metadata='None'):
         """
         Import an XML metadata document as a Federation partner.
 
@@ -1253,7 +1252,7 @@ class Federations9040(Federations):
         identity_delegate_id=None, identity_mapping_rule=None, identity_auth_type=None, identity_ba_user=None, 
         identity_ba_password=None, identity_client_keystore=None, identity_client_key_alias=None, identity_issuer_uri=None, 
         identity_msg_fmt=None, identity_ssl_keystore=None, identity_uri=None, adv_config_delegate_id=None, 
-        adv_config_rule_type="JAVASCRIPT", adv_config_mapping_rule=None):
+        adv_config_rule_type="JAVASCRIPT", adv_config_mapping_rule=None) -> Response:
 
         data = DataObject()
         data.add_value_string("name", name)
@@ -1375,9 +1374,8 @@ class Federations10000(Federations9040):
             props.add_value_string("authnReqMappingRuleReference", authn_req_mr)
             authnReq.add_value_not_empty("properties", props.data)
 
-        identityMapping = None
+        identityMapping = DataObject()
         if (identity_delegate_id is not None):
-            identityMapping = DataObject()
             identityMapping.add_value_string("activeDelegateId", identity_delegate_id)
             if (identity_rule_id is not None):
                 identityMapping.add_value_not_empty("properties", 
@@ -1528,7 +1526,8 @@ class Federations10000(Federations9040):
             validation_key_store=None, validation_key_alias=None, slo_svc=[], soap_key_store=None, soap_key_alias=None, 
             soap_client_auth_method=None, soap_client_auth_ba_user=None, soap_client_auth_ba_password=None, 
             soap_client_auth_key_store=None, soap_client_auth_key_alias=None, anon_user_name=None, force_authn_to_federate=None, 
-            authn_req_delegate_id=None, authn_req_mr=None, map_unknown_alias=None, sso_svc=[], default_target_url=None):
+            authn_req_delegate_id=None, authn_req_mr=None, map_unknown_alias=None, sso_svc=[], default_target_url=None,
+            key_selection_criteria='default') -> Response:
         
         data = DataObject()
         data.add_value_string("name", name)
@@ -1643,6 +1642,8 @@ class Federations10000(Federations9040):
         signatureSettings.add_value_string("digestAlgorithm", sign_digest_alg)
         signatureSettings.add_value_not_empty("validationKeyIdentifier", validationKeyIdentifier.data)
         signatureSettings.add_value_not_empty("validationOptions", validationOptions.data)
+        signatureSettings.add_value_string("keySelectionCriteria", key_selection_criteria)
+
 
         assertionSettings = DataObject()
         assertionSettings.add_value("assertionValidBefore", assertion_valid_before)

@@ -41,8 +41,9 @@ class RuntimeDb(object):
             Success can be checked by examining the response.success boolean attribute
         """
         data = DataObject()
-        get_response = self.get_db()
-        data.data = get_response.json
+        current = self.get_db()
+        if current.success == True and current.json:
+            data.data = current.json
 
         data.add_value_string("hvdb_address", host)
         data.add_value_string("hvdb_port", port)

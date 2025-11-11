@@ -19,7 +19,7 @@ class Fixpacks(object):
         super(Fixpacks, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def install_fixpack(self, file_path):
+    def install_fixpack(self, file_path) -> Response:
         """
         Install a signed fixpack.
 

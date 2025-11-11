@@ -259,7 +259,7 @@ class AccessControl(object):
             Success can be checked by examining the response.success boolean attribute.
 
         '''
-        enndpoint = '{}/{}'.format(POLICY_SETS, set_id)
+        endpoint = '{}/{}'.format(POLICY_SETS, set_id)
         response = self.client.delete_json(endpoint)
         response.success = response.status_code == 204
 

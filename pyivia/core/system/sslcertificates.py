@@ -310,6 +310,12 @@ class SSLCertificates(object):
             If the request is successful the id of the SSL database is returned as JSON and can be accessed from
             the response.json attribute
         '''
+        if not kdb_file or not sth_file:
+            response = Response()
+            setattr(response, 'status_code', 404)
+            setattr(response, 'content', 'Both kdb_file and sth_file must be provided')
+            setattr(response, 'success', False)
+            return response
         files = {"kdb": open(kdb_file, 'rb'), "stash": open(sth_file, 'rb')}
         response = self.client.post_file(SSL_CERTIFICATES, files=files)
         response.success = response.status_code == 200

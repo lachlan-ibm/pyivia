@@ -219,7 +219,7 @@ class Authentication(object):
 
 
     def create_policy(self, name=None, policy=None, uri=None, description=None,
-            dialect="urn:ibm:security:authentication:policy:1.0:schema", enabled=None):
+            dialect="urn:ibm:security:authentication:policy:1.0:schema", enabled=True):
         '''
         Create an authentication policy.
 
@@ -313,7 +313,7 @@ class Authentication(object):
     def update_policy(self, id, name=None, policy=None, uri=None, description=None,
             dialect="urn:ibm:security:authentication:policy:1.0:schema",
             user_last_modified=None, last_modified=None,
-            date_created=None, predefined=None, enabled=None):
+            date_created=None, predefined=None, enabled=True):
         '''
         Update an AAC authentication policy
 
@@ -365,8 +365,8 @@ class Authentication9021(Authentication):
 
     def create_policy(self, name=None, policy=None, uri=None, description=None,
             dialect="urn:ibm:security:authentication:policy:1.0:schema",
-            id=None, user_last_modified=None, last_modified=None,
-            date_created=None, enabled=True):
+            enabled=True, id=None, user_last_modified=None, last_modified=None,
+            date_created=None):
         '''
         Create an authentication policy.
 

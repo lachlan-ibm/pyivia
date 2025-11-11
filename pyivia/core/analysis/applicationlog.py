@@ -4,7 +4,7 @@
 
 import logging
 
-from pyivia.util.model import DataObject
+from pyivia.util.model import DataObject, Response
 from pyivia.util.restclient import RESTClient
 
 APPLICATION_LOGS = "/isam/application_logs"
@@ -18,7 +18,7 @@ class ApplicationLog(object):
         super(ApplicationLog, self).__init__()
         self.client = RESTClient(base_url, username, password)
 
-    def get_application_log(self, path):
+    def get_application_log(self, path) -> Response:
         """
         Download a log file from an applaince
 
@@ -36,15 +36,14 @@ class ApplicationLog(object):
         parameters = DataObject()
         parameters.add_value_string("type", "File")
 
-        endpoint = "%s/%s" % (APPLICATION_LOGS, path)
-
+        endpoint = f"{APPLICATION_LOGS}/{path}"
         response = self.client.get_json(endpoint, parameters.data)
         response.success = response.status_code == 200
 
         return response
 
 
-    def delete_application_logs(self, paths=[]):
+    def delete_application_logs(self, paths=[]) -> Response:
         """
         Delete one or more log files on an appliance
 
@@ -63,7 +62,7 @@ class ApplicationLog(object):
         parameters = DataObject()
         parameters.add_value_not_empty("files", files.data)
 
-        endpoint = "{}?action=delete".format(APPLICATION_LOGS)
+        endpoint = f"{APPLICATION_LOGS}?action=delete"
 
         response = self.client.put_json(endpoint, parameters.data)
         response.success = response.status_code == 200
@@ -71,7 +70,7 @@ class ApplicationLog(object):
         return response
 
 
-    def clear_application_logs(self, paths=[]):
+    def clear_application_logs(self, paths=[]) -> Response:
         """
         Clear one or more log files on an appliance
 
@@ -90,8 +89,7 @@ class ApplicationLog(object):
         parameters = DataObject()
         parameters.add_value_not_empty("files", files.data)
 
-        endpoint = "{}?action=clear".format(APPLICATION_LOGS)
-
+        endpoint = f"{APPLICATION_LOGS}?action=clear"
         response = self.client.put_json(endpoint, parameters.data)
         response.success = response.status_code == 200
 

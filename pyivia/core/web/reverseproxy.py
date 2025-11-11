@@ -2,11 +2,11 @@
 @copyright: IBM
 """
 
-import logging, os
+import logging
 
 from pyivia.util.model import DataObject, Response
 from pyivia.util.restclient import RESTClient
-import urllib
+import urllib.parse
 
 
 REVERSEPROXY = "/wga/reverseproxy"
@@ -196,8 +196,9 @@ class ReverseProxy(object):
             runtime_username (:obj:`str`): The username used to authenticate with the runtime service.
             runtime_password (:obj:`str`): The password used to authenticate with the runtime service.
             reuse_certs (`bool`, optional): Should WebSEAL try to import the SSL certificate of the runtime service.
-            reuse_acls (`bool`, optional): Should WebSEAL reuse ACLs with the same name.
+            reuse_acls (`bool`, optional): Should WebSEAL reuse ACLS with the same name.
             reuse_pops (`bool`, optional): Should WebSEAL reuse POPs with the same name.
+            channel (:obj:`str`): Supports multi channel configuration, absence configures single channel. Valid channel values: browser, mobile.
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
@@ -796,38 +797,7 @@ class ReverseProxy(object):
 
         return response
 
-    def configure_mmfa(
-            self, webseal_id, lmi_hostname=None, lmi_port=None,
-            lmi_username=None, lmi_password=None, runtime_hostname=None,
-            runtime_port=None, runtime_username=None, runtime_password=None,
-            reuse_certs=None,reuse_acls=None, reuse_pops=None, channel=None):
-        """
-        Configure a WebSEAL instance to use the Federated runtime server for Mobile Multi-Factor Authentication.
-
-        Args:
-            webseal_id (:obj:`str`): The name of the WebSEAL instance to act on.
-            lmi_hostname (:obj:`str`): The hostname of the LMI service.
-            lmi_port (:obj:`str`): The port of the LMI service.
-            lmi_username (:obj:`str`): The username used to authenticate with the LMI service.
-            lmi_password (:obj:`str`): The password used to authenticate with the LMI service.
-            runtime_hostname (:obj:`str`): The hostname of the runtime service.
-            runtime_port (:obj:`str`): The port of the runtime service.
-            runtime_username (:obj:`str`): The username used to authenticate with the runtime service.
-            runtime_password (:obj:`str`): The password used to authenticate with the runtime service.
-            reuse_certs (`bool`, optional): Should WebSEAL try to import the SSL certificate of the runtime service.
-            reuse_acls (`bool`, optional): Should WebSEAL reuse ACLS with the same name.
-            reuse_pops (`bool`, optional): Should WebSEAL reuse POPs with the same name.
-            channel (:obj:`str`): Supports multi channel configuration, absence configures single channel. Valid channel values: browser, mobile.
-
-        Returns:
-            :obj:`~requests.Response`: The response from verify identity access. 
-
-            Success can be checked by examining the response.success boolean attribute
-
-        """
-        raise Exception("Not Yet Implemented")
-
-    def configure_verify_gateway(self, webseal_id, mmfa=None, junction=None):
+    def configure_verify_gateway(self, webseal_id, mmfa=None, junction=None) -> Response:
         """
         Configure a WebSEAL instance to act as a gateway to an IBM Verify Identity tenant.
 
@@ -932,7 +902,7 @@ class ReverseProxy10020(ReverseProxy9040):
         self.client = RESTClient(base_url, username, password)
 
 
-    def configure_verify_gateway(self, webseal_id, mmfa=None, junction=None):
+    def configure_verify_gateway(self, webseal_id, mmfa=None, junction=None) -> Response:
         data = DataObject()
         data.add_value_boolean("mmfa", mmfa)
         data.add_value_string("junction", junction);

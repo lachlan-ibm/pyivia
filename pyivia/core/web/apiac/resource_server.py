@@ -619,7 +619,7 @@ class ResourceServer(object):
         policy = DataObject()
         policy.add_value_string("type", policy_type)
         policy.add_value_string("name", policy_name)
-        data.add_value_not_empty("policy", policy.daita)
+        data.add_value_not_empty("policy", policy.data)
         data.add_value_not_empty("static_response_headers", static_response_headers)
         data.add_value_string("rate_limiting_policy", rate_limiting_policy)
         data.add_value_not_empty("url_aliases", url_aliases)

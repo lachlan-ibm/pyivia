@@ -72,7 +72,7 @@ class TemplateFiles(object):
         endpoint = "%s/%s" % (TEMPLATE_FILES, path)
 
         response = self.client.get_json(endpoint, parameters.data)
-        response.success == response.status_code == 200
+        response.success = response.status_code == 200
 
         if response.success and isinstance(response.json, dict):
             response.json = response.json.get("contents", [])
