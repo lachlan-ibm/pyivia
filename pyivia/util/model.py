@@ -3,7 +3,7 @@
 """
 
 import json
-from typing import Any
+from typing import Any, Optional
 
 
 class DataObject(object):
@@ -42,9 +42,9 @@ class DataObject(object):
 
 class Response(object):
 
-    id_from_location: str | None = None
+    id_from_location: Optional[str] = None
     success: bool = False
-    data: Any | None = None
+    data: Optional[Any] = None
 
 
     def __init__(self):
