@@ -53,6 +53,8 @@ class Extensions(object):
                 tpp = []
                 for third_party_package in third_party_packages:
                     tpp += [('third_party_package', open(third_party_package, "rb"))]
+                if not tpp:
+                    tpp =  [('third_party_package', None)]
                 params = {"config_data": json.dumps(properties).replace(", ", ",").replace(": ", ":")}
                 response = self.client.post_file(endpoint, files=tpp, data=params, accept_type="*/*")
                 response.success = response.status_code == 200

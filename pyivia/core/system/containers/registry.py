@@ -68,7 +68,7 @@ class Registry(object):
 
 
     def update(self, rgy_id, host=None, username=None, secret=None, proxy_host=None, proxy_port=None,
-               proxy_user=None, proxy_pass=None, proxy_schema=None):
+               proxy_user=None, proxy_pass=None, proxy_schema=None, ca=None):
         '''
         Update the username/secret used to authenticate to a Container Registry. This 
         will override any existing login configuration. 
@@ -83,6 +83,8 @@ class Registry(object):
             proxy_user (:obj:`str`, optional): The user to authenticate to the proxy with.
             proxy_pass (:obj:`str`, optional): The password to authenticate to the proxy with. Must be provided if proxy_user is set.
             proxy_schema (:obj:`str`, optional): The TCP schema to use. The default is ``http``.
+            ca (:obj:`str`, optional): A X509 Certificate Authority (CA) bundle file to use when verifying connections to this registry.
+
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
@@ -98,10 +100,13 @@ class Registry(object):
         data.add_value_string("proxy_user", proxy_user)
         data.add_value_string("proxy_pass", proxy_pass)
         data.add_value_string("proxy_schema", proxy_schema)
+        if ca:
+            with open(ca, 'r') as f:
+                data.add_value_string("ca", f.read())
 
         endpoint = "{}/{}".format(REGISTRY, rgy_id)
         response = self.client.put_json(endpoint, data.data)
-        response.success = response.status_code == 201
+        response.success = response.status_code == 204
 
         return response
 
