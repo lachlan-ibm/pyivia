@@ -164,3 +164,8 @@ class Federation11020(Federation11010):
 
     def __init__(self, base_url, username, password):
         super(Federation11020, self).__init__(base_url, username, password)
+
+class Federation11030(Federation11020):
+
+    def __init__(self, base_url, username, password):
+        super(Federation11030, self).__init__(base_url, username, password)
