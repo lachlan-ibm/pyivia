@@ -10,7 +10,7 @@ from pyivia.util.model import DataObject, Response
 from pyivia.util.restclient import RESTClient
 
 
-VOLUMES = "/isam/container_ext/volumes"
+VOLUMES = "/isam/container_ext/volume"
 
 logger = logging.getLogger(__name__)
 
@@ -100,8 +100,8 @@ class Volumes(object):
 
         with open(volume, 'rb') as f:
             data = {"volume": f}
-            response = self.client.post_file(endpoint, files=data)
-            response.success = response.status_code == 200
+            response = self.client.put_file(endpoint, files=data)
+            response.success = response.status_code == 204
 
             return response
 

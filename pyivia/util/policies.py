@@ -46,6 +46,10 @@ AUTHENTICATION_MECHANISM_AUTHENTICATOR_MMFA = [
     "<Parameters>",
     "%(context_message)s",
     "%(mode)s",
+    "%(correlationEnabled)s",
+    "%(continueOnFailure)s",
+    "%(denyReasonEnabled)s",
+    "%(denyReason)s",
     "%(policy_uri)s",
     "%(reauthenticate)s",
     "%(username)s",
@@ -69,6 +73,37 @@ AUTHENTICATION_POLICY = [
     "<Description>%(policy_description)s</Description>",
     "%(workflow)s",
     "</Policy>"
+]
+AUTHENTICATION_POLICY_USERNAMELESS = [
+    "<Decision rule=\"Branching_Usernameless\" name=\"Username-less Decision\" returnEnabled=\"true\">",
+    "<Branch name=\"QR Code Login Branch\">",
+    "<Step type=\"Authenticator\">",
+    "<Authenticator AuthenticatorId=\"urn:ibm:security:authentication:asf:mechanism:qrcode\">",
+    "<Parameters>",
+    "<AttributeAssignment AttributeId=\"mode\">",
+    "<AttributeValue DataType=\"String\">Initiate</AttributeValue>",
+    "</AttributeAssignment>",
+    "</Parameters>",
+    "</Authenticator>",
+    "</Step>",
+    "</Branch>",
+    "<Branch name=\"FIDO2 Branch\">",
+    "<Step type=\"Authenticator\">",
+    "<Authenticator AuthenticatorId=\"urn:ibm:security:authentication:asf:mechanism:fido2\">",
+    "<Parameters>",
+    "<AttributeAssignment AttributeId=\"relyingPartyConfigId\">",
+    "<AttributeValue DataType=\"FIDO2RelyingParty\">%(relying_party)s</AttributeValue>",
+    "</AttributeAssignment>",
+    "</Parameters>",
+    "</Authenticator>",
+    "</Step>",
+    "</Branch>",
+    "<Branch name=\"Username Password Branch\">",
+    "<Step type=\"Authenticator\">",
+    "<Authenticator AuthenticatorId=\"urn:ibm:security:authentication:asf:mechanism:password\"/>",
+    "</Step>",
+    "</Branch>",
+    "</Decision>"
 ]
 SOURCE_URI_SCOPE_REQUEST = "urn:ibm:security:asf:scope:request"
 SOURCE_URI_SCOPE_SESSION = "urn:ibm:security:asf:scope:session"
@@ -106,11 +141,15 @@ class AuthenticationPolicies(object):
 
     def mmfa_authenticator(
             self, context_message="", mode="", policy_uri="", reauthenticate="",
-            username=""):
+            username="", correlationEnabled="", continueOnFailure="",
+            denyReasonEnabled="", denyReason=""):
         millis = int(time.time() * 1000)
         id_a = millis
         id_b = millis + 1
         return ''.join(AUTHENTICATION_MECHANISM_AUTHENTICATOR_MMFA) % locals()
+
+    def usernameless_authenticator(self, relying_party=""):
+        return ''.join(AUTHENTICATION_POLICY_USERNAMELESS) % locals()
 
     def policy(self, policy_id, policy_description, workflow):
         return ''.join(AUTHENTICATION_POLICY) % locals()
