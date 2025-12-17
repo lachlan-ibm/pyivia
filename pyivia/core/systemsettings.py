@@ -25,6 +25,7 @@ from .system.general import General
 from .system.sysaccount import SysAccount
 from .system.managementauthorization import ManagementAuthorization
 from .system.managementauthentication import ManagementAuthentication
+from .system.managementcertificate import ManagementCertificate
 from .system.containermanagement import ContainerManagement
 from .system.snapshot import Snapshot
 from .system.extensions import Extensions
@@ -59,7 +60,7 @@ class SystemSettings(object):
     :var mgmt_authentication: Manage the :ref:`authentication <Management Authentication>` to the management interface.
     :var mgmt_authorization: Manage :ref:`authorization <Management Authorization>` to the management interface.
     :var container_mgmt: Manage :ref:`containers <Container Management>` deployed to a Verify Identity Access appliance.
-
+    :var mgmt_certificate: Manage the :ref`Key/Certificate <Management Certificate>` used for TLS connections to the LMI
     '''
 
 class SystemSettings9020(object):
@@ -87,6 +88,7 @@ class SystemSettings9020(object):
         self.runtime_db = RuntimeDb(base_url, username, password)
         self.cluster = Cluster(base_url, username, password)
         self.dsc = DSC(base_url, username, password)
+        self.mgmt_certificate = ManagementCertificate(base_url, username, password)
 
 
 class SystemSettings9021(SystemSettings9020):
