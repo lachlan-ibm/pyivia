@@ -2,8 +2,6 @@
 @copyright: IBM
 """
 
-from typing import Never
-
 
 import logging
 import uuid
