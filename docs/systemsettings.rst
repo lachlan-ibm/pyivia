@@ -201,6 +201,14 @@ Management Authentication
    :members:
 
 
+Management Certificate
+======================
+
+
+.. autoclass:: pyivia.core.system.managementcertificate.ManagementCertificate
+   :members:
+
+
 Restart and Shutdown
 ====================
 
