@@ -20,7 +20,7 @@ class ManagementCertificate(object):
         Returns:
             :obj:`~requests.Response`: The management certificate.
         """
-        response = self.client.get(MANAGEMENT_CERTIFICATE)
+        response = self.client.get_json(MANAGEMENT_CERTIFICATE)
         response.success = response.status_code == 200
         return response
 
