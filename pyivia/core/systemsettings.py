@@ -60,7 +60,7 @@ class SystemSettings(object):
     :var mgmt_authentication: Manage the :ref:`authentication <Management Authentication>` to the management interface.
     :var mgmt_authorization: Manage :ref:`authorization <Management Authorization>` to the management interface.
     :var container_mgmt: Manage :ref:`containers <Container Management>` deployed to a Verify Identity Access appliance.
-    :var mgmt_certificate: Manage the :ref`Key/Certificate <Management Certificate>` used for TLS connections to the LMI
+    :var mgmt_certificate: Manage the :ref:`Key/Certificate <Management Certificate>` used for TLS connections to the LMI
     '''
 
 class SystemSettings9020(object):

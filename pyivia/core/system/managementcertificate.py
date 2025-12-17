@@ -25,7 +25,9 @@ class ManagementCertificate(object):
         return response
 
     def update_certificate(self, certificate, password=None):
-        """Set the management certificate.
+        """Set the management certificate using a PKCS12 file and password.
+
+        Note: The CN attribute of the X509 Certificate must match the hostname of the appliance.
 
         Args:
             certificate (str): Path to a PKCS12 file to import as the management key/certificate.
