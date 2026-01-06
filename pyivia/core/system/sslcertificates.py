@@ -268,8 +268,6 @@ class SSLCertificates(object):
         data.add_value_string("token_label", token_label)
         data.add_value_string("passcode", passcode)
         data.add_value_string("type", db_type)
-        data.add_value_string("token_label", token_label)
-        data.add_value_string("passcode", passcode)
         data.add_value_string("hsm_type", hsm_type)
         data.add_value_string("ip", ip)
         data.add_value("port", port)

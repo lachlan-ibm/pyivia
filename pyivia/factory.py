@@ -2,10 +2,16 @@
 @copyright: IBM
 """
 
+
 import importlib
 import re
 
 from pyivia.util.restclient import RESTClient
+from pyivia.core.federationsettings import Federation
+from pyivia.core.accesscontrol import AccessControl
+from pyivia.core.systemsettings import SystemSettings
+from pyivia.core.websettings import WebSettings
+from pyivia.core.analysisdiagnostics import AnalysisDiagnostics
 
 
 DEVELOPMENT_VERSION = "IBM Verify Identity Access Development"
@@ -79,7 +85,7 @@ class Factory(object):
         self._discover_version_and_deployment()
         self._get_version()
 
-    def get_federation(self):
+    def get_federation(self) -> Federation:
         '''
         Return manager of Federation endpoint
 
@@ -90,7 +96,7 @@ class Factory(object):
         module_name = "pyivia.core.federationsettings"
         return self._class_loader(module_name, class_name)
 
-    def get_access_control(self):
+    def get_access_control(self) -> AccessControl:
         '''
         Return manager of AAC endpoint
 
@@ -101,7 +107,7 @@ class Factory(object):
         module_name = "pyivia.core.accesscontrol"
         return self._class_loader(module_name, class_name)
 
-    def get_analysis_diagnostics(self):
+    def get_analysis_diagnostics(self) -> AnalysisDiagnostics:
         '''
         Return manager of diagnostic endpoint
         
@@ -112,7 +118,7 @@ class Factory(object):
         module_name = "pyivia.core.analysisdiagnostics"
         return self._class_loader(module_name, class_name)
 
-    def get_system_settings(self):
+    def get_system_settings(self) -> SystemSettings:
         '''
         Return manager of system settings endpoint
 
@@ -129,7 +135,7 @@ class Factory(object):
         '''
         return self._version
 
-    def get_web_settings(self):
+    def get_web_settings(self) -> WebSettings:
         '''
         Return manager of Web Reverse Proxy endpoints
 
@@ -158,7 +164,7 @@ class Factory(object):
         Klass = getattr(importlib.import_module(module_name), class_name)
         return Klass(self._base_url, self._username, self._password)
 
-    def is_docker(self):
+    def is_docker(self) -> bool:
         '''
         Return true if detected deployment is running in a container
         '''

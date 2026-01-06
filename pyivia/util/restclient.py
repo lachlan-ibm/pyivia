@@ -5,8 +5,11 @@
 import base64
 import copy
 import logging
+from pyivia.util.model import Response
+from requests.sessions import Session
 import time
 import os
+from typing import Any, Dict
 import urllib3
 import json
 from urllib3.exceptions import InsecureRequestWarning
@@ -31,7 +34,7 @@ class RESTClient(object):
         self._username = username
         self._password = password
 
-    def delete(self, endpoint, accept_type="*/*", data=None):
+    def delete(self, endpoint, accept_type="*/*", data=None) -> Response:
         url = self._base_url + endpoint
         headers = self._get_headers(accept_type)
 
@@ -46,12 +49,12 @@ class RESTClient(object):
 
         return response
 
-    def delete_json(self, endpoint, data=None):
+    def delete_json(self, endpoint, data=None) -> Response:
         return self.delete(endpoint, accept_type="application/json", data=json.dumps(data))
 
     def get(
             self, endpoint, accept_type="*/*", content_type="application/json",
-            parameters=None):
+            parameters=None) -> Response:
         url = self._base_url + endpoint
         headers = self._get_headers(accept_type, content_type)
 
@@ -67,13 +70,13 @@ class RESTClient(object):
 
         return response
 
-    def get_json(self, endpoint, parameters=None):
+    def get_json(self, endpoint, parameters=None) -> Response:
         return self.get(
             endpoint, accept_type="application/json", parameters=parameters)
 
     def get_wait(
             self, endpoint, status_code=200, iteration_wait=3,
-            max_iterations=20):
+            max_iterations=20) -> Response:
         logger.debug("Waiting for %i response from %s", status_code, endpoint)
         response = Response()
         url = self._base_url + endpoint
@@ -99,7 +102,7 @@ class RESTClient(object):
 
         return response
 
-    def get_file(self, endpoint, file_name='None'):
+    def get_file(self, endpoint, file_name='None') -> Response:
 
         url = self._base_url + endpoint
         headers = self._get_headers("application/octet-stream", "application/json")
@@ -120,7 +123,7 @@ class RESTClient(object):
 
     def post(
             self, endpoint, accept_type="*/*", content_type="application/json",
-            parameters=None, data=""):
+            parameters=None, data="") -> Response:
         url = self._base_url + endpoint
         headers = self._get_headers(accept_type, content_type)
 
@@ -137,7 +140,7 @@ class RESTClient(object):
         return response
 
     def post_file(
-            self, endpoint, accept_type="application/json", data={}, files={}, parameters=None):
+            self, endpoint, accept_type="application/json", data={}, files={}, parameters=None) -> Response:
         url = self._base_url + endpoint
         headers = self._get_headers(accept_type)
 
@@ -153,13 +156,13 @@ class RESTClient(object):
 
         return response
 
-    def post_json(self, endpoint, data={}):
+    def post_json(self, endpoint, data={}) -> Response:
         return self.post(
             endpoint, accept_type="application/json", data=json.dumps(data))
 
     def put(
             self, endpoint, accept_type="*/*", content_type="application/json",
-            data=""):
+            data="") -> Response:
         url = self._base_url + endpoint
         headers = self._get_headers(accept_type, content_type)
 
@@ -175,12 +178,12 @@ class RESTClient(object):
 
         return response
 
-    def put_json(self, endpoint, data={}):
+    def put_json(self, endpoint, data={}) -> Response:
         return self.put(
             endpoint, accept_type="application/json", data=json.dumps(data))
 
     def put_file(
-            self, endpoint, accept_type="application/json", data="", files={}, parameters=None):
+            self, endpoint, accept_type="application/json", data="", files={}, parameters=None) -> Response:
         url = self._base_url + endpoint
         headers = self._get_headers(accept_type)
 
@@ -196,7 +199,7 @@ class RESTClient(object):
 
         return response
 
-    def _build_response(self, request_response):
+    def _build_response(self, request_response) -> Response:
         response = Response()
         try:
             response.data = request_response.content.decode()
@@ -211,7 +214,7 @@ class RESTClient(object):
             response.id_from_location = location.split('/')[-1]
         return response
 
-    def _get_headers(self, accept_type=None, content_type=None):
+    def _get_headers(self, accept_type=None, content_type=None) -> Dict[Any, Any]:
         headers = {}
 
         if accept_type:
@@ -231,7 +234,7 @@ class RESTClient(object):
 
         return headers
 
-    def _log_request(self, method, url, headers):
+    def _log_request(self, method, url, headers) -> None:
         safe_headers = copy.copy(headers)
         if safe_headers and safe_headers.get("Authorization", None):
             safe_headers["Authorization"] = "*******"
@@ -241,7 +244,7 @@ class RESTClient(object):
     def _log_response(self, status_code, headers, content):
         logger.debug("Response: %i headers=%s %s", status_code, headers, content)
 
-    def _create_session(self):
+    def _create_session(self) -> Session:
         s = Session()
         retries = Retry(
             total=2,
