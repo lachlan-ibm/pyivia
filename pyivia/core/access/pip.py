@@ -18,7 +18,7 @@ class PIP(object):
 
     def __init__(self, base_url, username, password):
         super(PIP, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create_pip(self, name=None, description=None, type=None, attributes=[], properties=[]):
@@ -48,7 +48,7 @@ class PIP(object):
         data.add_value_not_empty("attributes", attributes)
         data.add_value_not_empty("properties", properties)
 
-        response = self.client.post_json(POLICY_INFO_POINT, data.data)
+        response = self._client.post_json(POLICY_INFO_POINT, data.data)
         response.success = response.status_code == 201
         return response
 
@@ -79,7 +79,7 @@ class PIP(object):
         data.add_value_not_empty("properties", properties)
 
         endpoint = "{}/{}".format(POLICY_INFO_POINT, pip_id)
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 204
         return response
 
@@ -101,7 +101,7 @@ class PIP(object):
 
         '''
         endpoint = '{}/{}'.format(POLICY_INFO_POINT, pip_id)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -128,7 +128,7 @@ class PIP(object):
                 endpoint += '&filter={}'.format(filter)
             else:
                 endpoint += '?filter={}'.format(filter)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -148,6 +148,6 @@ class PIP(object):
             
         '''
         endpoint = '{}/{}'.format(POLICY_INFO_POINT, pip_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
         return response

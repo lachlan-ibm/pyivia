@@ -16,7 +16,7 @@ class Extensions(object):
 
     def __init__(self, base_url, username, password):
         super(Extensions, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create_extension(self, ext_file=None, properties={}, third_party_packages=[]) -> Response:
@@ -46,7 +46,7 @@ class Extensions(object):
         try:
             files = {"extension_support_package": open(ext_file, "rb")}
             endpoint = "{}/inspect".format(EXTENSIONS)
-            response = self.client.post_file(endpoint, files=files, accept_type="*/*")
+            response = self._client.post_file(endpoint, files=files, accept_type="*/*")
             response.success = response.status_code == 200
             if response.success == True:
                 endpoint = "{}/activate".format(EXTENSIONS)
@@ -56,7 +56,7 @@ class Extensions(object):
                 if not tpp:
                     tpp =  [('third_party_package', None)]
                 params = {"config_data": json.dumps(properties).replace(", ", ",").replace(": ", ":")}
-                response = self.client.post_file(endpoint, files=tpp, data=params, accept_type="*/*")
+                response = self._client.post_file(endpoint, files=tpp, data=params, accept_type="*/*")
                 response.success = response.status_code == 200
         except Exception as e:
             response.success = False
@@ -82,7 +82,7 @@ class Extensions(object):
         files = None
         if ext_file:
             files = {"extension_support_package": open(ext_file, "rb")}
-        response = self.client.put_file(EXTENSIONS, files=files, parameters=properties)
+        response = self._client.put_file(EXTENSIONS, files=files, parameters=properties)
         response.success = response.status_code == 200
 
         return response
@@ -101,7 +101,7 @@ class Extensions(object):
             the response.json attribute
 
         '''
-        response = self.client.get_json(EXTENSIONS)
+        response = self._client.get_json(EXTENSIONS)
         response.success = response.status_code == 200
 
         return response
@@ -123,7 +123,7 @@ class Extensions(object):
             the response.json attribute
         '''
         endpoint = EXTENSIONS + "/{}".format(extension)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response

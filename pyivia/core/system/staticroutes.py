@@ -19,7 +19,7 @@ class StaticRoutes(object):
 
     def __init__(self, base_url, username, password):
         super(StaticRoutes, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def create_route(self, address=None, mask_or_prefix=None, enabled=True, gateway=None, interface_uuid=None,
             metric=0, comment=None, table=None):
@@ -56,7 +56,7 @@ class StaticRoutes(object):
         data.add_value_string("comment", comment)
         data.add_value_string("table", table)
 
-        response = self.client.post_json(ROUTES, data.data)
+        response = self._client.post_json(ROUTES, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -73,7 +73,7 @@ class StaticRoutes(object):
             If the request is successful the networking route configurations are returned as JSON and can be accessed from
             the response.json attribute
         """
-        response = self.client.get_json(ROUTES)
+        response = self._client.get_json(ROUTES)
         response.success = response.status_code == 200
 
         return response
@@ -146,7 +146,7 @@ class StaticRoutes10000(StaticRoutes):
 
         url = ROUTES + '/' + uuid
 
-        response = self.client.put_json(url, data.data)
+        response = self._client.put_json(url, data.data)
         response.success = response.status_code == 200
 
         return response

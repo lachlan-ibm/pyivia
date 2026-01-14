@@ -23,22 +23,38 @@ class WebSettings(object):
     '''
     Object used to manage WebSEAL configuration endpoints
 
-    :var dsc_admin: Manage the :ref:`Distributed Session Cache`.
-    :var policy_administration: Manage the :ref:`policy server<Policy Administration>`.
-    :var reverse_proxy: Create and manage :ref:`WebSEAL<Reverse Proxy>` instances.
-    :var runtime_component: Create and manage the :ref:`user registry and policy server<Runtime Component>` configuration files.
-    :var http_transform: Create and manage XSLT and LUA HTTP :ref:`transformation rules<HTTP Transformations>`.
-    :var fsso: Create and manage :ref:`Form Single Sign-On` rules.
-    :var client_cert_mapping: Create :ref:`Client X509 Certificate<Client Certificate Mapping>` authentication mapping rules.
-    :var jct_mapping: Create :ref:`Junction Mapping` rules.
-    :var url_mapping: Create :ref:`URL Mapping` rules.
-    :var user_mapping: Create :ref:`User Mapping` rules.
-    :var kerberos: Create and manage :ref:`KERBEROS<Kerberos>` federated user registries.
-    :var password_strength: Create :ref:`Password Strength Rules`.
-    :var rsa: Configure :ref:`RSA OTP<RSA Security Token>` integration
-    :var api_access_control: Create and manage :ref:`API Gateway<API Access Control>` integrations.
-    :var ratelimit: Create :ref:`Rate Limiting` rules.
     '''
+
+    dsc_admin: DSCAdmin
+    'Manage the :ref:`Distributed Session Cache`.'
+    policy_administration: PolicyAdmin
+    'Manage the :ref:`policy server<Policy Administration>`.'
+    reverse_proxy: ReverseProxy
+    'Create and manage :ref:`WebSEAL<Reverse Proxy>` instances.'
+    runtime_component: RuntimeComponent
+    'Create and manage the :ref:`user registry and policy server<Runtime Component>` configuration files.'
+    http_transform: HTTPTransform
+    'Create and manage XSLT and LUA HTTP :ref:`transformation rules<HTTP Transformations>`.'
+    fsso: FSSO
+    'Create and manage :ref:`Form Single Sign-On` rules.'
+    client_cert_mapping: ClientCertMapping
+    'Create :ref:`Client X509 Certificate<Client Certificate Mapping>` authentication mapping rules.'
+    jct_mapping: JunctionMapping
+    'Create :ref:`Junction Mapping` rules.'
+    url_mapping: URLMapping
+    'Create :ref:`URL Mapping` rules.'
+    user_mapping: UserMapping
+    'Create :ref:`User Mapping` rules.'
+    kerberos: Kerberos
+    'Create and manage :ref:`KERBEROS<Kerberos>` federated user registries.'
+    password_strength: PasswordStrength
+    'Create :ref:`Password Strength Rules`.'
+    rsa: RSA
+    'Configure :ref:`RSA OTP<RSA Security Token>` integration.'
+    api_access_control: APIAccessControl
+    'Create and manage :ref:`API Gateway<API Access Control>` integrations.'
+    ratelimit: RateLimit
+    'Create :ref:`Rate Limiting` rules.'
 
 class WebSettings9020(object):
 

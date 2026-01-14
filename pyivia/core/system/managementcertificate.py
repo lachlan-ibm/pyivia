@@ -12,7 +12,7 @@ class ManagementCertificate(object):
 
     def __init__(self, base_url, username, password):
         super(ManagementCertificate, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def get_certificate(self) -> Response:
         """Get the management certificate.
@@ -25,7 +25,7 @@ class ManagementCertificate(object):
             If the request is successful the certificate attributes are returned as
             JSON and can be accessed from the response.json attribute
         """
-        response = self.client.get_json(MANAGEMENT_CERTIFICATE)
+        response = self._client.get_json(MANAGEMENT_CERTIFICATE)
         response.success = response.status_code == 200
         return response
 
@@ -48,7 +48,7 @@ class ManagementCertificate(object):
             files = {"cert": f}
             data = DataObject()
             data.add_value_string("password", password)
-            response = self.client.post_file(MANAGEMENT_CERTIFICATE, accept_type="text/html", data=data.data, files=files)
+            response = self._client.post_file(MANAGEMENT_CERTIFICATE, accept_type="text/html", data=data.data, files=files)
 
             response.success = response.status_code == 200
             return response

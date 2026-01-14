@@ -24,7 +24,7 @@ class ServerConnections(object):
 
     def __init__(self, base_url, username, password):
         super(ServerConnections, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create_ldap(self, name=None, description=None, locked=None,
@@ -83,7 +83,7 @@ class ServerConnections(object):
 
         endpoint = SERVER_CONNECTION_LDAP + "/v1"
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -104,7 +104,7 @@ class ServerConnections(object):
         '''
         endpoint = "%s/%s/v1" % (SERVER_CONNECTION_LDAP, uuid)
 
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -125,7 +125,7 @@ class ServerConnections(object):
         '''
         endpoint = SERVER_CONNECTION_LDAP + "/v1"
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -178,7 +178,7 @@ class ServerConnections(object):
 
         endpoint = SERVER_CONNECTION_SMTP + "/v1"
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -199,7 +199,7 @@ class ServerConnections(object):
         '''
         endpoint = "%s/%s/v1" % (SERVER_CONNECTION_SMTP, uuid)
 
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -220,7 +220,7 @@ class ServerConnections(object):
         '''
         endpoint = SERVER_CONNECTION_SMTP + "/v1"
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -271,7 +271,7 @@ class ServerConnections(object):
 
         endpoint = SERVER_CONNECTION_CI + "/v1"
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -292,7 +292,7 @@ class ServerConnections(object):
         '''
         endpoint = "%s/%s/v1" % (SERVER_CONNECTION_CI, uuid)
 
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -313,7 +313,7 @@ class ServerConnections(object):
         '''
         endpoint = SERVER_CONNECTION_CI + "/v1"
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -365,7 +365,7 @@ class ServerConnections(object):
 
         endpoint = SERVER_CONNECTION_WEB_SERVICE + "/v1"
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -385,7 +385,7 @@ class ServerConnections(object):
         '''
         endpoint = "%s/%s/v1" % (SERVER_CONNECTION_WEB_SERVICE, uuid)
 
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -405,7 +405,7 @@ class ServerConnections(object):
         '''
         endpoint = SERVER_CONNECTION_WEB_SERVICE + "/v1"
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -489,7 +489,7 @@ class ServerConnections(object):
 
         endpoint = SERVER_CONNECTION_JDBC + "/v1"
         
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -510,7 +510,7 @@ class ServerConnections(object):
         '''
         endpoint = "%s/%s/v1" % (SERVER_CONNECTION_JDBC, uuid)
 
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -531,7 +531,7 @@ class ServerConnections(object):
         '''
         endpoint = SERVER_CONNECTION_JDBC + "/v1"
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -552,7 +552,7 @@ class ServerConnections(object):
         '''
         endpoint = SERVER_CONNECTION_ROOT + "/v1"
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -562,7 +562,7 @@ class ServerConnections9050(ServerConnections):
 
     def __init__(self, base_url, username, password):
         super(ServerConnections, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create_isam_runtime(self, name=None, description=None, locked=None,
@@ -614,7 +614,7 @@ class ServerConnections9050(ServerConnections):
         data.add_value_not_empty("connectionManager", manager_data.data)
 
         endpoint = SERVER_CONNECTION_ISAM_RUNTIME + "/v1"
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -635,7 +635,7 @@ class ServerConnections9050(ServerConnections):
         '''
         endpoint = SERVER_CONNECTION_ISAM_RUNTIME + "/v1"
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
         return response
 
@@ -655,6 +655,6 @@ class ServerConnections9050(ServerConnections):
         '''
         endpoint = "%s/%s/v1" % (SERVER_CONNECTION_ISAM_RUNTIME, uuid)
 
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
         return response

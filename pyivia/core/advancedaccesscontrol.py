@@ -22,28 +22,46 @@ from .access.fido2config import FIDO2Config, FIDO2Config10050
 from .access.fido2registrations import FIDO2Registrations
 from .access.pip import PIP
 
-class AccessControl(object):
+class AdvancedAccessControl(object):
     '''
-    Object used to managed Advanced Access Control endpoints. Available modules are:
+    Object used to managed Advanced Access Control endpoints.
 
-    :var access_control: Create and manage :ref:`Access Control` policies.
-    :var advanced_config: Manage :ref:`Advanced Configuration` parameters.
-    :var api_protection: Create and manage OIDC :ref:`API Protection` definitions and clients.
-    :var attributes: Create and manage Risk Based Access :ref:`Attribute <Attributes>` mappings.
-    :var authentication: Create and manage :ref:`Authentication` policies and mechanisms.
-    :var fido2_config: Create and manage :ref:`FIDO2 Configuration` including metadata and mediators.
-    :var fido2_registrations: Manage :ref:`FIDO2 Registrations` for runtime users.
-    :var mapping_rules: Create and manage JavaScript :ref:`Mapping Rules` used for customized authentication.
-    :var mmfa_config: Configure :ref:`Mobile Multi-Factor Authentication` for Verify Access.
-    :var push_notifications: Configure and manage :ref:`Push Notification Providers`.
-    :var risk_profiles: Create and manage Risk Based Access :ref:`Risk Profiles`.
-    :var runtime_parameters: Manage :ref:`Runtime Parameters` of the Liberty runtime server.
-    :var scim_config: Create and manage :ref:`SCIM<System for Cross-Domain Identity Management (SCIM) Configuration>` attribute mapping.
-    :var server_connections: Create :ref:`Server Connections` to external service providers.
-    :var template_files: Create and manage HTML and JSON :ref:`Template Files`.
-    :var user_registry: Manage :ref:`user authentication<User Registry>` to the Liberty runtime server.
-    :var pip: Manage :ref:`policy information points<Policy Information Points>`.
     '''
+
+    access_control: AC9000
+    'Create and manage :ref:`Access Control` policies.'
+    advanced_config: AdvancedConfig
+    'Manage :ref:`Advanced Configuration` parameters.'
+    api_protection: APIProtection
+    'Create and manage OIDC :ref:`API Protection` definitions and clients.'
+    attributes: Attributes
+    'Create and manage Risk Based Access :ref:`Attribute <Attributes>` mappings.'
+    authentication: Authentication
+    'Create and manage :ref:`Authentication` policies and mechanisms.'
+    fido2_config: FIDO2Config
+    'Create and manage :ref:`FIDO2 Configuration` including metadata and mediators.'
+    fido2_registrations: FIDO2Registrations
+    'Manage :ref:`FIDO2 Registrations` for runtime users.'
+    mapping_rules: MappingRules
+    'Create and manage JavaScript :ref:`Mapping Rules` used for customized authentication.'
+    mmfa_config: MMFAConfig
+    'Configure :ref:`Mobile Multi-Factor Authentication` for Verify Access.'
+    push_notifications: PushNotification
+    'Configure and manage :ref:`Push Notification Providers`.'
+    risk_profiles: RiskProfiles
+    'Create and manage Risk Based Access :ref:`Risk Profiles`.'
+    runtime_parameters: RuntimeParameters
+    'Manage :ref:`Runtime Parameters` of the Liberty runtime server.'
+    scim_config: SCIMConfig
+    'Create and manage :ref:`SCIM<System for Cross-Domain Identity Management (SCIM) Configuration>` attribute mapping.'
+    server_connections: ServerConnections
+    'Create :ref:`Server Connections` to external service providers.'
+    template_files: TemplateFiles
+    'Create and manage HTML and JSON :ref:`Template Files`.'
+    user_registry: UserRegistry
+    'Manage :ref:`user authentication<User Registry>` to the Liberty runtime server.'
+    pip: PIP
+    'Manage :ref:`policy information points<Policy Information Points>`.'
 
 class AccessControl9020(object):
 

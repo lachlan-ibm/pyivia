@@ -18,7 +18,7 @@ class MappingRules(object):
 
     def __init__(self, base_url, username, password):
         super(MappingRules, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create_rule(self, rule_name=None, category=None, content=None):
@@ -46,7 +46,7 @@ class MappingRules(object):
         data.add_value_string("content", content)
         endpoint = MAPPING_RULES
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -80,7 +80,7 @@ class MappingRules(object):
                 data.add_value_string("content", content.read().decode('utf-8'))
             endpoint = MAPPING_RULES
 
-            response = self.client.post_json(endpoint, data.data)
+            response = self._client.post_json(endpoint, data.data)
             response.success = response.status_code == 201
 
         except IOError as e:
@@ -119,7 +119,7 @@ class MappingRules(object):
 
             endpoint = ("%s/%s" % (MAPPING_RULES, rule_id))
 
-            response = self.client.put_json(endpoint, data.data)
+            response = self._client.put_json(endpoint, data.data)
             response.success = response.status_code == 204
 
         except IOError as e:
@@ -147,7 +147,7 @@ class MappingRules(object):
 
         '''
         endpoint = "{}/{}".format(MAPPING_RULES, rule_id)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -170,7 +170,7 @@ class MappingRules(object):
 
         '''
         endpoint = ("%s%s" % (MAPPING_RULES, "?filter=" + filter if isinstance(filter, str) else ""))
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -190,7 +190,7 @@ class MappingRules(object):
 
         '''
         endpoint = "{}/{}".format(MAPPING_RULES, rule_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response

@@ -19,7 +19,7 @@ class Cluster(object):
 
     def __init__(self, base_url, username, password):
         super(Cluster, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def set_config_db(self, embedded=None, db_type=None, port=None, host=None, secure=True, user=None, passwd=None, 
@@ -94,7 +94,7 @@ class Cluster(object):
 
         endpoint = CLUSTER_CONFIG
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 204 
 
         return response
@@ -168,7 +168,7 @@ class Cluster(object):
                 data.add_value(key, extra_config.get(key))
         endpoint = CLUSTER_CONFIG
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 204 
 
         return response
@@ -265,7 +265,7 @@ class Cluster(object):
         if extra_config != None and isinstance(extra_config, dict):
             for key in extra_config.keys():
                 data.add_value(key, extra_config.get(key))
-        response = self.client.put_json(CLUSTER_CONFIG, data.data)
+        response = self._client.put_json(CLUSTER_CONFIG, data.data)
         response.success = response.status_code == 204
         return response
 
@@ -284,7 +284,7 @@ class Cluster(object):
         """
         endpoint = CLUSTER_CONFIG
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response

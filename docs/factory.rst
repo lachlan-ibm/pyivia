@@ -44,7 +44,7 @@ the five modules used.
    f = pyivia.factory.Factory("https://verify.identity.access.appliance", "user", "secret")
 
 Verifying TLS to Verify Identity Access Management Interface
-____________________________________________________
+____________________________________________________________
 
 By default, connections to verify access local management interface do not verify the x509 certificate with 
 python's CA truststore. to verify connections, the ``PYIVIA_VERIFY_TLS_LMI`` environment variable can be used. 

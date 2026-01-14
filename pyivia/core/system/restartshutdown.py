@@ -22,7 +22,7 @@ class RestartShutdown(object):
 
     def __init__(self, base_url, username, password):
         super(RestartShutdown, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def get_lmi_status(self):
@@ -37,7 +37,7 @@ class RestartShutdown(object):
             If the request is successful the status of the management interface is returned as JSON and can be accessed from
             the response.json attribute
         """
-        response = self.client.get_json(LMI)
+        response = self._client.get_json(LMI)
         response.success = response.status_code == 200
 
         return response
@@ -55,7 +55,7 @@ class RestartShutdown(object):
             If the request is successful the status of the runtime server is returned as JSON and can be accessed from
             the response.json attribute
         """
-        response = self.client.get_json(RUNTIME)
+        response = self._client.get_json(RUNTIME)
         response.success = True if response.status_code == 200 \
                 and response.json \
                 and response.json.get('return_code') == 0 \
@@ -82,7 +82,7 @@ class RestartShutdown(object):
         if last_start > 0:
             data = DataObject()
             data.add_value_boolean("restart", True)
-            response = self.client.post_json(LMI_RESTART, data.data)
+            response = self._client.post_json(LMI_RESTART, data.data)
             response.success = True if response.status_code == 200 \
                     and response.json \
                     and response.json.get("restart", False) == True \
@@ -133,7 +133,7 @@ class RestartShutdown(object):
             last_start = response.json[0].get("start_time", -1)
 
         if last_start > 0:
-            response = self.client.post_json(APPLIANCE_RESTART)
+            response = self._client.post_json(APPLIANCE_RESTART)
             response.success = True if response.status_code == 200 \
                     and response.json \
                     and response.json.get("status", False) == True \
@@ -192,7 +192,7 @@ class RestartShutdown(object):
             last_start = response.json.get("last_start", -1)
 
         if last_start >= 0:
-            response = self.client.put_json(RUNTIME_RESTART, {"operation":"restart"})
+            response = self._client.put_json(RUNTIME_RESTART, {"operation":"restart"})
             response.success = response.status_code == 200
 
             if response.success:

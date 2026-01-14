@@ -17,7 +17,7 @@ class DNS(object):
 
     def __init__(self, base_url, username, password):
         super(DNS, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def get(self):
         """
@@ -31,7 +31,7 @@ class DNS(object):
             If the request is successful the DNS configuration is returned as JSON and can be accessed from
             the response.json attribute
         """
-        response = self.client.get_json(NET_DNS)
+        response = self._client.get_json(NET_DNS)
         response.success = response.status_code == 200
 
         return response
@@ -62,7 +62,7 @@ class DNS(object):
         data.add_value_string("tertiaryServer", tertiary_server)
         data.add_value_string("searchDomains", search_domains)
 
-        response = self.client.put_json(NET_DNS, data.data)
+        response = self._client.put_json(NET_DNS, data.data)
         response.success = response.status_code == 200
 
         return response

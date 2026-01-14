@@ -18,7 +18,7 @@ class APIProtection(object):
 
     def __init__(self, base_url, username, password):
         super(APIProtection, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create_client(self, name=None, redirect_uri=None, company_name=None, company_url=None, 
@@ -43,7 +43,7 @@ class APIProtection(object):
             require_pkce_verification (bool, optional): Whether or not this client must perform proof of key exchange 
                                                         when performing an authorization code flow. Added in 9.0.4.0
             jwks_uri (:obj:`str`): URI which is the location that a clients published JWK set. Added in 9.0.4.0
-            encryption_db (:obj:`str): The SSL database containing the JWT encryption key. Added in 9.0.4.0
+            encryption_db (:obj:`str`): The SSL database containing the JWT encryption key. Added in 9.0.4.0
             encryption_cert (:obj:`str`): The certificate label of the JWT encryption key. Added in 9.0.4.0
             introspect_with_secret (bool, optional): Whether or not the client secret is required when 
                                                      performing an introspection request with this client. Added in 10.0.3.0.
@@ -73,7 +73,7 @@ class APIProtection(object):
         data.add_value_string("clientId", client_id)
         data.add_value_string("clientSecret", client_secret)
 
-        response = self.client.post_json(CLIENTS, data.data)
+        response = self._client.post_json(CLIENTS, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -101,7 +101,7 @@ class APIProtection(object):
             require_pkce_verification (bool, optional): Whether or not this client must perform proof of key exchange 
                                                         when performing an authorization code flow. Added in 9.0.4.0
             jwks_uri (:obj:`str`): URI which is the location that a clients published JWK set. Added in 9.0.4.0
-            encryption_db (:obj:`str): The SSL database containing the JWT encryption key. Added in 9.0.4.0
+            encryption_db (:obj:`str`): The SSL database containing the JWT encryption key. Added in 9.0.4.0
             encryption_cert (:obj:`str`): The certificate label of the JWT encryption key. Added in 9.0.4.0
             introspect_with_secret (bool, optional): Whether or not the client secret is required when 
                                                      performing an introspection request with this client. Added in 10.0.3.0.
@@ -129,7 +129,7 @@ class APIProtection(object):
         data.add_value_string("clientSecret", client_secret)
 
         endpoint = "{}/{}".format(CLIENTS, id)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -150,7 +150,7 @@ class APIProtection(object):
         '''
         endpoint = "%s/%s" % (CLIENTS, id)
 
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -181,7 +181,7 @@ class APIProtection(object):
         parameters.add_value_string("start", start)
         parameters.add_value_string("filter", filter)
 
-        response = self.client.get_json(CLIENTS, parameters.data)
+        response = self._client.get_json(CLIENTS, parameters.data)
         response.success = response.status_code == 200
 
         return response
@@ -248,7 +248,7 @@ class APIProtection(object):
         data.add_value("pinPolicyEnabled", pin_policy_enabled)
         data.add_value("grantTypes", grant_types)
 
-        response = self.client.post_json(DEFINITIONS, data.data)
+        response = self._client.post_json(DEFINITIONS, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -344,7 +344,7 @@ class APIProtection(object):
 
             data.add_value("oidc",oidc.data)
 
-        response = self.client.put_json(DEFINITIONS+"/"+str(definition_id), data.data)
+        response = self._client.put_json(DEFINITIONS+"/"+str(definition_id), data.data)
         response.success = response.status_code == 204
 
         return response
@@ -365,7 +365,7 @@ class APIProtection(object):
         '''
         endpoint = "%s/%s" % (DEFINITIONS, id)
 
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -396,7 +396,7 @@ class APIProtection(object):
         parameters.add_value_string("start", start)
         parameters.add_value_string("filter", filter)
 
-        response = self.client.get_json(DEFINITIONS, parameters.data)
+        response = self._client.get_json(DEFINITIONS, parameters.data)
         response.success = response.status_code == 200
 
         return response
@@ -406,7 +406,7 @@ class APIProtection9040(APIProtection):
 
     def __init__(self, base_url, username, password):
         super(APIProtection, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def get_valid_grant_types(self):
         return ["AUTHORIZATION_CODE","RESOURCE_OWNER_PASSWORD_CREDENTIALS","IMPLICIT_GRANT", "CLIENT_CREDENTIALS", "JWT_BEARER", "SAML_BEARER"]
@@ -464,7 +464,7 @@ class APIProtection9040(APIProtection):
             oidc.add_value_not_empty("attributeSources", attribute_sources)
             data.add_value("oidc", oidc.data)
         
-        response = self.client.post_json(DEFINITIONS, data.data)
+        response = self._client.post_json(DEFINITIONS, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -492,7 +492,7 @@ class APIProtection9040(APIProtection):
         data.add_value_string("encryptionDb", encryption_db)
         data.add_value_string("encryptionCert", encryption_cert)
 
-        response = self.client.post_json(CLIENTS, data.data)
+        response = self._client.post_json(CLIENTS, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -524,7 +524,7 @@ class APIProtection10030(APIProtection9040):
         data.add_value_boolean("introspectWithSecret", introspect_with_secret)
         data.add_value("extProperties", exts)
 
-        response = self.client.post_json(CLIENTS, data.data)
+        response = self._client.post_json(CLIENTS, data.data)
         response.success = response.status_code == 201
 
         return response

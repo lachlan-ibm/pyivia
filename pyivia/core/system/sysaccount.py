@@ -19,7 +19,7 @@ class SysAccount(object):
 
     def __init__(self, base_url, username, password):
         super(SysAccount, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def get_users(self):
         """
@@ -34,7 +34,7 @@ class SysAccount(object):
             the response.json attribute
         """
         endpoint = SYSACCOUNT_USERS + '/v1'
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -55,7 +55,7 @@ class SysAccount(object):
             the response.json attribute
         """
         endpoint = SYSACCOUNT_USERS + '/' + user + '/v1'
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -78,7 +78,7 @@ class SysAccount(object):
         data.add_value_string('password', password)
 
         endpoint = SYSACCOUNT_USERS + '/' + user + '/v1'
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -111,7 +111,7 @@ class SysAccount(object):
                 groups_data.add_value('id', group)
             data.add_value_not_empty('groups', groups_data.data)
         endpoint = SYSACCOUNT_USERS + '/v1'
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -130,7 +130,7 @@ class SysAccount(object):
             Success can be checked by examining the response.success boolean attribute
         """
         endpoint = SYSACCOUNT_USERS + '/' + user + '/v1'
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
 
         response.success = response.status_code == 204
 
@@ -150,7 +150,7 @@ class SysAccount(object):
             the response.json attribute
         """
         endpoint = SYSACCOUNT_GROUPS + '/v1'
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -172,7 +172,7 @@ class SysAccount(object):
             the response.json attribute
         """
         endpoint = SYSACCOUNT_GROUPS + '/groups/{}/v1'.format(group)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -197,7 +197,7 @@ class SysAccount(object):
         data = DataObject()
         data.add_value_string("id", group)
         endpoint = SYSACCOUNT_GROUPS + '/{}/groups/v1'.format(user)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -217,7 +217,7 @@ class SysAccount(object):
             Success can be checked by examining the response.success boolean attribute
         """
         endpoint = SYSACCOUNT_GROUPS + '/users/{}/groups/{}/v1'.format(user, group)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -242,7 +242,7 @@ class SysAccount(object):
         data = DataObject()
         data.add_value_string("id", group)
         endpoint = SYSACCOUNT_GROUPS +'/v1'
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -261,7 +261,7 @@ class SysAccount(object):
             Success can be checked by examining the response.success boolean attribute
         """
         endpoint = SYSACCOUNT_GROUPS + '/{}/v1'.format(group)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -283,7 +283,7 @@ class SysAccount(object):
         data = DataObject()
         data.add_value_string('old_password', old_password)
         data.add_value_string('password', password)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response

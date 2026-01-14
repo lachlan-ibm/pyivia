@@ -17,7 +17,7 @@ class UserRegistry(object):
 
     def __init__(self, base_url, username, password):
         super(UserRegistry, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def update_user_password(self, username, password=None):
         '''
@@ -38,7 +38,7 @@ class UserRegistry(object):
 
         endpoint = "%s/users/%s/v1" % (USER_REGISTRY, username)
 
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -48,7 +48,7 @@ class UserRegistry10020(UserRegistry):
 
     def __init__(self, base_url, username, password):
         super(UserRegistry10020, self).__init__(base_url, username, password)
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create_group(self, _id=None, users=None):
@@ -73,7 +73,7 @@ class UserRegistry10020(UserRegistry):
         data.add_value("users", users)
 
         endpoint = USER_REGISTRY + "/groups/v1"
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -93,7 +93,7 @@ class UserRegistry10020(UserRegistry):
 
         '''
         endpoint = "{}/groups/{}/v1".format(USER_REGISTRY, group_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -123,7 +123,7 @@ class UserRegistry10020(UserRegistry):
         data.add_value("groups", groups)
 
         endpoint = USER_REGISTRY + "/users/v1"
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -143,7 +143,7 @@ class UserRegistry10020(UserRegistry):
 
         '''
         endpoint = "{}/users/{}/v1".format(USER_REGISTRY, user_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -170,7 +170,7 @@ class UserRegistry10020(UserRegistry):
         data.add_value_string("id", group)
 
         endpoint = "{}/users/{}/groups/v1".format(USER_REGISTRY, user_id)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -194,7 +194,7 @@ class UserRegistry10020(UserRegistry):
         data.add_value_string("id", group)
 
         endpoint = "{}/users/{}/groups/v1".format(USER_REGISTRY, user_id)
-        response = self.client.delete_json(endpoint, data.data)
+        response = self._client.delete_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -217,7 +217,7 @@ class UserRegistry10020(UserRegistry):
 
         '''
         endpoint = "{}/users/{}/v1".format(USER_REGISTRY, user_id)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -240,7 +240,7 @@ class UserRegistry10020(UserRegistry):
 
         '''
         endpoint = "{}/groups/{}/v1".format(USER_REGISTRY, group_id)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -260,7 +260,7 @@ class UserRegistry10020(UserRegistry):
 
         '''
         endpoint = "{}/groups/v1".format(USER_REGISTRY)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -280,7 +280,7 @@ class UserRegistry10020(UserRegistry):
 
         '''
         endpoint = "{}/users/v1".format(USER_REGISTRY)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response

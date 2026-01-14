@@ -16,7 +16,7 @@ class DocumentRoot(object):
 
     def __init__(self, base_url, username, password):
         super(DocumentRoot, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create(self, instance, file_name=None, file_type=None, contents=None):
@@ -44,7 +44,7 @@ class DocumentRoot(object):
         data.add_value_string("contents", contents)
 
         endpoint = APIAC + "/instance/{}/documentation".format(instance)
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -74,7 +74,7 @@ class DocumentRoot(object):
         data.add_value_string("type", file_type)
 
         endpoint = APIAC + "/instance/{}/documentation/{}".format(instance, name)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -104,7 +104,7 @@ class DocumentRoot(object):
         data.add_value_string("type", file_type)
         
         endpoint = APIAC + "/instance/{}/documentation/{}".format(instance, name)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -128,7 +128,7 @@ class DocumentRoot(object):
 
         '''
         endpoint = APIAC + "/instance/{}/documentation/{}".format(instance, name)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -151,7 +151,7 @@ class DocumentRoot(object):
             
         '''
         endpoint = APIAC + "/instance/{}/documentation".format(instance)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response

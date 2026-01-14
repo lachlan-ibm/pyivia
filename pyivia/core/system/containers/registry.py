@@ -22,7 +22,7 @@ class Registry(object):
 
     def __init__(self, base_url, username, password):
         super(Registry, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def create(self, host=None, username=None, secret=None, proxy_host=None, proxy_port=None,
                proxy_user=None, proxy_pass=None, proxy_schema=None, ca=None):
@@ -61,7 +61,7 @@ class Registry(object):
             with open(ca, 'r') as f:
                 data.add_value_string("ca", f.read())
 
-        response = self.client.post_json(REGISTRY, data.data)
+        response = self._client.post_json(REGISTRY, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -105,7 +105,7 @@ class Registry(object):
                 data.add_value_string("ca", f.read())
 
         endpoint = "{}/{}".format(REGISTRY, rgy_id)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -124,7 +124,7 @@ class Registry(object):
             Success can be checked by examining the response.success boolean attribute
         '''
         endpoint = "{}/{}".format(REGISTRY, rgy_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -146,7 +146,7 @@ class Registry(object):
             the response.json attribute
         '''
         endpoint = "{}/{}".format(REGISTRY, rgy_id)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -164,7 +164,7 @@ class Registry(object):
             If the request is successful the container registry are returned as JSON and can be accessed from
             the response.json attribute
         '''
-        response = self.client.get_json(REGISTRY)
+        response = self._client.get_json(REGISTRY)
         response.success = response.status_code == 200
 
         return response

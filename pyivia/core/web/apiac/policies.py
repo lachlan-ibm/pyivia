@@ -15,7 +15,7 @@ class Policies(object):
 
     def __init__(self, base_url, username, password):
         super(Policies, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create(self, name=None, groups=[], attributes=[]):
@@ -41,7 +41,7 @@ class Policies(object):
         data.add_value_not_empty("group", groups)
         data.add_value_not_empty("attributes", attributes)
 
-        response = self.client.post_json(POLICY, data.data)
+        response = self._client.post_json(POLICY, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -67,7 +67,7 @@ class Policies(object):
         data.add_value_not_empty("attributes", attributes)
 
         endpoint = POLICY + "/{}".format(name)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -90,7 +90,7 @@ class Policies(object):
 
         '''
         endpoint = POLICY + "/{}".format(name)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -110,7 +110,7 @@ class Policies(object):
 
         '''
         endpoint = POLICY + "/{}".format(name)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -126,7 +126,7 @@ class Policies(object):
             Success can be checked by examining the response.success boolean attribute
 
         '''
-        response = self.client.get_json(POLICY)
+        response = self._client.get_json(POLICY)
         response.success = response.status_code == 200
 
         return response

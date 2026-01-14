@@ -8,7 +8,7 @@ import re
 
 from pyivia.util.restclient import RESTClient
 from pyivia.core.federationsettings import Federation
-from pyivia.core.accesscontrol import AccessControl
+from pyivia.core.advancedaccesscontrol import AdvancedAccessControl
 from pyivia.core.systemsettings import SystemSettings
 from pyivia.core.websettings import WebSettings
 from pyivia.core.analysisdiagnostics import AnalysisDiagnostics
@@ -63,14 +63,13 @@ class Factory(object):
     requests.
 
     The factory has getter methods for the three modules: WebSEAL, Advanced Access Control; and Federation. It also 
-    getter methods for the system and diagnostics API.
+    getter methods for the system settings and diagnostics API.
 
     Finally this class has helper methods to determine if the IBM Verify Identity Access deployment is an appliance
     or container deployment model.
 
-    This project supports both basic and API token authorization. 
-    If both username and password are provided, the rest client will use Basic
-    authorization, if just a password is supplied, then Bearer authorization
+    This project supports both basic and API token authorization. If both username and password are provided, the 
+    rest client will use Basic Authentication, if just a password is supplied, then Bearer authorization header 
     is supplied.
     """
 
@@ -96,7 +95,7 @@ class Factory(object):
         module_name = "pyivia.core.federationsettings"
         return self._class_loader(module_name, class_name)
 
-    def get_access_control(self) -> AccessControl:
+    def get_access_control(self) -> AdvancedAccessControl:
         '''
         Return manager of AAC endpoint
 

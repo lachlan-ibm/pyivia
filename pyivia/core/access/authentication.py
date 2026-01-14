@@ -19,7 +19,7 @@ class Authentication(object):
 
     def __init__(self, base_url, username, password):
         super(Authentication, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def create_mechanism(self, description=None, name=None, uri=None, type_id=None,
             properties=[], attributes=[]):
@@ -69,7 +69,7 @@ class Authentication(object):
         data.add_value_not_empty("properties", properties)
         data.add_value_not_empty("attributes", attributes)
 
-        response = self.client.post_json(AUTHENTICATION_MECHANISMS, data.data)
+        response = self._client.post_json(AUTHENTICATION_MECHANISMS, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -100,7 +100,7 @@ class Authentication(object):
         parameters.add_value_string("start", start)
         parameters.add_value_string("filter", filter)
 
-        response = self.client.get_json(
+        response = self._client.get_json(
             AUTHENTICATION_MECHANISM_TYPES, parameters.data)
         response.success = response.status_code == 200
 
@@ -132,7 +132,7 @@ class Authentication(object):
         parameters.add_value_string("start", start)
         parameters.add_value_string("filter", filter)
 
-        response = self.client.get_json(
+        response = self._client.get_json(
             AUTHENTICATION_MECHANISMS, parameters.data)
         response.success = response.status_code == 200
 
@@ -192,7 +192,7 @@ class Authentication(object):
 
         endpoint = "%s/%s" % (AUTHENTICATION_MECHANISMS, id)
 
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -212,7 +212,7 @@ class Authentication(object):
 
         '''
         endpoint = "{}/{}".format(AUTHENTICATION_MECHANISMS, id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -248,7 +248,7 @@ class Authentication(object):
         data.add_value_string("dialect", dialect)
         data.add_value_boolean("enabled", enabled)
 
-        response = self.client.post_json(AUTHENTICATION_POLICIES, data.data)
+        response = self._client.post_json(AUTHENTICATION_POLICIES, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -272,7 +272,7 @@ class Authentication(object):
         '''
         endpoint = "%s/%s" % (AUTHENTICATION_POLICIES, id)
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -303,7 +303,7 @@ class Authentication(object):
         parameters.add_value_string("start", start)
         parameters.add_value_string("filter", filter)
 
-        response = self.client.get_json(
+        response = self._client.get_json(
             AUTHENTICATION_POLICIES, parameters.data)
         response.success = response.status_code == 200
 
@@ -352,7 +352,7 @@ class Authentication(object):
 
         endpoint = "%s/%s" % (AUTHENTICATION_POLICIES, id)
 
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -399,7 +399,7 @@ class Authentication9021(Authentication):
         data.add_value_string("datecreated", date_created)
         data.add_value_boolean("enabled", enabled)
 
-        response = self.client.post_json(AUTHENTICATION_POLICIES, data.data)
+        response = self._client.post_json(AUTHENTICATION_POLICIES, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -446,7 +446,7 @@ class Authentication9021(Authentication):
 
         endpoint = "%s/%s" % (AUTHENTICATION_POLICIES, id)
 
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -464,7 +464,7 @@ class Authentication9021(Authentication):
         '''
         data = DataObject()
         data.add_value_boolean("enabled", False)
-        response = self.client.put_json(AUTHENTICATION_POLICIES, data.data)
+        response = self._client.put_json(AUTHENTICATION_POLICIES, data.data)
         response.success = response.status_code == 204
         return response
 
@@ -481,7 +481,7 @@ class Authentication9021(Authentication):
         '''
         data = DataObject()
         data.add_value_boolean("enabled", True)
-        response = self.client.put_json(AUTHENTICATION_POLICIES, data.data)
+        response = self._client.put_json(AUTHENTICATION_POLICIES, data.data)
         response.success = response.status_code == 204
         return response
 
@@ -501,7 +501,7 @@ class Authentication9021(Authentication):
         '''
         endpoint = "%s/%s" % (AUTHENTICATION_POLICIES, _id)
 
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response

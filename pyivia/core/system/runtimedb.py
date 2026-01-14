@@ -17,7 +17,7 @@ class RuntimeDb(object):
 
     def __init__(self, base_url, username, password):
         super(RuntimeDb, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def set_db(self, db_type=None, port=None, host=None, secure=True, user=None, passwd=None, db_name=None, extra_attrs={}):
@@ -57,7 +57,7 @@ class RuntimeDb(object):
                 data.add_value(key, extra_attrs.get(key))
 
         endpoint = RUNTIME_DB
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 204 
 
         return response
@@ -76,7 +76,7 @@ class RuntimeDb(object):
         """
         endpoint = RUNTIME_DB
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response

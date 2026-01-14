@@ -18,7 +18,7 @@ class Attributes(object):
 
     def __init__(self, base_url, username, password):
         super(Attributes, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create_attribute(self, category=None, matcher=None, issuer=None, description=None,
@@ -71,7 +71,7 @@ class Attributes(object):
         data.add_value_not_empty("storageDomain", storage_data.data)
         data.add_value_not_empty("type", type_data.data)
 
-        response = self.client.post_json(ATTRIBUTES, data.data)
+        response = self._client.post_json(ATTRIBUTES, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -126,7 +126,7 @@ class Attributes(object):
         data.add_value_not_empty("type", type_data.data)
 
         endpoint = '{}/{}'.format(ATTRIBUTES, id)
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -157,7 +157,7 @@ class Attributes(object):
         parameters.add_value_string("start", start)
         parameters.add_value_string("filter", filter)
 
-        response = self.client.get_json(ATTRIBUTES, parameters.data)
+        response = self._client.get_json(ATTRIBUTES, parameters.data)
         response.success = response.status_code == 200
 
         return response
@@ -180,7 +180,7 @@ class Attributes(object):
 
         '''
         endpoint = "{}/{}".format(ATTRIBUTES, attribute_id)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -200,7 +200,7 @@ class Attributes(object):
         
         '''
         endpoint = "{}/{}".format(ATTRIBUTES, attribute_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -227,7 +227,7 @@ class Attributes(object):
         parameters.add_value_string("sortBy", sort_by)
         parameters.add_value_string("filter", filter)
 
-        response = self.client.get_json(ATTRIBUTE_MATCHERS, parameters.data)
+        response = self._client.get_json(ATTRIBUTE_MATCHERS, parameters.data)
         response.success = response.status_code == 200
 
         return response
@@ -257,7 +257,7 @@ class Attributes(object):
         data.add_value_not_empty("properties", properties)
 
         endpoint = "{}/{}".format(ATTRIBUTE_MATCHERS, id)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response

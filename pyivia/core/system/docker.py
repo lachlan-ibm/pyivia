@@ -17,7 +17,7 @@ class Docker(object):
 
     def __init__(self, base_url, username, password):
         super(Docker, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def publish(self):
@@ -34,7 +34,7 @@ class Docker(object):
         """
         endpoint = DOCKER + "/publish"
 
-        response = self.client.put_json(endpoint)
+        response = self._client.put_json(endpoint)
         response.success = response.status_code == 201
 
         return response
@@ -51,7 +51,7 @@ class Docker(object):
         """
         endpoint = DOCKER + '/stop'
 
-        response = self.client.put_json(endpoint)
+        response = self._client.put_json(endpoint)
         response.success = response.status_code == 204
 
         return response

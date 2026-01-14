@@ -8,18 +8,26 @@ from .federation.accesspolicy import AccessPolicy
 from .federation.attributesources import AttributeSources
 from .federation.securitytokenservice import SecurityTokenService
 from .federation.aliasservice import AliasService
+from pyivia.core.federation import federations
 
 class Federation(object):
     '''
-    Object is used to manage the Federations endpoints of a Verify Access deployment.
+    Object is used to manage the Federated Identity featrues of a Verify Identity Access deployment.
 
-    :var federations: Create and manage :ref:`Federations<Federations>` and Partners.
-    :var attribute_sources: Manage :ref:`attributes<Attribute Sources>` added to identities in federation flows.
-    :var alias_service: Manage user :ref:`aliases<Alias Service>` for federated identity sources.
-    :var sts: Create and manage :ref:`Security Token Service<Security Token Service (STS)>` chains.
-    :var poc: Create and manage :ref:`Point of Contact<Point of Contact (POC) Profile>` profiles.
-    :var access_policy: Create and manage :ref:`Access Policy<Access Policies>` rules.
     '''
+
+    federations: Federations
+    'Create and manage :ref:`Federations<Federations>` and Partners.'
+    attribute_sources: AttributeSources
+    'Manage :ref:`attributes<Attribute Sources>` added to identities in federation flows.'
+    alias_service: AliasService
+    'Manage user :ref:`aliases<Alias Service>` for federated identity sources.'
+    sts: SecurityTokenService
+    'Create and manage :ref:`Security Token Service<Security Token Service (STS)>` chains.'
+    poc: PointOfContact
+    'Create and manage :ref:`Point of Contact<Point of Contact (POC) Profile>` profiles.'
+    access_policy: AccessPolicy
+    'Create and manage :ref:`Access Policy<Access Policies>` rules.'
 
 class Federation9020(object):
 

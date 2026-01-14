@@ -17,7 +17,7 @@ class PushNotification(object):
 
     def __init__(self, base_url, username, password):
         super(PushNotification, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create_provider(self, app_id=None, platform=None, provider_address=None,
@@ -63,7 +63,7 @@ class PushNotification(object):
         data.add_value_string("platform", platform)
         data.add_value_not_empty("provider", provider.data)
 
-        response = self.client.post_json(PUSH_NOTIFICATION, data.data)
+        response = self._client.post_json(PUSH_NOTIFICATION, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -87,7 +87,7 @@ class PushNotification9021(PushNotification):
             the response.json attribute.
 
         '''
-        response = self.client.get_json(PUSH_NOTIFICATION)
+        response = self._client.get_json(PUSH_NOTIFICATION)
         response.success = response.status_code == 200
 
         return response
@@ -109,7 +109,7 @@ class PushNotification9021(PushNotification):
         
         '''
         endpoint = '{}/{}'.format(PUSH_NOTIFICATION, pnr_id)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -170,7 +170,7 @@ class PushNotification9021(PushNotification):
         data.add_value_string("platform", platform)
         data.add_value_not_empty("provider", provider.data)
 
-        response = self.client.post_json(PUSH_NOTIFICATION, data.data)
+        response = self._client.post_json(PUSH_NOTIFICATION, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -235,7 +235,7 @@ class PushNotification9021(PushNotification):
         data.add_value_not_empty("provider", provider.data)
 
         endpoint = PUSH_NOTIFICATION + '/{}'.format(pnr_id)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -258,7 +258,7 @@ class PushNotification9021(PushNotification):
         
         '''
         endpoint = '{}/{}'.format(PUSH_NOTIFICATION, pnr_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response

@@ -17,7 +17,7 @@ class DSC(object):
 
     def __init__(self, base_url, username, password):
         super(DSC, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def set_dsc(self, client_grace=None, connection_idle_timeout=None, max_session_lifetime=None, 
@@ -57,7 +57,7 @@ class DSC(object):
         data.add_value("replication_port", replication_port)
         data.add_value("ssl_ciphers", ssl_ciphers)
         data.add_value_not_empty("servers", servers)
-        response = self.client.put_json(DSC_CONFIG, data.data)
+        response = self._client.put_json(DSC_CONFIG, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -74,7 +74,7 @@ class DSC(object):
             If the request is successful the dsc configuration is returned as JSON and can be accessed from
             the response.json attribute
         """
-        response = self.client.get_json(DSC_CONFIG)
+        response = self._client.get_json(DSC_CONFIG)
         response.success = response.status_code == 200
 
         return response

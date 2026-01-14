@@ -18,7 +18,7 @@ class RuntimeComponent(object):
 
     def __init__(self, base_url, username, password):
         super(RuntimeComponent, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def configure(
             self, ps_mode=None, user_registry=None, admin_password=None,
@@ -75,7 +75,7 @@ class RuntimeComponent(object):
         data.add_value_string("isam_host", isam_host)
         data.add_value("ldap_port", ldap_port)
         data.add_value("isam_port", isam_port)
-        response = self.client.post_json(RUNTIME_COMPONENT, data.data)
+        response = self._client.post_json(RUNTIME_COMPONENT, data.data)
 
         response.success = response.status_code == 200
         return response
@@ -94,7 +94,7 @@ class RuntimeComponent(object):
             the response.json attribute
 
         """
-        response = self.client.get_json(RUNTIME_COMPONENT)
+        response = self._client.get_json(RUNTIME_COMPONENT)
         response.success = response.status_code == 200
         return response
 
@@ -115,7 +115,7 @@ class RuntimeComponent(object):
         data = DataObject()
         data.add_value_string("password", password)
 
-        response = self.client.post_json(EMBEDDED_LDAP_PASSWORD, data.data)
+        response = self._client.post_json(EMBEDDED_LDAP_PASSWORD, data.data)
         response.success = response.status_code == 200
         return response
 
@@ -160,7 +160,7 @@ class RuntimeComponent(object):
         data.add_value_string("client_cert_label", client_cert_label)
         data.add_value("suffix", suffix)
 
-        response = self.client.post_json(FEDERATED_DIRECTORIES + "/v1", data.data)
+        response = self._client.post_json(FEDERATED_DIRECTORIES + "/v1", data.data)
         response.success = response.status_code == 200
 
         return response
@@ -180,7 +180,7 @@ class RuntimeComponent(object):
 
         """
         url = FEDERATED_DIRECTORIES + "/{}/v1".format(_id)
-        response = self.client.delete_json(url)
+        response = self._client.delete_json(url)
         response.success = response.status_code == 204
 
         return response
@@ -214,7 +214,7 @@ class RuntimeComponent(object):
             data.add_value_not_empty("entries", entries)
             url += "/entry_name"
 
-        response = self.client.post_json(url, data.data)
+        response = self._client.post_json(url, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -244,7 +244,7 @@ class RuntimeComponent(object):
         url = RUNTIME_STANZA_FILE_BASE + "/{}/configuration/stanza/{}/entry_name".format(resource, stanza)
         data = DataObject()
         data.add_value_not_empty("entries", entries)
-        response = self.client.put_json(url, data.data)
+        response = self._client.put_json(url, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -271,7 +271,7 @@ class RuntimeComponent(object):
         if entry:
             url += "/entry_name/{}/value/{}".format(entry, value)
 
-        response = self.client.delete_json(url)
+        response = self._client.delete_json(url)
         response.success = response.status_code == 200
 
         return response
@@ -338,7 +338,7 @@ class RuntimeComponent10000(RuntimeComponent):
         data.add_value("ldap_port", ldap_port)
         data.add_value("isam_port", isam_port)
 
-        response = self.client.post_json(RUNTIME_COMPONENT, data.data)
+        response = self._client.post_json(RUNTIME_COMPONENT, data.data)
 
         response.success = response.status_code == 200
 
@@ -369,7 +369,7 @@ class RuntimeComponent10000(RuntimeComponent):
         data.add_value_string("clean", clean)
         data.add_value_string("force", force)
 
-        response = self.client.post_json(UNCONFIGURE_RUNTIME_COMPONENT, data.data)
+        response = self._client.post_json(UNCONFIGURE_RUNTIME_COMPONENT, data.data)
 
         response.success = response.status_code == 200
 

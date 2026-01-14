@@ -16,7 +16,7 @@ class Federations(object):
 
     def __init__(self, base_url, username, password):
         super(Federations, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def create_oidc_federation(self, name=None, role=None, template_name=None, redirect_uri_prefix=None, response_types_supported=None, 
             attribute_mappings=[], identity_delegate_id=None, identity_rule_type="JAVASCRIPT", identity_mapping_rule=None, 
@@ -125,7 +125,7 @@ class Federations(object):
         data.add_value_string("role", role)
         data.add_value_not_empty("configuration", configuration.data)
 
-        response = self.client.post_json(FEDERATIONS, data.data)
+        response = self._client.post_json(FEDERATIONS, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -223,7 +223,7 @@ class Federations(object):
 
         endpoint = "%s/%s/partners" % (FEDERATIONS, federation_id)
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -669,7 +669,7 @@ class Federations(object):
         configuration.add_value_not_empty("aliasServiceSettings", aliasSvc.data)
 
         data.add_value_not_empty("configuration", configuration.data)
-        response = self.client.post_json(FEDERATIONS, data.data)
+        response = self._client.post_json(FEDERATIONS, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -1011,7 +1011,7 @@ class Federations(object):
 
         endpoint = "%s/%s/partners" % (FEDERATIONS, federation_id)
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -1034,7 +1034,7 @@ class Federations(object):
 
         """
         endpoint = "%s/%s" % (FEDERATIONS, federation_id)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
         return response
 
@@ -1051,7 +1051,7 @@ class Federations(object):
             If the request is successful the federation configuration list is returned as JSON and can be accessed from
             the response.json attribute
         """
-        response = self.client.get_json(FEDERATIONS)
+        response = self._client.get_json(FEDERATIONS)
         response.success = response.status_code == 200
         return response
 
@@ -1072,7 +1072,7 @@ class Federations(object):
             the response.json attribute
         """
         endpoint = "%s/%s/partners" % (FEDERATIONS, federation_id)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
         return response
 
@@ -1095,7 +1095,7 @@ class Federations(object):
 
         """
         endpoint = "%s/%s/partners/%s" % (FEDERATIONS, federation_id, partner_id)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
         return response
 
@@ -1114,7 +1114,7 @@ class Federations(object):
 
         """
         endpoint = "%s/%s" % (FEDERATIONS, federation_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
         return response
 
@@ -1134,7 +1134,7 @@ class Federations(object):
 
         """
         endpoint = "%s/%s/partners/%s" % (FEDERATIONS, federation_id, partner_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
         return response
 
@@ -1155,7 +1155,7 @@ class Federations(object):
 
         '''
         endpoint = "{}/{}/metadata".format(FEDERATIONS, fed_id)
-        response = self.client.get_file(endpoint, metadata_file)
+        response = self._client.get_file(endpoint, metadata_file)
         response.success = response.status_code == 200
 
         return response
@@ -1182,7 +1182,7 @@ class Federations(object):
             data.add_value_string("name", name)
             file_dict = {"metadata": metadata_file}
             endpoint = "{}/{}/partners/metadata".format(FEDERATIONS, fed_id)
-            response = self.client.post_file(endpoint, data=data.data, files=file_dict)
+            response = self._client.post_file(endpoint, data=data.data, files=file_dict)
             response.success = response.status_code == 201
 
         return response
@@ -1239,7 +1239,7 @@ class Federations9040(Federations):
         data.add_value_string("templateName", template_name)
         data.add_value_not_empty("configuration", configuration.data)
 
-        response = self.client.post_json(FEDERATIONS, data.data)
+        response = self._client.post_json(FEDERATIONS, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -1321,7 +1321,7 @@ class Federations9040(Federations):
 
         data.add_value_not_empty("configuration", configuration.data)
         endpoint = "%s/%s/partners" % (FEDERATIONS, federation_id)
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -1501,7 +1501,7 @@ class Federations10000(Federations9040):
 
         data.add_value_not_empty("configuration", configuration.data)
         logger.debug("Federation properties: {}".format(data.data))
-        response = self.client.post_json(FEDERATIONS, data.data)
+        response = self._client.post_json(FEDERATIONS, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -1698,7 +1698,7 @@ class Federations10000(Federations9040):
         logger.debug("Partner properties: {}".format(data.data))
 
         endpoint = "%s/%s/partners" % (FEDERATIONS, federation_id)
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 201
 
         return response

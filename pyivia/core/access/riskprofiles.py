@@ -17,7 +17,7 @@ class RiskProfiles(object):
 
     def __init__(self, base_url, username, password):
         super(RiskProfiles, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def create_profile(self, description=None, name=None, active=None, attributes=None, predefined=False):
         '''
@@ -56,7 +56,7 @@ class RiskProfiles(object):
         data.add_value("attributes", attributes)
         data.add_value("predefined", predefined)
 
-        response = self.client.post_json(RISK_PROFILES, data.data)
+        response = self._client.post_json(RISK_PROFILES, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -100,7 +100,7 @@ class RiskProfiles(object):
         data.add_value_boolean("predefined", predefined)
 
 
-        response = self.client.post_json(RISK_PROFILES, data.data)
+        response = self._client.post_json(RISK_PROFILES, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -119,7 +119,7 @@ class RiskProfiles(object):
             the response.json attribute.
 
         '''
-        response = self.client.get_json(RISK_PROFILES)
+        response = self._client.get_json(RISK_PROFILES)
         response.success = response.status_code == 200
 
         return response
@@ -143,7 +143,7 @@ class RiskProfiles(object):
         '''
         endpoint = "{}/{}".format(RISK_PROFILES, _id)
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -164,7 +164,7 @@ class RiskProfiles(object):
         '''
         endpoint = "{}/{}".format(RISK_PROFILES, _id)
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 204
 
         return response

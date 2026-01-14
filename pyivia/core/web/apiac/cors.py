@@ -15,7 +15,7 @@ class CORS(object):
 
     def __init__(self, base_url, username, password):
         super(CORS, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create(self, name=None, allowed_origins=[], allow_credentials=None, exposed_headers=[],
@@ -52,7 +52,7 @@ class CORS(object):
         data.add_value_not_empty("allowed_headers", allowed_headers)
         data.add_value("max_age", max_age)
 
-        response = self.client.put_json(CORS_POLICY, data.data)
+        response = self._client.put_json(CORS_POLICY, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -92,7 +92,7 @@ class CORS(object):
         data.add_value("max_age", max_age)
 
         endpoint = CORS_POLICY + "/{}".format(name)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -112,7 +112,7 @@ class CORS(object):
 
         '''
         endpoint = CORS_POLICY + "/{}".format(name)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -135,7 +135,7 @@ class CORS(object):
 
         '''
         endpoint = CORS_POLICY + "/{}".format(name)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -154,7 +154,7 @@ class CORS(object):
             the response.json attribute
 
         '''
-        response = self.client.get_json(CORS_POLICY)
+        response = self._client.get_json(CORS_POLICY)
         response.success = response.status_code == 200
 
         return response

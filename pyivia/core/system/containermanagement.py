@@ -17,15 +17,22 @@ logger = logging.getLogger(__name__)
 
 class ContainerManagement(object):
     '''
-    Object used to manage containers, images and volumes on a Verify Identity Access appliance. 
+    Object used to manage containers, images and volumes hosted on a Verify Identity Access appliance. 
 
-    :var volumes: Create and manage :ref:`Volumes`.
-    :var images: Create and manage :ref:`Images`.
-    :var registry: Create and manage :ref:`Registry` authentication configuration.
-    :var deployments: Create and manage :ref:`Deployments`.
-    :var metadata: Create and manage deployment :ref:`Metadata`.
-    :var healthcheck: Check the :ref:`health<Health Check>` of deployed pods (containers).
     '''
+
+    volumes: Volumes
+    'Create and manage :ref:`Volumes`.'
+    images: Images
+    'Create and manage :ref:`Images`.'
+    registry: Registry
+    'Create and manage :ref:`Registry` authentication configuration.'
+    deployments: Deployments
+    'Create and manage :ref:`Deployments`.'
+    metadata: Metadata
+    'Create and manage deployment :ref:`Metadata`.'
+    healthcheck: HealthCheck
+    'Check the :ref:`health<Health Check>` of deployed pods (containers).'
 
     def __init__(self, base_url, username, password):
         super(ContainerManagement, self).__init__()

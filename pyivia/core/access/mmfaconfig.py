@@ -17,7 +17,7 @@ class MMFAConfig(object):
 
     def __init__(self, base_url, username, password):
         super(MMFAConfig, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def update(self, client_id=None, hostname=None, junction=None, options=None,
@@ -45,7 +45,7 @@ class MMFAConfig(object):
         data.add_value_string("options", options)
         data.add_value("port", port)
 
-        response = self.client.post_json(MMFA_CONFIG, data.data)
+        response = self._client.post_json(MMFA_CONFIG, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -108,7 +108,7 @@ class MMFAConfig9021(MMFAConfig):
         data.add_value_not_empty("endpoints", endpoints.data)
         data.add_value_not_empty("discovery_mechanisms", discovery_mechanisms)
 
-        response = self.client.post_json(MMFA_CONFIG, data.data)
+        response = self._client.post_json(MMFA_CONFIG, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -124,7 +124,7 @@ class MMFAConfig9021(MMFAConfig):
             Success can be checked by examining the response.success boolean attribute
 
         '''
-        response = self.client.delete_json(MMFA_CONFIG)
+        response = self._client.delete_json(MMFA_CONFIG)
         response.success = response.status_code == 204
 
         return response

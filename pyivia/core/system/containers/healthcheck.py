@@ -21,7 +21,7 @@ class HealthCheck(object):
 
     def __init__(self, base_url, username, password):
         super(HealthCheck, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def get(self, deployment_id=None):
         '''
@@ -39,7 +39,7 @@ class HealthCheck(object):
             the response.json attribute
         '''
         endpoint = "{}/{}".format(HEALTH, deployment_id)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -56,7 +56,7 @@ class HealthCheck(object):
             If the request is successful the health check output is returned as JSON and can be accessed from
             the response.json attribute
         '''
-        response = self.client.get_json(HEALTH)
+        response = self._client.get_json(HEALTH)
         response.success = response.status_code == 200
 
         return response

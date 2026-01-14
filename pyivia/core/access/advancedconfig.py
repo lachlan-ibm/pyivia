@@ -17,7 +17,7 @@ class AdvancedConfig(object):
 
     def __init__(self, base_url, username, password):
         super(AdvancedConfig, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def list_properties(self, sort_by=None, count=None, start=None, filter=None):
@@ -45,7 +45,7 @@ class AdvancedConfig(object):
         parameters.add_value_string("start", start)
         parameters.add_value_string("filter", filter)
 
-        response = self.client.get_json(OVERRIDE_CONFIGS, parameters.data)
+        response = self._client.get_json(OVERRIDE_CONFIGS, parameters.data)
         response.success = response.status_code == 200
 
         return response
@@ -72,7 +72,7 @@ class AdvancedConfig(object):
         data.add_value_boolean("sensitive", sensitive)
 
         endpoint = "%s/%s" % (OVERRIDE_CONFIGS, id)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
