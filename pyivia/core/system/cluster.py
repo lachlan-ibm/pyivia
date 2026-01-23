@@ -177,7 +177,8 @@ class Cluster(object):
 
     def update_cluster(self, primary_master=None, dsc_external_clients=False, dsc_port=None, dsc_use_ssl=None, 
             dsc_ssl_label=None, dsc_worker_threads=None, dsc_maximum_session_lifetime=None, dsc_client_grace_period=None,
-            dsc_connection_idle_timeout=None, hvdb_embedded=None, hvdb_max_size=None, hvdb_db_type=None, 
+            dsc_connection_idle_timeout=None, dsc_ssl_ciphers=None, dsc_tls12_cipher_specs=None, dsc_tls13_cipher_specs=None,
+            hvdb_embedded=None, hvdb_max_size=None, hvdb_db_type=None, 
             hvdb_address=None, hvdb_port=None, hvdb_user=None, hvdb_password=None, hvdb_db_name=None, hvdb_db_secure=None,
             cfgdb_embedded=None, cfgdb_db_type=None, cfgdb_address=None, cfgdb_port=None, cfgdb_user=None, cfgdb_password=None,
             cfgdb_db_name=None, cfgdb_db_secure=None, first_port=None, cfgdb_fs=None, extra_config={}) -> Response:
@@ -199,6 +200,9 @@ class Cluster(object):
                             the session cache.
             dsc_connection_idle_timeout (`int`): The maximum length of time that a connection from a client can remain 
                             idle before it is closed by the server.
+            dsc_ssl_ciphers (:obj:`str`): The SSL ciphers that are permitted to establish TLS connections.
+            dsc_tls12_cipher_specs (:obj:`str`): The TLS 1.2 cipher specs that are permitted for established TLS1.2 connections.
+            dsc_tls13_cipher_specs (:obj:`str`): The TLS 1.3 cipher specs that are permitted for established TLS1.3 connections.
             hvdb_embedded (`bool`): A flag true/false indicating whether or not the Runtime database (HVDB) is embedded 
                             (true) or external (false).
             hvdb_max_size (`int`): The percentage of currently available disk space which can be used for the embedded 
@@ -243,6 +247,9 @@ class Cluster(object):
         data.add_value("dsc_maximum_session_lifetime", dsc_maximum_session_lifetime)
         data.add_value("dsc_client_grace_period", dsc_client_grace_period)
         data.add_value("dsc_connection_idle_timeout", dsc_connection_idle_timeout)
+        data.add_value_string("dsc_ssl_ciphers", dsc_ssl_ciphers)
+        data.add_value_string("dsc_tls12_cipher_specs", dsc_tls12_cipher_specs)
+        data.add_value_string("dsc_tls13_cipher_specs", dsc_tls13_cipher_specs)
         data.add_value_boolean("hvdb_embedded", hvdb_embedded)
         data.add_value("hvdb_max_size", hvdb_max_size) 
         data.add_value_string("hvdb_db_type", hvdb_db_type)

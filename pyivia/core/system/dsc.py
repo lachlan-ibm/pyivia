@@ -21,7 +21,8 @@ class DSC(object):
 
 
     def set_dsc(self, client_grace=None, connection_idle_timeout=None, max_session_lifetime=None, 
-                service_port=True, replication_port=None, ssl_ciphers=None, worker_threads=None, servers={}):
+                service_port=True, replication_port=None, ssl_ciphers=None, tls12_cipher_specs=None,
+                tls13_cipher_specs=None, worker_threads=None, servers={}):
         """
         Set the Distributed Session Cace configuration.
 
@@ -36,6 +37,10 @@ class DSC(object):
             replication_port (int): The port number on which the DSC will listen for replication requests.
             ssl_ciphers (:obj:`str`, optional): The comma separated list of permissted SSL algorithms 
                                                 for TLS connections to the DSC.
+            tls12_cipher_specs (:obj:`str`, optional): The comma separated list of permissted TLS1.2 cipher specs 
+                                                       permitted for established TLS connections.
+            tls13_cipher_specs (:obj:`str`, optional): The comma separated list of permissted TLS1.3 cipher specs 
+                                                       permitted for established TLS connections.
             worker_threads (int): The number of worker threads allocated to processing requests.
             servers (:obj:`dict`): The external connection data for each instance of the DSC. This 
                                     corresponds to the IP address and ports to which clients will connect. 
@@ -56,6 +61,8 @@ class DSC(object):
         data.add_value("service_port", service_port)
         data.add_value("replication_port", replication_port)
         data.add_value("ssl_ciphers", ssl_ciphers)
+        data.add_value("tls12_cipher_specs", tls12_cipher_specs)
+        data.add_value("tls13_cipher_specs", tls13_cipher_specs)
         data.add_value_not_empty("servers", servers)
         response = self._client.put_json(DSC_CONFIG, data.data)
         response.success = response.status_code == 204
