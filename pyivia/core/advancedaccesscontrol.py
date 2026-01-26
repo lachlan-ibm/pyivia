@@ -2,9 +2,9 @@
 @copyright: IBM
 """
 
-from .access.accesscontrol import AccessControl as AC9000
-from .access.accesscontrol import AccessControl9030 as AC9030
-from .access.accesscontrol import AccessControl10000 as AC10000
+from .access.accesscontrol import AccessControl
+from .access.accesscontrol import AccessControl9030
+from .access.accesscontrol import AccessControl10000
 from .access.advancedconfig import AdvancedConfig
 from .access.apiprotection import APIProtection, APIProtection9040, APIProtection10030
 from .access.attributes import Attributes
@@ -28,7 +28,7 @@ class AdvancedAccessControl(object):
 
     '''
 
-    access_control: AC9000
+    access_control: AccessControl
     'Create and manage :ref:`Access Control` policies.'
     advanced_config: AdvancedConfig
     'Manage :ref:`Advanced Configuration` parameters.'
@@ -63,11 +63,11 @@ class AdvancedAccessControl(object):
     pip: PIP
     'Manage :ref:`policy information points<Policy Information Points>`.'
 
-class AccessControl9020(object):
+class AdvancedAccessControl9020(object):
 
     def __init__(self, base_url, username, password):
-        super(AccessControl9020, self).__init__()
-        self.access_control = AC9000(base_url, username, password)
+        super(AdvancedAccessControl9020, self).__init__()
+        self.access_control = AccessControl(base_url, username, password)
         self.advanced_config = AdvancedConfig(base_url, username, password)
         self.api_protection = APIProtection(base_url, username, password)
         self.attributes = Attributes(base_url, username, password)
@@ -86,150 +86,150 @@ class AccessControl9020(object):
         self.pip = PIP(base_url, username, password)
 
 
-class AccessControl9021(AccessControl9020):
+class AdvancedAccessControl9021(AdvancedAccessControl9020):
 
     def __init__(self, base_url, username, password):
-        super(AccessControl9021, self).__init__(base_url, username, password)
+        super(AdvancedAccessControl9021, self).__init__(base_url, username, password)
         self.mmfa_config = MMFAConfig9021(base_url, username, password)
         self.push_notification = PushNotification9021(base_url, username, password)
         self.authentication = Authentication9021(base_url, username, password)
 
 
-class AccessControl9030(AccessControl9021):
+class AdvancedAccessControl9030(AdvancedAccessControl9021):
 
     def __init__(self, base_url, username, password):
-        super(AccessControl9030, self).__init__(base_url, username, password)
-        self.access_control = AC9030(base_url, username, password)
+        super(AdvancedAccessControl9030, self).__init__(base_url, username, password)
+        self.access_control = AccessControl9030(base_url, username, password)
 
 
-class AccessControl9040(AccessControl9030):
+class AdvancedAccessControl9040(AdvancedAccessControl9030):
 
     def __init__(self, base_url, username, password):
-        super(AccessControl9040, self).__init__(base_url, username, password)
+        super(AdvancedAccessControl9040, self).__init__(base_url, username, password)
         self.api_protection = APIProtection9040(base_url, username, password)
 
-class AccessControl9050(AccessControl9040):
+class AdvancedAccessControl9050(AdvancedAccessControl9040):
 
     def __init__(self, base_url, username, password):
-        super(AccessControl9050, self).__init__(base_url, username, password)
+        super(AdvancedAccessControl9050, self).__init__(base_url, username, password)
         self.server_connections = ServerConnections9050(base_url, username, password)
         self.scim_config = SCIMConfig9050(base_url, username, password)
 
-class AccessControl9060(AccessControl9050):
+class AdvancedAccessControl9060(AdvancedAccessControl9050):
 
     def __init__(self, base_url, username, password):
-        super(AccessControl9060, self).__init__(base_url, username, password)
+        super(AdvancedAccessControl9060, self).__init__(base_url, username, password)
 
 
-class AccessControl9070(AccessControl9060):
+class AdvancedAccessControl9070(AdvancedAccessControl9060):
 
     def __init__(self, base_url, username, password):
-        super(AccessControl9070, self).__init__(base_url, username, password)
+        super(AdvancedAccessControl9070, self).__init__(base_url, username, password)
         self.fido2_config = FIDO2Config(base_url, username, password)
         self.fido2_registrations = FIDO2Registrations(base_url, username, password)
 
 
-class AccessControl9071(AccessControl9070):
+class AdvancedAccessControl9071(AdvancedAccessControl9070):
 
     def __init__(self, base_url, username, password):
-        super(AccessControl9071, self).__init__(base_url, username, password)
+        super(AdvancedAccessControl9071, self).__init__(base_url, username, password)
 
 
-class AccessControl9072(AccessControl9071):
+class AdvancedAccessControl9072(AdvancedAccessControl9071):
 
     def __init__(self, base_url, username, password):
-              super(AccessControl9072, self).__init__(base_url, username, password)
+              super(AdvancedAccessControl9072, self).__init__(base_url, username, password)
               self.fido2_config = FIDO2Config(base_url, username, password)
 
 
-class AccessControl9073(AccessControl9072):
+class AdvancedAccessControl9073(AdvancedAccessControl9072):
 
     def __init__(self, base_url, username, password):
-              super(AccessControl9073, self).__init__(base_url, username, password)
+              super(AdvancedAccessControl9073, self).__init__(base_url, username, password)
               self.fido2_config = FIDO2Config(base_url, username, password)
 
 
-class AccessControl9080(AccessControl9073):
+class AdvancedAccessControl9080(AdvancedAccessControl9073):
 
     def __init__(self, base_url, username, password):
-        super(AccessControl9080, self).__init__(base_url, username, password)
+        super(AdvancedAccessControl9080, self).__init__(base_url, username, password)
 
 
-class AccessControl10000(AccessControl9080):
-
-    def __init__(self, base_url, username, password):
-        super(AccessControl10000, self).__init__(base_url, username, password)
-
-
-class AccessControl10010(AccessControl10000):
+class AdvancedAccessControl10000(AdvancedAccessControl9080):
 
     def __init__(self, base_url, username, password):
-        super(AccessControl10010, self).__init__(base_url, username, password)
-        self.access_control = AC10000(base_url, username, password)
+        super(AdvancedAccessControl10000, self).__init__(base_url, username, password)
 
 
-class AccessControl10020(AccessControl10010):
+class AdvancedAccessControl10010(AdvancedAccessControl10000):
 
     def __init__(self, base_url, username, password):
-        super(AccessControl10020, self).__init__(base_url, username, password)
+        super(AdvancedAccessControl10010, self).__init__(base_url, username, password)
+        self.access_control = AccessControl10000(base_url, username, password)
+
+
+class AdvancedAccessControl10020(AdvancedAccessControl10010):
+
+    def __init__(self, base_url, username, password):
+        super(AdvancedAccessControl10020, self).__init__(base_url, username, password)
         self.user_registry = UserRegistry10020(base_url, username, password)
 
 
-class AccessControl10030(AccessControl10020):
+class AdvancedAccessControl10030(AdvancedAccessControl10020):
 
     def __init__(self, base_url, username, password):
-        super(AccessControl10030, self).__init__(base_url, username, password)
+        super(AdvancedAccessControl10030, self).__init__(base_url, username, password)
         self.api_protection = APIProtection10030(base_url, username, password)
 
 
-class AccessControl10031(AccessControl10030):
+class AdvancedAccessControl10031(AdvancedAccessControl10030):
 
     def __init__(self, base_url, username, password):
-        super(AccessControl10031, self).__init__(base_url, username, password)
+        super(AdvancedAccessControl10031, self).__init__(base_url, username, password)
 
-class AccessControl10040(AccessControl10031):
-
-    def __init__(self, base_url, username, password):
-        super(AccessControl10040, self).__init__(base_url, username, password)
-
-class AccessControl10050(AccessControl10040):
+class AdvancedAccessControl10040(AdvancedAccessControl10031):
 
     def __init__(self, base_url, username, password):
-        super(AccessControl10050, self).__init__(base_url, username, password)
+        super(AdvancedAccessControl10040, self).__init__(base_url, username, password)
+
+class AdvancedAccessControl10050(AdvancedAccessControl10040):
+
+    def __init__(self, base_url, username, password):
+        super(AdvancedAccessControl10050, self).__init__(base_url, username, password)
         self.fido2_config = FIDO2Config10050(base_url, username, password)
 
 
-class AccessControl10060(AccessControl10050):
+class AdvancedAccessControl10060(AdvancedAccessControl10050):
 
     def __init__(self, base_url, username, password):
-        super(AccessControl10060, self).__init__(base_url, username, password)
+        super(AdvancedAccessControl10060, self).__init__(base_url, username, password)
 
-class AccessControl10070(AccessControl10060):
-
-    def __init__(self, base_url, username, password):
-        super(AccessControl10070, self).__init__(base_url, username, password)
-
-class AccessControl10080(AccessControl10070):
+class AdvancedAccessControl10070(AdvancedAccessControl10060):
 
     def __init__(self, base_url, username, password):
-        super(AccessControl10080, self).__init__(base_url, username, password)
+        super(AdvancedAccessControl10070, self).__init__(base_url, username, password)
 
-class AccessControl11000(AccessControl10080):
-
-    def __init__(self, base_url, username, password):
-        super(AccessControl11000, self).__init__(base_url, username, password)
-
-class AccessControl11010(AccessControl11000):
+class AdvancedAccessControl10080(AdvancedAccessControl10070):
 
     def __init__(self, base_url, username, password):
-        super(AccessControl11010, self).__init__(base_url, username, password)
+        super(AdvancedAccessControl10080, self).__init__(base_url, username, password)
 
-class AccessControl11020(AccessControl11010):
-
-    def __init__(self, base_url, username, password):
-        super(AccessControl11020, self).__init__(base_url, username, password)
-
-class AccessControl11030(AccessControl11020):
+class AdvancedAccessControl11000(AdvancedAccessControl10080):
 
     def __init__(self, base_url, username, password):
-        super(AccessControl11030, self).__init__(base_url, username, password)
+        super(AdvancedAccessControl11000, self).__init__(base_url, username, password)
+
+class AdvancedAccessControl11010(AdvancedAccessControl11000):
+
+    def __init__(self, base_url, username, password):
+        super(AdvancedAccessControl11010, self).__init__(base_url, username, password)
+
+class AdvancedAccessControl11020(AdvancedAccessControl11010):
+
+    def __init__(self, base_url, username, password):
+        super(AdvancedAccessControl11020, self).__init__(base_url, username, password)
+
+class AdvancedAccessControl11030(AdvancedAccessControl11020):
+
+    def __init__(self, base_url, username, password):
+        super(AdvancedAccessControl11030, self).__init__(base_url, username, password)
