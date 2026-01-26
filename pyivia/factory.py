@@ -102,8 +102,8 @@ class Factory(object):
         Returns:
             versioned :ref:`access_control` object.
         '''
-        class_name = "AccessControl" + self._get_version()
-        module_name = "pyivia.core.accesscontrol"
+        class_name = "AdvancedAccessControl" + self._get_version()
+        module_name = "pyivia.core.advancedaccesscontrol"
         return self._class_loader(module_name, class_name)
 
     def get_analysis_diagnostics(self) -> AnalysisDiagnostics:
