@@ -220,30 +220,24 @@ class RuntimeComponent(object):
         return response
 
 
-    def update_configuration_file_entry(self, resource=None, stanza=None, entries=None):
+    def update_configuration_file_entry(self, resource=None, stanza=None, entry=None, value=None):
         """
         Update a stanza entry in a runtime component configuration file.
 
         Args:
             resource (:obj:`str`): The configuration file to modify. For example: ldap.conf, pd.conf, instance.conf
             stanza (:obj:`str`): The name of the resource stanza entry.
-            entries (:obj:`list` of :obj:`list`): Entry name and value in the format of key value pairs. If 
-                                                            this property is not supplied then the stanza is created
-                                                            instead. Format of list is::
-
-                                                                                        [
-                                                                                          ["entryName", "entryValue"],
-                                                                                          ["anotherName", "theValue"]
-                                                                                        ]
+            entry (:ob:`str`): The name of the entry to update.
+            value (:obj:`str`): The value of the entry to update.
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
 
             Success can be checked by examining the response.success boolean attribute
         """
-        url = RUNTIME_STANZA_FILE_BASE + "/{}/configuration/stanza/{}/entry_name".format(resource, stanza)
+        url = RUNTIME_STANZA_FILE_BASE + "/{}/configuration/stanza/{}/entry_name/{}".format(resource, stanza, entry)
         data = DataObject()
-        data.add_value_not_empty("entries", entries)
+        data.add_value_not_empty("value", value)
         response = self._client.put_json(url, data.data)
         response.success = response.status_code == 200
 
