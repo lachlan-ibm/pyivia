@@ -15,7 +15,7 @@ class AuthorizationServer(object):
 
     def __init__(self, base_url, username, password):
         super(AuthorizationServer, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create_server(self, inst_name, hostname=None, auth_port=None, admin_port=None, domain=None, admin_id=None, 
@@ -63,7 +63,7 @@ class AuthorizationServer(object):
         data.add_value_string("keyfile_label", keyfile_label)
 
         endpoint = API_AUTHZ_SERVER + "v1"
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -93,7 +93,7 @@ class AuthorizationServer(object):
         data.add_value_string("operation", operation)
 
         endpoint = API_AUTHZ_SERVER + '{}/v1'.format(inst_name)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -124,7 +124,7 @@ class AuthorizationServer(object):
         data.add_value_string("admin_pwd", admin_pwd)
         data.add_value_string("operation", operation)
         data.add_value_string("force", force)
-        response = self.client.delete_json(endpoint, data.data)
+        response = self._client.delete_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -144,7 +144,7 @@ class AuthorizationServer(object):
 
         """
         endpoint = API_AUTHZ_SERVER + "/v1"
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -175,7 +175,7 @@ class AuthorizationServer(object):
         data = DataObject()
         data.add_value_not_empty("entries", entries)
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -199,7 +199,7 @@ class AuthorizationServer(object):
         """
         endpoint = API_AUTHZ_SERVER + "{}/configuration/stanza/{}/entry_name/{}/value/{}/v1".format(instance, stanza,
                                                                                                    entry_id, value)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -226,7 +226,7 @@ class AuthorizationServer(object):
         data = DataObject()
         data.add_value_string("value", value)
 
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -250,7 +250,7 @@ class AuthorizationServer(object):
 
         """
         endpoint = API_AUTHZ_SERVER + "{}/configuration/stanza/{}/entry_name/{}/v1".format(instance, stanza, entry_id)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -270,7 +270,7 @@ class AuthorizationServer(object):
 
         """
         endpoint = API_AUTHZ_SERVER + "{}/configuration/stanza/{}/v1".format(instance, stanza)
-        response = self.client.post_json(endpoint)
+        response = self._client.post_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -290,7 +290,7 @@ class AuthorizationServer(object):
 
         """
         endpoint = API_AUTHZ_SERVER + "{}/configuration/stanza/{}/v1".format(instance, stanza)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -312,7 +312,7 @@ class AuthorizationServer(object):
 
         """
         endpoint = API_AUTHZ_SERVER + "{}/configuration/stanza".format(instance)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response

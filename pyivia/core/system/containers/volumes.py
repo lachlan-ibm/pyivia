@@ -21,7 +21,7 @@ class Volumes(object):
 
     def __init__(self, base_url, username, password):
         super(Volumes, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create(self, name=None):
@@ -42,7 +42,7 @@ class Volumes(object):
         data = DataObject()
         data.add_value_string("name", name)
 
-        response = self.client.post_json(VOLUMES, data.data)
+        response = self._client.post_json(VOLUMES, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -69,7 +69,7 @@ class Volumes(object):
             return r
 
         endpoint = "{}/{}".format(VOLUMES, volume_id)
-        response = self.client.get_file(endpoint, exported_volume)
+        response = self._client.get_file(endpoint, exported_volume)
 
         response.success = response.status_code == 200
 
@@ -100,7 +100,7 @@ class Volumes(object):
 
         with open(volume, 'rb') as f:
             data = {"volume": f}
-            response = self.client.put_file(endpoint, files=data)
+            response = self._client.put_file(endpoint, files=data)
             response.success = response.status_code == 204
 
             return response
@@ -118,7 +118,7 @@ class Volumes(object):
             If the request is successful volume properties are returned as JSON and can be accessed from
             the response.json attribute.
         '''
-        response = self.client.get_json(VOLUMES)
+        response = self._client.get_json(VOLUMES)
         response.success = response.status_code == 200
 
         return response
@@ -140,7 +140,7 @@ class Volumes(object):
             the response.json attribute.
         '''
         endpoint = "{}/{}".format(VOLUMES, volume_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response

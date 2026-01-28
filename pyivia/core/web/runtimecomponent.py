@@ -18,7 +18,7 @@ class RuntimeComponent(object):
 
     def __init__(self, base_url, username, password):
         super(RuntimeComponent, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def configure(
             self, ps_mode=None, user_registry=None, admin_password=None,
@@ -75,7 +75,7 @@ class RuntimeComponent(object):
         data.add_value_string("isam_host", isam_host)
         data.add_value("ldap_port", ldap_port)
         data.add_value("isam_port", isam_port)
-        response = self.client.post_json(RUNTIME_COMPONENT, data.data)
+        response = self._client.post_json(RUNTIME_COMPONENT, data.data)
 
         response.success = response.status_code == 200
         return response
@@ -94,7 +94,7 @@ class RuntimeComponent(object):
             the response.json attribute
 
         """
-        response = self.client.get_json(RUNTIME_COMPONENT)
+        response = self._client.get_json(RUNTIME_COMPONENT)
         response.success = response.status_code == 200
         return response
 
@@ -115,7 +115,7 @@ class RuntimeComponent(object):
         data = DataObject()
         data.add_value_string("password", password)
 
-        response = self.client.post_json(EMBEDDED_LDAP_PASSWORD, data.data)
+        response = self._client.post_json(EMBEDDED_LDAP_PASSWORD, data.data)
         response.success = response.status_code == 200
         return response
 
@@ -160,7 +160,7 @@ class RuntimeComponent(object):
         data.add_value_string("client_cert_label", client_cert_label)
         data.add_value("suffix", suffix)
 
-        response = self.client.post_json(FEDERATED_DIRECTORIES + "/v1", data.data)
+        response = self._client.post_json(FEDERATED_DIRECTORIES + "/v1", data.data)
         response.success = response.status_code == 200
 
         return response
@@ -180,7 +180,7 @@ class RuntimeComponent(object):
 
         """
         url = FEDERATED_DIRECTORIES + "/{}/v1".format(_id)
-        response = self.client.delete_json(url)
+        response = self._client.delete_json(url)
         response.success = response.status_code == 204
 
         return response
@@ -214,37 +214,31 @@ class RuntimeComponent(object):
             data.add_value_not_empty("entries", entries)
             url += "/entry_name"
 
-        response = self.client.post_json(url, data.data)
+        response = self._client.post_json(url, data.data)
         response.success = response.status_code == 200
 
         return response
 
 
-    def update_configuration_file_entry(self, resource=None, stanza=None, entries=None):
+    def update_configuration_file_entry(self, resource=None, stanza=None, entry=None, value=None):
         """
         Update a stanza entry in a runtime component configuration file.
 
         Args:
             resource (:obj:`str`): The configuration file to modify. For example: ldap.conf, pd.conf, instance.conf
             stanza (:obj:`str`): The name of the resource stanza entry.
-            entries (:obj:`list` of :obj:`list`): Entry name and value in the format of key value pairs. If 
-                                                            this property is not supplied then the stanza is created
-                                                            instead. Format of list is::
-
-                                                                                        [
-                                                                                          ["entryName", "entryValue"],
-                                                                                          ["anotherName", "theValue"]
-                                                                                        ]
+            entry (:ob:`str`): The name of the entry to update.
+            value (:obj:`str`): The value of the entry to update.
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
 
             Success can be checked by examining the response.success boolean attribute
         """
-        url = RUNTIME_STANZA_FILE_BASE + "/{}/configuration/stanza/{}/entry_name".format(resource, stanza)
+        url = RUNTIME_STANZA_FILE_BASE + "/{}/configuration/stanza/{}/entry_name/{}".format(resource, stanza, entry)
         data = DataObject()
-        data.add_value_not_empty("entries", entries)
-        response = self.client.put_json(url, data.data)
+        data.add_value_not_empty("value", value)
+        response = self._client.put_json(url, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -255,7 +249,7 @@ class RuntimeComponent(object):
         Delete a stanza or entry in a runtime component configuration file.
 
         Args:
-            resource (:obj:`str`): The configuration file to modify. For example: ldap.conf, pd.conf, instance.conf
+            resource (:obj:`str`): The configuration file to modify. For example: ldap.conf, pd.conf, ivmgrd.conf
             stanza (:obj:`str`): The name of the resource stanza entry.
             entry (:obj:`str`, optional): The entry name to be removed. If not supplied then the entire stanza is removed.
             value (:obj:`str`, optional): The entry value to be removed. This must be set if the ``entry`` property is
@@ -271,9 +265,35 @@ class RuntimeComponent(object):
         if entry:
             url += "/entry_name/{}/value/{}".format(entry, value)
 
-        response = self.client.delete_json(url)
+        response = self._client.delete_json(url)
         response.success = response.status_code == 200
 
+        return response
+
+
+    def get_configuration_file_entry(self, resource=None, stanza=None, entry=None):
+        """
+        Get the current value(s) of a configuration file entry. If entry is not provided then all entries in
+        a stanza are returned.
+
+        Args:
+            resource (:obj:`str`): The configuration file to get. For example: `ldap.conf`, `pd.conf`, `ivmgrd.conf`
+            stanza (:obj:`str`): The name of the resource stanza entry.
+            entry (:obj:`str`, optional): The entry id to be returned. If not supplied then the entire stanza is returned.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify identity access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the stanza/entry value(s) will be available in the response.json property.
+        """
+        url = RUNTIME_STANZA_FILE_BASE + "/{}/configuration/stanza/{}".format(resource, stanza)
+        if entry:
+            url += "/entry_name/{}".format(entry)
+        response = self._client.get_json(url)
+
+        response.success = response.status_code == 200
         return response
 
 
@@ -338,7 +358,7 @@ class RuntimeComponent10000(RuntimeComponent):
         data.add_value("ldap_port", ldap_port)
         data.add_value("isam_port", isam_port)
 
-        response = self.client.post_json(RUNTIME_COMPONENT, data.data)
+        response = self._client.post_json(RUNTIME_COMPONENT, data.data)
 
         response.success = response.status_code == 200
 
@@ -369,7 +389,7 @@ class RuntimeComponent10000(RuntimeComponent):
         data.add_value_string("clean", clean)
         data.add_value_string("force", force)
 
-        response = self.client.post_json(UNCONFIGURE_RUNTIME_COMPONENT, data.data)
+        response = self._client.post_json(UNCONFIGURE_RUNTIME_COMPONENT, data.data)
 
         response.success = response.status_code == 200
 

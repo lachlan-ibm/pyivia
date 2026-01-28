@@ -16,7 +16,7 @@ class AccessPolicy(object):
 
     def __init__(self, base_url, username, password):
         super(AccessPolicy, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def list_policies(self, _filter=None):
         """
@@ -37,7 +37,7 @@ class AccessPolicy(object):
         endpoint = ACCESS_POLICY
         if _filter != None:
             endpoint += "?filter=%s" % (_filter)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -61,7 +61,7 @@ class AccessPolicy(object):
 
         endpoint = "%s/%s" % (ACCESS_POLICY, policy_id)
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -91,7 +91,7 @@ class AccessPolicy(object):
         data.add_value_string('name',policy_name)
         data.add_value_string("content", content)
         endpoint = ACCESS_POLICY
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -114,7 +114,7 @@ class AccessPolicy(object):
         data = DataObject()
         data.add_value_string("content", content)
         endpoint = "%s/%s" % (ACCESS_POLICY, policy_id)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
         return response
 
@@ -134,7 +134,7 @@ class AccessPolicy(object):
         """
 
         endpoint = "%s/%s" % (ACCESS_POLICY, policy_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response

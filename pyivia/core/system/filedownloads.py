@@ -16,7 +16,7 @@ class FileDownloads(object):
 
     def __init__(self, base_url, username, password):
         super(FileDownloads, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def get(self, file_path, recursive=None):
         """
@@ -41,9 +41,9 @@ class FileDownloads(object):
         if file_path.ends_with('/'):
             if recursive:
                 endpoint += "?recursive={}".format(recursive)
-            response = self.client.get_json(endpoint)
+            response = self._client.get_json(endpoint)
         else:
-            response = self.client.get(endpoint)
+            response = self._client.get(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -71,7 +71,7 @@ class FileDownloads(object):
 
         endpoint = "%s/%s" % (FILE_DOWNLOADS, path)
 
-        response = self.client.get_json(endpoint, parameters.data)
+        response = self._client.get_json(endpoint, parameters.data)
         response.success = response.status_code == 200
 
         if response.success and isinstance(response.json, dict):

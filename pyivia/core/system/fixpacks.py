@@ -17,7 +17,7 @@ class Fixpacks(object):
 
     def __init__(self, base_url, username, password):
         super(Fixpacks, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def install_fixpack(self, file_path) -> Response:
         """
@@ -42,7 +42,7 @@ class Fixpacks(object):
 
                 endpoint = FIXPACKS
 
-                response = self.client.post_file(
+                response = self._client.post_file(
                     endpoint, data=data.data, files=files)
                 response.success = response.status_code == 200
         except IOError as e:
@@ -65,7 +65,7 @@ class Fixpacks(object):
         """
         endpoint = FIXPACKS
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -84,7 +84,7 @@ class Fixpacks(object):
         """
         endpoint = FIXPACKS + "/fipsmode"
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -100,7 +100,7 @@ class Fixpacks(object):
         """
         endpoint = FIXPACKS
 
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response

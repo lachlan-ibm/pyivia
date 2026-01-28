@@ -21,7 +21,7 @@ class AccessControl(object):
 
     def __init__(self, base_url, username, password):
         super(AccessControl, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def create_policy(self, name=None, description=None, dialect="urn:oasis:names:tc:xacml:2.0:policy:schema:os", 
                     policy=None, attributes_required=False):
@@ -53,7 +53,7 @@ class AccessControl(object):
         data.add_value_boolean("predefined", False)
         data.add_value_boolean("attributesrequired", attributes_required)
 
-        response = self.client.post_json(POLICIES, data.data)
+        response = self._client.post_json(POLICIES, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -73,7 +73,7 @@ class AccessControl(object):
 
         '''
         endpoint = "%s/%s" % (POLICIES, id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -100,7 +100,7 @@ class AccessControl(object):
         parameters.add_value_string("sortBy", sort_by)
         parameters.add_value_string("filter", filter)
 
-        response = self.client.get_json(POLICIES, parameters.data)
+        response = self._client.get_json(POLICIES, parameters.data)
         response.success = response.status_code == 200
 
         return response
@@ -144,7 +144,7 @@ class AccessControl(object):
         parameters.add_value("policies", policies)
         parameters.add_value_string("policyCombiningAlgorithm", policy_combining_alg)
 
-        response = self.client.post_json(POLICY_SETS, parameters.data)
+        response = self._client.post_json(POLICY_SETS, parameters.data)
         response.success = response.status_code == 200
 
         return response
@@ -190,7 +190,7 @@ class AccessControl(object):
         parameters.add_value_string("policyCombiningAlgorithm", policy_combining_alg)
 
         endpoint ='{}/{}'.format(POLICY_SETS, set_id)
-        response = self.client.post_json(endpoint, parameters.data)
+        response = self._client.post_json(endpoint, parameters.data)
         response.success = response.status_code == 204
 
         return response
@@ -213,7 +213,7 @@ class AccessControl(object):
 
         '''
         endpoint = '{}/{}'.format(POLICY_SETS, set_id)
-        response = self.client.get_json(POLICY_SETS)
+        response = self._client.get_json(POLICY_SETS)
         response.success = response.status_code == 200
 
         return response
@@ -240,7 +240,7 @@ class AccessControl(object):
         parameters.add_value_string("sortBy", sort_by)
         parameters.add_value_string("filter", filter)
 
-        response = self.client.get_json(POLICY_SETS, parameters.data)
+        response = self._client.get_json(POLICY_SETS, parameters.data)
         response.success = response.status_code == 200
 
         return response
@@ -260,7 +260,7 @@ class AccessControl(object):
 
         '''
         endpoint = '{}/{}'.format(POLICY_SETS, set_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -288,7 +288,7 @@ class AccessControl(object):
         data.add_value_string("domain", domain)
         data.add_value_string("command", "setCredential")
 
-        response = self.client.post_json(POLICY_ATTACHMENTS_PDADMIN, data.data)
+        response = self._client.post_json(POLICY_ATTACHMENTS_PDADMIN, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -320,7 +320,7 @@ class AccessControl(object):
         data.add_value_string("policyCombiningAlgorithm", policy_combining_algorithm)
         data.add_value("policies", policies)
 
-        response = self.client.post_json(POLICY_ATTACHMENTS, data.data)
+        response = self._client.post_json(POLICY_ATTACHMENTS, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -340,7 +340,7 @@ class AccessControl(object):
 
         '''
         endpoint = "%s/%s" % (POLICY_ATTACHMENTS, id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -364,7 +364,7 @@ class AccessControl(object):
         parameters.add_value_string("sortBy", sort_by)
         parameters.add_value_string("filter", filter)
 
-        response = self.client.get_json(POLICY_ATTACHMENTS, parameters.data)
+        response = self._client.get_json(POLICY_ATTACHMENTS, parameters.data)
         response.success = response.status_code == 200
 
         return response
@@ -385,7 +385,7 @@ class AccessControl(object):
         '''
         endpoint = "%s/deployment/%s" % (POLICY_ATTACHMENTS, id)
 
-        response = self.client.put_json(endpoint)
+        response = self._client.put_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -417,7 +417,7 @@ class AccessControl(object):
 
         endpoint = "%s/deployment" % POLICY_ATTACHMENTS
 
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -444,7 +444,7 @@ class AccessControl(object):
         parameters.add_value_string("sortBy", sort_by)
         parameters.add_value_string("filter", filter)
 
-        response = self.client.get_json(OBLIGATIONS, parameters.data)
+        response = self._client.get_json(OBLIGATIONS, parameters.data)
         response.success = response.status_code == 200
 
         return response
@@ -482,7 +482,7 @@ class AccessControl(object):
         data.add_value_string("typeId", type_id)
         data.add_value("properties", properties)
 
-        response = self.client.post_json(OBLIGATIONS, data.data)
+        response = self._client.post_json(OBLIGATIONS, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -520,7 +520,7 @@ class AccessControl(object):
         data.add_value_string("typeId", type_id)
         data.add_value("properties", properties)
 
-        response = self.client.post_json(OBLIGATIONS, data.data)
+        response = self._client.post_json(OBLIGATIONS, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -540,7 +540,7 @@ class AccessControl(object):
 
         '''
         endpoint = "%s/%s" % (OBLIGATIONS, id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -578,7 +578,7 @@ class AccessControl9030(AccessControl):
         data.add_value("policies", policies)
         data.add_value_string("type", type)
 
-        response = self.client.post_json(POLICY_ATTACHMENTS, data.data)
+        response = self._client.post_json(POLICY_ATTACHMENTS, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -621,7 +621,7 @@ class AccessControl10000(AccessControl9030):
         data.add_value_string("type", type)
         data.add_value("cache", cache)
 
-        response = self.client.post_json(POLICY_ATTACHMENTS, data.data)
+        response = self._client.post_json(POLICY_ATTACHMENTS, data.data)
         response.success = response.status_code == 201
 
         return response

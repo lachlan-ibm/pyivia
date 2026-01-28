@@ -16,7 +16,7 @@ class Kerberos(object):
 
     def __init__(self, base_url, username, password):
         super(Kerberos, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create(self, section_id=None, subsection=None, name=None, value=None):
@@ -43,7 +43,7 @@ class Kerberos(object):
         data.add_value_string("value", value)
 
         endpoint = KERBEROS_CONFIG + "/{}".format(section_id)
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -65,7 +65,7 @@ class Kerberos(object):
         data.add_value_string("value", value)
 
         endpoint = KERBEROS_CONFIG + "/{}".format(section_id)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -87,7 +87,7 @@ class Kerberos(object):
             the response.json attribute.
         '''
         endpoint = KERBEROS_CONFIG + "/{}".format(section_id)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -106,7 +106,7 @@ class Kerberos(object):
             Success can be checked by examining the response.success boolean attribute.
         '''
         endpoint = KERBEROS_CONFIG = "/{}".format(section_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -130,7 +130,7 @@ class Kerberos(object):
         data.add_value_string("password", password)
 
         endpoint = "/wga/kerberos/test"
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -160,7 +160,7 @@ class Kerberos(object):
             with open(keytab_file, 'rb') as contents:
                 files = {"keytab_file": contents}
 
-                response = self.client.post_file(KERBEROS_KEYTAB, files=files)
+                response = self._client.post_file(KERBEROS_KEYTAB, files=files)
                 response.success = response.status_code == 200
         except IOError as e:
             logger.error(e)
@@ -182,7 +182,7 @@ class Kerberos(object):
             Success can be checked by examining the response.success boolean attribute
         '''
         endpoint = KERBEROS_KEYTAB + "/{}".format(keytab_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -208,7 +208,7 @@ class Kerberos(object):
         data.add_value_string("new_name", new_name)
         data.add_value_not_empty("keytab_files", keytab_files)
 
-        response = self.client.put_json(KERBEROS_KEYTAB, data.data)
+        response = self._client.put_json(KERBEROS_KEYTAB, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -226,7 +226,7 @@ class Kerberos(object):
             If the request is successful the keytab files are returned as JSON and can be accessed from
             the response.json attribute
         '''
-        response = self.client.get_json(KERBEROS_KEYTAB)
+        response = self._client.get_json(KERBEROS_KEYTAB)
         response.success = response.status_code == 200
 
         return response
@@ -237,7 +237,7 @@ class Kerberos(object):
         data.add_value_string("name", name)
 
         endpoint = KERBEROS_KEYTAB + "/{}".format(keytab_id)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response

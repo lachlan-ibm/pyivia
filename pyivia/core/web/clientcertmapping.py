@@ -16,7 +16,7 @@ class ClientCertMapping(object):
 
     def __init__(self, base_url, username, password):
         super(ClientCertMapping, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create_rule(self, name=None, content=None):
@@ -37,7 +37,7 @@ class ClientCertMapping(object):
         data.add_value_string("name", name)
         data.add_value_string("content", content)
 
-        response = self.client.post_json(CLIENT_CERT_CDAS, data.data)
+        response = self._client.post_json(CLIENT_CERT_CDAS, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -60,7 +60,7 @@ class ClientCertMapping(object):
         data = DataObject()
         data.add_value_string("content", content)
         endpoint = CLIENT_CERT_CDAS + "/{}".format(rule_id)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -80,7 +80,7 @@ class ClientCertMapping(object):
 
         '''
         endpoint = CLIENT_CERT_CDAS + "/{}".format(rule_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -104,7 +104,7 @@ class ClientCertMapping(object):
 
         '''
         endpoint = CLIENT_CERT_CDAS + "/{}".format(rule_id)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -126,7 +126,7 @@ class ClientCertMapping(object):
 
         '''
         endpoint = "/isam/wga_templates/client_cert_cdas_template"
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -145,7 +145,7 @@ class ClientCertMapping(object):
             the response.json attribute
 
         '''
-        response = self.client.get_json(CLIENT_CERT_CDAS)
+        response = self._client.get_json(CLIENT_CERT_CDAS)
         response.success = response.status_code == 200
 
         return response

@@ -17,7 +17,7 @@ class DateTime(object):
 
     def __init__(self, base_url, username, password):
         super(DateTime, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def update(self, enable_ntp=True, ntp_servers=None, time_zone=None, date_time="0000-00-00 00:00:00"):
         """
@@ -43,7 +43,7 @@ class DateTime(object):
         data.add_value_string("timeZone", time_zone)
         data.add_value("enableNtp", enable_ntp)
 
-        response = self.client.put_json(TIME_CONFIG, data.data)
+        response = self._client.put_json(TIME_CONFIG, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -60,7 +60,7 @@ class DateTime(object):
             If the request is successful the date/time configuration is returned as JSON and can be accessed from
             the response.json attribute
         """
-        response = self.client.get_json(TIME_CONFIG)
+        response = self._client.get_json(TIME_CONFIG)
         response.success = response.status_code == 200
 
         return response

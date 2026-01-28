@@ -19,7 +19,7 @@ class Licensing(object):
 
     def __init__(self, base_url, username, password):
         super(Licensing, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def activate_module(self, code):
         """
@@ -38,7 +38,7 @@ class Licensing(object):
 
         endpoint = CAPABILITIES + "/v1"
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -60,7 +60,7 @@ class Licensing(object):
         """
         endpoint = "%s/%s/v1" % (CAPABILITIES, module_id)
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -79,7 +79,7 @@ class Licensing(object):
         """
         endpoint = CAPABILITIES + "/v1"
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -110,7 +110,7 @@ class Licensing(object):
 
                 endpoint = CAPABILITIES + "/v1"
 
-                response = self.client.post_file(
+                response = self._client.post_file(
                     endpoint, data=data.data, files=files)
                 response.success = response.status_code == 200
         except IOError as e:
@@ -141,7 +141,7 @@ class Licensing(object):
         try:
             with open(file_path, 'rb') as cer:
                 files = {"trial": (os.path.basename(file_path), cer, "application/octet-stream")}
-                response = self.client.post_file(TRIAL, accept_type='text/html', files=files)
+                response = self._client.post_file(TRIAL, accept_type='text/html', files=files)
                 response.success = response.status_code == 200
         except IOError as e:
             logger.error(e)

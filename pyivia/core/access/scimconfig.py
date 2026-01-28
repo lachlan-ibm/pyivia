@@ -18,7 +18,7 @@ class SCIMConfig(object):
 
     def __init__(self, base_url, username, password):
         super(SCIMConfig, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def get_config(self):
         '''
@@ -33,7 +33,7 @@ class SCIMConfig(object):
             the response.json attribute.
 
         '''
-        response = self.client.get_json(SCIM_CONFIGURATION)
+        response = self._client.get_json(SCIM_CONFIGURATION)
         response.success = response.status_code == 200
 
         return response
@@ -57,7 +57,7 @@ class SCIMConfig(object):
         '''
         endpoint = "%s/%s" % (SCIM_CONFIGURATION,schema_name)
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -67,7 +67,7 @@ class SCIMConfig(object):
         '''
         Update the SCIM configuration profile. This method could be better.
         '''
-        response = self.client.put_json(SCIM_CONFIGURATION, data)
+        response = self._client.put_json(SCIM_CONFIGURATION, data)
         response.success = response.status_code == 200
 
         return response
@@ -89,7 +89,7 @@ class SCIMConfig(object):
         '''
         endpoint = "%s/%s" % (SCIM_CONFIGURATION,schema_name)
 
-        response = self.client.put_json(endpoint, data)
+        response = self._client.put_json(endpoint, data)
         response.success = response.status_code == 200
 
         return response
@@ -121,7 +121,7 @@ class SCIMConfig(object):
         data.add_value("max_user_responses", max_user_responses)
         data.add_value_not_empty("attribute_modes", attribute_modes)
 
-        response = self.client.put_json(SCIM_CONFIGURATION_GENERAL, data.data)
+        response = self._client.put_json(SCIM_CONFIGURATION_GENERAL, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -138,7 +138,7 @@ class SCIMConfig(object):
             If the request is successful the general SCIM properties are returned as JSON and can be accessed from
             the response.json attribute.
         '''
-        response = self.client.get_json(SCIM_CONFIGURATION_GENERAL)
+        response = self._client.get_json(SCIM_CONFIGURATION_GENERAL)
         response.success = response.status_code == 200
 
         return response
@@ -171,7 +171,7 @@ class SCIMConfig(object):
         if scim_subattribute:
             endpoint = "%s/%s" % (endpoint, scim_subattribute)
 
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -202,7 +202,7 @@ class SCIMConfig(object):
 
         endpoint = ("%s/%s" % (SCIM_CONFIGURATION, SCHEMA_ISAM_USER))
 
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -210,7 +210,7 @@ class SCIMConfig(object):
 class SCIMConfig9050(SCIMConfig):
     def __init__(self, base_url, username, password):
         super(SCIMConfig, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
         
     def update_isam_user(self, ldap_connection=None, isam_domain=None, update_native_users=None,
             connection_type=None):
@@ -242,6 +242,6 @@ class SCIMConfig9050(SCIMConfig):
 
         endpoint = ("%s/%s" % (SCIM_CONFIGURATION, SCHEMA_ISAM_USER))
 
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
         return response

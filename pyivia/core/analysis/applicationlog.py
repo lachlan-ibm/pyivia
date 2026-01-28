@@ -16,7 +16,7 @@ class ApplicationLog(object):
 
     def __init__(self, base_url, username, password):
         super(ApplicationLog, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def get_application_log(self, path) -> Response:
         """
@@ -37,7 +37,7 @@ class ApplicationLog(object):
         parameters.add_value_string("type", "File")
 
         endpoint = f"{APPLICATION_LOGS}/{path}"
-        response = self.client.get_json(endpoint, parameters.data)
+        response = self._client.get_json(endpoint, parameters.data)
         response.success = response.status_code == 200
 
         return response
@@ -64,7 +64,7 @@ class ApplicationLog(object):
 
         endpoint = f"{APPLICATION_LOGS}?action=delete"
 
-        response = self.client.put_json(endpoint, parameters.data)
+        response = self._client.put_json(endpoint, parameters.data)
         response.success = response.status_code == 200
 
         return response
@@ -90,7 +90,7 @@ class ApplicationLog(object):
         parameters.add_value_not_empty("files", files.data)
 
         endpoint = f"{APPLICATION_LOGS}?action=clear"
-        response = self.client.put_json(endpoint, parameters.data)
+        response = self._client.put_json(endpoint, parameters.data)
         response.success = response.status_code == 200
 
         return response

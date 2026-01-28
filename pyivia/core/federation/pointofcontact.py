@@ -17,7 +17,7 @@ class PointOfContact(object):
 
     def __init__(self, base_url, username, password):
         super(PointOfContact, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create_profile(self, name, description=None, authenticate_callbacks=[], sign_in_callbacks=[], local_id_callbacks=[],
@@ -106,7 +106,7 @@ class PointOfContact(object):
         configuration.add_value_not_empty("localIdCallbacks", local_id_callbacks)
         configuration.add_value_not_empty("signOutCallbacks", sign_out_callbacks)
         configuration.add_value_not_empty("authnPolicyCallbacks", authn_policy_callbacks)
-        response = self.client.post_json(POC_PROFILES, configuration.data)
+        response = self._client.post_json(POC_PROFILES, configuration.data)
         response.success = response.status_code == 201
 
         return response
@@ -196,7 +196,7 @@ class PointOfContact(object):
         configuration.add_value_not_empty("signOutCallbacks", sign_out_callbacks)
         configuration.add_value_not_empty("authnPolicyCallbacks", authn_policy_callbacks)
         endpoint = "{}/{}".format(POC_PROFILES, poc_id)
-        response = self.client.put_json(endpoint, configuration.data)
+        response = self._client.put_json(endpoint, configuration.data)
         response.success = response.status_code == 204
 
         return response
@@ -217,7 +217,7 @@ class PointOfContact(object):
 
         endpoint = POC_PROFILES
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -240,7 +240,7 @@ class PointOfContact(object):
         """
 
         endpoint = "{}/{}".format(POC_PROFILES, poc_id)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
         return response
 
@@ -259,7 +259,7 @@ class PointOfContact(object):
         """
         endpoint = POC
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -281,7 +281,7 @@ class PointOfContact(object):
         data.add_value('currentProfileId',profile_id)
 
         endpoint = POC
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -357,7 +357,7 @@ class PointOfContact(object):
         data.from_json(initial_json)
 
         endpoint = POC_PROFILES 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 201
 
         return response

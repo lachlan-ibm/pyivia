@@ -15,7 +15,7 @@ class ResourceServer(object):
 
     def __init__(self, base_url, username, password):
         super(ResourceServer, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create_server(self, instance, server_hostname=None, junction_point=None, junction_type=None,
@@ -235,7 +235,7 @@ class ResourceServer(object):
         data.add_value_string("scripting_support", scripting_support)
         
         endpoint = APIAC + "/resource/instance/{}/server".format(instance)
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -433,7 +433,7 @@ class ResourceServer(object):
         
         endpoint = APIAC + "/resource/instance/{}/server/{}/resource?server_type={}".format(
                 instance, resource_server, server_type)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -453,7 +453,7 @@ class ResourceServer(object):
             Success can be checked by examining the response.success boolean attribute
         '''
         endpoint = APIAC + "/resource/instance/{}/server/{}".format(instance, resource_server)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -481,7 +481,7 @@ class ResourceServer(object):
         '''
         endpoint = APIAC + "/resource/instance/{}/server/{}/resource?server_type={}".format(
                 instance, resource_server, server_type)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -504,7 +504,7 @@ class ResourceServer(object):
 
         '''
         endpoint = APIAC + "/resource/instance/{}/server".format(instance)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -567,7 +567,7 @@ class ResourceServer(object):
             server_type = "standard"
         endpoint = APIAC + "/resource/instance/{}/server/{}/resource?server_type={}".format(
                 instance, resource_server, server_type)
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -630,7 +630,7 @@ class ResourceServer(object):
 
         endpoint = APIAC + "/resource/instance/{}/server/{}/resource/{}?server_type={}".format(
                 instance, resource_server, resource_name, server_type)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -659,7 +659,7 @@ class ResourceServer(object):
         '''
         endpoint = APIAC + "/resource/instance/{}/server/{}/resource/{}?server_type={}".format(
                 instance, resource_server, resource_name, server_type)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
         return response
 
@@ -684,7 +684,7 @@ class ResourceServer(object):
         '''
         endpoint = APIAC + "/resource/instance/{}/server/{}/resource/{}?server_type={}".format(
                 instance, resource_server, resource_name, server_type)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 200
         return response
 
@@ -711,6 +711,6 @@ class ResourceServer(object):
         '''
         endpoint = APIAC + "/resource/instance/{}/server/{}/resource?server_type={}".format(
                 instance, resource_server, server_type)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
         return response

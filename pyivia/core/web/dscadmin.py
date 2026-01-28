@@ -18,7 +18,7 @@ class DSCAdmin(object):
 
     def __init__(self, base_url, username, password):
         super(DSCAdmin, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def list_replica_sets(self):
         """
@@ -33,7 +33,7 @@ class DSCAdmin(object):
             the response.json attribute.
 
         """
-        response = self.client.get_json(DSC_ADMIN_REPLICAS)
+        response = self._client.get_json(DSC_ADMIN_REPLICAS)
         response.success = response.status_code == 200
 
         return response
@@ -57,7 +57,7 @@ class DSCAdmin(object):
         replica_set = urllib.parse.quote(replica_set, safe='')
         endpoint = "%s/%s/servers" % (DSC_ADMIN_REPLICAS, replica_set)
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -87,7 +87,7 @@ class DSCAdmin(object):
         replica_set = urllib.parse.quote(replica_set, safe='')
         endpoint = "%s/%s/sessions" % (DSC_ADMIN_REPLICAS, replica_set)
 
-        response = self.client.get_json(endpoint, parameters.data)
+        response = self._client.get_json(endpoint, parameters.data)
         response.success = response.status_code == 200
 
         return response
@@ -110,7 +110,7 @@ class DSCAdmin(object):
         session = urllib.parse.quote(session, safe='')
         endpoint = "%s/%s/sessions/session/%s" % (DSC_ADMIN_REPLICAS, replica_set, session)
 
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = (response.status_code == 200 or response.status_code == 204)
 
         return response
@@ -132,7 +132,7 @@ class DSCAdmin(object):
         user_name = urllib.parse.quote(user_name, safe='')
         endpoint = "%s/%s/sessions/user/%s" % (DSC_ADMIN_REPLICAS, replica_set, user_name)
 
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = (response.status_code == 200 or response.status_code == 204)
 
         return response

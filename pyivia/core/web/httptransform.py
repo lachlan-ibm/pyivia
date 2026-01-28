@@ -17,7 +17,7 @@ class HTTPTransform(object):
 
     def __init__(self, base_url, username, password):
         super(HTTPTransform, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create(self, name=None, template=None, contents=None):
@@ -42,7 +42,7 @@ class HTTPTransform(object):
         data.add_value_string("template", template)
         data.add_value_string("content", contents)
 
-        response = self.client.post_json(HTTP_TRANSFORM, data.data)
+        response = self._client.post_json(HTTP_TRANSFORM, data.data)
         response.success = response.status_code == 200
         return response
 
@@ -67,7 +67,7 @@ class HTTPTransform(object):
         data.add_value_string("content", content)
 
         endpoint = HTTP_TRANSFORM + "/{}".format(rule_id)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -87,7 +87,7 @@ class HTTPTransform(object):
             Success can be checked by examining the response.success boolean attribute.
         '''
         endpoint = HTTP_TRANSFORM + "/{}".format(rule_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -110,7 +110,7 @@ class HTTPTransform(object):
 
         '''
         endpoint = HTTP_TRANSFORM + "/{}".format(rule_id)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -129,7 +129,7 @@ class HTTPTransform(object):
             the response.json attribute
 
         '''
-        response = self.client.get_json(HTTP_TRANSFORM)
+        response = self._client.get_json(HTTP_TRANSFORM)
         response.success = response.status_code == 200
 
         return response

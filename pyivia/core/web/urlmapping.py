@@ -16,7 +16,7 @@ class URLMapping(object):
 
     def __init__(self, base_url, username, password):
         super(URLMapping, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create(self, name=None, dynurl_config_data=None):
@@ -37,7 +37,7 @@ class URLMapping(object):
         data.add_value_string("name", name)
         data.add_value_string("dynurl_config_data", dynurl_config_data)
 
-        response = self.client.post_json(URL_MAPPING, data.data)
+        response = self._client.post_json(URL_MAPPING, data.data)
         response.success = response.status_code == 200
         return response
 
@@ -59,7 +59,7 @@ class URLMapping(object):
         data = DataObject()
         data.add_value("dynurl_config_data", dynurl_config_data)
         endpoint = URL_MAPPING + "/{}".format(rule_id)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
         return response
 
@@ -78,7 +78,7 @@ class URLMapping(object):
 
         """
         endpoint = URL_MAPPING + "/{}".format(rule_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -101,7 +101,7 @@ class URLMapping(object):
 
         """
         endpoint = URL_MAPPING + "/{}".format(rule_id)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
         return response
 
@@ -120,7 +120,7 @@ class URLMapping(object):
 
         """
         endpoint = "/isam/wga_templates/dynurl_template"
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
         return response
 
@@ -138,6 +138,6 @@ class URLMapping(object):
             the response.json attribute
 
         """
-        response = self.client.get_json(URL_MAPPING)
+        response = self._client.get_json(URL_MAPPING)
         response.success = response.status_code == 200
         return response

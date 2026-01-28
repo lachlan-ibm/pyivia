@@ -17,7 +17,7 @@ class AliasService(object):
 
     def __init__(self, base_url, username, password):
         super(AliasService, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def create_alias_association(self, username=None, federation_id=None, 
             type=None, aliases=[]):
@@ -44,7 +44,7 @@ class AliasService(object):
         data.add_value_string("type", type)
         data.add_value_not_empty("aliases", aliases)
 
-        response = self.client.post_json(ALIAS_SVC, data.data)
+        response = self._client.post_json(ALIAS_SVC, data.data)
         response.success = response.status_code == 201
         return response
 
@@ -72,7 +72,7 @@ class AliasService(object):
         data.add_value_not_empty("aliases", aliases)
 
         endpoint = ALIAS_SVC + '/{}'.format(id)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
         return response
 
@@ -90,7 +90,7 @@ class AliasService(object):
             the response.json attribute
 
         '''
-        response = self.client.get_json(ALIAS_SVC)
+        response = self._client.get_json(ALIAS_SVC)
         response.success = response.status_code == 200
         return response
 
@@ -111,7 +111,7 @@ class AliasService(object):
             the response.json attribute        
         '''
         endpoint = ALIAS_SVC + '/{}'.format(id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
         return response
 
@@ -128,7 +128,7 @@ class AliasService(object):
             the response.json attribute  
 
         '''
-        response = self.client.get_json(ALIAS_SETTINGS)
+        response = self._client.get_json(ALIAS_SETTINGS)
         response.success = response.status_code == 200
         return response
 
@@ -154,6 +154,6 @@ class AliasService(object):
         ldap.add_value_string("aliasLDAPBaseDN", ldap_base_dn)
         data.add_value_not_empty("properties", ldap.data)
         
-        response = self.client.put_json(ALIAS_SETTINGS, data.data)
+        response = self._client.put_json(ALIAS_SETTINGS, data.data)
         response.success = response.status_code == 204
         return response

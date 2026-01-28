@@ -13,7 +13,7 @@ class Snapshot(object):
 
     def __init__(self, base_url, username, password):
         super(Snapshot, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def upload(self, snapshot):
@@ -34,7 +34,7 @@ class Snapshot(object):
         response.success = False
         try:
             files = {"filename": open(snapshot, 'rb')}
-            response = self.client.post_file(SNAPSHOT, files=files)
+            response = self._client.post_file(SNAPSHOT, files=files)
             response.success = True if response.json and 'status' in response.json and response.json['status'] == 200 else False
         except Exception as e:
             logger.error(e)
@@ -61,7 +61,7 @@ class Snapshot(object):
         response.success = False
         try:
             endpoint = "{}/{}".format(SNAPSHOT, snapshot_id)
-            response = self.client.get_file(endpoint, snapshot)
+            response = self._client.get_file(endpoint, snapshot)
             response.success = response.status_code == 200
         except Exception as e:
             logger.error(e)
@@ -83,7 +83,7 @@ class Snapshot(object):
 
         '''
         endpoint = "{}/{}".format(SNAPSHOT_APPLY, snapshot_id)
-        response = self.client.post_json(endpoint)
+        response = self._client.post_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -103,7 +103,7 @@ class Snapshot(object):
 
         '''
         endpoint = "{}/{}".format(SNAPSHOT, snapshot_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -122,7 +122,7 @@ class Snapshot(object):
             the response.json attribute
 
         '''
-        response = self.client.get_json(SNAPSHOT)
+        response = self._client.get_json(SNAPSHOT)
         response.success = response.status_code == 200
 
         return response

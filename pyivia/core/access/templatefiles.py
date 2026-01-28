@@ -17,7 +17,7 @@ class TemplateFiles(object):
 
     def __init__(self, base_url, username, password):
         super(TemplateFiles, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create_directory(self, path, dir_name=None):
@@ -43,7 +43,7 @@ class TemplateFiles(object):
 
         endpoint = "%s/%s" % (TEMPLATE_FILES, path)
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -71,7 +71,7 @@ class TemplateFiles(object):
 
         endpoint = "%s/%s" % (TEMPLATE_FILES, path)
 
-        response = self.client.get_json(endpoint, parameters.data)
+        response = self._client.get_json(endpoint, parameters.data)
         response.success = response.status_code == 200
 
         if response.success and isinstance(response.json, dict):
@@ -107,7 +107,7 @@ class TemplateFiles(object):
 
         endpoint = "%s/%s" % (TEMPLATE_FILES, path)
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -132,7 +132,7 @@ class TemplateFiles(object):
         '''
         endpoint = ("%s/%s/%s" % (TEMPLATE_FILES, path, file_name))
 
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -156,7 +156,7 @@ class TemplateFiles(object):
         '''
         endpoint = ("%s/%s/%s" % (TEMPLATE_FILES, path, file_name))
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -188,7 +188,7 @@ class TemplateFiles(object):
 
                 endpoint = ("%s/%s/%s" % (TEMPLATE_FILES, path, file_name))
 
-                response = self.client.post_file(endpoint, files=files)
+                response = self._client.post_file(endpoint, files=files)
                 response.success = response.status_code == 200
         except IOError as e:
             logger.error(e)
@@ -223,7 +223,7 @@ class TemplateFiles(object):
                 data = DataObject()
                 data.add_value("force", force)
 
-                response = self.client.post_file(
+                response = self._client.post_file(
                     TEMPLATE_FILES, data=data.data, files=files)
                 response.success = response.status_code == 200
         except IOError as e:
@@ -259,7 +259,7 @@ class TemplateFiles(object):
 
         endpoint = ("%s/%s/%s" % (TEMPLATE_FILES, path, file_name))
 
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response

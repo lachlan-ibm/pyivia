@@ -16,7 +16,7 @@ class RemoteSyslog(object):
 
     def __init__(self, base_url, username, password):
         super(RemoteSyslog, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def get(self, source=None):
         '''
@@ -35,7 +35,7 @@ class RemoteSyslog(object):
             as JSON and can be accessed from the response.json attribute
         '''
         endpoint = "{}/{}".format(REMOTE_SYS_LOGS, source)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -53,7 +53,7 @@ class RemoteSyslog(object):
             If the request is successful the remote system logger properties are returned 
             as JSON and can be accessed from the response.json attribute
         '''
-        response = self.client.get_json(REMOTE_SYS_LOGS)
+        response = self._client.get_json(REMOTE_SYS_LOGS)
         response.success = response.status_code == 200
 
         return response
@@ -129,7 +129,7 @@ class RemoteSyslog(object):
         if idx != -1:
             del servers[idx]
         servers += [data.data]
-        response = self.client.put_json(REMOTE_SYS_LOGS, servers)
+        response = self._client.put_json(REMOTE_SYS_LOGS, servers)
         response.success = response.status_code == 204
 
         return response
@@ -148,7 +148,7 @@ class RemoteSyslog(object):
             Success can be checked by examining the response.success boolean attribute.
 
         '''
-        response = self.client.put_json(REMOTE_SYS_LOGS, servers)
+        response = self._client.put_json(REMOTE_SYS_LOGS, servers)
         response.success = response.status_code == 204
 
         return response
@@ -232,7 +232,7 @@ class RemoteSyslog11020(RemoteSyslog):
 
     def __init__(self, base_url, username, password):
         super(RemoteSyslog, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def delete_policy(self, uuid) -> Response:
         '''
@@ -247,7 +247,7 @@ class RemoteSyslog11020(RemoteSyslog):
             Success can be checked by examining the response.success boolean attribute.   
         '''
         endpoint = f"{REMOTE_SYS_LOGS}/{uuid}"
-        rsp = self.client.delete(endpoint)
+        rsp = self._client.delete(endpoint)
         rsp.success = rsp.status_code == 204
 
         return rsp
@@ -255,7 +255,7 @@ class RemoteSyslog11020(RemoteSyslog):
     def get_policy(self, uuid) -> Response:
 
         endpoint = f"{REMOTE_SYS_LOGS}/{uuid}"
-        rsp = self.client.get_json(endpoint)
+        rsp = self._client.get_json(endpoint)
         rsp.success = rsp.status_code == 200
 
         return rsp
@@ -263,7 +263,7 @@ class RemoteSyslog11020(RemoteSyslog):
     def get_facility_names(self) -> Response:
 
         endpoint = f"{REMOTE_SYS_LOGS}/rsyslog_forwarder/facility_names"
-        rsp = self.client.get_json(endpoint)
+        rsp = self._client.get_json(endpoint)
         rsp.success = rsp.status_code == 200
         return rsp
 
@@ -284,7 +284,7 @@ class RemoteSyslog11020(RemoteSyslog):
         data.add_value_string("sources", sources)
 
         endpoint = f"{REMOTE_SYS_LOGS}/{uuid}"
-        response = self.client.put_json(endpoint, data=data.data)
+        response = self._client.put_json(endpoint, data=data.data)
         response.success = response.status_code == 204
 
         return response

@@ -19,7 +19,7 @@ class RuntimeParameters(object):
 
     def __init__(self, base_url, username, password):
         super(RuntimeParameters, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def update_parameter(self, parameter, value=None):
         '''
@@ -39,7 +39,7 @@ class RuntimeParameters(object):
 
         endpoint = "%s/%s/v1" % (RUNTIME_TUNING, parameter)
 
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -60,7 +60,7 @@ class RuntimeParameters(object):
         '''
         endpoint = "%s/v1" % RUNTIME_TUNING
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -92,7 +92,7 @@ class RuntimeParameters(object):
 
         endpoint = "%s/%s/v1" % (RUNTIME_TUNING, ENDPOINTS)
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -116,7 +116,7 @@ class RuntimeParameters(object):
         '''
         endpoint = "%s/%s/%s:%d/v1" % (RUNTIME_TUNING, ENDPOINTS, interface, port)
 
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -137,7 +137,7 @@ class RuntimeParameters(object):
         parameters = DataObject()
         parameters.add_value("value", trace_string)
 
-        response = self.client.put_json(RUNTIME_TRACE, parameters.data)
+        response = self._client.put_json(RUNTIME_TRACE, parameters.data)
         response.success = response.status_code == 204
 
         return response

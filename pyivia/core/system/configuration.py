@@ -21,7 +21,7 @@ class Configuration(object):
 
     def __init__(self, base_url, username, password):
         super(Configuration, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
         self._base_url = base_url
         self._username = username
         self._password = password
@@ -59,7 +59,7 @@ class Configuration(object):
 
             Success can be checked by examining the response.success boolean attribute
         """
-        response = self.client.delete_json(PENDING_CHANGES)
+        response = self._client.delete_json(PENDING_CHANGES)
         response.success = response.status_code == 200
 
         return response
@@ -76,13 +76,13 @@ class Configuration(object):
             If the request is successful the pending changes are returned as JSON and can be accessed from
             the response.json attribute
         """
-        response = self.client.get_json(PENDING_CHANGES)
+        response = self._client.get_json(PENDING_CHANGES)
         response.success = response.status_code == 200
 
         return response
 
     def _deploy_pending_changes(self):
-        response = self.client.get_json(PENDING_CHANGES_DEPLOY)
+        response = self._client.get_json(PENDING_CHANGES_DEPLOY)
         if response.json:
             response.success = (response.status_code == 200 and
                                     response.json.get("result", -1) == 0)

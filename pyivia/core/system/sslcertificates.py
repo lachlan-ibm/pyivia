@@ -17,7 +17,7 @@ class SSLCertificates(object):
 
     def __init__(self, base_url, username, password):
         super(SSLCertificates, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def import_personal(self, kdb_id, file_path, password=None, label=None):
         """
@@ -46,7 +46,7 @@ class SSLCertificates(object):
 
                 endpoint = ("%s/%s/personal_cert" % (SSL_CERTIFICATES, kdb_id))
 
-                response = self.client.post_file(
+                response = self._client.post_file(
                     endpoint, data=data.data, files=files)
                 response.success = response.status_code == 200
         except IOError as e:
@@ -80,7 +80,7 @@ class SSLCertificates(object):
 
                 endpoint = ("%s/%s/signer_cert" % (SSL_CERTIFICATES, kdb_id))
 
-                response = self.client.post_file(
+                response = self._client.post_file(
                     endpoint, data=data.data, files=files)
                 response.success = response.status_code == 200
         except IOError as e:
@@ -116,7 +116,7 @@ class SSLCertificates(object):
 
         endpoint = ("%s/%s/signer_cert" % (SSL_CERTIFICATES, kdb_id))
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -138,7 +138,7 @@ class SSLCertificates(object):
         """
         endpoint = ("%s/%s/details" % (SSL_CERTIFICATES, kdb_id))
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -158,7 +158,7 @@ class SSLCertificates(object):
         """
         endpoint = SSL_CERTIFICATES
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -185,7 +185,7 @@ class SSLCertificates(object):
         if label is not None:
             endpoint += "/%s" %(label)
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -211,7 +211,7 @@ class SSLCertificates(object):
         if label is not None:
             endpoint += "/%s" %(label)
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -268,8 +268,6 @@ class SSLCertificates(object):
         data.add_value_string("token_label", token_label)
         data.add_value_string("passcode", passcode)
         data.add_value_string("type", db_type)
-        data.add_value_string("token_label", token_label)
-        data.add_value_string("passcode", passcode)
         data.add_value_string("hsm_type", hsm_type)
         data.add_value_string("ip", ip)
         data.add_value("port", port)
@@ -288,7 +286,7 @@ class SSLCertificates(object):
         if update_zip:
             raise NotImplementedError
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -317,7 +315,7 @@ class SSLCertificates(object):
             setattr(response, 'success', False)
             return response
         files = {"kdb": open(kdb_file, 'rb'), "stash": open(sth_file, 'rb')}
-        response = self.client.post_file(SSL_CERTIFICATES, files=files)
+        response = self._client.post_file(SSL_CERTIFICATES, files=files)
         response.success = response.status_code == 200
 
         return response

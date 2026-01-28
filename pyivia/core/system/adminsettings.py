@@ -17,7 +17,7 @@ class AdminSettings(object):
 
     def __init__(self, base_url, username, password):
         super(AdminSettings, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def get(self):
         """
@@ -31,7 +31,7 @@ class AdminSettings(object):
             If the request is successful the obligations are returned as JSON and can be accessed from
             the response.json attribute
         """
-        response = self.client.get_json(ADMIN_CONFIG)
+        response = self._client.get_json(ADMIN_CONFIG)
         response.success = response.status_code == 200
 
         return response
@@ -125,7 +125,7 @@ class AdminSettings(object):
         data.add_value_boolean(
             "validateClientCertIdentity", validate_client_cert_identity)
         
-        response = self.client.put_json(ADMIN_CONFIG, data.data)
+        response = self._client.put_json(ADMIN_CONFIG, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -175,7 +175,7 @@ class AdminSetting10000(AdminSettings):
         data.add_value_string("lmiMessageTimeout", lmi_msg_timeout)
         data.add_value_string("validVerifyDomains", valid_verify_domains)
         
-        response = self.client.put_json(ADMIN_CONFIG, data.data)
+        response = self._client.put_json(ADMIN_CONFIG, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -228,7 +228,7 @@ class AdminSetting11010(AdminSettings):
         data.add_value_string("auditJsonFormat", audit_json)
         data.add_value_string("auditVerbose", audit_verbose)
 
-        response = self.client.put_json(ADMIN_CONFIG, data.data)
+        response = self._client.put_json(ADMIN_CONFIG, data.data)
         response.success = response.status_code == 200
 
         return response

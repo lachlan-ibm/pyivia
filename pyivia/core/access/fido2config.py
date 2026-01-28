@@ -21,7 +21,7 @@ class FIDO2Config(object):
 
     def __init__(self, base_url, username, password):
         super(FIDO2Config, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def list_relying_parties(self):
@@ -37,7 +37,7 @@ class FIDO2Config(object):
             the response.json attribute.
 
         '''
-        response = self.client.get_json(FIDO2_RELYING_PARTIES)
+        response = self._client.get_json(FIDO2_RELYING_PARTIES)
         response.success = response.status_code == 200
 
         return response
@@ -60,7 +60,7 @@ class FIDO2Config(object):
 
         '''
         endpoint = "{}/{}".format(FIDO2_RELYING_PARTIES, rp_id)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -137,7 +137,7 @@ class FIDO2Config(object):
         relyingPartyOptions.add_value("impersonationGroup", relying_party_impersonation_group)
         data.add_value("relyingPartyOptions", relyingPartyOptions.data)
 
-        response = self.client.post_json(FIDO2_RELYING_PARTIES, data.data)
+        response = self._client.post_json(FIDO2_RELYING_PARTIES, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -215,7 +215,7 @@ class FIDO2Config(object):
 
         endpoint = "%s/%s" % (FIDO2_RELYING_PARTIES, id)
 
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -235,7 +235,7 @@ class FIDO2Config(object):
 
         '''
         endpoint = "{}/{}".format(FIDO2_RELYING_PARTIES, rp_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success =response.status_code == 204
 
         return response
@@ -254,7 +254,7 @@ class FIDO2Config(object):
             the response.json attribute.
 
         '''
-        response = self.client.get_json(FIDO2_METADATA)
+        response = self._client.get_json(FIDO2_METADATA)
         response.success = response.status_code == 200
 
         return response
@@ -278,7 +278,7 @@ class FIDO2Config(object):
         '''
         endpoint = "{}/{}".format(FIDO2_METADATA, metadata_id)
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -315,7 +315,7 @@ class FIDO2Config(object):
 
                 endpoint = FIDO2_METADATA
 
-                response = self.client.post_json(endpoint, data.data)
+                response = self._client.post_json(endpoint, data.data)
                 response.success = response.status_code == 201
 
         except IOError as e:
@@ -352,7 +352,7 @@ class FIDO2Config(object):
 
                 endpoint = ("%s/%s/file" % (FIDO2_METADATA, metadata_id))
 
-                response = self.client.post_file(endpoint, accept_type="application/json,text/html,application/*", files=files)
+                response = self._client.post_file(endpoint, accept_type="application/json,text/html,application/*", files=files)
                 response.success = response.status_code == 200
 
         except IOError as e:
@@ -377,7 +377,7 @@ class FIDO2Config(object):
         '''
         endpoint = ("%s/%s/file" % (FIDO2_METADATA, id))
 
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
 
@@ -413,7 +413,7 @@ class FIDO2Config(object):
                 data.add_value_string("type", "FIDO2")
                 data.add_value_string("name", name)
 
-                response = self.client.post_json(FIDO2_MEDIATOR, data.data)
+                response = self._client.post_json(FIDO2_MEDIATOR, data.data)
                 response.success = response.status_code == 201
 
         except IOError as e:
@@ -451,7 +451,7 @@ class FIDO2Config(object):
 
                 endpoint = ("%s/%s" % (FIDO2_MEDIATOR, id))
 
-                response = self.client.put_json(endpoint, data.data)
+                response = self._client.put_json(endpoint, data.data)
                 response.success = response.status_code == 204
 
         except IOError as e:
@@ -477,7 +477,7 @@ class FIDO2Config(object):
 
         '''
         endpoint = ("%s/%s" % (FIDO2_MEDIATOR, mediator_id))
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -496,7 +496,7 @@ class FIDO2Config(object):
             the response.json attribute.
 
         '''
-        response = self.client.get_json(FIDO2_MEDIATOR)
+        response = self._client.get_json(FIDO2_MEDIATOR)
         response.success = response.status_code == 200
 
         return response
@@ -516,7 +516,7 @@ class FIDO2Config(object):
 
         '''
         endpoint = ("%s/%s" % (FIDO2_MEDIATOR, mediator_id))
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -725,7 +725,7 @@ class FIDO2Config10050(FIDO2Config):
         data.add_value("relyingPartyOptions", relyingPartyOptions.data)
 
         logger.debug(data.data)
-        response = self.client.post_json(FIDO2_RELYING_PARTIES, data.data)
+        response = self._client.post_json(FIDO2_RELYING_PARTIES, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -802,7 +802,7 @@ class FIDO2Config10050(FIDO2Config):
 
         endpoint = "%s/%s" % (FIDO2_RELYING_PARTIES, id)
 
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -858,7 +858,7 @@ class FIDO2Config10050(FIDO2Config):
         data.add_value_string("proxy", proxy)
         data.add_value_not_empty("headers", headers)
 
-        response = self.client.post_json(FIDO2_METADATA_SERVICE, data.data)
+        response = self._client.post_json(FIDO2_METADATA_SERVICE, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -914,7 +914,7 @@ class FIDO2Config10050(FIDO2Config):
         data.add_value_not_empty("headers", headers)
 
         endpoint = "{}/{}".format(FIDO2_METADATA_SERVICE, mds_id)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -936,7 +936,7 @@ class FIDO2Config10050(FIDO2Config):
             the response.json attribute.
         '''
         endpoint = "{}/{}".format(FIDO2_METADATA_SERVICE, mds_id)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -954,7 +954,7 @@ class FIDO2Config10050(FIDO2Config):
             If the request is successful the metadata services are returned as JSON and can be accessed from
             the response.json attribute.        
         '''
-        response = self.client.get_json(FIDO2_METADATA_SERVICE)
+        response = self._client.get_json(FIDO2_METADATA_SERVICE)
         response.success = response.status_code == 200
 
         return response
@@ -974,7 +974,7 @@ class FIDO2Config10050(FIDO2Config):
 
         '''
         endpoint = "{}/{}".format(FIDO2_METADATA_SERVICE, mds_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response

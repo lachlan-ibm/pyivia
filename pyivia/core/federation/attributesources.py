@@ -16,7 +16,7 @@ class AttributeSources(object):
 
     def __init__(self, base_url, username, password):
         super(AttributeSources, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def create_attribute_source(self, attribute_name=None, attribute_type=None, attribute_value=True, properties=None):
         """
@@ -43,7 +43,7 @@ class AttributeSources(object):
         data.add_value_string("value", attribute_value)
         data.add_value("properties", properties)
 
-        response = self.client.post_json(ATTRIBUTE_SOURCES, data.data)
+        response = self._client.post_json(ATTRIBUTE_SOURCES, data.data)
         response.success = response.status_code == 201
         return response
 
@@ -76,7 +76,7 @@ class AttributeSources(object):
         data.add_value("properties", properties)
 
         endpoint = "%s/%s" % (ATTRIBUTE_SOURCES, attribute_id)
-        response = self.client.post_json(ATTRIBUTE_SOURCES, data.data)
+        response = self._client.post_json(ATTRIBUTE_SOURCES, data.data)
         response.success = response.status_code == 204
         return response
 
@@ -95,7 +95,7 @@ class AttributeSources(object):
 
         """
         endpoint = "%s/%s" % (ATTRIBUTE_SOURCES, attribute_name)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
         return response
 
@@ -116,7 +116,7 @@ class AttributeSources(object):
 
         """
         endpoint = "%s/%s" % (ATTRIBUTE_SOURCES, attribute_name)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
         return response
 
@@ -134,6 +134,6 @@ class AttributeSources(object):
             the response.json attribute
 
         """
-        response = self.client.get_json(ATTRIBUTE_SOURCES)
+        response = self._client.get_json(ATTRIBUTE_SOURCES)
         response.success = response.status_code == 200
         return response

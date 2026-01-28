@@ -22,7 +22,7 @@ class Deployments(object):
 
     def __init__(self, base_url, username, password):
         super(Deployments, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def create(self, name=None, image=None, type=None, ports=None, volumes=None,
                env=None, logging=None, command=None, args=None):
@@ -61,7 +61,7 @@ class Deployments(object):
         data.add_value_string("command", command)
         data.add_value_not_empty("args", args)
 
-        response = self.client.post_json(DEPLOYMENT, data.data)
+        response = self._client.post_json(DEPLOYMENT, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -96,7 +96,7 @@ class Deployments(object):
         data.add_value_not_empty("args", args)
 
         endpoint = "{}/{}".format(DEPLOYMENT, deployment_id)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200 or response.status_code == 204
 
         return response
@@ -115,7 +115,7 @@ class Deployments(object):
             Success can be checked by examining the response.success boolean attribute
         '''
         endpoint = "{}/{}".format(DEPLOYMENT, deployment_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -137,7 +137,7 @@ class Deployments(object):
             the response.json attribute
         '''
         endpoint = "{}/{}".format(DEPLOYMENT, deployment_id)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -155,7 +155,7 @@ class Deployments(object):
             If the request is successful the deployment properties are returned as JSON and can be accessed from
             the response.json attribute
         '''
-        response = self.client.get_json(DEPLOYMENT)
+        response = self._client.get_json(DEPLOYMENT)
         response.success = response.status_code == 200
 
         return response

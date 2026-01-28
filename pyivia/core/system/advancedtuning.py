@@ -17,7 +17,7 @@ class AdvancedTuning(object):
 
     def __init__(self, base_url, username, password):
         super(AdvancedTuning, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def create_parameter(self, key=None, value=None, comment=None):
         """
@@ -42,7 +42,7 @@ class AdvancedTuning(object):
         data.add_value_string("comment", comment)
         data.add_value("_isNew", True)
 
-        response = self.client.post_json(ADVANCED_PARAMETERS, data.data)
+        response = self._client.post_json(ADVANCED_PARAMETERS, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -67,7 +67,7 @@ class AdvancedTuning(object):
         data.add_value_string("value", value)
         data.add_value_string("comment", comment)
         endpoint = ADVANCED_PARAMETERS+"/"+str(atp_id)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
 
         response.success = response.status_code == 200
 
@@ -84,7 +84,7 @@ class AdvancedTuning(object):
             If the request is successful the tuning parameters are returned as JSON and can be accessed from
             the response.json attribute
         """
-        response = self.client.get_json(ADVANCED_PARAMETERS)
+        response = self._client.get_json(ADVANCED_PARAMETERS)
         response.success = response.status_code == 200
 
         if response.success and response.json:
@@ -105,7 +105,7 @@ class AdvancedTuning(object):
             Success can be checked by examining the response.success boolean attribute
         """
         endpoint = ADVANCED_PARAMETERS + "/{}".format(atp_id)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response

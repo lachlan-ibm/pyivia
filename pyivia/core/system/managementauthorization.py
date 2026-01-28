@@ -19,7 +19,7 @@ class ManagementAuthorization(object):
 
     def __init__(self, base_url, username, password):
         super(ManagementAuthorization, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def enable(self, enforce=False):
         """
@@ -36,7 +36,7 @@ class ManagementAuthorization(object):
         data = DataObject()
         data.add_value_boolean("enforcing", enforce)
         endpoint = MANAGEMENT_AUTHORIZATION + '/config/v1'
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = True if response.status_code == 200 \
                 and response.json \
                 and response.json.get('enforcing') == enforce \
@@ -70,7 +70,7 @@ class ManagementAuthorization(object):
         data.add_value_not_empty("features", features)
 
         endpoint = MANAGEMENT_AUTHORIZATION_ROLES + '/v1'
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -100,7 +100,7 @@ class ManagementAuthorization(object):
         data.add_value_not_empty("features", features)
 
         endpoint = MANAGEMENT_AUTHORIZATION_ROLES + '/{}/v1'.format(name)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -118,7 +118,7 @@ class ManagementAuthorization(object):
             Success can be checked by examining the response.success boolean attribute
         """
         endpoint = MANAGEMENT_AUTHORIZATION_ROLES + "/{}/v1".format(role)
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -139,7 +139,7 @@ class ManagementAuthorization(object):
             the response.json attribute
         """
         endpoint = MANAGEMENT_AUTHORIZATION_ROLES + "/{}/v1".format(role)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -157,7 +157,7 @@ class ManagementAuthorization(object):
             the response.json attribute
         """
         endpoint = MANAGEMENT_AUTHORIZATION_ROLES + '/v1'
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -175,7 +175,7 @@ class ManagementAuthorization(object):
             the response.json attribute
         """
         endpoint = MANAGEMENT_AUTHORIZATION_FEATURES + '/v1'
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -196,7 +196,7 @@ class ManagementAuthorization(object):
             the response.json attribute
         """
         endpoint = MANAGEMENT_AUTHORIZATION_FEATURES + '/users/{}/v1'.format(user)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
         
         return response
@@ -217,7 +217,7 @@ class ManagementAuthorization(object):
             the response.json attribute
         """
         endpoint = MANAGEMENT_AUTHORIZATION_ROLES + '/{}/groups/v1'.format(role)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -238,7 +238,7 @@ class ManagementAuthorization(object):
             the response.json attribute
         """
         endpoint = MANAGEMENT_AUTHORIZATION_ROLES + '/{}/users/v1'.format(role)
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response

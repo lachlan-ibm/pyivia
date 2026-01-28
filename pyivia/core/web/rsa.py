@@ -16,7 +16,7 @@ class RSA(object):
 
     def __init__(self, base_url, username, password):
         super(RSA, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create(self, server_config_file=None, server_options_file=None):
@@ -43,7 +43,7 @@ class RSA(object):
             files = {"server_config": open(server_config_file, "rb")}
             if server_options_file:
                 files.update({"server_opts_file": open(server_options_file, 'rb')})
-            response = self.client.post_file(endpoint, files=files)
+            response = self._client.post_file(endpoint, files=files)
             response.success = response.status_code == 200
         except IOError as e:
             logger.error(e)
@@ -64,7 +64,7 @@ class RSA(object):
             the response.json attribute
 
         """
-        response = self.client.get_json(RSA_CONFIG)
+        response = self._client.get_json(RSA_CONFIG)
         response.success = response.status_code == 200
 
         return response
@@ -89,7 +89,7 @@ class RSA(object):
         data = DataObject()
         data.add_value_string("username", username)
         data.add_value_string("password", password)
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -106,7 +106,7 @@ class RSA(object):
 
         """
         endpoint = RSA_CONFIG + "/server_config"
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -123,7 +123,7 @@ class RSA(object):
 
         """
         endpoint = RSA_CONFIG + "/nose_secret"
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response

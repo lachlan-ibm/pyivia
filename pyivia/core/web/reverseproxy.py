@@ -21,7 +21,7 @@ class ReverseProxy(object):
 
     def __init__(self, base_url, username, password):
         super(ReverseProxy, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def create_instance(
@@ -81,7 +81,7 @@ class ReverseProxy(object):
         data.add_value_string("nw_interface_yn", nw_interface_yn)
         data.add_value_string("ip_address", ip_address)
 
-        response = self.client.post_json(REVERSEPROXY, data.data)
+        response = self._client.post_json(REVERSEPROXY, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -109,7 +109,7 @@ class ReverseProxy(object):
 
         endpoint = "%s/%s" % (REVERSEPROXY, webseal_id)
 
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -128,7 +128,7 @@ class ReverseProxy(object):
             the response.json attribute
 
         """
-        response = self.client.get_json(REVERSEPROXY)
+        response = self._client.get_json(REVERSEPROXY)
         response.success = response.status_code == 200
 
         return response
@@ -147,7 +147,7 @@ class ReverseProxy(object):
             the response.json attribute
 
         '''
-        response = self.client.get_json(WGA_DEFAULTS)
+        response = self._client.get_json(WGA_DEFAULTS)
         response.success = response.status_code == 200
 
         return response
@@ -171,7 +171,7 @@ class ReverseProxy(object):
 
         endpoint = "%s/%s" % (REVERSEPROXY, webseal_id)
 
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -227,7 +227,7 @@ class ReverseProxy(object):
 
         endpoint = "%s/%s/mmfa_config" % (REVERSEPROXY, webseal_id)
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -278,7 +278,7 @@ class ReverseProxy(object):
 
         endpoint = "%s/%s/fed_config" % (REVERSEPROXY, webseal_id)
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -318,7 +318,7 @@ class ReverseProxy(object):
         data.add_value_string("password", runtime_password)
         endpoint = "%s/%s/authsvc_config" % (REVERSEPROXY, webseal_id)
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -343,7 +343,7 @@ class ReverseProxy(object):
         '''
         endpoint = ("%s/%s/configuration/stanza/%s"
                     % (REVERSEPROXY, webseal_id, stanza_id))
-        response = self.client.post_json(endpoint)
+        response = self._client.post_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -366,7 +366,7 @@ class ReverseProxy(object):
         endpoint = ("%s/%s/configuration/stanza/%s"
                     % (REVERSEPROXY, webseal_id, stanza_id))
 
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -395,7 +395,7 @@ class ReverseProxy(object):
         data.add_value("entries", [[str(entry_name), str(value)]])
         endpoint = ("%s/%s/configuration/stanza/%s/entry_name"
                     % (REVERSEPROXY, webseal_id, stanza_id))
-        response = self.client.post_json(endpoint, data=data.data)
+        response = self._client.post_json(endpoint, data=data.data)
         response.success = response.status_code == 200
 
         return response
@@ -423,7 +423,7 @@ class ReverseProxy(object):
         if value:
             endpoint = "%s/value/%s" % (endpoint, value)
 
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -450,7 +450,7 @@ class ReverseProxy(object):
         endpoint = ("%s/%s/configuration/stanza/%s/entry_name/%s"
                     % (REVERSEPROXY, webseal_id, stanza_id, entry_name))
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -478,7 +478,7 @@ class ReverseProxy(object):
         endpoint = ("%s/%s/configuration/stanza/%s/entry_name/%s"
                     % (REVERSEPROXY, webseal_id, stanza_id, entry_name))
 
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -642,7 +642,7 @@ class ReverseProxy(object):
         logger.debug("Junction config: {}".format(data.data))
         endpoint = "%s/%s/junctions" % (REVERSEPROXY, str(webseal_id))
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -666,7 +666,7 @@ class ReverseProxy(object):
         query = urllib.parse.urlencode({ JUNCTIONS_QUERY : junction_point})
         endpoint = "%s/%s/junctions?%s" % (REVERSEPROXY, webseal_id, query)
 
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -692,7 +692,7 @@ class ReverseProxy(object):
         '''
         endpoint = "%s/%s/junctions?detailed=%s" % (REVERSEPROXY, webseal_id, detailed)
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -722,7 +722,7 @@ class ReverseProxy(object):
             with open(file_path, 'rb') as f:
                 #This should allow requests to detect application/zip content-type
                 fd = {'file': f}
-                response = self.client.post_file(endpoint, files=fd, data=None)
+                response = self._client.post_file(endpoint, files=fd, data=None)
                 response.success = response.status_code == 200
         except IOError as e:
             logger.error(e)
@@ -756,7 +756,7 @@ class ReverseProxy(object):
         endpoint = ("%s/%s/management_root/%s"
                     % (REVERSEPROXY, webseal_id, page_id))
 
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
 
         return response
@@ -789,7 +789,7 @@ class ReverseProxy(object):
             with open(file_path, 'rb') as contents:
                 files = {"file": contents}
 
-                response = self.client.post_file(endpoint, files=files)
+                response = self._client.post_file(endpoint, files=files)
                 response.success = response.status_code == 200
         except IOError as e:
             logger.error(e)
@@ -818,7 +818,7 @@ class ReverseProxy9040(ReverseProxy):
 
     def __init__(self, base_url, username, password):
         super(ReverseProxy, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def configure_api_protection(
             self, webseal_id, hostname=None, port=None,
@@ -857,7 +857,7 @@ class ReverseProxy9040(ReverseProxy):
 
         endpoint = "%s/%s/oauth_config" % (REVERSEPROXY, webseal_id)
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 204
         return response
 
@@ -889,7 +889,7 @@ class ReverseProxy9040(ReverseProxy):
 
         endpoint = "%s/%s/mmfa_config" % (REVERSEPROXY, webseal_id)
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -899,7 +899,7 @@ class ReverseProxy10020(ReverseProxy9040):
 
     def __init__(self, base_url, username, password):
         super(ReverseProxy9040, self).__init__(base_url, username, password)
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
 
     def configure_verify_gateway(self, webseal_id, mmfa=None, junction=None) -> Response:
@@ -909,7 +909,7 @@ class ReverseProxy10020(ReverseProxy9040):
 
         endpoint = "{}/{}/verify_gateway_config".format(REVERSEPROXY, webseal_id)
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
@@ -935,7 +935,7 @@ class ReverseProxy10020(ReverseProxy9040):
 
         endpoint = "%s/%s/fed_config" % (REVERSEPROXY, webseal_id)
 
-        response = self.client.post_json(endpoint, data.data)
+        response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response

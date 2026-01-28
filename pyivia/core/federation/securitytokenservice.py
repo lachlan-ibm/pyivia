@@ -19,7 +19,7 @@ class SecurityTokenService(object):
 
     def __init__(self, base_url, username, password):
         super(SecurityTokenService, self).__init__()
-        self.client = RESTClient(base_url, username, password)
+        self._client = RESTClient(base_url, username, password)
 
     def list_module_types(self):
         """
@@ -36,7 +36,7 @@ class SecurityTokenService(object):
 
         endpoint = STS_MODULE_TYPES
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -56,7 +56,7 @@ class SecurityTokenService(object):
 
         endpoint = STS_MODULES
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -80,7 +80,7 @@ class SecurityTokenService(object):
 
         endpoint = "%s/%s" % (STS_MODULES, module_id)
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -101,7 +101,7 @@ class SecurityTokenService(object):
 
         endpoint = STS_TEMPLATES
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -121,7 +121,7 @@ class SecurityTokenService(object):
         """
         endpoint = "%s/%s" % (STS_TEMPLATES, template_id)
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -161,7 +161,7 @@ class SecurityTokenService(object):
         data.add_value_string("description", description)
         data.add_value_not_empty("chainItems", modules)
 
-        response = self.client.post_json(STS_TEMPLATES, data.data)
+        response = self._client.post_json(STS_TEMPLATES, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -181,7 +181,7 @@ class SecurityTokenService(object):
         """
         endpoint = "%s/%s" % (STS_TEMPLATES, template_id)
 
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -199,7 +199,7 @@ class SecurityTokenService(object):
             If the request is successful the STS chains are returned as JSON and can be accessed from
             the response.json attribute.
         """
-        response = self.client.get_json(STS_CHAINS)
+        response = self._client.get_json(STS_CHAINS)
         response.success = response.status_code == 200
 
         return response
@@ -222,7 +222,7 @@ class SecurityTokenService(object):
         """
         endpoint = "%s/%s" % (STS_CHAINS, chain_id)
 
-        response = self.client.get_json(endpoint)
+        response = self._client.get_json(endpoint)
         response.success = response.status_code == 200
 
         return response
@@ -348,7 +348,7 @@ class SecurityTokenService(object):
         properties.add_value_not_empty("partner", partner_properties)
         data.add_value("properties", properties.data)
 
-        response = self.client.post_json(STS_CHAINS, data.data)
+        response = self._client.post_json(STS_CHAINS, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -367,7 +367,7 @@ class SecurityTokenService(object):
         """
         endpoint = "%s/%s" % (STS_CHAINS, chain_id)
 
-        response = self.client.delete_json(endpoint)
+        response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
         return response
@@ -496,7 +496,7 @@ class SecurityTokenService(object):
         data.add_value("properties", properties.data)
 
         endpoint = "{}/{}".format(STS_CHAINS, chain_id)
-        response = self.client.put_json(endpoint, data.data)
+        response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 204
 
         return response
