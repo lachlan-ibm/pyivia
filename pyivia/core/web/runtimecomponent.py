@@ -227,7 +227,7 @@ class RuntimeComponent(object):
         Args:
             resource (:obj:`str`): The configuration file to modify. For example: ldap.conf, pd.conf, instance.conf
             stanza (:obj:`str`): The name of the resource stanza entry.
-            entry (:ob:`str`): The name of the entry to update.
+            entry (:obj:`str`): The name of the entry to update.
             value (:obj:`str`): The value of the entry to update.
 
         Returns:
