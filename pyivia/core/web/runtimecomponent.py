@@ -249,7 +249,7 @@ class RuntimeComponent(object):
         Delete a stanza or entry in a runtime component configuration file.
 
         Args:
-            resource (:obj:`str`): The configuration file to modify. For example: ldap.conf, pd.conf, instance.conf
+            resource (:obj:`str`): The configuration file to modify. For example: ldap.conf, pd.conf, ivmgrd.conf
             stanza (:obj:`str`): The name of the resource stanza entry.
             entry (:obj:`str`, optional): The entry name to be removed. If not supplied then the entire stanza is removed.
             value (:obj:`str`, optional): The entry value to be removed. This must be set if the ``entry`` property is
@@ -268,6 +268,32 @@ class RuntimeComponent(object):
         response = self._client.delete_json(url)
         response.success = response.status_code == 200
 
+        return response
+
+
+    def get_configuration_file_entry(self, resource=None, stanza=None, entry=None):
+        """
+        Get the current value(s) of a configuration file entry. If entry is not provided then all entries in
+        a stanza are returned.
+
+        Args:
+            resource (:obj:`str`): The configuration file to get. For example: `ldap.conf`, `pd.conf`, `ivmgrd.conf`
+            stanza (:obj:`str`): The name of the resource stanza entry.
+            entry (:obj:`str`, optional): The entry id to be returned. If not supplied then the entire stanza is returned.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify identity access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the stanza/entry value(s) will be available in the response.json property.
+        """
+        url = RUNTIME_STANZA_FILE_BASE + "/{}/configuration/stanza/{}".format(resource, stanza)
+        if entry:
+            url += "/entry_name/{}".format(entry)
+        response = self._client.get_json(url)
+
+        response.success = response.status_code == 200
         return response
 
 
