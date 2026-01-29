@@ -285,7 +285,9 @@ class ReverseProxy(object):
 
 
     def configure_aac(self,webseal_id,junction=None,reuse_certs=False,reuse_acls=False,
-        runtime_hostname=None,runtime_port=None,runtime_username=None,runtime_password=None):
+        runtime_hostname=None,runtime_port=None,runtime_username=None,runtime_password=None,
+        fido2_remember_me=None, fido2_key_label=None, fido2_set_template=None,
+        fido2_login_lrr=None):
         '''
         Configure a WebSEAL instance to use the Federated runtime server for Advanced Access Control and Context Based
         Authorization decisions.
@@ -301,6 +303,14 @@ class ReverseProxy(object):
             runtime_port (:obj:`str`): The port of the runtime server. Must be the SSL port.
             runtime_username (:obj:`str`): The username used to authenticate with the runtime server.
             runtime_password (:obj:`str`): The password used to authenticate with the runtime server.
+            fido2_remember_me (`bool`, optional): A flag to indiciate that the Remember Me feature should be configured with 
+                                                  FIDO2 PAIR specific fields. Default is false.
+            fido2_key_label (:obj:`str`, optional): The key which will be used to secure the remember-session token. Only required if 
+                                          `fido2_remember_me` is true.
+            fido2_set_tempalte (`bool`, optional):  A flag to indicate the proxy should be configured to use fido2pair_login_success.html 
+                                                    as the login success page. Default is false.
+            fido2_login_lrr (`bool`, optional): The key which will be used to secure the remember-session token. Only required if 
+                                                `fido2_remember_me` is true.
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
@@ -308,6 +318,12 @@ class ReverseProxy(object):
             Success can be checked by examining the response.success boolean attribute
 
         '''
+        fido2 = DataObject()
+        fido2.add_value_string("add_remember_me", fido2_remember_me)
+        fido2.add_value_string("key_label", fido2_key_label)
+        fido2.add_value_boolean("set_template_page", fido2_set_template)
+        fido2.add_value_boolean("login_lrr", fido2_login_lrr)
+
         data = DataObject()
         data.add_value("reuse_certs", reuse_certs)
         data.add_value("reuse_acls", reuse_acls)
@@ -316,8 +332,9 @@ class ReverseProxy(object):
         data.add_value_string("port", runtime_port)
         data.add_value_string("username", runtime_username)
         data.add_value_string("password", runtime_password)
-        endpoint = "%s/%s/authsvc_config" % (REVERSEPROXY, webseal_id)
+        data.add_value_not_empty("fido2_pair", fido2.data)
 
+        endpoint = "%s/%s/authsvc_config" % (REVERSEPROXY, webseal_id)
         response = self._client.post_json(endpoint, data.data)
         response.success = response.status_code == 204
 
