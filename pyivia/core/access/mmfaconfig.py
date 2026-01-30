@@ -4,7 +4,7 @@
 
 import logging
 
-from pyivia.util.model import DataObject
+from pyivia.util.model import DataObject, Response
 from pyivia.util.restclient import RESTClient
 
 
@@ -20,49 +20,12 @@ class MMFAConfig(object):
         self._client = RESTClient(base_url, username, password)
 
 
-    def update(self, client_id=None, hostname=None, junction=None, options=None,
-            port=None):
-        '''
-        Update the mobile multi-factor authentication (MMFA) configuration.
-
-        Args:
-            client_id (:obj:`str`): The id of the Open-Id Connect client to use.
-            hostname (:obj:`str`): The hostname of the WebSEAL instance configured for MMFA.
-            junction (:obj:`astr`): The junction prefix configured for MMFA.
-            options (:obj:`str`): A list of configurable key-value pairs to be presented in the QR code.
-            port (:obj:`str`): The port the MMFA endpoint is listening on.
-
-        Returns:
-            :obj:`~requests.Response`: The response from verify identity access. 
-
-            Success can be checked by examining the response.success boolean attribute
-
-        '''
-        data = DataObject()
-        data.add_value_string("client_id", client_id)
-        data.add_value_string("hostname", hostname)
-        data.add_value_string("junction", junction)
-        data.add_value_string("options", options)
-        data.add_value("port", port)
-
-        response = self._client.post_json(MMFA_CONFIG, data.data)
-        response.success = response.status_code == 204
-
-        return response
-
-
-class MMFAConfig9021(MMFAConfig):
-
-    def __init__(self, base_url, username, password):
-        super(MMFAConfig9021, self).__init__(base_url, username, password)
-
-
     def update(self, client_id=None, hostname=None, junction=None, options=None, port=None,
             details_url=None, enrollment_endpoint=None,
             hotp_shared_secret_endpoint=None, totp_shared_secret_endpoint=None,
             token_endpoint=None, authntrxn_endpoint=None,
             mobile_endpoint_prefix=None, qrlogin_endpoint=None,
-            discovery_mechanisms=[],):
+            discovery_mechanisms=[]) -> Response:
         '''
         Update the mobile multi-factor authentication (MMFA) configuration.
 
@@ -86,6 +49,45 @@ class MMFAConfig9021(MMFAConfig):
             Success can be checked by examining the response.success boolean attribute
 
         '''
+        data = DataObject()
+        data.add_value_string("client_id", client_id)
+        data.add_value_string("hostname", hostname)
+        data.add_value_string("junction", junction)
+        data.add_value_string("options", options)
+        data.add_value("port", port)
+
+        response = self._client.post_json(MMFA_CONFIG, data.data)
+        response.success = response.status_code == 204
+
+        return response
+
+    def delete(self) -> Response:
+        '''
+        Delete the mobile multi-factor authentication configuration.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify identity access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+        '''
+        response = self._client.delete_json(MMFA_CONFIG)
+        response.success = response.status_code == 204
+
+        return response
+
+class MMFAConfig9021(MMFAConfig):
+
+    def __init__(self, base_url, username, password):
+        super(MMFAConfig9021, self).__init__(base_url, username, password)
+
+
+    def update(self, client_id=None, hostname=None, junction=None, options=None, port=None,
+            details_url=None, enrollment_endpoint=None,
+            hotp_shared_secret_endpoint=None, totp_shared_secret_endpoint=None,
+            token_endpoint=None, authntrxn_endpoint=None,
+            mobile_endpoint_prefix=None, qrlogin_endpoint=None,
+            discovery_mechanisms=[],):
         endpoints = DataObject()
         endpoints.add_value_string("details_url", details_url)
         endpoints.add_value_string("enrollment_endpoint", enrollment_endpoint)
@@ -109,22 +111,6 @@ class MMFAConfig9021(MMFAConfig):
         data.add_value_not_empty("discovery_mechanisms", discovery_mechanisms)
 
         response = self._client.post_json(MMFA_CONFIG, data.data)
-        response.success = response.status_code == 204
-
-        return response
-
-
-    def delete(self):
-        '''
-        Delete the mobile multi-factor authentication configuration.
-
-        Returns:
-            :obj:`~requests.Response`: The response from verify identity access. 
-
-            Success can be checked by examining the response.success boolean attribute
-
-        '''
-        response = self._client.delete_json(MMFA_CONFIG)
         response.success = response.status_code == 204
 
         return response

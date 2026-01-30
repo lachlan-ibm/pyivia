@@ -76,7 +76,7 @@ Mobile Multi-Factor Authentication
 ==================================
 
 
-.. autoclass:: pyivia.core.access.mmfaconfig.MMFAConfig9021
+.. autoclass:: pyivia.core.access.mmfaconfig.MMFAConfig
    :members:
 
 
@@ -91,7 +91,7 @@ Push Notification Providers
 ===========================
 
 
-.. autoclass:: pyivia.core.access.pushnotification.PushNotification9021
+.. autoclass:: pyivia.core.access.pushnotification.PushNotification
    :members:
 
 
