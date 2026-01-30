@@ -307,7 +307,7 @@ class ReverseProxy(object):
                                                   FIDO2 PAIR specific fields. Default is false.
             fido2_key_label (:obj:`str`, optional): The key which will be used to secure the remember-session token. Only required if 
                                           `fido2_remember_me` is true.
-            fido2_set_tempalte (`bool`, optional):  A flag to indicate the proxy should be configured to use fido2pair_login_success.html 
+            fido2_set_template (`bool`, optional):  A flag to indicate the proxy should be configured to use fido2pair_login_success.html 
                                                     as the login success page. Default is false.
             fido2_login_lrr (`bool`, optional): The key which will be used to secure the remember-session token. Only required if 
                                                 `fido2_remember_me` is true.
