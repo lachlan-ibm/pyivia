@@ -319,3 +319,71 @@ class SSLCertificates(object):
         response.success = response.status_code == 200
 
         return response
+
+    def create_self_signed(self, kdb=None, label=None, dn=None, expire=None, default=None, 
+            size=None, signature_algorithm=None):
+        """
+        Generating a self-signed personal certificate in a certificate database.
+
+        Args:
+            kdb (:obj:`str`): Name of the certificate database.
+            label (:obj:`str`): The new personal certificate label that is used to uniquely identify the personal certificate.
+            dn (:obj:`str`): The distinguished name of the new personal certificate.
+            expire (`int`): The validity period, in days, for the new certificate.
+            default (:obj:`str`): Whether the generated certificate is the default. The value is "yes" or "no".
+            size (`int`, optional): The key size of the new certificate. Must be one of 1024, 2048, or 4096.
+            signature_algorithm (:obj:`str`, optional): The signature algorithm to use when creating the new certificate.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify identity access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the label of the SSL certificate is returned as JSON and can be accessed from
+            the response.json attribute
+
+        """
+        data = DataObject()
+        data.add_value_string("operation", "generate")
+        data.add_value_string("label", label)
+        data.add_value_string("dn", dn)
+        data.add_value("expire", expire)
+        data.add_value_string("default", default)
+        data.add_value("size", size)
+        data.add_value_string("signature_algorithm", signature_algorithm)
+
+        endpoint = "{}/{}/personal_cert".format(SSL_CERTIFICATES, kdb)
+        response = self._client.post_json(endpoint, data=data.data)
+        response.success = response.status_code == 200
+        return response
+
+
+    def create_certifiate_request(self, kdb=None, label=None, dn=None, size=None, signature_algorithm=None):
+        """
+        Creating a certificate request in a certificate database
+
+        Args:
+            kdb (:obj:`str`): The name of the certificate database.
+            label (:obj:`str`): The label of the new personal certificate.
+            dn (:obj:`str`): The distinguished name of the new personal certificate.
+            size (`int`, optional): The key size of the new certificate. Must be one of 1024, 2048, or 4096.
+            signature_algorithm (:obj:`str`): The signature algorithm to use when creating the new certificate request.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify identity access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the label of the X509 Certificate request is returned as JSON and can be accessed from
+            the response.json attribute
+        """
+        data = DataObject()
+        data.add_value_string("label", label)
+        data.add_value_string("dn", dn)
+        data.add_value("size", size)
+        data.add_value_string("signature_algorithm", signature_algorithm)
+
+        endpont = "{}/{}/cert_request".format(SSL_CERTIFICATES, kdb)
+        response = self._client.post_json(endpont, data=data.data)
+        response.success = response.status_code == 200
+        return response
