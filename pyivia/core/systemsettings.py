@@ -81,7 +81,7 @@ class SystemSettings(object):
     snapshot: Snapshot
     'Manage the :ref:`snapshot <Snapshot>` generation.'
     cluster: Cluster
-    'Manage the :ref:`cluster configuration<Cluster>` (including database configuration).'
+    'Manage the :ref:`cluster configuration <Cluster>` (including database configuration).'
     fips: FIPS
     'Manage the :ref:`fips <FIPS>` settings for Verify Identity Access appliances.'
     mgmt_authentication: ManagementAuthentication
@@ -92,6 +92,8 @@ class SystemSettings(object):
     'Manage :ref:`containers <Container Management>` deployed to a Verify Identity Access appliance.'
     mgmt_certificate: ManagementCertificate
     'Manage the :ref:`Key/Certificate <Management Certificate>` used for TLS connections to the LMI'
+    docker: Docker
+    'Manage the :ref:`docker <Docker>` specific system settings (publish a config snapshot).'
 
 class SystemSettings9020(object):
 
