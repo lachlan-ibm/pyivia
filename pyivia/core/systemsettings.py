@@ -74,6 +74,8 @@ class SystemSettings(object):
     'Manage the state of Verify Identity Access :ref:`appliance <Restart and Shutdown>`.'
     ssl_certificates: SSLCertificates
     'Create and manage the :ref:`SSL databases <SSL Certificates and Keystores>` used by Verify Identity Access components.'
+    sysaccount: SysAccount
+    'Create and manage the local/internal user registry for the Local Management Interface'
     cli_commands: CLICommands
     'Use the API interface to run :ref:`CLI commands <CLI Commands>`.'
     snapshot: Snapshot
