@@ -41,6 +41,12 @@ class DSC(object):
                                                        permitted for established TLS connections.
             tls13_cipher_specs (:obj:`str`, optional): The comma separated list of permissted TLS1.3 cipher specs 
                                                        permitted for established TLS connections.
+            dsc_ssl_key_agreement (:obj:`str`, optional): The type of algorithms and parameters that are used for 
+                                                        TLS key agreement.
+            dsc_ssl_supported_groups (:obj:`str`, optional): Comma separated list of supported elliptic curve groups 
+                                                            for key exchange in SSL/TLS connections to the DSC.
+            dsc_allow_rsa_key_exchange (bool, optional): A flag true/false indicating whether RSA key exchange is 
+                                                        allowed for SSL/TLS connections to the DSC.
             worker_threads (int): The number of worker threads allocated to processing requests.
             servers (:obj:`dict`): The external connection data for each instance of the DSC. This 
                                     corresponds to the IP address and ports to which clients will connect. 
