@@ -178,10 +178,11 @@ class Cluster(object):
     def update_cluster(self, primary_master=None, dsc_external_clients=False, dsc_port=None, dsc_use_ssl=None, 
             dsc_ssl_label=None, dsc_worker_threads=None, dsc_maximum_session_lifetime=None, dsc_client_grace_period=None,
             dsc_connection_idle_timeout=None, dsc_ssl_ciphers=None, dsc_tls12_cipher_specs=None, dsc_tls13_cipher_specs=None,
-            hvdb_embedded=None, hvdb_max_size=None, hvdb_db_type=None, 
-            hvdb_address=None, hvdb_port=None, hvdb_user=None, hvdb_password=None, hvdb_db_name=None, hvdb_db_secure=None,
-            cfgdb_embedded=None, cfgdb_db_type=None, cfgdb_address=None, cfgdb_port=None, cfgdb_user=None, cfgdb_password=None,
-            cfgdb_db_name=None, cfgdb_db_secure=None, first_port=None, cfgdb_fs=None, extra_config={}) -> Response:
+            dsc_ssl_key_agreement=None, dsc_ssl_supported_groups=None, dsc_allow_rsa_key_exchange=None, hvdb_embedded=None, 
+            hvdb_max_size=None, hvdb_db_type=None, hvdb_address=None, hvdb_port=None, hvdb_user=None, hvdb_password=None,
+            hvdb_db_name=None, hvdb_db_secure=None, cfgdb_embedded=None, cfgdb_db_type=None, cfgdb_address=None, 
+            cfgdb_port=None, cfgdb_user=None, cfgdb_password=None, cfgdb_db_name=None, cfgdb_db_secure=None, 
+            first_port=None, cfgdb_fs=None, extra_config={}) -> Response:
         """
         Update the cluster configuration.
 
@@ -203,6 +204,12 @@ class Cluster(object):
             dsc_ssl_ciphers (:obj:`str`): The SSL ciphers that are permitted to establish TLS connections.
             dsc_tls12_cipher_specs (:obj:`str`): The TLS 1.2 cipher specs that are permitted for established TLS1.2 connections.
             dsc_tls13_cipher_specs (:obj:`str`): The TLS 1.3 cipher specs that are permitted for established TLS1.3 connections.
+            dsc_ssl_key_agreement (:obj:`str`, optional): The type of algorithms and parameters that are used for 
+                                                        TLS key agreement.
+            dsc_ssl_supported_groups (:obj:`str`, optional): Comma separated list of supported elliptic curve groups 
+                                                            for key exchange in SSL/TLS connections to the DSC.
+            dsc_allow_rsa_key_exchange (bool, optional): A flag true/false indicating whether RSA key exchange is 
+                                                        allowed for SSL/TLS connections to the DSC.
             hvdb_embedded (`bool`): A flag true/false indicating whether or not the Runtime database (HVDB) is embedded 
                             (true) or external (false).
             hvdb_max_size (`int`): The percentage of currently available disk space which can be used for the embedded 
@@ -250,6 +257,9 @@ class Cluster(object):
         data.add_value_string("dsc_ssl_ciphers", dsc_ssl_ciphers)
         data.add_value_string("dsc_tls12_cipher_specs", dsc_tls12_cipher_specs)
         data.add_value_string("dsc_tls13_cipher_specs", dsc_tls13_cipher_specs)
+        data.add_value_string("dsc_ssl_key_agreement", dsc_ssl_key_agreement)
+        data.add_value_string("dsc_ssl_supported_groups", dsc_ssl_supported_groups)
+        data.add_value_string("dsc_allow_rsa_key_exchange", dsc_allow_rsa_key_exchange)
         data.add_value_boolean("hvdb_embedded", hvdb_embedded)
         data.add_value("hvdb_max_size", hvdb_max_size) 
         data.add_value_string("hvdb_db_type", hvdb_db_type)
