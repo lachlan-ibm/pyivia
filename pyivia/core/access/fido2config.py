@@ -2,7 +2,7 @@
 @copyright: IBM
 """
 
-import ntpath
+import os
 import logging
 
 from pyivia.util.model import DataObject, Response
@@ -310,7 +310,7 @@ class FIDO2Config(object):
         try:
             with open(filename, 'rb') as content:
                 data = DataObject()
-                data.add_value_string("filename", ntpath.basename(filename))
+                data.add_value_string("filename", os.path.basename(filename))
                 data.add_value_string("contents", content.read().decode('utf-8'))
 
                 endpoint = FIDO2_METADATA
@@ -408,7 +408,7 @@ class FIDO2Config(object):
         try:
             with open(filename, 'rb') as content:
                 data = DataObject()
-                data.add_value_string("filename", ntpath.basename(filename))
+                data.add_value_string("filename", os.path.basename(filename))
                 data.add_value_string("content", content.read().decode('utf-8'))
                 data.add_value_string("type", "FIDO2")
                 data.add_value_string("name", name)
