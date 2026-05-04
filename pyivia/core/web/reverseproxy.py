@@ -252,7 +252,7 @@ class ReverseProxy(object):
             runtime_username (:obj:`str`): The username used to authenticate with the runtime server.
             runtime_password (:obj:`str`): The password used to authenticate with the runtime server.
             runtime_type (:obj:`str`, optional): The type of runtime server, "local" or "remote". Default is "local".
-            runtime_load_cert (:obj:`str`, optional): Control if th X.509 certificate should be read from the runtime 
+            runtime_load_cert (:obj:`str`, optional): Control if the X.509 certificate should be read from the runtime 
                                                     server's https endpoint. Default is "on".
             runtime_enable_mtls (`bool`, optional): Control if the runtime server should use mutual TLS authentication.
 
@@ -593,7 +593,7 @@ class ReverseProxy(object):
             proxy_port (:obj:`str`): The TCP port of the proxy server.
             remote_http_header (:obj:`str`): Controls the insertion of Verify Identity Access specific client identity 
                                             information in HTTP headers across the junction.
-            sni_name: (obj:`str`, optional): The server name indicator (SNI) to send to TLS junction servers. By 
+            sni_name (:obj:`str`, optional): The server name indicator (SNI) to send to TLS junction servers. By 
                                              default, no SNI is sent. Any valid DNS name is permitted.
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
@@ -657,6 +657,7 @@ class ReverseProxy(object):
         data.add_value("http_port", http_port)
         data.add_value("proxy_port", proxy_port)
         data.add_value("remote_http_header", remote_http_header)
+        data.add_value_string("sni_name", sni_name)
         logger.debug("Junction config: {}".format(data.data))
         endpoint = "%s/%s/junctions" % (REVERSEPROXY, str(webseal_id))
 
