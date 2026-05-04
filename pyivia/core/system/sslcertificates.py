@@ -321,18 +321,33 @@ class SSLCertificates(object):
         return response
 
     def create_self_signed(self, kdb=None, label=None, dn=None, expire=None, default=None, 
-            size=None, signature_algorithm=None):
+            size=None, signature_algorithm=None, ca=None, key_usage=None, extended_key_usage=None, 
+            san_dns=None, san_email=None, san_ip=None):
         """
         Generating a self-signed personal certificate in a certificate database.
+
+        If any of the Subject Alternat Name extension properties are set, the certificate will be created with 
+        the Subject Alternat Name extension.
 
         Args:
             kdb (:obj:`str`): Name of the certificate database.
             label (:obj:`str`): The new personal certificate label that is used to uniquely identify the personal certificate.
             dn (:obj:`str`): The distinguished name of the new personal certificate.
             expire (`int`): The validity period, in days, for the new certificate.
-            default (:obj:`str`): Whether the generated certificate is the default. The value is "yes" or "no".
+            default (:obj:`str`): Whether the generated certificate is the default. ``yes`` or ``no``.
             size (`int`, optional): The key size of the new certificate. Must be one of 1024, 2048, or 4096.
             signature_algorithm (:obj:`str`, optional): The signature algorithm to use when creating the new certificate.
+            ca (bool, optional): Whether the certificate should be marked as a Certificate Authority. 
+            key_usage (:obj:`list` of :obj:`str`, optional): The key usage to use when creating the new certificate.
+                                                             Array of strings. Valid values include ``digitalSignature``, ``nonRepudiation``, 
+                                                             ``keyEncipherment``, ``dataEncipherment``, ``keyAgreement``, ``keyCertSign``, 
+                                                             ``cRLSign``, ``encipherOnly`` and ``decipherOnly``.
+            extended_key_usage (:obj:`str`, optional): The extended key usage to use when creating the new certificate.
+                                                       Array of strings. Valid values include ``ocspSigning``, ``timeStamping``, ``emailProtection``, 
+                                                       ``codeSigning``, ``clientAuth``, ``serverAuth``, ``SSLStepUpApproval``, and ``any``.
+            san_dns (:obj:`list` of :obj:`string`, optional): Array of DNS names to add to the Subject Alt Name extension.
+            san_email (:obj:`list` of :obj:`string`, optional): Array of email addresses to add to the Subject Alt Name extension.
+            san_ip (:obj:`list` of :obj:`string`, optional): Array of IP addresses to add to the Subject Alt Name extension.
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
@@ -351,6 +366,22 @@ class SSLCertificates(object):
         data.add_value_string("default", default)
         data.add_value("size", size)
         data.add_value_string("signature_algorithm", signature_algorithm)
+
+        extensions = DataObject()
+        extensions.add_value("key_usage", key_usage)
+        extensions.add_value("ext_key_usage", extended_key_usage)
+        if ca == True:
+            extensions.add_value("basic_constraints", {"ca": ca})
+        san = DataObject()
+        if san_dns:
+            san.add_value("dns_names", san_dns)
+        if san_email:
+            san.add_value("email_addresses", san_email)
+        if san_ip:
+            san.add_value("ip_addresses", san_ip)
+        extensions.add_value("subject_alt_names", san)
+        data.add_value("extensions", extensions)
+
 
         endpoint = "{}/{}/personal_cert".format(SSL_CERTIFICATES, kdb)
         response = self._client.post_json(endpoint, data=data.data)

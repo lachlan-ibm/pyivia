@@ -41,10 +41,10 @@ class APIProtection(object):
             client_id (:obj:`str`): The id of the client.
             client_secret (:obj:`str`, optional): The client secret to use. If not specified then a public client is created.
             require_pkce_verification (bool, optional): Whether or not this client must perform proof of key exchange 
-                                                        when performing an authorization code flow. Added in 9.0.4.0
-            jwks_uri (:obj:`str`): URI which is the location that a clients published JWK set. Added in 9.0.4.0
-            encryption_db (:obj:`str`): The SSL database containing the JWT encryption key. Added in 9.0.4.0
-            encryption_cert (:obj:`str`): The certificate label of the JWT encryption key. Added in 9.0.4.0
+                                                        when performing an authorization code flow.
+            jwks_uri (:obj:`str`): URI which is the location that a clients published JWK set.
+            encryption_db (:obj:`str`): The SSL database containing the JWT encryption key.
+            encryption_cert (:obj:`str`): The certificate label of the JWT encryption key.
             introspect_with_secret (bool, optional): Whether or not the client secret is required when 
                                                      performing an introspection request with this client. Added in 10.0.3.0.
             exts (:obj:`dict`, optional): Optional JSON dictionary of advanced configuration properties for the client.
@@ -199,26 +199,58 @@ class APIProtection(object):
             name (:obj:`str`): Name of the OIDC definition.
             description (:obj:`str`, optional): Description of the OIDC definition.
             tcm_behavior (:obj:`str`, optional): Specify the Trust Client Manager's behavior.
-            token_char_set (:obj:`str`, optional): Specify the allowed characters for generated tokens. Default is alphanumeric set of characters.
+            token_char_set (:obj:`str`, optional): Specify the allowed characters for generated tokens. 
+                                                   Default is alphanumeric set of characters.
             access_token_lifetime (int, optional): Length of time that access token is valid for.
             authorization_code_lifetime (int, optional): Length of time that authorization code is valid for.
             authorization_code_length (int, optional): Number of characters used to generate authorization code.
             refresh_token_length (int, optional): Number of characters used to generate refresh tokens.
-            max_authorization_grant_lifetime (int, optional): The maximum duration of a grant, in seconds, where the resource owner authorized the client to access the protected resource.
+            max_authorization_grant_lifetime (int, optional): The maximum duration of a grant, in seconds, where 
+                                                              the resource owner authorized the client to access 
+                                                              the protected resource.
             pin_length (int, optional): Length of PIN used to protect refresh token.
-            enforce_single_use_authorization_grant (bool, optional): True if all tokens of the authorization grant should be revoked after an access token is validated.
+            enforce_single_use_authorization_grant (bool, optional): True if all tokens of the authorization grant 
+                                                                    should be revoked after an access token is validated.
             issue_refresh_token (bool, optional): True if a refresh token should be issued to the client.
-            enforce_single_access_token_per_grant (bool, optional): True if previously granted access tokens should be revoked after a new access token is generated via a refresh token.
-            enable_multiple_refresh_tokens_for_fault_tolerance (bool, optional): True if multiple refresh tokens are stored so that the old refresh token is valid until the new refresh token is successfully delivered.
-            pin_policy_enabled (bool, optional): True if the refresh token will be further protected with a PIN provided by the API protection client.
+            enforce_single_access_token_per_grant (bool, optional): True if previously granted access tokens should be 
+                                                        revoked after a new access token is generated via a refresh token.
+            enable_multiple_refresh_tokens_for_fault_tolerance (bool, optional): True if multiple refresh tokens are 
+                                                            stored so that the old refresh token is valid until the new 
+                                                            refresh token is successfully delivered.
+            pin_policy_enabled (bool, optional): True if the refresh token will be further protected with a PIN provided 
+                                                by the API protection client.
             grant_types (:obj:`list` of :obj:`str`): A list of supported authorization grant types.
+            oidc_enabled (bool, optional): If OpenID Connect is enabled for this definition.
+            iss (:obj:`str`, optional): The issuer identifier of this definition.
+            poc (:obj:`str`, optional): The Point of Contact URL for this definition.
+            lifetime (int, optional): The lifetime of the id_tokens issued.
+            alg (:obj:`str`, optional): The signing algorithm for the JWT.
+            db (:obj:`str`, optional): The SSL database containing the signing key for RS/ES signing methods.
+            cert (:obj:`str`, optional): The certificate label of the signing key for RS/ES signing methods.
+            enc_enabled (bool, optional): Is encryption enabled for this definition.
+            enc_alg (:obj:`str`, optional): The key agreement algorithm for encryption.
+            enc_enc (:obj:`str`, optional): The encryption algorithm.
+            access_policy_id (int, optional): The id of access policy assigned to this definition.
+            attribute_sources (:obj:`list`, optional): List of attribute sources for OIDC.
+            hash_secrets (bool, optional): Whether or not to use a one way hash on the client secret before storing. 
+                                           If set to true the secret can no longer be retrieved once it has been created. 
+                                           Use the client secret rotation API to update the secret and optionally keep 
+                                           the old secret active. Note that once hashSecrets is set to true, it cannot 
+                                           be changed. Added in 11.0.3.0.
+            max_active_secrets (int, optional): The maximum number of secrets that can be active for a client at any 
+                                                given time. If not provided, the value will be set to 2. Valid values 
+                                                are in the range 1 to 10. Only valid when hashSecrets is true. Added in 11.0.3.0.
+            min_secret_len (int, optional): The minimum number of characters that a client secret must contain. 
+                                        If not specified the value will be set to 40. A value of 0 means there is no minimum.
+                                        Added in 11.0.3.0.
+            id (int, optional): The id of the definition. Added in 11.0.3.0.
 
         Returns:
-            :obj:`~requests.Response`: The response from verify identity access. 
+            :obj:`~requests.Response`: The response from verify identity access.
 
             Success can be checked by examining the response.success boolean attribute
 
-            If the request is successful the id of the created OIDC definition can be accessed from the 
+            If the request is successful the id of the created OIDC definition can be accessed from the
             response.id_from_location attribute
 
         '''
@@ -529,3 +561,67 @@ class APIProtection10030(APIProtection9040):
 
         return response
 
+class APIProtection11030(APIProtection10030):
+
+    def create_definition(self, name=None, description=None, tcm_behavior=None, token_char_set=None, access_token_lifetime=None,
+            access_token_length=None, authorization_code_lifetime=None, authorization_code_length=None, refresh_token_length=None,
+            max_authorization_grant_lifetime=None, pin_length=None, enforce_single_use_authorization_grant=None,
+            issue_refresh_token=None, enforce_single_access_token_per_grant=None,
+            enable_multiple_refresh_tokens_for_fault_tolerance=None, pin_policy_enabled=None, grant_types=None, oidc_enabled=False,
+            iss=None, poc=None, lifetime=None, alg=None, db=None, cert=None, enc_enabled=False, enc_alg=None, enc_enc=None, 
+            access_policy_id=None, attribute_sources=[], id=None, hash_secrets=None, max_active_secrets=None,
+            min_secret_len=None):
+
+        data = DataObject()
+        data.add_value_string("name", name)
+        data.add_value("id", id)
+        data.add_value_string("description", description)
+        data.add_value_string("tcmBehavior", tcm_behavior)
+        data.add_value_string("tokenCharSet", token_char_set)
+        data.add_value("accessTokenLifetime", access_token_lifetime)
+        data.add_value("accessTokenLength", access_token_length)
+        data.add_value("authorizationCodeLifetime", authorization_code_lifetime)
+        data.add_value("authorizationCodeLength", authorization_code_length)
+        data.add_value("refreshTokenLength", refresh_token_length)
+        data.add_value(
+            "maxAuthorizationGrantLifetime", max_authorization_grant_lifetime)
+        data.add_value("pinLength", pin_length)
+        data.add_value_boolean(
+            "enforceSingleUseAuthorizationGrant",
+            enforce_single_use_authorization_grant)
+        data.add_value_boolean("issueRefreshToken", issue_refresh_token)
+        data.add_value_boolean(
+            "enforceSingleAccessTokenPerGrant",
+            enforce_single_access_token_per_grant)
+        data.add_value_boolean(
+            "enableMultipleRefreshTokensForFaultTolerance",
+            enable_multiple_refresh_tokens_for_fault_tolerance)
+        data.add_value_boolean("pinPolicyEnabled", pin_policy_enabled)
+        data.add_value("grantTypes", grant_types)
+        data.add_value("accessPolicyId", access_policy_id)
+        data.add_value_boolean("hashSecrets", hash_secrets)
+        data.add_value("maxActiveSecrets", max_active_secrets)
+        data.add_value("minSecretCharacters", min_secret_len)
+
+        if oidc_enabled:
+            oidc = DataObject()
+            oidc.add_value_boolean("enabled",True)
+            oidc.add_value("iss",iss)
+            oidc.add_value("poc",poc)
+            oidc.add_value("lifetime",lifetime)
+            oidc.add_value("alg",alg)
+            oidc.add_value("db",db)
+            oidc.add_value("cert",cert)
+            if enc_enabled:
+                enc_data = DataObject()
+                enc_data.add_value_boolean("enabled",True)
+                enc_data.add_value("alg",enc_alg)
+                enc_data.add_value("enc",enc_enc)
+                oidc.add_value("enc",enc_data.data)
+            oidc.add_value_not_empty("attributeSources", attribute_sources)
+            data.add_value("oidc", oidc.data)
+        
+        response = self._client.post_json(DEFINITIONS, data.data)
+        response.success = response.status_code == 201
+
+        return response
