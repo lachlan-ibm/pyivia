@@ -19,7 +19,7 @@ class UserMapping(object):
         self._client = RESTClient(base_url, username, password)
 
 
-    def create(self, name=None, dynurl_config_data=None):
+    def create(self, name=None, content=None):
         """
         Create a new user mapping policy file.
 
@@ -38,7 +38,7 @@ class UserMapping(object):
         """
         data = DataObject()
         data.add_value_string("name", name)
-        data.add_value_string("content", dynurl_config_data)
+        data.add_value_string("content", content)
 
         response = self._client.post_json(USER_MAP_CDAS, data.data)
         response.success = response.status_code == 200
