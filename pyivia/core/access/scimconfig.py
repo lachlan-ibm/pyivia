@@ -96,7 +96,7 @@ class SCIMConfig(object):
 
 
     def update_general_config(self, admin_group="adminGroup", enable_header_authentication=True, enable_authz_filter=True,
-            max_user_responses=None, attribute_modes=[]):
+            max_user_responses=None, attribute_modes=[], enablement_level=None):
         '''
         Update the general configuration settings of the SCIM profile.
 
@@ -107,7 +107,8 @@ class SCIMConfig(object):
                                                 Default is ``true``.
             enable_authz_filter (bool, optional): Whether or not the authorization filter is enabled.
             max_user_response (int, optional): The maximum number of entries that can be returned from a single call to the /User endpoint.
-
+            enablement_level (:obj:`str`, optional): The enablement level of the SCIM configuration. Valid values are ``ALL``, ``NONE``, 
+                                                    ``ADMIN``, ``SELF`` or ``MMFA``. If not specified the value will default to ``ALL``.
         Returns:
             :obj:`~requests.Response`: The response from verify identity access.
 

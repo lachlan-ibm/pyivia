@@ -519,7 +519,7 @@ class ReverseProxy(object):
             force=None, delegation_support=None, scripting_support=None,
             junction_hard_limit=None, junction_soft_limit=None,
             server_port=None, https_port=None, http_port=None, proxy_port=None,
-            remote_http_header=None):
+            remote_http_header=None, sni_name=None):
         '''
         Create a standard or virtual WebSEAL junction.
 
@@ -593,7 +593,8 @@ class ReverseProxy(object):
             proxy_port (:obj:`str`): The TCP port of the proxy server.
             remote_http_header (:obj:`str`): Controls the insertion of Verify Identity Access specific client identity 
                                             information in HTTP headers across the junction.
-
+            sni_name: (obj:`str`, optional): The server name indicator (SNI) to send to TLS junction servers. By 
+                                             default, no SNI is sent. Any valid DNS name is permitted.
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
 
