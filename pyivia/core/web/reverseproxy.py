@@ -287,7 +287,7 @@ class ReverseProxy(object):
     def configure_aac(self,webseal_id,junction=None,reuse_certs=False,reuse_acls=False,
         runtime_hostname=None,runtime_port=None,runtime_username=None,runtime_password=None,
         fido2_remember_me=None, fido2_key_label=None, fido2_set_template=None,
-        fido2_login_lrr=None):
+        fido2_login_lrr=None, load_certificate=None):
         '''
         Configure a WebSEAL instance to use the Federated runtime server for Advanced Access Control and Context Based
         Authorization decisions.
@@ -311,6 +311,7 @@ class ReverseProxy(object):
                                                     as the login success page. Default is false.
             fido2_login_lrr (`bool`, optional): The key which will be used to secure the remember-session token. Only required if 
                                                 ``fido2_remember_me`` is true.
+            load_certificate (`bool`, optional): A flag to indicate that the certificate should be loaded from the runtime server. Default is true.
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
@@ -333,6 +334,7 @@ class ReverseProxy(object):
         data.add_value_string("username", runtime_username)
         data.add_value_string("password", runtime_password)
         data.add_value_not_empty("fido2_pair", fido2.data)
+        data.add_value_boolean("load_certificate", load_certificate)
 
         endpoint = "%s/%s/authsvc_config" % (REVERSEPROXY, webseal_id)
         response = self._client.post_json(endpoint, data.data)

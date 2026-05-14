@@ -25,7 +25,8 @@ class RuntimeComponent(object):
             ldap_password=None, admin_cert_lifetime=None, ssl_compliance=None,
             ldap_host=None, ldap_port=None, isam_domain=None, ldap_dn=None,
             ldap_suffix=None, ldap_ssl_db=None, ldap_ssl_label=None,
-            isam_host=None, isam_port=None):
+            isam_host=None, isam_port=None, local_interface_only=None, ldap_force_clean=None,
+            ldap_clean_all=None):
         """
         Configure the reverse proxy runtime component, including the policy server and user registry.
 
@@ -50,6 +51,13 @@ class RuntimeComponent(object):
             isam_host (:obj:`str`): The name of the host that hosts the Security Verify Identity Access policy server.
             isam_port (:obj:`str`, optional): The port over which communication with the Security Verify Identity Access policy 
                                 server takes place. If ps_mode is remote, this field is required.
+            local_interface_only (`bool`): 	Whether or not to configure the local policy server and user registry to listen only on localhost. Default 
+                                            is ``false`` if not specified.
+            ldap_force_clean (:obj:`str`): Whether or not to clean the user registry if another policy server is already configured against the user registry. 
+                                           This option should only be used if you need to reconfigure against a user registry which contains the definitions 
+                                           of a policy server which no longer exists. Default is ``false``. 
+            ldap_clean_all (:obj:`str`): Whether or not to clean all user registry entries, when cleaning a user registry, including the imported user and 
+                                         group information. This option is only used if the clean_user_registry option is set to true. Default is ``false``.
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
@@ -75,6 +83,9 @@ class RuntimeComponent(object):
         data.add_value_string("isam_host", isam_host)
         data.add_value("ldap_port", ldap_port)
         data.add_value("isam_port", isam_port)
+        data.add_value_boolean("local_interface_only", local_interface_only)
+        data.add_value_boolean("ldap_force_clean", ldap_force_clean)
+        data.add_value_boolean("ldap_clean_all", ldap_clean_all)
         response = self._client.post_json(RUNTIME_COMPONENT, data.data)
 
         response.success = response.status_code == 200
@@ -304,7 +315,8 @@ class RuntimeComponent10000(RuntimeComponent):
             ldap_password=None, admin_cert_lifetime=None, ssl_compliance=None,
             ldap_host=None, ldap_port=None, isam_domain=None, ldap_dn=None,
             ldap_suffix=None, ldap_ssl_db=None, ldap_ssl_label=None,
-            isam_host=None, isam_port=None, clean_ldap=None):
+            isam_host=None, isam_port=None, local_interface_only=None, 
+            ldap_force_clean=None, ldap_clean_all=None, clean_ldap=None):
         """
         Configure the reverse proxy runtime component, including the policy server and user registry.
 
@@ -331,6 +343,13 @@ class RuntimeComponent10000(RuntimeComponent):
                                 server takes place. If ps_mode is remote, this field is required.
             clean_ldap (`bool`, optional): Whether any existing data within the LDAP server should be cleaned prior 
                                 to the configuration. Required if the user registry is local.
+            local_interface_only (`bool`): 	Whether or not to configure the local policy server and user registry to listen only on localhost. Default 
+                                            is ``false`` if not specified.
+            ldap_force_clean (:obj:`str`): Whether or not to clean the user registry if another policy server is already configured against the user registry. 
+                                           This option should only be used if you need to reconfigure against a user registry which contains the definitions 
+                                           of a policy server which no longer exists. Default is ``false``. 
+            ldap_clean_all (:obj:`str`): Whether or not to clean all user registry entries, when cleaning a user registry, including the imported user and 
+                                         group information. This option is only used if the clean_user_registry option is set to true. Default is ``false``.
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
@@ -357,7 +376,9 @@ class RuntimeComponent10000(RuntimeComponent):
         data.add_value_string("isam_host", isam_host)
         data.add_value("ldap_port", ldap_port)
         data.add_value("isam_port", isam_port)
-
+        data.add_value_boolean("local_interface_only", local_interface_only)
+        data.add_value_boolean("ldap_force_clean", ldap_force_clean)
+        data.add_value_boolean("ldap_clean_all", ldap_clean_all)
         response = self._client.post_json(RUNTIME_COMPONENT, data.data)
 
         response.success = response.status_code == 200
