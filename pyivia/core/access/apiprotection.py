@@ -191,7 +191,7 @@ class APIProtection(object):
             access_token_length=None, authorization_code_lifetime=None, authorization_code_length=None, refresh_token_length=None,
             max_authorization_grant_lifetime=None, pin_length=None, enforce_single_use_authorization_grant=None,
             issue_refresh_token=None, enforce_single_access_token_per_grant=None, enable_multiple_refresh_tokens_for_fault_tolerance=None,
-            pin_policy_enabled=None, grant_types=None, definition_id=None):
+            pin_policy_enabled=None, grant_types=None):
         '''
         Create an OIDC API Protection definition. Definitions can be used to configure one or more clients.
 
@@ -447,7 +447,7 @@ class APIProtection9040(APIProtection):
             access_token_length=None, authorization_code_lifetime=None, authorization_code_length=None, refresh_token_length=None,
             max_authorization_grant_lifetime=None, pin_length=None, enforce_single_use_authorization_grant=None,
             issue_refresh_token=None, enforce_single_access_token_per_grant=None,
-            enable_multiple_refresh_tokens_for_fault_tolerance=None, pin_policy_enabled=None, grant_types=None, definition_id=None,
+            enable_multiple_refresh_tokens_for_fault_tolerance=None, pin_policy_enabled=None, grant_types=None,
             oidc_enabled=False, iss=None, poc=None, lifetime=None, alg=None, db=None, cert=None, enc_enabled=False, enc_alg=None, enc_enc=None, 
             access_policy_id=None, attribute_sources=[]):
 
@@ -567,9 +567,9 @@ class APIProtection11030(APIProtection10030):
             access_token_length=None, authorization_code_lifetime=None, authorization_code_length=None, refresh_token_length=None,
             max_authorization_grant_lifetime=None, pin_length=None, enforce_single_use_authorization_grant=None,
             issue_refresh_token=None, enforce_single_access_token_per_grant=None,
-            enable_multiple_refresh_tokens_for_fault_tolerance=None, pin_policy_enabled=None, grant_types=None, definition_id=None,
+            enable_multiple_refresh_tokens_for_fault_tolerance=None, pin_policy_enabled=None, grant_types=None,
             oidc_enabled=False, iss=None, poc=None, lifetime=None, alg=None, db=None, cert=None, enc_enabled=False, enc_alg=None, enc_enc=None, 
-            access_policy_id=None, attribute_sources=[], id=None, hash_secrets=None, max_active_secrets=None,
+            access_policy_id=None, attribute_sources=[], definition_id=None, hash_secrets=None, max_active_secrets=None,
             min_secret_len=None):
 
         data = DataObject()
