@@ -191,7 +191,7 @@ class APIProtection(object):
             access_token_length=None, authorization_code_lifetime=None, authorization_code_length=None, refresh_token_length=None,
             max_authorization_grant_lifetime=None, pin_length=None, enforce_single_use_authorization_grant=None,
             issue_refresh_token=None, enforce_single_access_token_per_grant=None, enable_multiple_refresh_tokens_for_fault_tolerance=None,
-            pin_policy_enabled=None, grant_types=None):
+            pin_policy_enabled=None, grant_types=None, definition_id=None):
         '''
         Create an OIDC API Protection definition. Definitions can be used to configure one or more clients.
 
@@ -243,7 +243,7 @@ class APIProtection(object):
             min_secret_len (int, optional): The minimum number of characters that a client secret must contain. 
                                         If not specified the value will be set to 40. A value of 0 means there is no minimum.
                                         Added in 11.0.3.0.
-            id (int, optional): The id of the definition. Added in 11.0.3.0.
+            definition_id (int, optional): The id of the definition. Added in 11.0.3.0.
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access.
@@ -447,8 +447,8 @@ class APIProtection9040(APIProtection):
             access_token_length=None, authorization_code_lifetime=None, authorization_code_length=None, refresh_token_length=None,
             max_authorization_grant_lifetime=None, pin_length=None, enforce_single_use_authorization_grant=None,
             issue_refresh_token=None, enforce_single_access_token_per_grant=None,
-            enable_multiple_refresh_tokens_for_fault_tolerance=None, pin_policy_enabled=None, grant_types=None, oidc_enabled=False,
-            iss=None, poc=None, lifetime=None, alg=None, db=None, cert=None, enc_enabled=False, enc_alg=None, enc_enc=None, 
+            enable_multiple_refresh_tokens_for_fault_tolerance=None, pin_policy_enabled=None, grant_types=None, definition_id=None,
+            oidc_enabled=False, iss=None, poc=None, lifetime=None, alg=None, db=None, cert=None, enc_enabled=False, enc_alg=None, enc_enc=None, 
             access_policy_id=None, attribute_sources=[]):
 
         data = DataObject()
@@ -567,14 +567,14 @@ class APIProtection11030(APIProtection10030):
             access_token_length=None, authorization_code_lifetime=None, authorization_code_length=None, refresh_token_length=None,
             max_authorization_grant_lifetime=None, pin_length=None, enforce_single_use_authorization_grant=None,
             issue_refresh_token=None, enforce_single_access_token_per_grant=None,
-            enable_multiple_refresh_tokens_for_fault_tolerance=None, pin_policy_enabled=None, grant_types=None, oidc_enabled=False,
-            iss=None, poc=None, lifetime=None, alg=None, db=None, cert=None, enc_enabled=False, enc_alg=None, enc_enc=None, 
+            enable_multiple_refresh_tokens_for_fault_tolerance=None, pin_policy_enabled=None, grant_types=None, definition_id=None,
+            oidc_enabled=False, iss=None, poc=None, lifetime=None, alg=None, db=None, cert=None, enc_enabled=False, enc_alg=None, enc_enc=None, 
             access_policy_id=None, attribute_sources=[], id=None, hash_secrets=None, max_active_secrets=None,
             min_secret_len=None):
 
         data = DataObject()
         data.add_value_string("name", name)
-        data.add_value("id", id)
+        data.add_value("id", definition_id)
         data.add_value_string("description", description)
         data.add_value_string("tcmBehavior", tcm_behavior)
         data.add_value_string("tokenCharSet", token_char_set)
