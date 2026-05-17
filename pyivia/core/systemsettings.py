@@ -15,7 +15,7 @@ from .system.interfaces import Interfaces, Interfaces10000
 from .system.staticroutes import StaticRoutes, StaticRoutes10000
 from .system.licensing import Licensing
 from .system.restartshutdown import RestartShutdown
-from .system.sslcertificates import SSLCertificates
+from .system.sslcertificates import SSLCertificates, SSLCertificates11030
 from .system.clicommands import CLICommands
 from .system.runtimedb import RuntimeDb
 from .system.cluster import Cluster
@@ -269,3 +269,4 @@ class SystemSettings11030(SystemSettings11020):
 
     def __init__(self, base_url, username, password):
         super(SystemSettings11030, self).__init__(base_url, username, password)
+        self.ssl_certificates = SSLCertificates11030(base_url, username, password)
