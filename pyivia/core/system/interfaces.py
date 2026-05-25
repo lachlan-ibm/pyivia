@@ -33,8 +33,7 @@ class Interfaces(object):
             enabled (`bool`): true to enabled this address, otherwise false. 
             allow_management (`bool`): true if this is the primary management address.
             broadcast_address (:obj:`str`): Broadcast address on the subnet.
-            override_subnet_checking (`bool`): true to indicate that the check for overlapping subnets should not be executed. 
-                            The default value of false is used if this data is not supplied.
+
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 

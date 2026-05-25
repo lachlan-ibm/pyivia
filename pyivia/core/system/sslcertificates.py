@@ -216,6 +216,25 @@ class SSLCertificates(object):
 
         return response
 
+    def delete_signer(self, kdb_id, label=None):
+        """
+        Delete a X509 certificate from the ssl certificate database.
+
+        Args:
+            kdb_id (:obj:`str`): Name of the certificate database to modify.
+            label (:obj;`str`): Id of the signer certificate to remove.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify identity access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
+
+        response = self._client.delete(f"{SSL_CERTIFICATES}/{kdb_id}/signer_cert/{label}")
+        response.success = response.status_code == 200
+        
+        return response
+
     def create_database(self, kdb_name, db_type=None, token_label=None, passcode=None, hsm_type=None, ip=None, port=None, 
             kneti_hash=None, esn=None, secondary_ip=None, secondary_port=None, secondary_kneti_hash=None, secondary_esn=None,
             use_rfs=None, rfs=None, rfs_port=None, rfs_auth=None, update_zip=None, safenet_pw=None):
@@ -345,9 +364,9 @@ class SSLCertificates(object):
             extended_key_usage (:obj:`str`, optional): The extended key usage to use when creating the new certificate.
                                                        Array of strings. Valid values include ``ocspSigning``, ``timeStamping``, ``emailProtection``, 
                                                        ``codeSigning``, ``clientAuth``, ``serverAuth``, ``SSLStepUpApproval``, and ``any``. Only valid for 11.0.3 onwards.
-            san_dns (:obj:`list` of :obj:`string`, optional): Array of DNS names to add to the Subject Alt Name extension. Only valid for 11.0.3 onwards.
-            san_email (:obj:`list` of :obj:`string`, optional): Array of email addresses to add to the Subject Alt Name extension. Only valid for 11.0.3 onwards.
-            san_ip (:obj:`list` of :obj:`string`, optional): Array of IP addresses to add to the Subject Alt Name extension. Only valid for 11.0.3 onwards.
+            san_dns (:obj:`list` of :obj:`str`, optional): Array of DNS names to add to the Subject Alt Name extension. Only valid for 11.0.3 onwards.
+            san_email (:obj:`list` of :obj:`str`, optional): Array of email addresses to add to the Subject Alt Name extension. Only valid for 11.0.3 onwards.
+            san_ip (:obj:`list` of :obj:`str`, optional): Array of IP addresses to add to the Subject Alt Name extension. Only valid for 11.0.3 onwards.
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 

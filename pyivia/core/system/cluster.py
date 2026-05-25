@@ -79,10 +79,12 @@ class Cluster(object):
         current = self.get()
         if current.success == True and current.json:
             data.data = current.json
+        if 'hvdb_user' in data.data:
+            data.data['hvdb_password'] = "********"
         data.add_value_boolean("cfgdb_embedded", embedded)
         data.add_value_string("cfgdb_address", host)
         data.add_value_string("cfgdb_port", port)
-        data.add_value_string("cfgdb_secure", "true" if secure else "false")
+        data.add_value_string("cfgdb_db_secure", "true" if secure else "false")
         data.add_value_string("cfgdb_user", user)
         data.add_value_string("cfgdb_password", passwd)
         data.add_value_string("cfgdb_db_name", db_name)
