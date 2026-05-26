@@ -222,7 +222,7 @@ class SSLCertificates(object):
 
         Args:
             kdb_id (:obj:`str`): Name of the certificate database to modify.
-            label (:obj;`str`): Id of the signer certificate to remove.
+            label (:obj:`str`): Id of the signer certificate to remove.
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
