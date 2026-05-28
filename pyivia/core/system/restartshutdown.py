@@ -11,8 +11,7 @@ from pyivia.util.restclient import RESTClient
 
 LMI = "/lmi"
 LMI_RESTART = "/core/restarts/restart_server"
-APPLIANCE_RESTART = "/diagnostics/restart_shutdown/reboot"
-APPLIANCE_SHUTDOWN = "/diagnostics/restart_shutdown/shutdown"
+RESTART_SHUTDOWN = "/diagnostics/restart_shutdown/"
 RUNTIME = "/mga/runtime_profile/v1"
 RUNTIME_RESTART = "/mga/runtime_profile/local/v1"
 
@@ -134,7 +133,7 @@ class RestartShutdown(object):
             last_start = response.json[0].get("start_time", -1)
 
         if last_start > 0:
-            response = self._client.post_json(APPLIANCE_RESTART)
+            response = self._client.post_json(RESTART_SHUTDOWN + 'restart')
             response.success = True if response.status_code == 200 \
                     and response.json \
                     and response.json.get("status", False) == True \
@@ -208,7 +207,7 @@ class RestartShutdown(object):
 
 
     def shutdown_appliance(self):
-        response = self._client.post_json(APPLIANCE_SHUTDOWN)
+        response = self._client.post_json(RESTART_SHUTDOWN + 'shutdown')
         response.success = True if response.status_code == 200 \
                 and response.json \
                 and response.json.get("status", False) == True \
