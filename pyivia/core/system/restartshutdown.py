@@ -133,7 +133,7 @@ class RestartShutdown(object):
             last_start = response.json[0].get("start_time", -1)
 
         if last_start > 0:
-            response = self._client.post_json(RESTART_SHUTDOWN + 'restart')
+            response = self._client.post_json(RESTART_SHUTDOWN + 'reboot')
             response.success = True if response.status_code == 200 \
                     and response.json \
                     and response.json.get("status", False) == True \
