@@ -246,3 +246,22 @@ class SCIMConfig9050(SCIMConfig):
         response = self._client.put_json(endpoint, data.data)
         response.success = response.status_code == 200
         return response
+
+class SCIMConfig11030(SCIMConfig9050):
+
+    def __init__(self, base_url, username, password):
+        super(SCIMConfig11030, self).__init__(base_url, username, password)
+
+    def update_general_config(self, admin_group="adminGroup", enable_header_authentication=True, enable_authz_filter=True,
+            max_user_responses=None, attribute_modes=[], enablement_level=None):
+        data = DataObject()
+        data.add_value_string("admin_group", admin_group)
+        data.add_value_string("enable_header_authentication", enable_header_authentication)
+        data.add_value_string("enable_authz_filter", enable_authz_filter)
+        data.add_value("max_user_responses", max_user_responses)
+        data.add_value_not_empty("attribute_modes", attribute_modes)
+        data.add_value_string("enablement_level", enablement_level)
+
+        response = self._client.put_json(SCIM_CONFIGURATION_GENERAL, data.data)
+        response.success = response.status_code == 200
+        return response

@@ -517,7 +517,7 @@ class ReverseProxy(object):
             server_uuid=None, virtual_hostname=None, server_dn=None, server_cn=None,
             local_ip=None, query_contents=None, case_sensitive_url=None,
             windows_style_url=None, ltpa_keyfile_password=None,
-            proxy_hostname=None, sms_environment=None, vhost_label=None,
+            proxy_hostname=None, sms_environment=None, vhost_label=None, vhost_aliases=None,
             force=None, delegation_support=None, scripting_support=None,
             junction_hard_limit=None, junction_soft_limit=None,
             server_port=None, https_port=None, http_port=None, proxy_port=None,
@@ -582,6 +582,8 @@ class ReverseProxy(object):
                                                     that sessions on the virtual junction are managed under.
             vhost_label (:obj:`str`): Only applicable for virtual junctions. Causes a second virtual junction to share 
                                     the protected object space with the initial virtual junction.
+            vhost_aliases (:obj:`str`): Only applicable for virtual junctions. This field contains a comma separated list 
+                                        of hostname aliases for the virtual host junction.
             force (:obj:`str`): Specifies whether to overwrite an existing junction of the same name.
             delegation_support (:obj:`str`): This option is valid only with junctions that were created with the type 
                                     of ssl or sslproxy.
@@ -649,6 +651,7 @@ class ReverseProxy(object):
         data.add_value_string("proxy_hostname", proxy_hostname)
         data.add_value_string("sms_environment", sms_environment)
         data.add_value_string("vhost_label", vhost_label)
+        data.add_value_string("vhost_aliases", vhost_aliases)
         data.add_value_string("force", force)
         data.add_value_string("delegation_support", delegation_support)
         data.add_value_string("scripting_support", scripting_support)
