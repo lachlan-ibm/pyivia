@@ -234,3 +234,8 @@ class AdvancedAccessControl11030(AdvancedAccessControl11020):
     def __init__(self, base_url, username, password):
         super(AdvancedAccessControl11030, self).__init__(base_url, username, password)
         self.api_protection = APIProtection11030(base_url, username, password)
+
+class AdvancedAccessControl11040(AdvancedAccessControl11030):
+
+    def __init__(self, base_url, username, password):
+        super(AdvancedAccessControl11040, self).__init__(base_url, username, password)

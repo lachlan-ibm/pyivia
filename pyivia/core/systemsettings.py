@@ -270,3 +270,8 @@ class SystemSettings11030(SystemSettings11020):
     def __init__(self, base_url, username, password):
         super(SystemSettings11030, self).__init__(base_url, username, password)
         self.ssl_certificates = SSLCertificates11030(base_url, username, password)
+
+class SystemSettings11040(SystemSettings11030):
+
+    def __init__(self, base_url, username, password):
+        super(SystemSettings11040, self).__init__(base_url, username, password)
