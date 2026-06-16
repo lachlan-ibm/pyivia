@@ -166,6 +166,45 @@ class SecurityTokenService(object):
 
         return response
 
+    def update_template(self, template_id, name, description=None, modules=[]):
+        """
+        Update an existing STS chain template.
+
+        Args:
+            template_id (:obj:`str`): The system-assigned STS chain template UUID value.
+            name (:obj:`str`): A human name for the STS Chain Template
+            description (:obj:`str`, optional): A description of the STS Chain Template
+            modules (:obj:`list` of :obj:`dict`): An array of the modules that make up the STS Chain Template. Each module contains:
+
+                        - id: The internal id of an STS module
+                        - mode: The mode the STS module is used in in the chain. Must be one of the supported modes of the STS module
+                        - [optional] prefix: The prefix for the chain item.
+
+                    example:: 
+
+                            {
+                                "id":"default-map",
+                                "mode":"map",
+                                "prefix":"uuid:bdbf4c6a-813d-15d6-b8b8-c2665e82a402"
+                            }
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify identity access. 
+
+            Success can be checked by examining the response.success boolean attribute.
+
+        """
+        data = DataObject()
+        data.add_value_string("name", name)
+        data.add_value_string("description", description)
+        data.add_value_not_empty("chainItems", modules)
+
+        endpoint = "%s/%s" % (STS_TEMPLATES, template_id)
+        response = self._client.put_json(endpoint, data.data)
+        response.success = response.status_code == 204
+
+        return response
+
 
     def delete_template(self, template_id):
         """
