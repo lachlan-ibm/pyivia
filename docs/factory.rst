@@ -10,6 +10,8 @@ pyIVIA supports management API from several versions of IBM Verify Identity Acce
 - IBM Verify Identity Access 11.0.2.0
 - IBM Verify Identity Access 11.0.1.0
 - IBM Verify Identity Access 11.0.0.0
+- IBM Security Verify Access 10.0.9.2
+- IBM Security Verify Access 10.0.9.1
 - IBM Security Verify Access 10.0.9.0
 - IBM Security Verify Access 10.0.8.0
 - IBM Security Verify Access 10.0.7.0
@@ -44,6 +46,8 @@ the five modules used.
 
    import pyivia
    f = pyivia.factory.Factory("https://verify.identity.access.appliance", "user", "secret")
+
+
 
 Verifying TLS to Verify Identity Access Management Interface
 ____________________________________________________________
