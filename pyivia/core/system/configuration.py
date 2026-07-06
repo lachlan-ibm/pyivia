@@ -111,7 +111,7 @@ class Configuration(object):
                             1024: a runtime profile reload is require
             """
             if status == 0:
-                logger.info("Successful operation. No further action needed.")
+                logger.info("Successful deploy pending changes. No further action needed.")
             else:
                 if (status & 1) != 0:
                     logger.error(

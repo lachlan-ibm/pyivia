@@ -410,7 +410,7 @@ class RuntimeComponent10000(RuntimeComponent):
         data.add_value_string("clean", clean)
         data.add_value_string("force", force)
 
-        response = self._client.post_json(UNCONFIGURE_RUNTIME_COMPONENT, data.data)
+        response = self._client.put_json(UNCONFIGURE_RUNTIME_COMPONENT, data.data)
 
         response.success = response.status_code == 200
 

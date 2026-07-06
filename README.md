@@ -9,6 +9,8 @@ quick and easy way to construct configuration scripts for appliances.
 - IBM Verify Identity Access 11.0.2.0
 - IBM Verify Identity Access 11.0.1.0
 - IBM Verify Identity Access 11.0.0.0
+- IBM Security Verify Access 10.0.9.2
+- IBM Security Verify Access 10.0.9.1
 - IBM Security Verify Access 10.0.9.0
 - IBM Security Verify Access 10.0.8.0
 - IBM Security Verify Access 10.0.7.0
