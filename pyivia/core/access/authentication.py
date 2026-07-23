@@ -75,6 +75,29 @@ class Authentication(object):
         return response
 
 
+    def get_mechanism(self, id=None):
+        '''
+        Retrieve an authentication mechanism configuration.
+
+        Args:
+            id (:obj:`str`): the id of the mechanism.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify identity access. 
+
+            Success can be checked by examining the response.success boolean attribute
+
+            If the request is successful the configuration is returned as JSON and can be accessed from
+            the response.json attribute
+        '''
+        endpoint = "%s/%s" % (AUTHENTICATION_MECHANISMS, id)
+
+        response = self._client.get_json(endpoint)
+        response.success = response.status_code == 200
+
+        return response
+
+
     def list_mechanism_types(self, sort_by=None, count=None, start=None, filter=None):
         '''
         Get the list of available mechanism types
@@ -211,7 +234,7 @@ class Authentication(object):
             Success can be checked by examining the response.success boolean attribute.
 
         '''
-        endpoint = "{}/{}".format(AUTHENTICATION_MECHANISMS, id)
+        endpoint = "{}/{}".format(AUTHENTICATION_MECHANISMS, mechanism_id)
         response = self._client.delete_json(endpoint)
         response.success = response.status_code == 204
 
