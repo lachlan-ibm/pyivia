@@ -452,8 +452,8 @@ class SSLCertificates11030(SSLCertificates):
             san.add_value("email_addresses", san_email)
         if san_ip:
             san.add_value("ip_addresses", san_ip)
-        extensions.add_value("subject_alt_names", san)
-        data.add_value("extensions", extensions)
+        extensions.add_value("subject_alt_names", san.data)
+        data.add_value("extensions", extensions.data)
 
         endpoint = "{}/{}/personal_cert".format(SSL_CERTIFICATES, kdb)
         response = self._client.post_json(endpoint, data=data.data)
