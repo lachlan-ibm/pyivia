@@ -515,7 +515,7 @@ class ReverseProxy(object):
             version_two_cookies=None, ltpa_keyfile=None, authz_rules=None,
             fsso_config_file=None, username=None, password=None,
             server_uuid=None, virtual_hostname=None, server_dn=None, server_cn=None,
-            local_ip=None, query_contents=None, case_sensitive_url=None,
+            local_ip=None, query_contents=None, case_insensitive_url=None,
             windows_style_url=None, ltpa_keyfile_password=None,
             proxy_hostname=None, sms_environment=None, vhost_label=None, vhost_aliases=None,
             force=None, delegation_support=None, scripting_support=None,
@@ -574,7 +574,7 @@ class ReverseProxy(object):
                                     communicates with the target back-end server.
             query_contents (:obj:`str`, optional): Provides the Reverse Proxy with the correct name of the query_contents 
                                                     program file and where to find the file.
-            case_sensitive_url (:obj:`str`, optional): Specifies whether the Reverse Proxy server treats URLs as case sensitive.
+            case_insensitive_url (:obj:`str`, optional): Specifies whether the Reverse Proxy server treats URLs as case sensitive.
             windows_style_url (:obj:`str`, optional): Specifies whether Windows style URLs are supported.
             ltpa_keyfile_password (:obj:`str`, optional): Password for the key file that is used to encrypt LTPA cookie data.
             proxy_hostname (:obj:`str`, optional): The DNS host name or IP address of the proxy server.
@@ -644,7 +644,7 @@ class ReverseProxy(object):
         data.add_value_string("server_cn", server_cn)
         data.add_value_string("local_ip", local_ip)
         data.add_value_string("query_contents", query_contents)
-        data.add_value_string("case_sensitive_url", case_sensitive_url)
+        data.add_value_string("case_insensitive_url", case_insensitive_url)
         data.add_value_string("windows_style_url", windows_style_url)
         data.add_value_string(
             "ltpa_keyfile_password", ltpa_keyfile_password)
