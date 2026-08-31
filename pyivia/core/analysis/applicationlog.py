@@ -36,12 +36,15 @@ class ApplicationLog(object):
             the response.json attribute
         """
         parameters = DataObject()
-        # parameters.add_value_string("type", "File")
 
-        if length is not None:
+        # length and start must be included together or they are ignored.
+        if length is not None and start is not None:
+            # if length and start are both included, the response should be a JSON object
             parameters.add_value("length", length)
-        if start is not None:
             parameters.add_value("start", start)
+        else:
+            # if length and start are not included, the response should be a file download
+            parameters.add_value_string("type", "File")
 
         endpoint = f"{APPLICATION_LOGS}/{path}"
         response = self._client.get_json(endpoint, parameters.data)
