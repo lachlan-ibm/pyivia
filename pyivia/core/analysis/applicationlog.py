@@ -18,12 +18,14 @@ class ApplicationLog(object):
         super(ApplicationLog, self).__init__()
         self._client = RESTClient(base_url, username, password)
 
-    def get_application_log(self, path) -> Response:
+    def get_application_log(self, path, length=None, start=None) -> Response:
         """
         Download a log file from an applaince
 
         Args:
             path (:obj:`str`): The relative path of the file to be retrieved.
+            length (:obj:`int`, optional): Number of lines to retrieve.
+            start (:obj:`int`, optional): Line number to start reading from.
 
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
@@ -34,7 +36,12 @@ class ApplicationLog(object):
             the response.json attribute
         """
         parameters = DataObject()
-        parameters.add_value_string("type", "File")
+        # parameters.add_value_string("type", "File")
+
+        if length is not None:
+            parameters.add_value("length", length)
+        if start is not None:
+            parameters.add_value("start", start)
 
         endpoint = f"{APPLICATION_LOGS}/{path}"
         response = self._client.get_json(endpoint, parameters.data)
