@@ -38,7 +38,7 @@ class FileDownloads(object):
         endpoint = ("%s/%s" % (FILE_DOWNLOADS, file_path))
 
         response = Response()
-        if file_path.ends_with('/'):
+        if file_path.endswith('/'):
             if recursive:
                 endpoint += "?recursive={}".format(recursive)
             response = self._client.get_json(endpoint)
