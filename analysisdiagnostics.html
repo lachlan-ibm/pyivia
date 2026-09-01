@@ -1,0 +1,445 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analysis and Diagnostics &mdash; pyIVIA 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=2709fde1"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="WebSEAL Reverse Proxy Settings" href="websettings.html" />
+    <link rel="prev" title="System Settings" href="systemsettings.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyIVIA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">pyIVIA modules</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="factory.html">pyIVIA API Version Factory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="systemsettings.html">System Settings</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Analysis and Diagnostics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pyivia.core.analysisdiagnostics.AnalysisDiagnostics"><code class="docutils literal notranslate"><span class="pre">AnalysisDiagnostics</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyivia.core.analysisdiagnostics.AnalysisDiagnostics.application_logs"><code class="docutils literal notranslate"><span class="pre">AnalysisDiagnostics.application_logs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyivia.core.analysisdiagnostics.AnalysisDiagnostics.remote_syslog"><code class="docutils literal notranslate"><span class="pre">AnalysisDiagnostics.remote_syslog</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#application-logs">Application Logs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyivia.core.analysis.applicationlog.ApplicationLog"><code class="docutils literal notranslate"><span class="pre">ApplicationLog</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyivia.core.analysis.applicationlog.ApplicationLog.clear_application_logs"><code class="docutils literal notranslate"><span class="pre">ApplicationLog.clear_application_logs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyivia.core.analysis.applicationlog.ApplicationLog.delete_application_logs"><code class="docutils literal notranslate"><span class="pre">ApplicationLog.delete_application_logs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyivia.core.analysis.applicationlog.ApplicationLog.get_application_log"><code class="docutils literal notranslate"><span class="pre">ApplicationLog.get_application_log()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#remote-syslog">Remote Syslog</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyivia.core.analysis.remotesyslog.RemoteSyslog"><code class="docutils literal notranslate"><span class="pre">RemoteSyslog</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyivia.core.analysis.remotesyslog.RemoteSyslog.add_server"><code class="docutils literal notranslate"><span class="pre">RemoteSyslog.add_server()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyivia.core.analysis.remotesyslog.RemoteSyslog.delete_policy"><code class="docutils literal notranslate"><span class="pre">RemoteSyslog.delete_policy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyivia.core.analysis.remotesyslog.RemoteSyslog.get"><code class="docutils literal notranslate"><span class="pre">RemoteSyslog.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyivia.core.analysis.remotesyslog.RemoteSyslog.get_facility_names"><code class="docutils literal notranslate"><span class="pre">RemoteSyslog.get_facility_names()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyivia.core.analysis.remotesyslog.RemoteSyslog.get_policy"><code class="docutils literal notranslate"><span class="pre">RemoteSyslog.get_policy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyivia.core.analysis.remotesyslog.RemoteSyslog.list"><code class="docutils literal notranslate"><span class="pre">RemoteSyslog.list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyivia.core.analysis.remotesyslog.RemoteSyslog.update"><code class="docutils literal notranslate"><span class="pre">RemoteSyslog.update()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyivia.core.analysis.remotesyslog.RemoteSyslog.update_policy"><code class="docutils literal notranslate"><span class="pre">RemoteSyslog.update_policy()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="websettings.html">WebSEAL Reverse Proxy Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="accesscontrol.html">Advanced Access Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="federation.html">Federations</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyIVIA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Analysis and Diagnostics</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/analysisdiagnostics.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="analysis-and-diagnostics">
+<span id="analysis-diagnostics"></span><h1>Analysis and Diagnostics<a class="headerlink" href="#analysis-and-diagnostics" title="Link to this heading"></a></h1>
+<p>The analysis and Diagnostics module can be used to gather logs from a Verify Identity Access deployment as well as
+monitor system health and collect resource usage (CPU, memory, disk, network latency).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyivia.core.analysisdiagnostics.AnalysisDiagnostics">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyivia.core.analysisdiagnostics.</span></span><span class="sig-name descname"><span class="pre">AnalysisDiagnostics</span></span><a class="headerlink" href="#pyivia.core.analysisdiagnostics.AnalysisDiagnostics" title="Link to this definition"></a></dt>
+<dd><p>Object is used to manage and collect log files from Verify Identity Access deployments</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyivia.core.analysisdiagnostics.AnalysisDiagnostics.application_logs">
+<span class="sig-name descname"><span class="pre">application_logs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pyivia.core.analysis.applicationlog.ApplicationLog" title="pyivia.core.analysis.applicationlog.ApplicationLog"><span class="pre">ApplicationLog</span></a></em><a class="headerlink" href="#pyivia.core.analysisdiagnostics.AnalysisDiagnostics.application_logs" title="Link to this definition"></a></dt>
+<dd><p>Retrieve <a class="reference internal" href="#application-logs"><span class="std std-ref">log files</span></a> generated by verify identity access runtime applications.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyivia.core.analysisdiagnostics.AnalysisDiagnostics.remote_syslog">
+<span class="sig-name descname"><span class="pre">remote_syslog</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pyivia.core.analysis.remotesyslog.RemoteSyslog" title="pyivia.core.analysis.remotesyslog.RemoteSyslog"><span class="pre">RemoteSyslog</span></a></em><a class="headerlink" href="#pyivia.core.analysisdiagnostics.AnalysisDiagnostics.remote_syslog" title="Link to this definition"></a></dt>
+<dd><p>Manage <a class="reference internal" href="#remote-syslog"><span class="std std-ref">remote syslog</span></a> configuration used by Verify Identity Access.</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="application-logs">
+<h2>Application Logs<a class="headerlink" href="#application-logs" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyivia.core.analysis.applicationlog.ApplicationLog">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyivia.core.analysis.applicationlog.</span></span><span class="sig-name descname"><span class="pre">ApplicationLog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyivia.core.analysis.applicationlog.ApplicationLog" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="pyivia.core.analysis.applicationlog.ApplicationLog.clear_application_logs">
+<span class="sig-name descname"><span class="pre">clear_application_logs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Response</span></span></span><a class="headerlink" href="#pyivia.core.analysis.applicationlog.ApplicationLog.clear_application_logs" title="Link to this definition"></a></dt>
+<dd><p>Clear one or more log files on an appliance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>paths</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – The list of files to clear.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>The response from verify identity access.</p>
+<p>Success can be checked by examining the response.success boolean attribute</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Response</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyivia.core.analysis.applicationlog.ApplicationLog.delete_application_logs">
+<span class="sig-name descname"><span class="pre">delete_application_logs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Response</span></span></span><a class="headerlink" href="#pyivia.core.analysis.applicationlog.ApplicationLog.delete_application_logs" title="Link to this definition"></a></dt>
+<dd><p>Delete one or more log files on an appliance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>paths</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – The list of files to be removed.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>The response from verify identity access.</p>
+<p>Success can be checked by examining the response.success boolean attribute</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Response</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyivia.core.analysis.applicationlog.ApplicationLog.get_application_log">
+<span class="sig-name descname"><span class="pre">get_application_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Response</span></span></span><a class="headerlink" href="#pyivia.core.analysis.applicationlog.ApplicationLog.get_application_log" title="Link to this definition"></a></dt>
+<dd><p>Download a log file from an applaince</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – The relative path of the file to be retrieved.</p></li>
+<li><p><strong>length</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – Number of lines to retrieve.</p></li>
+<li><p><strong>start</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – Line number to start reading from.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>The response from verify identity access.</p>
+<p>Success can be checked by examining the response.success boolean attribute</p>
+<p>If the request is successful the file contents is returned as JSON and can be accessed from
+the response.json attribute</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Response</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="remote-syslog">
+<h2>Remote Syslog<a class="headerlink" href="#remote-syslog" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyivia.core.analysis.remotesyslog.RemoteSyslog">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyivia.core.analysis.remotesyslog.</span></span><span class="sig-name descname"><span class="pre">RemoteSyslog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyivia.core.analysis.remotesyslog.RemoteSyslog" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="pyivia.core.analysis.remotesyslog.RemoteSyslog.add_server">
+<span class="sig-name descname"><span class="pre">add_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">protocol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ca_certificate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_certificate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">permitted_peers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Response</span></span></span><a class="headerlink" href="#pyivia.core.analysis.remotesyslog.RemoteSyslog.add_server" title="Link to this definition"></a></dt>
+<dd><p>Add a Remote Syslog configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>server</strong> – (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): The IP address or host name of the remote syslog server.</p></li>
+<li><p><strong>port</strong> (<cite>int</cite>) – The port on which the remote syslog server is listening.</p></li>
+<li><p><strong>debug</strong> (<cite>bool</cite>) – Whether the forwarder process will be started in debug mode.
+All trace messages will be sent to the log file of the remote
+syslog forwarder.</p></li>
+<li><p><strong>protocol</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – The protocol which will be used when communicating with the
+remote syslog server. Valid options include <code class="docutils literal notranslate"><span class="pre">udp</span></code>, <code class="docutils literal notranslate"><span class="pre">tcp</span></code>
+or <code class="docutils literal notranslate"><span class="pre">tls</span></code>.</p></li>
+<li><p><strong>format</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – The format of the messages which are forwarded to
+the rsyslog server. Valid options include <code class="docutils literal notranslate"><span class="pre">rfc-3164</span></code> or
+<code class="docutils literal notranslate"><span class="pre">rfc-5424</span></code>.</p></li>
+<li><p><strong>keyfile</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – The name of the key file which contains the SSL certificates
+used when communicating with the remote syslog server (e.g. pdsrv).
+This option is required if the protocol is <code class="docutils literal notranslate"><span class="pre">tls</span></code>.</p></li>
+<li><p><strong>ca_certificate</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – The label which is used to identify within the SSL key file
+the CA certificate of the remote syslog server. This option
+is required if the protocol is <code class="docutils literal notranslate"><span class="pre">tls</span></code>.</p></li>
+<li><p><strong>client_certificate</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – The label which is used to identify within the SSL key file
+the client certificate which will be used during mutual
+authentication with the remote syslog server.</p></li>
+<li><p><strong>permitted_peers</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – The subject DN of the remote syslog server. If this policy
+data is not specified any certificates which have been signed by
+the CA will be accepted.</p></li>
+<li><p><strong>sources</strong> (<a class="reference internal" href="#pyivia.core.analysis.remotesyslog.RemoteSyslog.list" title="pyivia.core.analysis.remotesyslog.RemoteSyslog.list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a> <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>) – <p>The source of the log file entries which will be sent to the remote
+syslog server. The format of the dictionary is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+     <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"WebSEAL:default:request.log"</span><span class="p">,</span>
+     <span class="s2">"tag"</span><span class="p">:</span> <span class="s2">"WebSEAL"</span><span class="p">,</span>
+     <span class="s2">"facility"</span><span class="p">:</span> <span class="s2">"local0"</span><span class="p">,</span>
+     <span class="s2">"severity"</span><span class="p">:</span> <span class="s2">"debug"</span>
+ <span class="p">}</span>
+</pre></div>
+</div>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>The response from verify identity access.</p>
+<p>Success can be checked by examining the response.success boolean attribute.</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Response</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyivia.core.analysis.remotesyslog.RemoteSyslog.delete_policy">
+<span class="sig-name descname"><span class="pre">delete_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uuid</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Response</span></span></span><a class="headerlink" href="#pyivia.core.analysis.remotesyslog.RemoteSyslog.delete_policy" title="Link to this definition"></a></dt>
+<dd><p>Delete a remote syslog server policy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>uuid</strong> – (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): The UUID of the remote syslog server policy to delete.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>The response from verify identity access.</p>
+<p>Success can be checked by examining the response.success boolean attribute.</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Response</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyivia.core.analysis.remotesyslog.RemoteSyslog.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyivia.core.analysis.remotesyslog.RemoteSyslog.get" title="Link to this definition"></a></dt>
+<dd><p>Get the configuration for the given Remote Syslog source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>source</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – The name of the log source. It can be either <code class="docutils literal notranslate"><span class="pre">webseal</span></code>,
+<code class="docutils literal notranslate"><span class="pre">azn_server</span></code>, <code class="docutils literal notranslate"><span class="pre">policy_server</span></code> or <code class="docutils literal notranslate"><span class="pre">runtime_logs</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>The response from verify identity access.</p>
+<p>Success can be checked by examining the response.success boolean attribute.</p>
+<p>If the request is successful the remote system logger properties is returned
+as JSON and can be accessed from the response.json attribute</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Response</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyivia.core.analysis.remotesyslog.RemoteSyslog.get_facility_names">
+<span class="sig-name descname"><span class="pre">get_facility_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Response</span></span></span><a class="headerlink" href="#pyivia.core.analysis.remotesyslog.RemoteSyslog.get_facility_names" title="Link to this definition"></a></dt>
+<dd><p>Get the list of facilities that can be forwarded to a remote server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p>The response from verify identity access.</p>
+<p>Success can be checked by examining the response.success boolean attribute.</p>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Response</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyivia.core.analysis.remotesyslog.RemoteSyslog.get_policy">
+<span class="sig-name descname"><span class="pre">get_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uuid</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Response</span></span></span><a class="headerlink" href="#pyivia.core.analysis.remotesyslog.RemoteSyslog.get_policy" title="Link to this definition"></a></dt>
+<dd><p>Get a remote syslog server policy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>uuid</strong> – (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): The UUID of the remote syslog server policy to get.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>The response from verify identity access.</p>
+<p>Success can be checked by examining the response.success boolean attribute.</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Response</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyivia.core.analysis.remotesyslog.RemoteSyslog.list">
+<span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Response</span></span></span><a class="headerlink" href="#pyivia.core.analysis.remotesyslog.RemoteSyslog.list" title="Link to this definition"></a></dt>
+<dd><p>List the Remote Syslog configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p>The response from verify identity access.</p>
+<p>Success can be checked by examining the response.success boolean attribute.</p>
+<p>If the request is successful the remote system logger properties are returned
+as JSON and can be accessed from the response.json attribute</p>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Response</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyivia.core.analysis.remotesyslog.RemoteSyslog.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">servers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Response</span></span></span><a class="headerlink" href="#pyivia.core.analysis.remotesyslog.RemoteSyslog.update" title="Link to this definition"></a></dt>
+<dd><p>Update the Remote Syslog configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>servers</strong> – (<a class="reference internal" href="#pyivia.core.analysis.remotesyslog.RemoteSyslog.list" title="pyivia.core.analysis.remotesyslog.RemoteSyslog.list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): The remote server configuration to use.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>The response from verify identity access.</p>
+<p>Success can be checked by examining the response.success boolean attribute.</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Response</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyivia.core.analysis.remotesyslog.RemoteSyslog.update_policy">
+<span class="sig-name descname"><span class="pre">update_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uuid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">protocol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ca_certificate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_certificate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">permitted_peers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Response</span></span></span><a class="headerlink" href="#pyivia.core.analysis.remotesyslog.RemoteSyslog.update_policy" title="Link to this definition"></a></dt>
+<dd><p>Update a remote syslog forwarding policy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>uuid</strong> (<em>str</em>) – The unique identifier of the policy to update.</p></li>
+<li><p><strong>server</strong> (<em>str</em>) – The remote syslog server address.</p></li>
+<li><p><strong>port</strong> (<em>int</em>) – The remote syslog server port.</p></li>
+<li><p><strong>debug</strong> (<em>bool</em>) – Whether the forwarder process will be started in debug mode.</p></li>
+<li><p><strong>protocol</strong> (<em>str</em>) – The protocol to use for the syslog connection. Valid options
+include <code class="docutils literal notranslate"><span class="pre">udp</span></code>, <code class="docutils literal notranslate"><span class="pre">tcp</span></code> or <code class="docutils literal notranslate"><span class="pre">tls</span></code>.</p></li>
+<li><p><strong>format</strong> (<em>str</em>) – The format of the syslog messages. Valid options include <code class="docutils literal notranslate"><span class="pre">rfc3164</span></code>,
+<code class="docutils literal notranslate"><span class="pre">rfc5424</span></code> or <code class="docutils literal notranslate"><span class="pre">rfc6587</span></code>.</p></li>
+<li><p><strong>keyfile</strong> (<em>str</em>) – The name of the key file which contains the SSL certificates used when
+communicating with the remote syslog server</p></li>
+<li><p><strong>ca_certificate</strong> (<em>str</em>) – The label which is used to identify within the SSL key file
+the CA certificate of the remote syslog server.</p></li>
+<li><p><strong>client_certificate</strong> (<em>str</em>) – The label which is used to identify within the SSL key
+file the client certificate which will be used during mutual
+authentication with the remote syslog server.</p></li>
+<li><p><strong>permitted_peers</strong> (<em>list</em>) – The subject DN of the remote syslog server. If this policy data
+is not specified any certificates which have been signed by
+the CA will be accepted.</p></li>
+<li><p><strong>sources</strong> (<em>list</em>) – The source of the log file entries which will be sent to the remote
+syslog server.</p></li>
+<li><p><strong>Returns</strong> – <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Response</span></code>: The response from verify identity access.</p>
+<p>Success can be checked by examining the response.success boolean attribute.</p>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="systemsettings.html" class="btn btn-neutral float-left" title="System Settings" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="websettings.html" class="btn btn-neutral float-right" title="WebSEAL Reverse Proxy Settings" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Lachlan Gleeson, IBM.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,281 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyIVIA API Version Factory &mdash; pyIVIA 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=2709fde1"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="System Settings" href="systemsettings.html" />
+    <link rel="prev" title="Welcome to pyIVIA!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyIVIA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">pyIVIA modules</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyIVIA API Version Factory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#supported-versions">Supported Versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#verifying-tls-to-verify-identity-access-management-interface">Verifying TLS to Verify Identity Access Management Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyivia.factory.Factory"><code class="docutils literal notranslate"><span class="pre">Factory</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyivia.factory.Factory.get_access_control"><code class="docutils literal notranslate"><span class="pre">Factory.get_access_control()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyivia.factory.Factory.get_analysis_diagnostics"><code class="docutils literal notranslate"><span class="pre">Factory.get_analysis_diagnostics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyivia.factory.Factory.get_deployment_model"><code class="docutils literal notranslate"><span class="pre">Factory.get_deployment_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyivia.factory.Factory.get_deployment_utility"><code class="docutils literal notranslate"><span class="pre">Factory.get_deployment_utility()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyivia.factory.Factory.get_federation"><code class="docutils literal notranslate"><span class="pre">Factory.get_federation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyivia.factory.Factory.get_system_settings"><code class="docutils literal notranslate"><span class="pre">Factory.get_system_settings()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyivia.factory.Factory.get_version"><code class="docutils literal notranslate"><span class="pre">Factory.get_version()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyivia.factory.Factory.get_web_settings"><code class="docutils literal notranslate"><span class="pre">Factory.get_web_settings()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyivia.factory.Factory.is_docker"><code class="docutils literal notranslate"><span class="pre">Factory.is_docker()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyivia.factory.Factory.set_password"><code class="docutils literal notranslate"><span class="pre">Factory.set_password()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="systemsettings.html">System Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysisdiagnostics.html">Analysis and Diagnostics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="websettings.html">WebSEAL Reverse Proxy Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="accesscontrol.html">Advanced Access Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="federation.html">Federations</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyIVIA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">pyIVIA API Version Factory</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/factory.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pyivia-api-version-factory">
+<h1>pyIVIA API Version Factory<a class="headerlink" href="#pyivia-api-version-factory" title="Link to this heading"></a></h1>
+<section id="supported-versions">
+<h2>Supported Versions<a class="headerlink" href="#supported-versions" title="Link to this heading"></a></h2>
+<p>pyIVIA supports management API from several versions of IBM Verify Identity Access:</p>
+<ul class="simple">
+<li><p>IBM Verify Identity Access 11.0.3.0</p></li>
+<li><p>IBM Verify Identity Access 11.0.2.0</p></li>
+<li><p>IBM Verify Identity Access 11.0.1.0</p></li>
+<li><p>IBM Verify Identity Access 11.0.0.0</p></li>
+<li><p>IBM Security Verify Access 10.0.9.2</p></li>
+<li><p>IBM Security Verify Access 10.0.9.1</p></li>
+<li><p>IBM Security Verify Access 10.0.9.0</p></li>
+<li><p>IBM Security Verify Access 10.0.8.0</p></li>
+<li><p>IBM Security Verify Access 10.0.7.0</p></li>
+<li><p>IBM Security Verify Access 10.0.6.0</p></li>
+<li><p>IBM Security Verify Access 10.0.5.0</p></li>
+<li><p>IBM Security Verify Access 10.0.4.0</p></li>
+<li><p>IBM Security Verify Access 10.0.3.1</p></li>
+<li><p>IBM Security Verify Access 10.0.3.0</p></li>
+<li><p>IBM Security Verify Access 10.0.2.0</p></li>
+<li><p>IBM Security Verify Access 10.0.1.0</p></li>
+<li><p>IBM Security Verify Access 10.0.0.0</p></li>
+<li><p>IBM Security Access Manager 9.0.7.0</p></li>
+<li><p>IBM Security Access Manager 9.0.6.0</p></li>
+<li><p>IBM Security Access Manager 9.0.5.0</p></li>
+<li><p>IBM Security Access Manager 9.0.4.0</p></li>
+<li><p>IBM Security Access Manager 9.0.3.0</p></li>
+<li><p>IBM Security Access Manager 9.0.2.1</p></li>
+<li><p>IBM Security Access Manager 9.0.2.0</p></li>
+</ul>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<p>This module uses the firmware management API to return the version string from Verify Identity Access and return the
+appropriate version implementation of the management API.</p>
+<p>A user should not attempt to instantiate the versioned classes, instead the <code class="docutils literal notranslate"><span class="pre">pyivia.factory</span></code> module should be
+used to create a <code class="docutils literal notranslate"><span class="pre">pyisava.factory.Factory</span></code> object which is capable of returning version specific implementation of
+the five modules used.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pyivia</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">pyivia</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">Factory</span><span class="p">(</span><span class="s2">"https://verify.identity.access.appliance"</span><span class="p">,</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"secret"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="verifying-tls-to-verify-identity-access-management-interface">
+<h2>Verifying TLS to Verify Identity Access Management Interface<a class="headerlink" href="#verifying-tls-to-verify-identity-access-management-interface" title="Link to this heading"></a></h2>
+<p>By default, connections to verify access local management interface do not verify the x509 certificate with
+python’s CA truststore. to verify connections, the <code class="docutils literal notranslate"><span class="pre">PYIVIA_VERIFY_TLS_LMI</span></code> environment variable can be used.
+If <code class="docutils literal notranslate"><span class="pre">PYIVIA_VERIFY_TLS_LMI=true</span></code> then the default CA certificate store is used to verify TLS connections
+to a Verify Identity Access management interface.</p>
+<p>Consult python or operating system documentation for steps to add certificates to this store.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyivia.factory.Factory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyivia.factory.</span></span><span class="sig-name descname"><span class="pre">Factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyivia.factory.Factory" title="Link to this definition"></a></dt>
+<dd><p>The Factory class is used to initialise a singleton “appliance” object which can be use for all subsequent API
+requests.</p>
+<p>The factory has getter methods for the three modules: WebSEAL, Advanced Access Control; and Federation. It also
+getter methods for the system settings and diagnostics API.</p>
+<p>Finally this class has helper methods to determine if the IBM Verify Identity Access deployment is an appliance
+or container deployment model.</p>
+<p>This project supports both basic and API token authorization. If both username and password are provided, the
+rest client will use Basic Authentication, if just a password is supplied, then Bearer authorization header
+is supplied.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyivia.factory.Factory.get_access_control">
+<span class="sig-name descname"><span class="pre">get_access_control</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="accesscontrol.html#pyivia.core.advancedaccesscontrol.AdvancedAccessControl" title="pyivia.core.advancedaccesscontrol.AdvancedAccessControl"><span class="pre">AdvancedAccessControl</span></a></span></span><a class="headerlink" href="#pyivia.factory.Factory.get_access_control" title="Link to this definition"></a></dt>
+<dd><p>Return manager of AAC endpoint</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>versioned <a class="reference internal" href="accesscontrol.html#access-control"><span class="std std-ref">Advanced Access Control</span></a> object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyivia.factory.Factory.get_analysis_diagnostics">
+<span class="sig-name descname"><span class="pre">get_analysis_diagnostics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="analysisdiagnostics.html#pyivia.core.analysisdiagnostics.AnalysisDiagnostics" title="pyivia.core.analysisdiagnostics.AnalysisDiagnostics"><span class="pre">AnalysisDiagnostics</span></a></span></span><a class="headerlink" href="#pyivia.factory.Factory.get_analysis_diagnostics" title="Link to this definition"></a></dt>
+<dd><p>Return manager of diagnostic endpoint</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>versioned <a class="reference internal" href="analysisdiagnostics.html#analysis-diagnostics"><span class="std std-ref">Analysis and Diagnostics</span></a> object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyivia.factory.Factory.get_deployment_model">
+<span class="sig-name descname"><span class="pre">get_deployment_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyivia.factory.Factory.get_deployment_model" title="Link to this definition"></a></dt>
+<dd><p>Get the deployment model detected by Verify Identity Access.
+Appliance or Docker</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyivia.factory.Factory.get_deployment_utility">
+<span class="sig-name descname"><span class="pre">get_deployment_utility</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyivia.factory.Factory.get_deployment_utility" title="Link to this definition"></a></dt>
+<dd><p>Return manager of Web Reverse Proxy endpoints</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyivia.factory.Factory.get_federation">
+<span class="sig-name descname"><span class="pre">get_federation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="federation.html#pyivia.core.federationsettings.Federation" title="pyivia.core.federationsettings.Federation"><span class="pre">Federation</span></a></span></span><a class="headerlink" href="#pyivia.factory.Factory.get_federation" title="Link to this definition"></a></dt>
+<dd><p>Return manager of Federation endpoint</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>versioned <a class="reference internal" href="federation.html#federation"><span class="std std-ref">Federations</span></a> object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyivia.factory.Factory.get_system_settings">
+<span class="sig-name descname"><span class="pre">get_system_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="systemsettings.html#pyivia.core.systemsettings.SystemSettings" title="pyivia.core.systemsettings.SystemSettings"><span class="pre">SystemSettings</span></a></span></span><a class="headerlink" href="#pyivia.factory.Factory.get_system_settings" title="Link to this definition"></a></dt>
+<dd><p>Return manager of system settings endpoint</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>versioned <a class="reference internal" href="systemsettings.html#system-settings"><span class="std std-ref">System Settings</span></a> object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyivia.factory.Factory.get_version">
+<span class="sig-name descname"><span class="pre">get_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyivia.factory.Factory.get_version" title="Link to this definition"></a></dt>
+<dd><p>Return the Verify Identity Access version</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyivia.factory.Factory.get_web_settings">
+<span class="sig-name descname"><span class="pre">get_web_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="websettings.html#pyivia.core.websettings.WebSettings" title="pyivia.core.websettings.WebSettings"><span class="pre">WebSettings</span></a></span></span><a class="headerlink" href="#pyivia.factory.Factory.get_web_settings" title="Link to this definition"></a></dt>
+<dd><p>Return manager of Web Reverse Proxy endpoints</p>
+<p>Returns:
+versioned <a class="reference internal" href="websettings.html#web-settings"><span class="std std-ref">WebSEAL Reverse Proxy Settings</span></a> object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyivia.factory.Factory.is_docker">
+<span class="sig-name descname"><span class="pre">is_docker</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pyivia.factory.Factory.is_docker" title="Link to this definition"></a></dt>
+<dd><p>Return true if detected deployment is running in a container</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyivia.factory.Factory.set_password">
+<span class="sig-name descname"><span class="pre">set_password</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">password</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyivia.factory.Factory.set_password" title="Link to this definition"></a></dt>
+<dd><p>Update the password used to authenticate to Verify Identity Access administrator endpoints</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to pyIVIA!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="systemsettings.html" class="btn btn-neutral float-right" title="System Settings" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Lachlan Gleeson, IBM.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
