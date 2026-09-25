@@ -422,6 +422,25 @@ class SSLCertificates(object):
         response.success = response.status_code == 200
         return response
 
+    def delete_personal(self, kdb, label=None):
+        """
+        Delete a personal key/certificate pair from a ssl database.
+
+        Args:
+            kdb (:obj:`str`): The name of the certificate database.
+            label (:obj:`str`): The label of the new personal certificate.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify identity access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
+        endpoint = f"{SSL_CERTIFICATES}/{kdb}/personal_cert/{label}"
+        response = self._client.delete_json(endpoint)
+        response.success = response.status_code == 200
+
+        return response
+
 class SSLCertificates11030(SSLCertificates):
 
     def __init__(self, base_url, username, password) -> None:

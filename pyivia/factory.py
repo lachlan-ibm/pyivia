@@ -18,11 +18,13 @@ DEVELOPMENT_VERSION = "IBM Verify Identity Access Development"
 VERSIONS = {
     DEVELOPMENT_VERSION: "11040",
     "IBM Verify Identity Access 11.0.4.0": "11040",
+    "IBM Verify Identity Access 11.0.3.1": "11030",
     "IBM Verify Identity Access 11.0.3.0": "11030",
     "IBM Verify Identity Access 11.0.2.0": "11020",
     "IBM Verify Identity Access 11.0.1.0": "11010",
     "IBM Verify Identity Access 11.0.0.0": "11000",
     "IBM Security Verify Access 11.0.0.0": "11000",
+    "IBM Security Verify Access 10.0.9.3": "11000",
     "IBM Security Verify Access 10.0.9.2": "11000",
     "IBM Security Verify Access 10.0.9.1": "11000",
     "IBM Security Verify Access 10.0.9.0": "11000",

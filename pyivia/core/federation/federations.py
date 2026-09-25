@@ -18,6 +18,98 @@ class Federations(object):
         super(Federations, self).__init__()
         self._client = RESTClient(base_url, username, password)
 
+    def create_ws_federation(self, name=None, role=None, template_name=None, endpoint=None, realm=None,
+            assertion_valid_after=None, assertion_valid_before=None, poc_url=None, company_name=None,
+            identity_delegate_id=None, identity_rule_type="JAVASCRIPT", identity_mapping_rule=None, 
+            identity_applies_to=None, identity_auth_type=None, identity_ba_user=None, identity_ba_password=None,
+            identity_client_keystore=None, identity_client_key_alias=None, identity_issuer_uri=None, 
+            identity_message_format=None, identity_ssl_keystore=None, identity_uri=None):
+        """
+        Create a Web-Services Federation
+
+        Args:
+            name (:obj:`str`): 	A meaningful name to identify this federation.
+            role (:obj:`str`): The role of a federation, valid values are "ip", "sp", "op" and "rp".
+            template_name (:obj:`str`): The name of the template to use for this federation.
+            endpoint (:obj:`str`): Endpoint for web-services federation. 
+            realm (:obj:`str`): Realm for web services federation.
+            identity_delegate_id (:obj:`str`): The active mapping module instance.
+            identity_rule_type (:obj:`str`): The type of the mapping rule. The only supported type currently is "JAVASCRIPT".
+            identity_mapping_rule (:obj:`str`): A reference to an ID of an identity mapping rule. 
+            identity_applies_to (:obj:`str`): Refers to the STS chain that consumes callout responses. Required if WSTRUST 
+                                              messageFormat is specified, ignored otherwise.
+            identity_auth_type (:obj:`str`): Authentication method used when contacting external service. Supported 
+                            values are NONE, BASIC or CERTIFICATE.
+            identity_ba_user (:obj:`str`): Username for authentication to external service. Required if BASIC authType 
+                            is specified, ignored otherwise.
+            identity_ba_password (:obj:`str`): Password for authentication to external service. Required if BASIC 
+                            authType is specified, ignored otherwise.
+            identity_client_keystore (:obj:`str`): Contains key for HTTPS client authentication. Required if CERTIFICATE 
+                            authType is specified, ignored otherwise.
+            identity_client_key_alias (:obj:`str`): Alias of the key for HTTPS client authentication. Required if 
+                            CERTIFICATE authType is specified, ignored otherwise.
+            identity_issuer_uri (:obj:`str`): Refers to STS chain that provides input for callout request. Required if 
+                            WSTRUST messageFormat is specified, ignored otherwise.
+            identity_message_format (:obj:`str`): Message format of callout request. Supported values are XML or WSTRUST.
+            identity_ssl_keystore (:obj:`str`): SSL certificate trust store to use when validating SSL certificate of 
+                            external service.
+            identity_uri (:obj:`str`): Address of destination server to call out to. 
+        
+        Returns:
+            :obj:`~requests.Response`: The response from verify identity access. 
+
+            Success can be checked by examining the response.success boolean attribute.
+
+            If the request is successful the id of the created obligation can be access from the
+            response.id_from_location attribute.
+
+        """
+        data = DataObject()
+        data.add_value_string("name", name)
+        data.add_value_string("role", role)
+        data.add_value_string("templateName", template_name)
+        data.add_value_string("protocol", "WSFED")
+
+        cfg = DataObject()
+        cfg.add_value_string("endpoint", endpoint)
+        cfg.add_value_string("realm", realm)
+        cfg.add_value_string("pointOfContactUrl", poc_url)
+        cfg.add_value_string("companyName", company_name)
+
+        identityMapping = DataObject()
+        identityMapping.add_value_string("activeDelegateId", identity_delegate_id)
+        properties = DataObject()
+        if identity_delegate_id == "default-map":
+            properties.add_value_string("ruleType", identity_rule_type)
+            properties.add_value_string("identityMappingRuleReference", identity_mapping_rule)
+
+        elif identity_delegate_id == "default-http-custom-map":
+            properties.add_value_string("appliesTo", identity_applies_to)
+            properties.add_value_string("authType", identity_auth_type)
+            properties.add_value_string("basicAuthUsername", identity_ba_user)
+            properties.add_value_string("basicAuthPassword", identity_ba_password)
+            properties.add_value_string("clientKeyStore", identity_client_keystore)
+            properties.add_value_string("clientKeyAlias", identity_client_key_alias)
+            properties.add_value_string("issuerUri", identity_issuer_uri)
+            properties.add_value_string("messageFormat", identity_message_format)
+            properties.add_value_string("sslKeyStore", identity_ssl_keystore)
+            properties.add_value_string("uri", identity_uri)
+        identityMapping.add_value_not_empty("properties", properties.data)
+
+        cfg.add_value_not_empty("identityMapping", identityMapping.data)
+
+        assertSettings = DataObject()
+        assertSettings.add_value("assertionValidAfter", assertion_valid_after)
+        assertSettings.add_value("assertionValidBefore", assertion_valid_before)
+        cfg.add_value_not_empty("assertionSettings", assertSettings.data)
+        data.add_value_not_empty("configuration", cfg.data)
+
+        response = self._client.post_json(FEDERATIONS, data.data)
+        response.success = response.status_code == 201
+
+        return response
+
+
     def create_oidc_federation(self, name=None, role=None, template_name=None, redirect_uri_prefix=None, response_types_supported=None, 
             attribute_mappings=[], identity_delegate_id=None, identity_rule_type="JAVASCRIPT", identity_mapping_rule=None, 
             identity_applies_to=None, identity_auth_type=None, identity_ba_user=None, identity_ba_password=None,
@@ -126,6 +218,131 @@ class Federations(object):
         data.add_value_not_empty("configuration", configuration.data)
 
         response = self._client.post_json(FEDERATIONS, data.data)
+        response.success = response.status_code == 201
+
+        return response
+
+    def create_ws_partner(self, federation_id, name=None, role="sp", template_name=None,
+        enabled=None, max_request_lifetime=None, endpoint=None, realm=None, subject_confirmation_method=None,
+        use_inclusive_namespaces=None, attribute_types=[], identity_delegate_id=None, identity_rule_type=None,
+        identity_mr=None, identity_applies_to=None, identity_auth_type=None, identity_ba_user=None,
+        identity_ba_password=None, identity_client_keystore=None, identity_client_key_alias=None, 
+        identity_issuer_uri=None, identity_mgs_fmt=None, identity_ssl_key_store=None, identity_uri=None,
+        sign_alg=None, sign_include_pubkey=None, sign_include_cert=None, sign_include_issuer=None, 
+        sign_include_ski=None, sign_include_subject=None, sign_assertion=None, sign_key_store=None, 
+        sign_key_label=None):
+        """
+        Add a partner configruation to a Web Service federation.
+
+        Args:
+            federation_id (:obj:`str`): The system-assigned federation identifier.
+            name (:obj:`str`): A meaningful name to identify this partner.
+            enabled (:obj:`str`): Whether to enable the partner.
+            role (:obj:`str`): The role this partner plays in its federation: "ip" for a WS-FED identity provider 
+                            partner, and "sp" for a WS-FED service provider partner.
+            template_name (:obj:`str`): An identifier for the template on which to base this partner.
+            max_request_lifetime (`int`): Max age of a vaild assertion reqeuest.
+            endpoint (:obj:`str`): Endpoint for this web service federation partner.
+            realm (:obj:`str`): Realm for this web service federation partner.
+            subject_confirmation_method (:obj:`str`): Subject confirmation method.
+            use_inclusive_namespaces (`bool`, optional): A setting that specifies whether to include the 
+                            InclusiveNamespaces element in the digital signature.
+            attribute_types (:obj:`list` of :obj:`str`, optional): Optional list of attributes to include
+                            in assertion. Wildcard ``*`` matches all atttributes.
+            identity_delegate_id (:obj:`str`): The active identity mapping module instance.
+            identity_rule_type (:obj:`str`): The type of the mapping rule. The only supported type currently is JAVASCRIPT.
+            identity_mr (:obj:`str`): A reference to an ID of an identity mapping rule.
+            identity_applies_to (:obj:`str`): Refers to STS chain that consumes callout response.
+            identity_auth_type (:obj:`str`): Authentication method used when contacting external service.
+            identity_ba_user (:obj:`str`, optional): Username for authentication to external service.
+            identity_ba_password (:obj:`str`, optional): Password for authentication to external service.
+            identity_client_keystore (:obj:`str`, optional): Contains key for HTTPS client authentication.
+            identity_client_key_alias (:obj:`str`, optional): Alias of the key for HTTPS client authentication.
+            identity_issuer_uri (:obj:`str`): Refers to STS chain that provides input for callout request.
+            identity_msg_fmt (:obj:`str`): Message format of callout request. Supported values are XML or WSTRUST.
+            identity_ssl_key_store (:obj:`str`): SSL certificate trust store to use when validating SSL certificate of 
+                            external service.
+            identity_uri (:obj:`str`): Address of destination server to call out to.
+            sign_include_pubkey (:`bool`, optional): A setting that specifies whether to include the public key in the 
+                            KeyInfo element in the digital signature when signing a WS message or assertion. 
+                            The default value is false.
+            sign_include_cert (`bool`, optional): A setting that specifies whether to include the base 64 encoded 
+                            certificate data to be included in the KeyInfo element in the digital signature when signing 
+                            a SAML message or assertion. The default value is true.
+            sign_include_issuer (`bool`, optional): A setting that specifies whether to include the issuer name and the 
+                            certificate serial number in the KeyInfo element in the digital signature when signing a 
+                            SAML message or assertion. The default value is false.
+            sign_include_ski (`bool`, optional): A setting that specifies whether to include the X.509 subject key 
+                            identifier in the KeyInfo element in the digital signature when signing a SAML message or 
+                            assertion. The default value is false.
+            sign_include_subject (`bool`, optional): A setting that specifies whether to include the subject name in the 
+                            KeyInfo element in the digital signature when signing a SAML message or assertion. 
+                            The default value is false.
+            sign_assertion (:obj:`str`, optional): A setting that specifies whether to sign the assertion. 
+                            The default value is false.
+            sign_key_store (:obj:`str`, optional): The certificate database which contains the private key used to sign
+                            messages.
+            sign_key_label (:obj:`str`, optional): The personal public/private key pair for signing the WS messages 
+                            and the assertion. If not provided, the default value is null.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify identity access. 
+
+            Success can be checked by examining the response.success boolean attribute.
+
+            If the request is successful the id of the created obligation can be access from the
+            response.id_from_location attribute.
+
+        """
+        identityMapping = DataObject()
+        identityMapping.add_value_string("activeDelegateId", identity_delegate_id)
+        properties = DataObject()
+        if identity_delegate_id == "default-map":
+            properties.add_value_string("ruleType", identity_rule_type)
+            properties.add_value_string("identityMappingRuleReference", identity_mr)
+
+        elif identity_delegate_id == "default-http-custom-map":
+            properties.add_value_string("appliesTo", identity_applies_to)
+            properties.add_value_string("authType", identity_auth_type)
+            properties.add_value_string("basicAuthUsername", identity_ba_user)
+            properties.add_value_string("basicAuthPassword", identity_ba_password)
+            properties.add_value_string("clientKeyStore", identity_client_keystore)
+            properties.add_value_string("clientKeyAlias", identity_client_key_alias)
+            properties.add_value_string("issuerUri", identity_issuer_uri)
+            properties.add_value_string("messageFormat", identity_mgs_fmt)
+            properties.add_value_string("sslKeyStore", identity_ssl_key_store)
+            properties.add_value_string("uri", identity_uri)
+        identityMapping.add_value_not_empty("properties", properties.data)
+
+        configuration = DataObject()
+        configuration.add_value_not_empty("identityMapping", identityMapping.data)
+        configuration.add_value_string("realm", realm)
+        configuration.add_value_string("endpoint", endpoint)
+        configuration.add_value_string("subjectConfirmationMethod", subject_confirmation_method)
+        configuration.add_value_string("maxRequestLifetime", max_request_lifetime)
+        configuration.add_value_string("useInclusiveNamespaces", use_inclusive_namespaces)
+        configuration.add_value_not_empty("attributeTypes", attribute_types)
+        configuration.add_value_string("signSamlAssertion", sign_assertion)
+        if sign_key_store and sign_key_label:
+            sig_key_id = DataObject()
+            sig_key_id.add_value_string("keystore", sign_key_store)
+            sig_key_id.add_value_string("label", sign_key_label)
+            configuration.add_value("signingKeyIdentifier", sig_key_id.data)
+        configuration.add_value_boolean("includePublicKey", sign_include_pubkey)
+        configuration.add_value_boolean("includeCertificateData", sign_include_cert)
+        configuration.add_value_boolean("includeIssuerDetails", sign_include_issuer)
+        configuration.add_value_boolean("includeSubjectKeyIdentifier", sign_include_ski)
+        configuration.add_value_boolean("includeSubjectName", sign_include_subject)
+        configuration.add_value_string("signatureAlgorithm", sign_alg)
+
+        data = DataObject()
+        data.add_value_boolean("enabled", enabled)
+        data.add_value_string("name", name)
+        data.add_value_string("role", role)
+        data.add_value_not_empty("configuration", configuration.data)
+
+        req_url = f"{FEDERATIONS}/{federation_id}/partners"
+        response = self._client.post_json(req_url, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -832,8 +1049,6 @@ class Federations(object):
             default_target_url (:obj:`str`, optional): Default URL where end-user will be redirected after the completion 
                             of single sign-on.
 
-
-
         Returns:
             :obj:`~requests.Response`: The response from verify identity access. 
 
@@ -1009,9 +1224,9 @@ class Federations(object):
 
         data.add_value_not_empty("configuration", configuration.data)
 
-        endpoint = "%s/%s/partners" % (FEDERATIONS, federation_id)
+        req_url = "%s/%s/partners" % (FEDERATIONS, federation_id)
 
-        response = self._client.post_json(endpoint, data.data)
+        response = self._client.post_json(req_url, data.data)
         response.success = response.status_code == 201
 
         return response
@@ -1697,8 +1912,8 @@ class Federations10000(Federations9040):
 
         logger.debug("Partner properties: {}".format(data.data))
 
-        endpoint = "%s/%s/partners" % (FEDERATIONS, federation_id)
-        response = self._client.post_json(endpoint, data.data)
+        req_url = "%s/%s/partners" % (FEDERATIONS, federation_id)
+        response = self._client.post_json(req_url, data.data)
         response.success = response.status_code == 201
 
         return response

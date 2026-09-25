@@ -6,10 +6,12 @@ __________________
 
 pyIVIA supports management API from several versions of IBM Verify Identity Access:
 
+- IBM Verify Identity Access 11.0.3.1
 - IBM Verify Identity Access 11.0.3.0
 - IBM Verify Identity Access 11.0.2.0
 - IBM Verify Identity Access 11.0.1.0
 - IBM Verify Identity Access 11.0.0.0
+- IBM Security Verify Access 10.0.9.3
 - IBM Security Verify Access 10.0.9.2
 - IBM Security Verify Access 10.0.9.1
 - IBM Security Verify Access 10.0.9.0
