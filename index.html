@@ -1,0 +1,238 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to pyIVIA! &mdash; pyIVIA 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=2709fde1"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pyIVIA API Version Factory" href="factory.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            pyIVIA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">pyIVIA modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="factory.html">pyIVIA API Version Factory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="systemsettings.html">System Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysisdiagnostics.html">Analysis and Diagnostics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="websettings.html">WebSEAL Reverse Proxy Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="accesscontrol.html">Advanced Access Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="federation.html">Federations</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">pyIVIA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Welcome to pyIVIA!</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="welcome-to-pyivia">
+<h1>Welcome to pyIVIA!<a class="headerlink" href="#welcome-to-pyivia" title="Link to this heading"></a></h1>
+<p>pyIVIA is an python wrapper to the IBM Verify Identity Access configuration API. You can use this library to interact
+with a Verify Identity Access Deployment; applying and deploying configuration.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<p>You can install <code class="docutils literal notranslate"><span class="pre">pyivia</span></code> with <code class="docutils literal notranslate"><span class="pre">pip</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pyivia
+</pre></div>
+</div>
+</section>
+<section id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Link to this heading"></a></h2>
+<p>pyIVIA is broken into five modules which are responsible for configuring specific features of an deployment. These modules
+are versioned and should be created using the provided factory. The factory uses a well known API to discover the release
+version and deployment model being used.</p>
+<p>The system settings and analysis/diagnostics features are used to set up system wide features such as SSL databases and
+log forwarding.The WebSEAL, Access Control and Federation modules are responsible for configuring their respective API.</p>
+<p>Changes are published using the <code class="docutils literal notranslate"><span class="pre">system.restartshutdown</span></code> module, which is capable of publishing changes for both
+Container and Appliance deployment architectures. Note for Container architectures pyIVIA is <strong>NOT</strong> capable of managing the
+runtime containers.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">pyIVIA modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="factory.html">pyIVIA API Version Factory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="factory.html#supported-versions">Supported Versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="factory.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="factory.html#verifying-tls-to-verify-identity-access-management-interface">Verifying TLS to Verify Identity Access Management Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="systemsettings.html">System Settings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#pyivia.core.systemsettings.SystemSettings"><code class="docutils literal notranslate"><span class="pre">SystemSettings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#administrator-settings">Administrator Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#advanced-tuning-parameters">Advanced Tuning Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#cli-commands">CLI Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#cluster">Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#configuration-deploy-pending-changes">Configuration (deploy pending changes)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#container-management">Container Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#date-and-time">Date and Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#domain-name-service-dns">Domain Name Service (DNS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#docker-snapshot-publishing">Docker (Snapshot Publishing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#file-downloads">File Downloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#first-steps">First Steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#fixpacks">Fixpacks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#fips">FIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#general-networking">General Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#extensions">Extensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#hosts-file">Hosts File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#interfaces">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#static-routes">Static Routes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#licensing">Licensing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#management-authorization">Management Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#management-authentication">Management Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#management-certificate">Management Certificate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#restart-and-shutdown">Restart and Shutdown</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#runtime-high-volume-database">Runtime (High Volume) Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#ssl-certificates-and-keystores">SSL Certificates and Keystores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#system-accounts">System Accounts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systemsettings.html#snapshot">Snapshot</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="analysisdiagnostics.html">Analysis and Diagnostics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="analysisdiagnostics.html#pyivia.core.analysisdiagnostics.AnalysisDiagnostics"><code class="docutils literal notranslate"><span class="pre">AnalysisDiagnostics</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysisdiagnostics.html#application-logs">Application Logs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysisdiagnostics.html#remote-syslog">Remote Syslog</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="websettings.html">WebSEAL Reverse Proxy Settings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="websettings.html#pyivia.core.websettings.WebSettings"><code class="docutils literal notranslate"><span class="pre">WebSettings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="websettings.html#api-access-control">API Access Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="websettings.html#client-certificate-mapping">Client Certificate Mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="websettings.html#distributed-session-cache">Distributed Session Cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="websettings.html#form-single-sign-on">Form Single Sign-On</a></li>
+<li class="toctree-l2"><a class="reference internal" href="websettings.html#http-transformations">HTTP Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="websettings.html#junction-mapping">Junction Mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="websettings.html#kerberos">Kerberos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="websettings.html#password-strength-rules">Password Strength Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="websettings.html#policy-administration">Policy Administration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="websettings.html#rate-limiting">Rate Limiting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="websettings.html#reverse-proxy">Reverse Proxy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="websettings.html#rsa-security-token">RSA Security Token</a></li>
+<li class="toctree-l2"><a class="reference internal" href="websettings.html#runtime-component">Runtime Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="websettings.html#url-mapping">URL Mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="websettings.html#user-mapping">User Mapping</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="accesscontrol.html">Advanced Access Control</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="accesscontrol.html#pyivia.core.advancedaccesscontrol.AdvancedAccessControl"><code class="docutils literal notranslate"><span class="pre">AdvancedAccessControl</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="accesscontrol.html#id1">Access Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accesscontrol.html#advanced-configuration">Advanced Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accesscontrol.html#api-protection">API Protection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accesscontrol.html#attributes">Attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accesscontrol.html#authentication">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accesscontrol.html#fido2-configuration">FIDO2 Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accesscontrol.html#fido2-registrations">FIDO2 Registrations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accesscontrol.html#mapping-rules">Mapping Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accesscontrol.html#mobile-multi-factor-authentication">Mobile Multi-Factor Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accesscontrol.html#policy-information-points">Policy Information Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accesscontrol.html#push-notification-providers">Push Notification Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accesscontrol.html#risk-profiles">Risk Profiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accesscontrol.html#runtime-parameters">Runtime Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accesscontrol.html#system-for-cross-domain-identity-management-scim-configuration">System for Cross-Domain Identity Management (SCIM) Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accesscontrol.html#server-connections">Server Connections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accesscontrol.html#template-files">Template Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accesscontrol.html#user-registry">User Registry</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="federation.html">Federations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="federation.html#pyivia.core.federationsettings.Federation"><code class="docutils literal notranslate"><span class="pre">Federation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="federation.html#federations-configuration">Federations configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federation.html#access-policies">Access Policies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federation.html#alias-service">Alias Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federation.html#attribute-sources">Attribute Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federation.html#point-of-contact-poc-profile">Point of Contact (POC) Profile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federation.html#security-token-service-sts">Security Token Service (STS)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="factory.html" class="btn btn-neutral float-right" title="pyIVIA API Version Factory" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Lachlan Gleeson, IBM.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
