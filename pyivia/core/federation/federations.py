@@ -19,11 +19,12 @@ class Federations(object):
         self._client = RESTClient(base_url, username, password)
 
     def create_ws_federation(self, name=None, role=None, template_name=None, endpoint=None, realm=None,
-            assertion_valid_after=None, assertion_valid_before=None, poc_url=None, company_name=None,
-            identity_delegate_id=None, identity_rule_type="JAVASCRIPT", identity_mapping_rule=None, 
-            identity_applies_to=None, identity_auth_type=None, identity_ba_user=None, identity_ba_password=None,
-            identity_client_keystore=None, identity_client_key_alias=None, identity_issuer_uri=None, 
-            identity_message_format=None, identity_ssl_keystore=None, identity_uri=None):
+            replay_validation=None, assertion_valid_after=None, assertion_valid_before=None, poc_url=None,
+            company_name=None, identity_delegate_id=None, identity_rule_type="JAVASCRIPT", 
+            identity_mapping_rule=None, identity_applies_to=None, identity_auth_type=None, 
+            identity_ba_user=None, identity_ba_password=None, identity_client_keystore=None, 
+            identity_client_key_alias=None, identity_issuer_uri=None, identity_message_format=None, 
+            identity_ssl_keystore=None, identity_uri=None):
         """
         Create a Web-Services Federation
 
@@ -33,6 +34,7 @@ class Federations(object):
             template_name (:obj:`str`): The name of the template to use for this federation.
             endpoint (:obj:`str`): Endpoint for web-services federation. 
             realm (:obj:`str`): Realm for web services federation.
+            replay_validation (`bool`, optional): Ena ble one-time assertion use enforcement policy.
             identity_delegate_id (:obj:`str`): The active mapping module instance.
             identity_rule_type (:obj:`str`): The type of the mapping rule. The only supported type currently is "JAVASCRIPT".
             identity_mapping_rule (:obj:`str`): A reference to an ID of an identity mapping rule. 
@@ -75,6 +77,7 @@ class Federations(object):
         cfg.add_value_string("realm", realm)
         cfg.add_value_string("pointOfContactUrl", poc_url)
         cfg.add_value_string("companyName", company_name)
+        cfg.add_value_boolean("replayValidation", replay_validation)
 
         identityMapping = DataObject()
         identityMapping.add_value_string("activeDelegateId", identity_delegate_id)
@@ -224,7 +227,8 @@ class Federations(object):
 
     def create_ws_partner(self, federation_id, name=None, role="sp", template_name=None,
         enabled=None, max_request_lifetime=None, endpoint=None, realm=None, subject_confirmation_method=None,
-        use_inclusive_namespaces=None, attribute_types=[], identity_delegate_id=None, identity_rule_type=None,
+        use_inclusive_namespaces=None, want_multiple_attribute_statements=None, 
+        attribute_types=[], identity_delegate_id=None, identity_rule_type=None,
         identity_mr=None, identity_applies_to=None, identity_auth_type=None, identity_ba_user=None,
         identity_ba_password=None, identity_client_keystore=None, identity_client_key_alias=None, 
         identity_issuer_uri=None, identity_mgs_fmt=None, identity_ssl_key_store=None, identity_uri=None,
@@ -247,6 +251,7 @@ class Federations(object):
             subject_confirmation_method (:obj:`str`): Subject confirmation method.
             use_inclusive_namespaces (`bool`, optional): A setting that specifies whether to include the 
                             InclusiveNamespaces element in the digital signature.
+            want_multiple_attribute_statements (`bool`, optional): Create multiple attribute statements in the Universal User.
             attribute_types (:obj:`list` of :obj:`str`, optional): Optional list of attributes to include
                             in assertion. Wildcard ``*`` matches all atttributes.
             identity_delegate_id (:obj:`str`): The active identity mapping module instance.
@@ -321,6 +326,7 @@ class Federations(object):
         configuration.add_value_string("subjectConfirmationMethod", subject_confirmation_method)
         configuration.add_value_string("maxRequestLifetime", max_request_lifetime)
         configuration.add_value_string("useInclusiveNamespaces", use_inclusive_namespaces)
+        configuration.add_value_boolean("wantMultipleAttributeStatements", want_multiple_attribute_statements)
         configuration.add_value_not_empty("attributeTypes", attribute_types)
         configuration.add_value_string("signSamlAssertion", sign_assertion)
         if sign_key_store and sign_key_label:
