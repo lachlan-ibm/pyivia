@@ -5,11 +5,14 @@ PyIVIA is a Python library that wraps the IBM Verify Identity Access RESTful Web
 quick and easy way to construct configuration scripts for appliances.
 
 **Supported Versions**
+- IBM Verify Identity Access 11.0.4.0
+- IBM Verify Identity Access 11.0.3.2
 - IBM Verify Identity Access 11.0.3.1
 - IBM Verify Identity Access 11.0.3.0
 - IBM Verify Identity Access 11.0.2.0
 - IBM Verify Identity Access 11.0.1.0
 - IBM Verify Identity Access 11.0.0.0
+- IBM Security Verify Access 10.0.9.4
 - IBM Security Verify Access 10.0.9.3
 - IBM Security Verify Access 10.0.9.2
 - IBM Security Verify Access 10.0.9.1
