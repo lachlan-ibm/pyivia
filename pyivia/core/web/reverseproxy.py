@@ -343,6 +343,35 @@ class ReverseProxy(object):
         return response
 
 
+    def configure_api_protection(
+            self, webseal_id, hostname=None, port=None,
+            username=None, password=None, reuse_certs=None,reuse_acls=None, api=None,
+            browser=None, junction=None, auth_register=None, fapi_compliant=None, load_certificate=None) -> Response:
+        """
+        Configure a WebSEAL instance to use the Federated runtime server to support OAuth and OIDC API Protection.
+
+        Args:
+            webseal_id (:obj:`str`): The name of the WebSEAL instance to act on.
+            hostname (:obj:`str`): The hostname of the runtime service.
+            port (:obj:`str`): The port of the runtime service.
+            username (:obj:`str`): The username used to authenticate with the runtime service.
+            password (:obj:`str`): The password used to authenticate with the runtime service.
+            reuse_certs (`bool`, optional): Should WebSEAL try to import the SSL certificate of the runtime service.
+            reuse_acls (`bool`, optional): Should WebSEAL reuse ACLS with the same name.
+            api (`bool`, optional): Should this reverse proxy be configured for API protection. Default is false.
+            browser (`bool`, optional): Should this reverse proxy be configured for Browser interaction. Default is false.
+            junction (:obj:`str`): Junction point to create.
+            auth_register (`bool`, optional): Will the client registration endpoint require authentication. Default is false.
+            fapi_compliant (`bool`, optional): Configures reverse proxy instance to be FAPI Compliant. Default is false.
+            load_certificate (`bool`. optional): Determines whether the certificate is loaded automatically from the runtime server. Default is true.
+
+        Returns:
+            :obj:`~requests.Response`: The response from verify identity access. 
+
+            Success can be checked by examining the response.success boolean attribute
+        """
+        raise RuntimeError("Not yet implemented")
+
     def add_configuration_stanza(self, webseal_id, stanza_id):
         '''
         Add a configuration stanza with the RESTful web service
@@ -847,24 +876,7 @@ class ReverseProxy9040(ReverseProxy):
     def configure_api_protection(
             self, webseal_id, hostname=None, port=None,
             username=None, password=None, reuse_certs=None,reuse_acls=None, api=None,
-            browser=None, junction=None, auth_register=None, fapi_compliant=None):
-        """
-        Configure a WebSEAL instance to use the Federated runtime server to support OAuth and OIDC API Protection.
-
-        Args:
-            webseal_id (:obj:`str`): The name of the WebSEAL instance to act on.
-            hostname (:obj:`str`): The hostname of the runtime service.
-            port (:obj:`str`): The port of the runtime service.
-            username (:obj:`str`): The username used to authenticate with the runtime service.
-            password (:obj:`str`): The password used to authenticate with the runtime service.
-            reuse_certs (`bool`, optional): Should WebSEAL try to import the SSL certificate of the runtime service.
-            reuse_acls (`bool`, optional): Should WebSEAL reuse ACLS with the same name.
-            api (`bool`, optional): Should this reverse proxy be configured for API protection. Default is false.
-            browser (`bool`, optional): Should this reverse proxy be configured for Browser interaction. Default is false.
-            junction (:obj:`str`): Junction point to create.
-            auth_register (`bool`, optional): Will the client registration endpoint require authentication. Default is false.
-            fapi_compliant (`bool`, optional): Configures reverse proxy instance to be FAPI Compliant. Default is false.
-        """
+            browser=None, junction=None, auth_register=None, fapi_compliant=None, load_certificate=None):
         data = DataObject()
         data.add_value_string("hostname", hostname)
         data.add_value_string("username", username)
@@ -878,6 +890,7 @@ class ReverseProxy9040(ReverseProxy):
         data.add_value_boolean("browser", browser)
         data.add_value_boolean("auth_register", auth_register)
         data.add_value_boolean("fapi_compliant", fapi_compliant)
+        data.add_value_boolean("load_certificate", load_certificate)
 
         endpoint = "%s/%s/oauth_config" % (REVERSEPROXY, webseal_id)
 
