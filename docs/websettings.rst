@@ -91,6 +91,12 @@ Kerberos
 .. autoclass:: pyivia.core.web.kerberos.Kerberos
    :members:
 
+LTPA Keyfiles
+=============
+
+.. autoclass:: pyivia.core.web.ltpa.LTPA
+   :members:
+
 Password Strength Rules
 =======================
 
