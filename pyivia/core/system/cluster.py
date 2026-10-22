@@ -80,7 +80,7 @@ class Cluster(object):
         if current.success == True and current.json:
             data.data = current.json
         if 'hvdb_user' in data.data:
-            data.data['hvdb_password'] = "********"
+            data.data['hvdb_password'] = "********" # placeholder for current config password
         data.add_value_boolean("cfgdb_embedded", embedded)
         data.add_value_string("cfgdb_address", host)
         data.add_value_string("cfgdb_port", port)
