@@ -18,6 +18,7 @@ from .web.rsa import RSA
 from .web.api_access_control import APIAccessControl
 from .web.runtimecomponent import RuntimeComponent
 from .web.ratelimit import RateLimit
+from .web.ltpa import LTPA
 
 class WebSettings(object):
     '''
@@ -55,6 +56,8 @@ class WebSettings(object):
     'Create and manage :ref:`API Gateway<API Access Control>` integrations.'
     ratelimit: RateLimit
     'Create :ref:`Rate Limiting` rules.'
+    ltpa: LTPA
+    'Create or import :ref:`LTPA` SSO configuration.'
 
 class WebSettings9020(object):
 
@@ -131,7 +134,7 @@ class WebSettings10000(WebSettings9080):
         self.rsa = RSA(base_url, username, password)
         self.api_access_control = APIAccessControl(base_url, username, password)
         self.ratelimit = RateLimit(base_url, username, password)
-
+        self.ltpa = LTPA(base_url, username, password)
 
 class WebSettings10010(WebSettings10000):
 
